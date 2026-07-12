@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#0A0A0A"/>
+  <rect x="50" y="40" width="700" height="520" rx="4" fill="#101010" stroke="#333" stroke-width="1"/>
+  <rect x="50" y="40" width="700" height="36" rx="4" fill="#151515"/>
+  <circle cx="70" cy="58" r="6" fill="#FF5F57"/>
+  <circle cx="90" cy="58" r="6" fill="#FFBD2E"/>
+  <circle cx="110" cy="58" r="6" fill="#28CA41"/>
+  <text x="400" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#666" font-weight="300">
+    KEXXY PRESSKIT PREVIEW
+  </text>
+  <text x="400" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#444">
+    Reemplazar con screenshot de kexxy-presskit.netlify.app
+  </text>
+  <rect x="200" y="380" width="400" height="2" fill="#333"/>
+</svg>

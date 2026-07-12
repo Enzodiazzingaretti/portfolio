@@ -1,0 +1,41 @@
+export default function HeroVariantSelector({ variants, activeId, labels, onSelect, onRandomize }) {
+  const activeLabel = labels?.items?.[activeId] ?? activeId;
+
+  return (
+    <div className="pointer-events-auto flex items-center gap-3">
+      <div className="flex items-center gap-2" role="radiogroup" aria-label={labels?.ariaLabel ?? "Hero background"}>
+        {variants.map((variant) => {
+          const label = labels?.items?.[variant.id] ?? variant.id;
+          const selected = variant.id === activeId;
+
+          return (
+            <button
+              key={variant.id}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              aria-label={label}
+              title={label}
+              onClick={() => onSelect(variant.id)}
+              className={`h-2.5 w-2.5 border transition ${
+                selected
+                  ? "border-raveRed bg-raveRed shadow-[0_0_18px_rgba(177,18,18,0.7)]"
+                  : "border-white/25 bg-white/5 hover:border-white/60 hover:bg-white/20"
+              }`}
+            />
+          );
+        })}
+      </div>
+      <button
+        type="button"
+        onClick={onRandomize}
+        className="font-mono text-[9px] uppercase tracking-[0.28em] text-white/35 transition hover:text-white/75"
+      >
+        {labels?.random ?? "Random"}
+      </button>
+      <span className="hidden font-mono text-[9px] uppercase tracking-[0.28em] text-white/25 sm:inline">
+        {activeLabel}
+      </span>
+    </div>
+  );
+}

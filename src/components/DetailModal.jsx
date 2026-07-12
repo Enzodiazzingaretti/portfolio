@@ -1,0 +1,374 @@
+import { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import MediaAsset from "./MediaAsset";
+
+/**
+ * DetailModal - Modal de detalle con navegación de slides
+ * @param {Object} props
+ * @param {Object|null} props.viewer - Estado del viewer con items, index, slideIndex
+ * @param {Function} props.setViewer - Setter para actualizar el estado del viewer
+ * @param {Function} props.onClose - Callback al cerrar el modal
+ * @param {Object} [props.labels] - Labels traducidos para el UI
+ */
+export default function DetailModal({ viewer, setViewer, onClose, labels }) {
+  const [infoOpen, setInfoOpen] = useState(false);
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
+
+  useEffect(() => {
+    if (!viewer) return;
+    setInfoOpen(false);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [viewer]);
+
+  const modalLabels = useMemo(() => ({
+    close: "Close",
+    previous: "Previous",
+    next: "Next",
+    navigateHint: "← → to navigate · ",
+    closeHint: "ESC to close",
+    year: "Year",
+    role: "Role",
+    status: "Status",
+    visitSite: "Visit Site",
+    ...labels,
+  }), [labels]);
+
+  const item = viewer?.items?.[viewer?.index];
+  const total = item?.slides?.length ?? 0;
+  const currentSlide = total > 0 ? item.slides[viewer.slideIndex] : null;
+
+  const navigate = useCallback((direction) => {
+    setViewer((current) => {
+      if (!current) return current;
+      const itemTotal = current.items[current.index].slides?.length ?? 0;
+      if (itemTotal <= 1) return current;
+      const delta = direction === "next" ? 1 : -1;
+      return {
+        ...current,
+        slideIndex: (current.slideIndex + delta + itemTotal) % itemTotal,
+      };
+    });
+  }, [setViewer]);
+
+  const handlePrev = useCallback(() => navigate("prev"), [navigate]);
+  const handleNext = useCallback(() => navigate("next"), [navigate]);
+
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      dx < 0 ? handleNext() : handlePrev();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [handleNext, handlePrev]);
+
+  if (!viewer || !item) return null;
+
+  const slideIndicators = total > 1 && (
+    <div className="flex gap-[5px]">
+      {item.slides.map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          onClick={() => setViewer((c) => ({ ...c, slideIndex: i }))}
+          className={`block h-[2px] rounded-full transition-all duration-300 ${
+            i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/30"
+          }`}
+        />
+      ))}
+    </div>
+  );
+
+  const mediaCore = (
+    <>
+      {!currentSlide && item.previewImage ? (
+        <div className="h-full w-full overflow-hidden">
+          <MediaAsset src={item.previewImage} alt={item.title} className="preview-scroll-modal" />
+        </div>
+      ) : currentSlide ? (
+        <MediaAsset
+          key={currentSlide}
+          src={currentSlide}
+          alt={`${item.title} — slide ${viewer.slideIndex + 1}`}
+          className="block max-h-full w-auto max-w-full object-contain"
+          controls
+          eager
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">{item.title}</span>
+        </div>
+      )}
+
+      {total > 1 && (
+        <>
+          <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
+            className="absolute left-0 top-0 h-full w-1/3 opacity-0"
+          />
+          <button type="button" onClick={handleNext} aria-label={modalLabels.next}
+            className="absolute right-0 top-0 h-full w-1/3 opacity-0"
+          />
+        </>
+      )}
+    </>
+  );
+
+  return (
+    <div className="fixed inset-0 z-[120] bg-black" onClick={onClose}>
+
+      {/* ══════════════════════════════════════
+          MOBILE — fullscreen cinematic viewer
+      ══════════════════════════════════════ */}
+      <div
+        className="flex h-full flex-col md:hidden"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Media — fills everything */}
+        <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black">
+          {mediaCore}
+
+          {/* Top chrome */}
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5">
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-raveRed" />
+              <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-white/40">{viewer.sectionLabel}</span>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={modalLabels.close}
+              className="flex h-9 w-9 items-center justify-center text-white/40 transition-colors active:text-white"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* Bottom overlay — always visible info strip */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-6 pt-16">
+            {item.subtitle && (
+              <p className="mb-2 font-mono text-[8px] uppercase tracking-[0.35em] text-raveRed/80">{item.subtitle}</p>
+            )}
+            <h3 className="font-display text-[2rem] font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+              {item.title}
+            </h3>
+
+            <div className="mt-4 flex items-center justify-between">
+              {slideIndicators || <span />}
+              {total > 1 && (
+                <span className="font-mono text-[9px] text-white/30">{viewer.slideIndex + 1} / {total}</span>
+              )}
+            </div>
+
+            {/* Info expand handle */}
+            <button
+              type="button"
+              onClick={() => setInfoOpen((o) => !o)}
+              className="mt-4 flex w-full items-center justify-between border-t border-white/[0.08] pt-4"
+            >
+              <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/40">
+                {infoOpen ? "cerrar" : "ver info"}
+              </span>
+              <span className={`text-white/30 transition-transform duration-300 ${infoOpen ? "rotate-180" : ""}`}>
+                <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
+                  <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Info sheet — slides up */}
+        <div
+          className={`shrink-0 overflow-y-auto bg-[#080808] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            infoOpen ? "max-h-[52vh]" : "max-h-0"
+          }`}
+        >
+          <div className="px-5 pb-8 pt-6">
+            {item.description && (
+              <p className="text-[0.82rem] leading-[1.7] text-white/50">{item.description}</p>
+            )}
+
+            {item.tags?.length ? (
+              <div className="mt-5 flex flex-wrap gap-2">
+                {item.tags.map((tag) => (
+                  <span key={tag} className="border border-white/[0.08] px-3 py-1 font-mono text-[8px] uppercase tracking-[0.18em] text-white/35">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+
+            {(item.year || item.role || item.status) && (
+              <div className="mt-6 flex gap-8 border-t border-white/[0.06] pt-5">
+                {item.year && (
+                  <div>
+                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                    <p className="mt-1.5 font-mono text-[11px] text-white/55">{item.year}</p>
+                  </div>
+                )}
+                {item.role && (
+                  <div>
+                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                    <p className="mt-1.5 font-mono text-[11px] text-white/55">{item.role}</p>
+                  </div>
+                )}
+                {item.status && (
+                  <div>
+                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                    <p className="mt-1.5 font-mono text-[11px] text-raveRed/70">{item.status}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {item.previewUrl && (
+              <a
+                href={item.previewUrl}
+                target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
+                rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
+                className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-[9px] uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
+              >
+                {modalLabels.visitSite} ↗
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════
+          DESKTOP — side by side
+      ══════════════════════════════════════ */}
+      <div
+        className="hidden h-full items-center justify-center p-8 md:flex lg:p-12"
+        onClick={onClose}
+      >
+        <div
+          className="modal-cinematic relative flex h-full max-h-[90vh] w-full max-w-7xl overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Media */}
+          <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black">
+            {mediaCore}
+            {total > 1 && (
+              <>
+                <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                >←</button>
+                <button type="button" onClick={handleNext} aria-label={modalLabels.next}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                >→</button>
+                <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-[5px]">
+                  {item.slides.map((_, i) => (
+                    <button key={i} type="button" onClick={() => setViewer((c) => ({ ...c, slideIndex: i }))}
+                      className={`block h-[2px] rounded-full transition-all duration-300 ${i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/25"}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Info panel */}
+          <div className="flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-l border-white/[0.06] bg-[#080808] p-8 lg:w-80">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-raveRed" />
+                  <p className="font-mono text-[8px] uppercase tracking-[0.32em] text-white/30">{viewer.sectionLabel}</p>
+                </div>
+                <button type="button" onClick={onClose} aria-label={modalLabels.close}
+                  className="flex h-7 w-7 shrink-0 items-center justify-center text-white/25 transition hover:text-white"
+                >
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div>
+                <h3 className="font-display text-[clamp(1.6rem,2.8vw,2.8rem)] font-bold uppercase leading-[0.85] tracking-[-0.04em] text-[#EAEAEA]">
+                  {item.title}
+                </h3>
+                {item.subtitle && (
+                  <p className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.28em] text-raveRed/60">{item.subtitle}</p>
+                )}
+              </div>
+
+              {item.description && (
+                <p className="text-[0.8rem] leading-[1.75] text-white/45">{item.description}</p>
+              )}
+
+              {item.tags?.length ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="border border-white/[0.08] px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.15em] text-white/35">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+
+              {(item.year || item.role || item.status) && (
+                <div className="grid gap-4 border-t border-white/[0.06] pt-5">
+                  {item.year && (
+                    <div>
+                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                      <p className="mt-1 font-mono text-[10px] text-white/50">{item.year}</p>
+                    </div>
+                  )}
+                  {item.role && (
+                    <div>
+                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                      <p className="mt-1 font-mono text-[10px] text-white/50">{item.role}</p>
+                    </div>
+                  )}
+                  {item.status && (
+                    <div>
+                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                      <p className="mt-1 font-mono text-[10px] text-raveRed/70">{item.status}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 border-t border-white/[0.06] pt-5">
+              {item.previewUrl && (
+                <a
+                  href={item.previewUrl}
+                  target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
+                  rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
+                  className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-[9px] uppercase tracking-[0.24em]"
+                >
+                  {modalLabels.visitSite} ↗
+                </a>
+              )}
+              <div className="flex items-center justify-between">
+                {total > 1
+                  ? <p className="font-mono text-[8px] text-white/20">{viewer.slideIndex + 1} / {total}</p>
+                  : <span />
+                }
+                <p className="font-mono text-[7px] text-white/15">{modalLabels.closeHint}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
