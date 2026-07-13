@@ -174,13 +174,13 @@ export default function App() {
           cta={content.ui.aboutCta}
         />
 
-        <section id="work" aria-label={s.webReleases.title} className="mb-48 md:mb-64">
+        <section id="work" aria-label={s.webReleases.title} className="mb-32 md:mb-44">
           <SectionHeading
             index={s.webReleases.index}
             title={s.webReleases.title}
             subtitle={s.webReleases.subtitle}
           />
-          <div className="grid gap-28 md:gap-40">
+          <div className="grid gap-20 md:gap-28">
             {webProjectDetails.map((project, index) => (
               <SelectedWorkCard
                 key={project.title}
@@ -196,7 +196,7 @@ export default function App() {
         <section
           id="motion"
           aria-label={s.touchDesigner.title}
-          className="motion-section relative mb-48 overflow-hidden md:mb-64"
+          className="motion-section relative mb-32 overflow-hidden md:mb-44"
           style={{ marginLeft: "calc(-1 * var(--page-px))", marginRight: "calc(-1 * var(--page-px))" }}
         >
           <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
@@ -220,7 +220,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="renders" aria-label={s.blender.title} className="mb-48 md:mb-64">
+        <section id="renders" aria-label={s.blender.title} className="mb-32 md:mb-44">
           <SectionHeading
             index={s.blender.index}
             title={s.blender.title}
@@ -236,7 +236,7 @@ export default function App() {
         <section
           id="flyers"
           aria-label={s.flyers.title}
-          className="section-band relative mb-48 md:mb-64"
+          className="section-band relative mb-32 md:mb-44"
           style={{ marginLeft: "calc(-1 * var(--page-px))", marginRight: "calc(-1 * var(--page-px))" }}
         >
           <div className="py-16 md:py-20" style={{ paddingLeft: "var(--page-px)", paddingRight: "var(--page-px)" }}>
@@ -253,7 +253,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="logos" aria-label={s.logos.title} className="mb-48 md:mb-64">
+        <section id="logos" aria-label={s.logos.title} className="mb-32 md:mb-44">
           <SectionHeading
             index={s.logos.index}
             title={s.logos.title}
@@ -262,7 +262,7 @@ export default function App() {
           <RenderCarousel
             works={content.logos}
             sectionLabel={s.logos.index}
-            cardHeight={300}
+            cardHeight={340}
             onOpen={(index) => setViewer({ sectionLabel: s.logos.index, items: content.logos.map((l) => ({ ...l, thumbnail: l.imageUrl, subtitle: l.type, slides: l.slides ?? [] })), index, slideIndex: 0 })}
           />
         </section>
@@ -270,7 +270,7 @@ export default function App() {
         <section
           id="espacios"
           aria-label={s.espacios.title}
-          className="section-band relative mb-48 md:mb-64"
+          className="section-band relative mb-32 md:mb-44"
           style={{ marginLeft: "calc(-1 * var(--page-px))", marginRight: "calc(-1 * var(--page-px))" }}
         >
           <div className="py-16 md:py-20" style={{ paddingLeft: "var(--page-px)", paddingRight: "var(--page-px)" }}>

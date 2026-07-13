@@ -24,7 +24,7 @@ function PortraitImage({ src, alt }) {
 
 export default function AboutSection({ section, about, brand, cta }) {
   return (
-    <section id="about" className="mb-48 md:mb-64">
+    <section id="about" className="mb-32 md:mb-44">
       <SectionHeading index={section.index} title={section.title} subtitle={section.subtitle} />
       <div className="reveal-on-scroll grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-end">
         <div className="premium-media aspect-[4/5] overflow-hidden bg-[#0A0A0A] md:max-w-md">

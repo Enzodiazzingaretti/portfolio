@@ -116,7 +116,7 @@ export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT
       <div
         ref={trackRef}
         onMouseDown={onMouseDown}
-        className="flex gap-5 overflow-x-auto pb-4 select-none scrollbar-hide"
+        className="flex gap-6 overflow-x-auto pb-4 select-none scrollbar-hide"
         style={{ cursor: isDragging ? "grabbing" : "grab", scrollSnapType: "x mandatory" }}
       >
         {works.map((work, index) => (
