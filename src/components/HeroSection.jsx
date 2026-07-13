@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { resolvePublicAsset } from "../utils/helpers";
 import HeroThreeBackground from "./HeroThreeBackground";
 import HeroVariantSelector from "./HeroVariantSelector";
-import { HERO_VARIANTS, HERO_VARIANT_IDS, getVariant, randomVariantId } from "./heroVariants";
+import { HERO_VARIANTS, HERO_VARIANT_IDS, getVariant } from "./heroVariants";
 
 const HERO_VARIANT_STORAGE_KEY = "kexxy-hero-variant";
+const AUTO_CYCLE_MS = 7000;
 
 function getInitialHeroVariant() {
   if (typeof window === "undefined") return HERO_VARIANTS[0].id;
@@ -43,12 +44,21 @@ function usePrefersReducedMotion() {
 export default function HeroSection({ hero, heroImage, heroPassed, preloaded = true }) {
   const [imageError, setImageError] = useState(false);
   const [variantId, setVariantId] = useState(getInitialHeroVariant);
+  const [autoCycle, setAutoCycle] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
   const activeVariant = useMemo(() => getVariant(variantId), [variantId]);
+  const sectionRef = useRef(null);
+  // Capas apiladas para el crossfade entre variantes
+  const [layers, setLayers] = useState(() => [
+    { key: 0, variant: getVariant(getInitialHeroVariant()), instant: false },
+  ]);
+  const layerCounter = useRef(0);
 
   const selectVariant = (nextVariantId) => {
     const nextId = getVariant(nextVariantId).id;
     setVariantId(nextId);
+    // Un click manual detiene el ciclado automático y recuerda la elección
+    setAutoCycle(false);
     try {
       window.localStorage.setItem(HERO_VARIANT_STORAGE_KEY, nextId);
     } catch {
@@ -56,15 +66,60 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
     }
   };
 
+  // Cicla entre las 3 animaciones para mostrarlas; pausa fuera de viewport
+  // o si la pestaña no está visible, y se detiene ante interacción manual
+  useEffect(() => {
+    if (!autoCycle || prefersReducedMotion || !preloaded) return undefined;
+    let visible = true;
+    const el = sectionRef.current;
+    const io = el
+      ? new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.3 })
+      : null;
+    if (io && el) io.observe(el);
+    const id = setInterval(() => {
+      if (document.hidden || !visible) return;
+      setVariantId((cur) => {
+        const idx = HERO_VARIANT_IDS.indexOf(cur);
+        return HERO_VARIANT_IDS[(idx + 1) % HERO_VARIANT_IDS.length];
+      });
+    }, AUTO_CYCLE_MS);
+    return () => {
+      clearInterval(id);
+      if (io) io.disconnect();
+    };
+  }, [autoCycle, prefersReducedMotion, preloaded]);
+
+  // Al cambiar de variante, apila una capa nueva que entra por opacidad
+  // sobre la anterior (crossfade), ya formada gracias a instantReveal
+  useEffect(() => {
+    setLayers((prev) => {
+      const top = prev[prev.length - 1];
+      if (top.variant.id === activeVariant.id) return prev;
+      layerCounter.current += 1;
+      return [...prev, { key: layerCounter.current, variant: activeVariant, instant: true }];
+    });
+  }, [activeVariant]);
+
+  // Descarta las capas viejas cuando el fundido terminó
+  useEffect(() => {
+    if (layers.length <= 1) return undefined;
+    const timer = setTimeout(() => setLayers((prev) => prev.slice(-1)), 900);
+    return () => clearTimeout(timer);
+  }, [layers]);
+
   return (
-    <section id="hero" className="relative z-10 mb-0">
+    <section ref={sectionRef} id="hero" className="relative z-10 mb-0">
       <div className="hero-portrait relative min-h-screen overflow-hidden bg-transparent">
-        <HeroThreeBackground
-          key={activeVariant.id}
-          variant={activeVariant}
-          staticMode={prefersReducedMotion}
-          revealActive={preloaded}
-        />
+        {layers.map((layer) => (
+          <div key={layer.key} className={`hero-bg-layer${layer.instant ? " hero-bg-layer--enter" : ""}`}>
+            <HeroThreeBackground
+              variant={layer.variant}
+              staticMode={prefersReducedMotion}
+              revealActive={preloaded}
+              instantReveal={layer.instant}
+            />
+          </div>
+        ))}
         {heroImage && !imageError ? (
           <img
             src={resolvePublicAsset(heroImage)}
@@ -118,7 +173,6 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
                   activeId={activeVariant.id}
                   labels={hero.shaderSelector}
                   onSelect={selectVariant}
-                  onRandomize={() => selectVariant(randomVariantId())}
                 />
               ) : null}
               <div className={`flex items-center gap-3 transition-opacity duration-700 ${heroPassed ? "opacity-0" : "opacity-100"}`}>

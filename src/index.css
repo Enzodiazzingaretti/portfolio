@@ -279,7 +279,7 @@ button:focus-visible {
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1100ms var(--ease-out);
+  transition: stroke-dashoffset 2400ms var(--ease-out);
 }
 
 .cell-divider .cell--accent {
@@ -322,6 +322,25 @@ button:focus-visible {
 ───────────────────────────────────────── */
 .hero-portrait {
   box-shadow: inset 0 -160px 160px -120px rgba(5,5,5,1);
+}
+
+/* Crossfade entre variantes del hero */
+.hero-bg-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-bg-layer--enter {
+  animation: heroLayerFade 800ms var(--ease-out) forwards;
+}
+
+@keyframes heroLayerFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-layer--enter { animation-duration: 320ms; }
 }
 
 /* ─────────────────────────────────────────

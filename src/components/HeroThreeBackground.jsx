@@ -292,7 +292,7 @@ function createSceneObject(sceneType, compact) {
   return createParticleField();
 }
 
-export default function HeroThreeBackground({ variant, staticMode = false, revealActive = true }) {
+export default function HeroThreeBackground({ variant, staticMode = false, revealActive = true, instantReveal = false }) {
   const mountRef = useRef(null);
   const rendererRef = useRef(null);
   const contextLossTimerRef = useRef(null);
@@ -396,9 +396,12 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       if (start === null) start = timestamp;
       // La entrada arranca recien cuando el preloader termino (revealActive)
       if (revealStart === null && revealActiveRef.current) revealStart = timestamp;
-      const reveal = revealStart === null
-        ? 0
-        : easeOutCubic(Math.min((timestamp - revealStart) / REVEAL_MS, 1));
+      // instantReveal: la variante entra ya formada (para el crossfade de ciclo)
+      const reveal = instantReveal
+        ? 1
+        : revealStart === null
+          ? 0
+          : easeOutCubic(Math.min((timestamp - revealStart) / REVEAL_MS, 1));
       render(((timestamp - start) * 0.001) % 3600, reveal, dt);
     };
 
@@ -444,7 +447,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
         contextLossTimerRef.current = null;
       }, 0);
     };
-  }, [variant, staticMode]);
+  }, [variant, staticMode, instantReveal]);
 
   return (
     <div

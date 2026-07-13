@@ -75,7 +75,7 @@ export default function CellularDivider({ seed, count = 46, accent = 3, classNam
               d={cell.d}
               pathLength="1"
               className={accentSet.has(i) ? "cell cell--accent" : "cell"}
-              style={{ transitionDelay: `${Math.round((cell.cx / VB_W) * 650)}ms` }}
+              style={{ transitionDelay: `${Math.round((cell.cx / VB_W) * 1200)}ms` }}
             />
           ))}
         </g>

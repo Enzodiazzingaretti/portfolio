@@ -1,4 +1,4 @@
-export default function HeroVariantSelector({ variants, activeId, labels, onSelect, onRandomize }) {
+export default function HeroVariantSelector({ variants, activeId, labels, onSelect }) {
   const activeLabel = labels?.items?.[activeId] ?? activeId;
 
   return (
@@ -26,14 +26,7 @@ export default function HeroVariantSelector({ variants, activeId, labels, onSele
           );
         })}
       </div>
-      <button
-        type="button"
-        onClick={onRandomize}
-        className="font-mono text-[9px] uppercase tracking-[0.28em] text-white/35 transition hover:text-white/75"
-      >
-        {labels?.random ?? "Random"}
-      </button>
-      <span className="hidden font-mono text-[9px] uppercase tracking-[0.28em] text-white/25 sm:inline">
+      <span className="font-mono text-[9px] uppercase tracking-[0.28em] text-white/40 transition-colors duration-500">
         {activeLabel}
       </span>
     </div>
