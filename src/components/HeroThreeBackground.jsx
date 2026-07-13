@@ -203,9 +203,9 @@ function createLivingSculpture(compact) {
       }
 
       void main() {
-        // Scroll movimiento presente pero sin volver a ser ruidoso
-        float t = uTime * (0.11 + uScroll * 0.20);
-        float amp = 0.30 * uReveal + uPulse * 0.025 + uScroll * 0.08;
+        // Scroll como offset acotado: no acumula vueltas ni acelera el tiempo
+        float t = uTime * 0.10 + uScroll * 0.25;
+        float amp = 0.30 * uReveal + uPulse * 0.025 + uScroll * 0.05;
         vec3 n0 = normalize(position);
         vec3 displaced = sculpt(n0, t, amp) * (0.62 + 0.38 * uReveal);
         vNoise = length(displaced) - 1.0;
@@ -275,11 +275,12 @@ function createLivingSculpture(compact) {
       material.uniforms.uTime.value = time;
       material.uniforms.uReveal.value = reveal;
       material.uniforms.uPulse.value = pulse;
-      material.uniforms.uScroll.value = scroll * 0.85; // scroll visible pero suave
-      mesh.rotation.y = time * (0.03 + scroll * 0.06) + mouse.x * 0.15;
-      mesh.rotation.x = mouse.y * 0.12 + scroll * 0.04;
-      mesh.rotation.z = Math.sin(time * 0.04) * 0.06 + scroll * 0.02;
-      mesh.position.y = Math.sin(time * 0.22) * 0.015 + scroll * 0.05;
+      material.uniforms.uScroll.value = scroll * 0.85; // scroll como offset
+      // Rotaciones limitadas: scroll solo añade un offset acotado, no velocidad
+      mesh.rotation.y = Math.sin(time * 0.02) * 0.05 + scroll * 0.35 + mouse.x * 0.15;
+      mesh.rotation.x = mouse.y * 0.10 + scroll * 0.10;
+      mesh.rotation.z = Math.sin(time * 0.03) * 0.04 + scroll * 0.05;
+      mesh.position.y = Math.sin(time * 0.15) * 0.01 + scroll * 0.04;
       mesh.position.z = -scroll * 0.04;
     },
   };
