@@ -97,13 +97,13 @@ const fragmentShader = `
     float scale = 2.2 + phase * 1.6;
     p *= scale;
 
-    // Domain warping: nube de ruido que muta con la phase
-    float q = fbm(vec3(p, t), 4);
+    // Domain warping: nube de ruido que muta con la phase (3 octavas: barato y difuso)
+    float q = fbm(vec3(p, t), 3);
     vec2 r = vec2(
-      fbm(vec3(p + q + vec2(1.7, 9.2) + phase * 3.0, t * 1.05), 4),
-      fbm(vec3(p + q + vec2(8.3, 2.8) - phase * 2.0, t * 1.05), 4)
+      fbm(vec3(p + q + vec2(1.7, 9.2) + phase * 3.0, t * 1.05), 3),
+      fbm(vec3(p + q + vec2(8.3, 2.8) - phase * 2.0, t * 1.05), 3)
     );
-    float warped = fbm(vec3(p + r * (1.3 + phase * 0.6) + vec2(0.0, uScroll * 3.0), t * 1.15), 4);
+    float warped = fbm(vec3(p + r * (1.3 + phase * 0.6) + vec2(0.0, uScroll * 3.0), t * 1.15), 3);
 
     float n = warped * 0.5 + 0.5;
 
@@ -150,7 +150,9 @@ export default function GlobalFX({ scrollProgress }) {
       powerPreference: "low-power",
     });
     renderer.setClearColor(0x050505, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1 : 1.5));
+    // Fondo difuso y vigneteado: rinde a resolucion reducida (upscale invisible)
+    // y baja mucho el costo del fragment shader (ruido por pixel)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 0.7 : 1));
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
 
@@ -210,7 +212,7 @@ export default function GlobalFX({ scrollProgress }) {
         updatePhaseTarget();
       },
       {
-        threshold: Array.from({ length: 21 }, (_, i) => i / 20),
+        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
         rootMargin: "0px",
       },
     );
@@ -226,9 +228,11 @@ export default function GlobalFX({ scrollProgress }) {
 
     observeAll();
 
-    const container = document.querySelector(".tribal-fluid") || document.body;
+    // Observar solo altas/bajas de secciones en <main>; sin subtree para no
+    // reaccionar al tick del reloj del HUD (que muta el DOM cada segundo)
+    const container = document.querySelector("main") || document.body;
     const mutation = new MutationObserver(observeAll);
-    mutation.observe(container, { childList: true, subtree: true });
+    mutation.observe(container, { childList: true });
 
     const onPointer = (event) => {
       mouse.tx = (event.clientX / window.innerWidth) * 2 - 1;
@@ -242,8 +246,10 @@ export default function GlobalFX({ scrollProgress }) {
 
     let raf = 0;
     let last = 0;
+    let lastFrame = 0;
     let start = 0;
     let hidden = false;
+    const frameInterval = 1000 / 30; // el fondo difuso no necesita 60fps
 
     const onVisibility = () => {
       hidden = document.hidden;
@@ -252,6 +258,14 @@ export default function GlobalFX({ scrollProgress }) {
     const tick = (timestamp) => {
       raf = requestAnimationFrame(tick);
       if (hidden) return;
+      // Un solo WebGL a la vez: mientras el hero cubre el viewport, el fondo descansa
+      if (window.scrollY < window.innerHeight * 0.82) {
+        last = timestamp;
+        lastFrame = timestamp;
+        return;
+      }
+      if (timestamp - lastFrame < frameInterval) return;
+      lastFrame = timestamp;
 
       const dt = last ? Math.min((timestamp - last) / 1000, 0.05) : 1 / 60;
       last = timestamp;

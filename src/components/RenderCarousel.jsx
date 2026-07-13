@@ -42,8 +42,20 @@ function RenderCard({ work, index, onOpen, cardHeight = CARD_HEIGHT }) {
 export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT }) {
   const trackRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [effectiveHeight, setEffectiveHeight] = useState(cardHeight);
   const dragStart = useRef(null);
   const scrollStart = useRef(null);
+
+  // Cards más chicas en mobile: a 420px de alto ocupan toda la pantalla
+  useEffect(() => {
+    const update = () => {
+      const mobile = window.matchMedia("(max-width: 640px)").matches;
+      setEffectiveHeight(mobile ? Math.round(cardHeight * 0.62) : cardHeight);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [cardHeight]);
 
   const scroll = useCallback((dir) => {
     const el = trackRef.current;
@@ -112,7 +124,7 @@ export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT
             <RenderCard
               work={work}
               index={index}
-              cardHeight={cardHeight}
+              cardHeight={effectiveHeight}
               onOpen={isDragging ? undefined : () => onOpen(index)}
             />
           </div>

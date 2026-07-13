@@ -354,6 +354,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     let lastFrame = 0;
     let heroScroll = 0;
     let heroScrollTarget = 0;
+    let heroVisible = true;
     const frameInterval = compact ? 1000 / 30 : 0;
     const REVEAL_MS = 1700;
     const BEAT_HZ = 145 / 60 / 4; // pulso a un cuarto de 145 BPM
@@ -387,6 +388,8 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     const tick = (timestamp) => {
       if (destroyed) return;
       rafId = requestAnimationFrame(tick);
+      // Fuera de viewport no gastamos GPU: el orbe solo vive en el hero
+      if (!heroVisible) return;
       if (frameInterval && timestamp - lastFrame < frameInterval) return;
       const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.05) : 1 / 60;
       lastFrame = timestamp;
@@ -408,11 +411,18 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       heroScrollTarget = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
     };
 
+    // Pausa el render cuando el hero sale del viewport
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => { heroVisible = entries.some((entry) => entry.isIntersecting); },
+      { threshold: 0 },
+    );
+
     resize();
     if (staticMode) {
       render(STATIC_FRAME_TIME, 1);
     } else {
       rafId = requestAnimationFrame(tick);
+      visibilityObserver.observe(mount);
       window.addEventListener("scroll", onScroll, { passive: true });
       if (!compact) window.addEventListener("pointermove", onPointerMove, { passive: true });
     }
@@ -421,6 +431,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     return () => {
       destroyed = true;
       cancelAnimationFrame(rafId);
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointerMove);
