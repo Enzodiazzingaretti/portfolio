@@ -382,7 +382,7 @@ button:focus-visible {
    SECTION BANDS — ritmo alternado de fondos
 ───────────────────────────────────────── */
 .section-band {
-  background: linear-gradient(180deg, #0A0A0A 0%, #080808 100%);
+  background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(8,8,8,0.55) 100%);
   border-top: 1px solid rgba(255,255,255,0.07);
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }

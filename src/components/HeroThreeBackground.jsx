@@ -44,14 +44,15 @@ function createParticleField() {
 
   return {
     object: points,
-    animate: ({ time, mouse, reveal }) => {
+    animate: ({ time, mouse, reveal, dt = 1 / 60 }) => {
+      const f = dt * 60;
       const position = geometry.attributes.position;
       const array = position.array;
       for (let i = 0; i < count; i += 1) {
         const idx = i * 3;
-        array[idx] += Math.sin(time * 0.35 + seeds[i]) * 0.0008 + mouse.x * 0.0009;
-        array[idx + 1] += Math.cos(time * 0.32 + seeds[i]) * 0.0007 + mouse.y * 0.0008;
-        array[idx + 2] += 0.012 + Math.sin(time + seeds[i]) * 0.0015;
+        array[idx] += (Math.sin(time * 0.35 + seeds[i]) * 0.0008 + mouse.x * 0.0009) * f;
+        array[idx + 1] += (Math.cos(time * 0.32 + seeds[i]) * 0.0007 + mouse.y * 0.0008) * f;
+        array[idx + 2] += (0.012 + Math.sin(time + seeds[i]) * 0.0015) * f;
         if (array[idx + 2] > 1.5) array[idx + 2] = -8.5;
       }
       position.needsUpdate = true;
@@ -93,11 +94,12 @@ function createOrganic() {
 
   return {
     object: group,
-    animate: ({ time, mouse, reveal }) => {
+    animate: ({ time, mouse, reveal, dt = 1 / 60 }) => {
+      const f = dt * 60;
       group.rotation.x = mouse.y * 0.14;
       group.rotation.y = time * 0.06 + mouse.x * 0.18;
       group.children.forEach((strand, index) => {
-        strand.rotation.z += 0.0015 + index * 0.0004;
+        strand.rotation.z += (0.0015 + index * 0.0004) * f;
         strand.scale.setScalar(1 + Math.sin(time * 0.7 + index) * 0.04);
         strand.material.opacity = (index % 2 ? 0.54 : 0.4) * reveal;
       });
@@ -181,7 +183,7 @@ function createLivingSculpture(compact) {
         float amp = 0.5;
         for (int i = 0; i < 4; i += 1) {
           value += amp * snoise(p);
-          p *= 1.9;
+          p *= 1.75;
           amp *= 0.5;
         }
         return value;
@@ -193,17 +195,17 @@ function createLivingSculpture(compact) {
           fbm(n + vec3(5.2, 1.3, t)),
           fbm(n + vec3(1.7, 9.2, t))
         );
-        return fbm(n * 1.35 + q * 0.75);
+        return fbm(n * 1.20 + q * 0.50);
       }
 
       vec3 sculpt(vec3 dir, float t, float amp) {
-        return dir + dir * displace(dir * 1.6, t) * amp;
+        return dir + dir * displace(dir * 1.35, t) * amp;
       }
 
       void main() {
-        // El scroll agita la deformacion; el pulso late a tiempo de club
-        float t = uTime * (0.15 + uScroll * 0.22);
-        float amp = 0.38 * uReveal + uPulse * 0.035 + uScroll * 0.14;
+        // Scroll movimiento presente pero sin volver a ser ruidoso
+        float t = uTime * (0.11 + uScroll * 0.20);
+        float amp = 0.30 * uReveal + uPulse * 0.025 + uScroll * 0.08;
         vec3 n0 = normalize(position);
         vec3 displaced = sculpt(n0, t, amp) * (0.62 + 0.38 * uReveal);
         vNoise = length(displaced) - 1.0;
@@ -211,7 +213,7 @@ function createLivingSculpture(compact) {
         vec3 helper = abs(n0.y) < 0.99 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
         vec3 tangent = normalize(cross(n0, helper));
         vec3 bitangent = cross(n0, tangent);
-        float eps = 0.025;
+        float eps = 0.032;
         vec3 pa = sculpt(normalize(n0 + tangent * eps), t, amp);
         vec3 pb = sculpt(normalize(n0 + bitangent * eps), t, amp);
         vec3 objNormal = normalize(cross(pa - displaced, pb - displaced));
@@ -240,8 +242,8 @@ function createLivingSculpture(compact) {
         float diff = dot(N, keyDir) * 0.5 + 0.5;
         diff *= diff;
 
-        // Oclusion por ruido: los valles quedan mas oscuros
-        float ao = clamp(0.55 + vNoise * 1.6, 0.25, 1.0);
+        // Oclusion por ruido: punto medio entre definicion y suavidad
+        float ao = clamp(0.55 + vNoise * 1.3, 0.25, 1.0);
 
         vec3 base = vec3(0.05, 0.048, 0.05);
         vec3 bodyRed = vec3(0.30, 0.045, 0.045);
@@ -251,11 +253,11 @@ function createLivingSculpture(compact) {
         vec3 color = base + bodyRed * diff * ao;
 
         vec3 H = normalize(keyDir + V);
-        float spec = pow(max(dot(N, H), 0.0), 24.0) * 0.35 * ao;
+        float spec = pow(max(dot(N, H), 0.0), 24.0) * 0.30 * ao;
         color += vec3(0.9, 0.25, 0.2) * spec;
 
-        color += rim * fresnel * (2.2 + uPulse * 0.5);
-        color += hot * pow(fresnel, 3.0) * 0.8;
+        color += rim * fresnel * (2.0 + uPulse * 0.30);
+        color += hot * pow(fresnel, 3.0) * 0.65;
         color *= uReveal;
 
         gl_FragColor = vec4(color, 1.0);
@@ -273,11 +275,12 @@ function createLivingSculpture(compact) {
       material.uniforms.uTime.value = time;
       material.uniforms.uReveal.value = reveal;
       material.uniforms.uPulse.value = pulse;
-      material.uniforms.uScroll.value = scroll;
-      mesh.rotation.y = time * (0.04 + scroll * 0.05) + mouse.x * 0.2;
-      mesh.rotation.x = mouse.y * 0.14;
-      mesh.rotation.z = Math.sin(time * 0.05) * 0.08;
-      mesh.position.y = Math.sin(time * 0.3) * 0.02;
+      material.uniforms.uScroll.value = scroll * 0.85; // scroll visible pero suave
+      mesh.rotation.y = time * (0.03 + scroll * 0.06) + mouse.x * 0.15;
+      mesh.rotation.x = mouse.y * 0.12 + scroll * 0.04;
+      mesh.rotation.z = Math.sin(time * 0.04) * 0.06 + scroll * 0.02;
+      mesh.position.y = Math.sin(time * 0.22) * 0.015 + scroll * 0.05;
+      mesh.position.z = -scroll * 0.04;
     },
   };
 }
@@ -320,7 +323,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       powerPreference: "low-power",
     });
     renderer.setClearColor(0x050505, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1 : 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1 : 2));
     rendererRef.current = renderer;
     mount.appendChild(renderer.domElement);
 
@@ -349,6 +352,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     let start = null;
     let lastFrame = 0;
     let heroScroll = 0;
+    let heroScrollTarget = 0;
     const frameInterval = compact ? 1000 / 30 : 0;
     const REVEAL_MS = 1700;
     const BEAT_HZ = 145 / 60 / 4; // pulso a un cuarto de 145 BPM
@@ -363,14 +367,17 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       camera.updateProjectionMatrix();
     };
 
-    const render = (time, reveal = 1) => {
-      mouse.x += (mouse.tx - mouse.x) * 0.055;
-      mouse.y += (mouse.ty - mouse.y) * 0.055;
+    const render = (time, reveal = 1, dt = 1 / 60) => {
+      // Damping exponencial: suavizado identico a cualquier framerate
+      const ease = 1 - Math.exp(-dt * 6.5);
+      mouse.x += (mouse.tx - mouse.x) * ease;
+      mouse.y += (mouse.ty - mouse.y) * ease;
+      heroScroll += (heroScrollTarget - heroScroll) * (1 - Math.exp(-dt * 4.5));
       camera.position.x = mouse.x * 0.18;
       camera.position.y = 0.18 + mouse.y * 0.12;
       camera.lookAt(0, 0, -2.5);
-      const pulse = Math.pow(Math.max(Math.sin(time * BEAT_HZ * Math.PI * 2), 0), 6);
-      sceneObject.animate({ time, mouse, reveal, scroll: heroScroll, pulse });
+      const pulse = Math.pow(Math.max(Math.sin(time * BEAT_HZ * Math.PI * 2), 0), 4);
+      sceneObject.animate({ time, mouse, reveal, scroll: heroScroll, pulse, dt });
       renderer.render(scene, camera);
     };
 
@@ -380,6 +387,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       if (destroyed) return;
       rafId = requestAnimationFrame(tick);
       if (frameInterval && timestamp - lastFrame < frameInterval) return;
+      const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.05) : 1 / 60;
       lastFrame = timestamp;
       if (start === null) start = timestamp;
       // La entrada arranca recien cuando el preloader termino (revealActive)
@@ -387,7 +395,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       const reveal = revealStart === null
         ? 0
         : easeOutCubic(Math.min((timestamp - revealStart) / REVEAL_MS, 1));
-      render(((timestamp - start) * 0.001) % 3600, reveal);
+      render(((timestamp - start) * 0.001) % 3600, reveal, dt);
     };
 
     const onPointerMove = (event) => {
@@ -396,7 +404,7 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     };
 
     const onScroll = () => {
-      heroScroll = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+      heroScrollTarget = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
     };
 
     resize();

@@ -19,6 +19,7 @@ import Preloader from "./components/Preloader";
 import GrainOverlay from "./components/GrainOverlay";
 import HudOverlay from "./components/HudOverlay";
 import SideNav from "./components/SideNav";
+import GlobalFX from "./components/GlobalFX";
 
 const HeroSection = lazy(() => import("./components/HeroSection"));
 const KonsoleEasterEgg = lazy(() => import("./components/KonsoleEasterEgg"));
@@ -140,6 +141,7 @@ export default function App() {
     <div className={`tribal-fluid relative min-h-screen overflow-x-hidden bg-[#050505] text-[#EAEAEA] selection:bg-raveRed/40${glitching ? " glitch-overdrive" : ""}`}>
       <Analytics />
       {!preloaded && <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} />}
+      {preloaded && <GlobalFX scrollProgress={scrollProgress} />}
       <GrainOverlay />
       <HudOverlay language={language} />
       <Suspense fallback={null}><KonsoleEasterEgg onGlitch={handleGlitch} /></Suspense>
@@ -197,7 +199,7 @@ export default function App() {
           className="motion-section relative mb-48 overflow-hidden md:mb-64"
           style={{ marginLeft: "calc(-1 * var(--page-px))", marginRight: "calc(-1 * var(--page-px))" }}
         >
-          <div className="absolute inset-0 bg-black/75" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
           <div className="relative z-10 py-16 md:py-20" style={{ paddingLeft: "var(--page-px)", paddingRight: "var(--page-px)" }}>
             <SectionHeading
               index={s.touchDesigner.index}

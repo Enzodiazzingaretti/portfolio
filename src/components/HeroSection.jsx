@@ -58,7 +58,7 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
 
   return (
     <section id="hero" className="relative z-10 mb-0">
-      <div className="hero-portrait relative min-h-screen overflow-hidden bg-[#050505]">
+      <div className="hero-portrait relative min-h-screen overflow-hidden bg-transparent">
         <HeroThreeBackground
           key={activeVariant.id}
           variant={activeVariant}
