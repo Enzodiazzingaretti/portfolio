@@ -24,6 +24,8 @@ const HeroSection = lazy(() => import("./components/HeroSection"));
 const KonsoleEasterEgg = lazy(() => import("./components/KonsoleEasterEgg"));
 // Lazy como el hero: saca three.js del bundle inicial (~840kB → mitad)
 const GlobalFX = lazy(() => import("./components/GlobalFX"));
+// Lab generativo: cinco sistemas canvas en vivo, fuera del bundle inicial
+const LabSection = lazy(() => import("./components/LabSection"));
 
 export default function App() {
   const [language, setLanguage] = useState(() => {
@@ -294,6 +296,12 @@ export default function App() {
             />
           </div>
         </section>
+
+        {s.lab && content.labPieces ? (
+          <Suspense fallback={null}>
+            <LabSection section={s.lab} pieces={content.labPieces} labels={content.ui.lab} />
+          </Suspense>
+        ) : null}
 
         <ContactSection
           section={s.contact}
