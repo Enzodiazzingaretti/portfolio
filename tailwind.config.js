@@ -19,7 +19,8 @@ export default {
       },
       // Escala micro para labels tipo HUD; un solo lugar para ajustarla
       fontSize: {
-        nano: "7px",
+        // 7px era ilegible; nano y micro comparten piso de 8px
+        nano: "8px",
         micro: "8px",
         label: "9px",
         caption: "10px",

@@ -19,10 +19,11 @@ import Preloader from "./components/Preloader";
 import GrainOverlay from "./components/GrainOverlay";
 import HudOverlay from "./components/HudOverlay";
 import SideNav from "./components/SideNav";
-import GlobalFX from "./components/GlobalFX";
 
 const HeroSection = lazy(() => import("./components/HeroSection"));
 const KonsoleEasterEgg = lazy(() => import("./components/KonsoleEasterEgg"));
+// Lazy como el hero: saca three.js del bundle inicial (~840kB → mitad)
+const GlobalFX = lazy(() => import("./components/GlobalFX"));
 
 export default function App() {
   const [language, setLanguage] = useState(() => {
@@ -144,7 +145,7 @@ export default function App() {
       <a href="#main" className="skip-link">{content.ui.skipToContent ?? "Saltar al contenido"}</a>
       <Analytics />
       {!preloaded && <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} />}
-      {preloaded && <GlobalFX scrollProgress={scrollProgress} />}
+      {preloaded && <Suspense fallback={null}><GlobalFX scrollProgress={scrollProgress} /></Suspense>}
       <GrainOverlay />
       <HudOverlay language={language} />
       <Suspense fallback={null}><KonsoleEasterEgg onGlitch={handleGlitch} /></Suspense>
@@ -302,9 +303,16 @@ export default function App() {
       </main>
 
       <footer className="border-t border-white/[0.06] px-6 py-8 md:px-12">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/50">© {new Date().getFullYear()} Enzo Diaz Zingaretti</p>
-          <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/40">{content.ui.footerLocation}</p>
+          <p className="hidden font-mono text-caption uppercase tracking-[0.25em] text-white/40 sm:block">{content.ui.footerLocation}</p>
+          <a
+            href="#hero"
+            className="group flex items-center gap-2 font-mono text-caption uppercase tracking-[0.25em] text-white/50 transition hover:text-white"
+          >
+            <span className="transition-transform duration-300 group-hover:-translate-y-0.5">↑</span>
+            {content.ui.backToTop ?? "Inicio"}
+          </a>
         </div>
       </footer>
 

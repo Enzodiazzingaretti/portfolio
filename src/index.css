@@ -83,7 +83,8 @@ button { cursor: pointer; font: inherit; background: none; border: none; padding
 
 a:focus-visible,
 button:focus-visible {
-  outline: 1px solid var(--accent);
+  /* 2px y variante brillante: 1px de rojo oscuro era casi invisible sobre negro */
+  outline: 2px solid var(--accent-hover);
   outline-offset: 3px;
 }
 
@@ -279,6 +280,9 @@ button:focus-visible {
 @media (hover: hover) {
   .nav-link:hover::after { transform: scaleX(1); }
 }
+
+/* Scrollspy: la sección visible mantiene el subrayado rojo */
+.nav-link--active::after { transform: scaleX(1); }
 
 /* ─────────────────────────────────────────
    SECTION HEADING
@@ -562,6 +566,8 @@ button:focus-visible {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
+    /* Se auto-invierte sobre fondos claros (renders dorados, vidrio) */
+    mix-blend-mode: difference;
     transform: translate(-50%, -50%);
     transition:
       width 200ms ease,
@@ -679,14 +685,15 @@ button:focus-visible {
   font-size: 8px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.28);
   line-height: 1.4;
 }
 
 /* Debajo del nav pill (fixed top ~1rem + ~40px de alto) para no pisarse */
 .hud-corner--tl { top: 4.5rem; left: 1.5rem; }
 .hud-corner--tr { top: 4.5rem; right: 1.5rem; text-align: right; }
-.hud-corner--bl { bottom: 1.5rem; left: 1.5rem; }
+/* Más tenue: convive con el © del footer al llegar al fondo */
+.hud-corner--bl { bottom: 1.5rem; left: 1.5rem; color: rgba(255,255,255,0.14); }
 .hud-corner--br { bottom: 4rem; right: 1.5rem; text-align: right; }
 
 @media (max-width: 767px) {
