@@ -4,10 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Fondos: ink es el fondo global, surface para cards/thumbnails,
+        // surfaceDeep para paneles de modal
         ink: "#050505",
+        surface: "#0A0A0A",
+        surfaceDeep: "#080808",
+        // Texto: paper para titulares/principal, dim para secundario
+        paper: "#EAEAEA",
+        dim: "#C8C8C8",
         raveRed: "#8B0000",
+        raveRedHover: "#B11212",
         // Variante luminosa para texto chico sobre fondo oscuro (WCAG AA)
         raveRedBright: "#FF3B3B",
+      },
+      // Escala micro para labels tipo HUD; un solo lugar para ajustarla
+      fontSize: {
+        nano: "7px",
+        micro: "8px",
+        label: "9px",
+        caption: "10px",
+        meta: "11px",
       },
       fontFamily: {
         sans: ["Inter", "Arial", "sans-serif"],

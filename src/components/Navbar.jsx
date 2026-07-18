@@ -23,12 +23,12 @@ export default function Navbar({ nav, languages, currentLanguage, onLanguageChan
     <header className={`fixed left-0 top-0 z-50 w-full px-4 pt-4 transition-all duration-500 md:px-8 ${navVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}>
 
       {/* Desktop — centered pill */}
-      <nav className={`mx-auto hidden max-w-fit items-center border border-white/[0.07] backdrop-blur-xl transition-all duration-500 md:flex ${scrolled ? "bg-[#050505]/85 shadow-xl shadow-black/40" : "bg-[#050505]/25"}`}>
+      <nav className={`mx-auto hidden max-w-fit items-center border border-white/[0.07] backdrop-blur-xl transition-all duration-500 md:flex ${scrolled ? "bg-ink/85 shadow-xl shadow-black/40" : "bg-ink/25"}`}>
         {internalLinks.map((item, idx) => (
           <a
             key={item.href}
             href={item.href}
-            className="nav-link relative px-5 py-[11px] font-mono text-[9px] uppercase tracking-[0.26em] text-white/60 transition-colors duration-200 hover:text-white"
+            className="nav-link relative px-5 py-[11px] font-mono text-label uppercase tracking-[0.26em] text-white/60 transition-colors duration-200 hover:text-white"
           >
             {item.label}
             {idx < internalLinks.length - 1 && (
@@ -47,7 +47,7 @@ export default function Navbar({ nav, languages, currentLanguage, onLanguageChan
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="px-5 py-[11px] font-mono text-[9px] uppercase tracking-[0.26em] text-raveRed/80 transition-colors duration-200 hover:text-raveRed"
+              className="px-5 py-[11px] font-mono text-label uppercase tracking-[0.26em] text-raveRed/80 transition-colors duration-200 hover:text-raveRed"
             >
               {item.label} ↗
             </a>
@@ -56,14 +56,14 @@ export default function Navbar({ nav, languages, currentLanguage, onLanguageChan
       </nav>
 
       {/* Mobile */}
-      <nav className={`mx-auto flex items-center justify-between border border-white/[0.07] px-4 py-3 backdrop-blur-xl transition-all duration-500 md:hidden ${scrolled ? "bg-[#050505]/85" : "bg-[#050505]/25"}`}>
+      <nav className={`mx-auto flex items-center justify-between border border-white/[0.07] px-4 py-3 backdrop-blur-xl transition-all duration-500 md:hidden ${scrolled ? "bg-ink/85" : "bg-ink/25"}`}>
         <LanguageSelector languages={languages} currentLanguage={currentLanguage} onChange={onLanguageChange} />
         <button
           type="button"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={menuOpen}
-          className="flex h-8 w-8 flex-col items-center justify-center gap-[5px]"
+          className="-my-2 -mr-1 flex h-11 w-11 flex-col items-center justify-center gap-[5px]"
         >
           <span className={`block h-px w-5 bg-white/60 transition-all duration-300 ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
           <span className={`block h-px w-5 bg-white/60 transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
@@ -72,14 +72,14 @@ export default function Navbar({ nav, languages, currentLanguage, onLanguageChan
       </nav>
 
       {/* Mobile dropdown */}
-      <div className={`mx-auto mt-px overflow-hidden border border-white/[0.06] backdrop-blur-xl transition-all duration-300 md:hidden ${menuOpen ? "max-h-96 bg-[#050505]/95" : "max-h-0 border-transparent"}`}>
+      <div className={`mx-auto mt-px overflow-hidden border border-white/[0.06] backdrop-blur-xl transition-all duration-300 md:hidden ${menuOpen ? "max-h-96 bg-ink/95" : "max-h-0 border-transparent"}`}>
         <div className="flex flex-col px-5 py-3">
           {internalLinks.map((item) => (
             <a
               key={`mob-${item.href}`}
               href={item.href}
               onClick={handleNavClick}
-              className="border-b border-white/[0.05] py-3 font-mono text-[10px] uppercase tracking-[0.28em] text-white/65 transition hover:text-white"
+              className="border-b border-white/[0.05] py-3 font-mono text-caption uppercase tracking-[0.28em] text-white/65 transition hover:text-white"
             >
               {item.label}
             </a>
@@ -91,7 +91,7 @@ export default function Navbar({ nav, languages, currentLanguage, onLanguageChan
               target="_blank"
               rel="noreferrer"
               onClick={handleNavClick}
-              className="pt-3 font-mono text-[10px] uppercase tracking-[0.28em] text-raveRed/60 transition hover:text-raveRed"
+              className="pt-3 font-mono text-caption uppercase tracking-[0.28em] text-raveRed/60 transition hover:text-raveRed"
             >
               {item.label} ↗
             </a>

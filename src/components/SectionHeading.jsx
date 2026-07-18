@@ -14,11 +14,11 @@ export default function SectionHeading({ index, title, subtitle, action }) {
             <span className="mt-2 h-px w-8 bg-raveRed/50 md:mt-1" aria-hidden />
           </div>
           <div>
-            <h2 className="glitch-hover font-display text-[clamp(3.4rem,9vw,8.5rem)] font-bold uppercase leading-[0.78] tracking-[-0.05em] text-[#EAEAEA]" data-text={title}>
+            <h2 className="glitch-hover font-display text-[clamp(3.4rem,9vw,8.5rem)] font-bold uppercase leading-[0.78] tracking-[-0.05em] text-paper" data-text={title}>
               {title}
             </h2>
             {subtitle ? (
-              <p className="mt-5 max-w-xl border-l-2 border-raveRed/60 pl-4 text-[0.875rem] leading-relaxed text-[#D6D6D6] md:text-[0.95rem]">{subtitle}</p>
+              <p className="mt-5 max-w-xl border-l-2 border-raveRed/60 pl-4 text-[0.875rem] leading-relaxed text-dim md:text-[0.95rem]">{subtitle}</p>
             ) : null}
           </div>
         </div>
@@ -26,7 +26,7 @@ export default function SectionHeading({ index, title, subtitle, action }) {
           <button
             type="button"
             onClick={action.onClick}
-            className="shrink-0 self-start border border-white/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50 transition hover:border-raveRed/50 hover:text-white md:self-end"
+            className="shrink-0 self-start border border-white/10 px-4 py-2 font-mono text-caption uppercase tracking-[0.25em] text-white/50 transition hover:border-raveRed/50 hover:text-white md:self-end"
           >
             {action.label}
           </button>

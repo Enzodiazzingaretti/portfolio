@@ -7,7 +7,8 @@ export default function LanguageSelector({ languages, currentLanguage, onChange 
           type="button"
           onClick={() => onChange(language.code)}
           aria-label={language.name}
-          className={`px-2 py-1 font-mono text-[9px] uppercase tracking-[0.2em] transition ${
+          aria-current={currentLanguage === language.code}
+          className={`min-h-[32px] min-w-[32px] px-2 py-1 font-mono text-label uppercase tracking-[0.2em] transition ${
             currentLanguage === language.code
               ? "bg-raveRed/20 text-white"
               : "text-white/30 hover:text-white"

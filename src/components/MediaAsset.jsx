@@ -48,8 +48,8 @@ function isConvertible(src) {
 export default function MediaAsset({ src, alt, className = "h-full w-full object-cover", controls = false, eager = false }) {
   if (!src) {
     return (
-      <div className={`${className} flex items-center justify-center bg-[#0A0A0A]`}>
-        {alt && <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">{alt}</span>}
+      <div className={`${className} flex items-center justify-center bg-surface`}>
+        {alt && <span className="font-mono text-caption uppercase tracking-[0.2em] text-white/20">{alt}</span>}
       </div>
     );
   }

@@ -8,8 +8,8 @@ export default function CustomCursor() {
     if (!el) return;
 
     const onMove = (e) => {
-      el.style.left = `${e.clientX}px`;
-      el.style.top  = `${e.clientY}px`;
+      // transform en vez de left/top: evita recalcular layout en cada frame
+      el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
     };
     const onOver = (e) => {
       const hoverable = e.target.closest("a, button, [role='button']");

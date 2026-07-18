@@ -136,17 +136,17 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
 
         <div className="relative flex min-h-screen flex-col justify-between px-6 pb-10 pt-28 md:px-12 md:pb-14 md:pt-32">
           <div className="grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-start">
-            <p className="max-w-xs font-mono text-[11px] uppercase tracking-[0.42em] text-white/70">{hero.tagline}</p>
-            <p className="hidden font-mono text-[9px] uppercase tracking-[0.36em] text-white/35 md:block">{hero.meta}</p>
+            <p className="max-w-xs font-mono text-meta uppercase tracking-[0.42em] text-white/70">{hero.tagline}</p>
+            <p className="hidden font-mono text-label uppercase tracking-[0.36em] text-white/35 md:block">{hero.meta}</p>
             <div className="md:text-right">
-              <p className="font-mono text-[9px] uppercase tracking-[0.32em] text-white/45">{hero.location}</p>
-              <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.32em] text-raveRedBright">{hero.availability}</p>
+              <p className="font-mono text-label uppercase tracking-[0.32em] text-white/45">{hero.location}</p>
+              <p className="mt-2 font-mono text-label uppercase tracking-[0.32em] text-raveRedBright">{hero.availability}</p>
             </div>
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[1fr_minmax(300px,360px)] lg:items-end">
             <div>
-              <h1 className="hero-title font-display text-[clamp(5rem,17vw,17rem)] font-bold uppercase leading-[0.72] tracking-[-0.085em] text-[#EAEAEA]">
+              <h1 className="hero-title font-display text-[clamp(5rem,17vw,17rem)] font-bold uppercase leading-[0.72] tracking-[-0.085em] text-paper">
                 {hero.title.split(" ").map((word, i) => (
                   <span key={i} className="block">{word}</span>
                 ))}
@@ -154,7 +154,7 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
               <div className="mt-6 flex items-center gap-4">
                 <span className="font-display text-xl font-bold uppercase tracking-[0.18em] text-raveRed">KEXXY</span>
                 <span className="h-px w-10 bg-raveRed/50" />
-                <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.32em] text-white/55">
+                <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-caption uppercase tracking-[0.32em] text-white/55">
                   {hero.roles.map((role) => (
                     <span key={role}>{role}</span>
                   ))}
@@ -162,8 +162,8 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
               </div>
             </div>
             <div className="flex flex-col gap-8">
-              <p className="max-w-sm text-base leading-relaxed text-[#B8B8B8]">{hero.description}</p>
-              <a href="#work" className="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.32em] text-white/60 transition hover:text-white">
+              <p className="max-w-sm text-base leading-relaxed text-dim">{hero.description}</p>
+              <a href="#work" className="group flex items-center gap-4 font-mono text-caption uppercase tracking-[0.32em] text-white/60 transition hover:text-white">
                 <span className="h-px w-12 bg-raveRed/70 transition-all duration-500 group-hover:w-20 group-hover:bg-raveRed" />
                 {hero.cta}
               </a>
@@ -177,7 +177,7 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
               ) : null}
               <div className={`flex items-center gap-3 transition-opacity duration-700 ${heroPassed ? "opacity-0" : "opacity-100"}`}>
                 <div className="scroll-indicator h-8 w-px bg-white/20" />
-                <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/20">{hero.scrollLabel}</span>
+                <span className="font-mono text-label uppercase tracking-[0.3em] text-white/20">{hero.scrollLabel}</span>
               </div>
             </div>
           </div>

@@ -84,16 +84,16 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
 
   return (
     <div
-      className={`preloader fixed inset-0 z-[500] flex flex-col items-center justify-center bg-[#050505] transition-opacity duration-500 ${exiting ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+      className={`preloader fixed inset-0 z-[500] flex flex-col items-center justify-center bg-ink transition-opacity duration-500 ${exiting ? "opacity-0 pointer-events-none" : "opacity-100"}`}
       aria-hidden="true"
     >
       <div className="w-full max-w-2xl px-8 md:px-0">
-        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-raveRed/60 mb-6">
+        <p className="font-mono text-caption uppercase tracking-[0.35em] text-raveRed/60 mb-6">
           KEXXY / PORTFOLIO_SYS
         </p>
 
         <div
-          className="font-display font-bold uppercase leading-none tracking-[-0.05em] text-[#EAEAEA] select-none"
+          className="font-display font-bold uppercase leading-none tracking-[-0.05em] text-paper select-none"
           style={{ fontSize: "clamp(5rem, 20vw, 14rem)" }}
         >
           {String(percent).padStart(3, "0")}
@@ -110,7 +110,7 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
         <div className="mt-5 h-4 overflow-hidden">
           <p
             key={lineIndex}
-            className="font-mono text-[9px] uppercase tracking-[0.28em] text-white/25 animate-[fadeSlideUp_120ms_ease_both]"
+            className="font-mono text-label uppercase tracking-[0.28em] text-white/25 animate-[fadeSlideUp_120ms_ease_both]"
           >
             {LINES[lineIndex]}
           </p>

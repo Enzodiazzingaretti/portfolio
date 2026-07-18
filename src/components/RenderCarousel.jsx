@@ -17,7 +17,7 @@ function RenderCard({ work, index, onOpen, cardHeight = CARD_HEIGHT }) {
     <article className="render-card group flex-none" style={{ width: `${cardWidth}px` }}>
       <button type="button" onClick={onOpen} className="block w-full text-left">
         <div
-          className="relative overflow-hidden bg-[#0A0A0A]"
+          className="relative overflow-hidden bg-surface"
           style={{ height: `${cardHeight}px` }}
         >
           <MediaAsset
@@ -29,17 +29,17 @@ function RenderCard({ work, index, onOpen, cardHeight = CARD_HEIGHT }) {
         </div>
         <div className="mt-3 px-0.5">
           <div className="flex items-baseline gap-2.5">
-            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-raveRed">{String(index + 1).padStart(2, "0")}</span>
-            <h3 className="font-display text-base font-bold uppercase leading-tight tracking-[-0.02em] text-[#EAEAEA] transition group-hover:text-white">{label}</h3>
+            <span className="font-mono text-label uppercase tracking-[0.24em] text-raveRed">{String(index + 1).padStart(2, "0")}</span>
+            <h3 className="font-display text-base font-bold uppercase leading-tight tracking-[-0.02em] text-paper transition group-hover:text-white">{label}</h3>
           </div>
-          <p className="mt-1.5 line-clamp-2 text-[11px] leading-relaxed text-[#B0B0B0]">{desc}</p>
+          <p className="mt-1.5 line-clamp-2 text-meta leading-relaxed text-dim">{desc}</p>
         </div>
       </button>
     </article>
   );
 }
 
-export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT }) {
+export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT, navLabels }) {
   const trackRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [effectiveHeight, setEffectiveHeight] = useState(cardHeight);
@@ -98,16 +98,16 @@ export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT
       <button
         type="button"
         onClick={() => scroll(-1)}
-        aria-label="Anterior"
-        className="absolute -left-4 top-[30%] z-10 hidden -translate-y-1/2 items-center justify-center h-8 w-8 border border-white/10 bg-[#050505]/80 backdrop-blur text-white/40 transition hover:text-white hover:border-white/30 md:flex"
+        aria-label={navLabels?.previous ?? "Previous"}
+        className="absolute -left-4 top-[30%] z-10 hidden -translate-y-1/2 items-center justify-center h-10 w-10 border border-white/10 bg-ink/80 backdrop-blur text-white/40 transition hover:text-white hover:border-white/30 md:flex"
       >
         ←
       </button>
       <button
         type="button"
         onClick={() => scroll(1)}
-        aria-label="Siguiente"
-        className="absolute -right-4 top-[30%] z-10 hidden -translate-y-1/2 items-center justify-center h-8 w-8 border border-white/10 bg-[#050505]/80 backdrop-blur text-white/40 transition hover:text-white hover:border-white/30 md:flex"
+        aria-label={navLabels?.next ?? "Next"}
+        className="absolute -right-4 top-[30%] z-10 hidden -translate-y-1/2 items-center justify-center h-10 w-10 border border-white/10 bg-ink/80 backdrop-blur text-white/40 transition hover:text-white hover:border-white/30 md:flex"
       >
         →
       </button>
@@ -132,8 +132,8 @@ export default function RenderCarousel({ works, onOpen, cardHeight = CARD_HEIGHT
       </div>
 
       {/* Fade edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#050505] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#050505] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-ink to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-ink to-transparent" />
     </div>
   );
 }

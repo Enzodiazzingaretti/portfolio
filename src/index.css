@@ -6,14 +6,14 @@
    TOKENS
 ───────────────────────────────────────── */
 :root {
-  --bg:      #050505;
-  --bg-2:    #0A0A0A;
+  /* Colores espejados desde tailwind.config.js via theme(): una sola fuente */
+  --bg:      theme(colors.ink);
+  --bg-2:    theme(colors.surface);
   --surface: #101010;
   --line:    rgba(255,255,255,0.06);
-  --dim:     #A8A8A8;
-  --text:    #EAEAEA;
-  --accent:  #8B0000;
-  --accent-hover: #B11212;
+  --text:    theme(colors.paper);
+  --accent:  theme(colors.raveRed);
+  --accent-hover: theme(colors.raveRedHover);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --fast: 160ms;
@@ -87,6 +87,28 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
+/* Skip link: invisible hasta recibir foco de teclado */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  transform: translate(-50%, -200%);
+  z-index: var(--z-overlay);
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-2);
+  border: 1px solid var(--accent-hover);
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: transform var(--fast) ease;
+}
+
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+}
+
 /* ─────────────────────────────────────────
    LAYOUT
 ───────────────────────────────────────── */
@@ -125,13 +147,18 @@ button:focus-visible {
   object-position: top;
   height: 140% !important;
   transition: object-position 12s cubic-bezier(0.4, 0, 0.2, 1), filter 800ms ease;
-  filter: grayscale(100%);
 }
 
-.group:hover .preview-scroll,
-.preview-scroll:hover {
-  object-position: bottom;
-  filter: grayscale(0%);
+/* El grayscale solo tiene sentido si existe hover para levantarlo;
+   en touch los previews se ven siempre a color */
+@media (hover: hover) {
+  .preview-scroll { filter: grayscale(100%); }
+
+  .group:hover .preview-scroll,
+  .preview-scroll:hover {
+    object-position: bottom;
+    filter: grayscale(0%);
+  }
 }
 
 /* Alternative: CSS Animation version for continuous loop */
@@ -163,13 +190,13 @@ button:focus-visible {
   object-position: top;
   height: 180% !important;
   width: 100% !important;
-  filter: grayscale(100%);
   animation: previewScrollSlow 20s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
   transition: filter 800ms ease;
 }
 
-.preview-scroll-modal:hover {
-  filter: grayscale(0%);
+@media (hover: hover) {
+  .preview-scroll-modal { filter: grayscale(100%); }
+  .preview-scroll-modal:hover { filter: grayscale(0%); }
 }
 
 /* ─────────────────────────────────────────
@@ -587,6 +614,16 @@ button:focus-visible {
   }
   .page-enter-overlay { display: none; }
   .cursor-dot { display: none; }
+
+  /* Sin opacity/transform forzados: el grain debe conservar su opacidad baja */
+  .grain-overlay { animation: none; }
+
+  /* El glitch del easter egg flashea fuerte: se anula por fotosensibilidad */
+  .glitch-overdrive,
+  .glitch-overdrive::before,
+  .glitch-overdrive::after {
+    animation: none !important;
+  }
 }
 
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

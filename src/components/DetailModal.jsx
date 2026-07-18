@@ -13,6 +13,9 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   const [infoOpen, setInfoOpen] = useState(false);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
+  const dialogRef = useRef(null);
+  const lastFocusedRef = useRef(null);
+  const isOpen = Boolean(viewer);
 
   useEffect(() => {
     if (!viewer) return;
@@ -21,6 +24,36 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = prev; };
   }, [viewer]);
+
+  // Al abrir: guarda el elemento con foco y mueve el foco al diálogo;
+  // al cerrar lo devuelve para no perder la posición de teclado
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    lastFocusedRef.current = document.activeElement;
+    dialogRef.current?.focus();
+    return () => {
+      if (lastFocusedRef.current instanceof HTMLElement) lastFocusedRef.current.focus();
+    };
+  }, [isOpen]);
+
+  // Focus trap: Tab cicla solo entre los controles visibles del diálogo
+  const handleTrapKeyDown = useCallback((event) => {
+    if (event.key !== "Tab" || !dialogRef.current) return;
+    const focusables = Array.from(
+      dialogRef.current.querySelectorAll("button, a[href], [tabindex]:not([tabindex='-1'])"),
+    ).filter((el) => el.offsetParent !== null && el.tabIndex !== -1);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement;
+    if (event.shiftKey && (active === first || active === dialogRef.current)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }, []);
 
   const modalLabels = useMemo(() => ({
     close: "Close",
@@ -80,10 +113,16 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           key={i}
           type="button"
           onClick={() => setViewer((c) => ({ ...c, slideIndex: i }))}
-          className={`block h-[2px] rounded-full transition-all duration-300 ${
-            i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/30"
-          }`}
-        />
+          aria-label={`${modalLabels.slide} ${i + 1} / ${total}`}
+          aria-current={i === viewer.slideIndex}
+          className="flex h-11 min-w-[24px] items-center justify-center"
+        >
+          <span
+            className={`block h-[2px] rounded-full transition-all duration-300 ${
+              i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/30"
+            }`}
+          />
+        </button>
       ))}
     </div>
   );
@@ -105,16 +144,18 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">{item.title}</span>
+          <span className="font-mono text-caption uppercase tracking-[0.2em] text-white/20">{item.title}</span>
         </div>
       )}
 
+      {/* Zonas de tap invisibles: fuera del tab order y del árbol de accesibilidad;
+          teclado ya navega con ← → y en desktop hay flechas visibles */}
       {total > 1 && (
         <>
-          <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
+          <button type="button" onClick={handlePrev} tabIndex={-1} aria-hidden="true"
             className="absolute left-0 top-0 h-full w-1/3 opacity-0"
           />
-          <button type="button" onClick={handleNext} aria-label={modalLabels.next}
+          <button type="button" onClick={handleNext} tabIndex={-1} aria-hidden="true"
             className="absolute right-0 top-0 h-full w-1/3 opacity-0"
           />
         </>
@@ -123,7 +164,16 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   );
 
   return (
-    <div className="fixed inset-0 z-[120] bg-black" onClick={onClose}>
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.title}
+      tabIndex={-1}
+      onKeyDown={handleTrapKeyDown}
+      className="fixed inset-0 z-[120] bg-black outline-none"
+      onClick={onClose}
+    >
 
       {/* ══════════════════════════════════════
           MOBILE — fullscreen cinematic viewer
@@ -142,13 +192,13 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5">
             <div className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-raveRed" />
-              <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-white/40">{viewer.sectionLabel}</span>
+              <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/40">{viewer.sectionLabel}</span>
             </div>
             <button
               type="button"
               onClick={onClose}
               aria-label={modalLabels.close}
-              className="flex h-9 w-9 items-center justify-center text-white/40 transition-colors active:text-white"
+              className="flex h-11 w-11 items-center justify-center text-white/40 transition-colors active:text-white"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -159,7 +209,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           {/* Bottom overlay — always visible info strip */}
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-6 pt-16">
             {item.subtitle && (
-              <p className="mb-2 font-mono text-[8px] uppercase tracking-[0.35em] text-raveRed/80">{item.subtitle}</p>
+              <p className="mb-2 font-mono text-micro uppercase tracking-[0.35em] text-raveRed/80">{item.subtitle}</p>
             )}
             <h3 className="font-display text-[2rem] font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
               {item.title}
@@ -168,7 +218,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             <div className="mt-4 flex items-center justify-between">
               {slideIndicators || <span />}
               {total > 1 && (
-                <span className="font-mono text-[9px] text-white/30">{viewer.slideIndex + 1} / {total}</span>
+                <span className="font-mono text-label text-white/30">{viewer.slideIndex + 1} / {total}</span>
               )}
             </div>
 
@@ -176,10 +226,11 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             <button
               type="button"
               onClick={() => setInfoOpen((o) => !o)}
+              aria-expanded={infoOpen}
               className="mt-4 flex w-full items-center justify-between border-t border-white/[0.08] pt-4"
             >
-              <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/40">
-                {infoOpen ? "cerrar" : "ver info"}
+              <span className="font-mono text-label uppercase tracking-[0.25em] text-white/40">
+                {infoOpen ? modalLabels.infoClose : modalLabels.infoShow}
               </span>
               <span className={`text-white/30 transition-transform duration-300 ${infoOpen ? "rotate-180" : ""}`}>
                 <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
@@ -192,19 +243,19 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
 
         {/* Info sheet — slides up */}
         <div
-          className={`shrink-0 overflow-y-auto bg-[#080808] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`shrink-0 overflow-y-auto bg-surfaceDeep transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             infoOpen ? "max-h-[52vh]" : "max-h-0"
           }`}
         >
           <div className="px-5 pb-8 pt-6">
             {item.description && (
-              <p className="text-[0.82rem] leading-[1.7] text-white/50">{item.description}</p>
+              <p className="text-[0.82rem] leading-[1.7] text-white/60">{item.description}</p>
             )}
 
             {item.tags?.length ? (
               <div className="mt-5 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
-                  <span key={tag} className="border border-white/[0.08] px-3 py-1 font-mono text-[8px] uppercase tracking-[0.18em] text-white/35">
+                  <span key={tag} className="border border-white/[0.08] px-3 py-1 font-mono text-micro uppercase tracking-[0.18em] text-white/35">
                     {tag}
                   </span>
                 ))}
@@ -215,20 +266,20 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               <div className="mt-6 flex gap-8 border-t border-white/[0.06] pt-5">
                 {item.year && (
                   <div>
-                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
-                    <p className="mt-1.5 font-mono text-[11px] text-white/55">{item.year}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                    <p className="mt-1.5 font-mono text-meta text-white/55">{item.year}</p>
                   </div>
                 )}
                 {item.role && (
                   <div>
-                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
-                    <p className="mt-1.5 font-mono text-[11px] text-white/55">{item.role}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                    <p className="mt-1.5 font-mono text-meta text-white/55">{item.role}</p>
                   </div>
                 )}
                 {item.status && (
                   <div>
-                    <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
-                    <p className="mt-1.5 font-mono text-[11px] text-raveRed/70">{item.status}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                    <p className="mt-1.5 font-mono text-meta text-raveRed/70">{item.status}</p>
                   </div>
                 )}
               </div>
@@ -239,7 +290,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 href={item.previewUrl}
                 target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
                 rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
-                className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-[9px] uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
+                className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
               >
                 {modalLabels.visitSite} ↗
               </a>
@@ -267,16 +318,20 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             {total > 1 && (
               <>
                 <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
                 >←</button>
                 <button type="button" onClick={handleNext} aria-label={modalLabels.next}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
                 >→</button>
-                <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-[5px]">
+                <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 gap-[5px]">
                   {item.slides.map((_, i) => (
                     <button key={i} type="button" onClick={() => setViewer((c) => ({ ...c, slideIndex: i }))}
-                      className={`block h-[2px] rounded-full transition-all duration-300 ${i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/25"}`}
-                    />
+                      aria-label={`${modalLabels.slide} ${i + 1} / ${total}`}
+                      aria-current={i === viewer.slideIndex}
+                      className="flex h-11 min-w-[24px] items-center justify-center"
+                    >
+                      <span className={`block h-[2px] rounded-full transition-all duration-300 ${i === viewer.slideIndex ? "w-5 bg-white" : "w-2 bg-white/25"}`} />
+                    </button>
                   ))}
                 </div>
               </>
@@ -284,12 +339,12 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           </div>
 
           {/* Info panel */}
-          <div className="flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-l border-white/[0.06] bg-[#080808] p-8 lg:w-80">
+          <div className="flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-l border-white/[0.06] bg-surfaceDeep p-8 lg:w-80">
             <div className="flex flex-col gap-6">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-raveRed" />
-                  <p className="font-mono text-[8px] uppercase tracking-[0.32em] text-white/30">{viewer.sectionLabel}</p>
+                  <p className="font-mono text-micro uppercase tracking-[0.32em] text-white/30">{viewer.sectionLabel}</p>
                 </div>
                 <button type="button" onClick={onClose} aria-label={modalLabels.close}
                   className="flex h-7 w-7 shrink-0 items-center justify-center text-white/25 transition hover:text-white"
@@ -301,22 +356,22 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               </div>
 
               <div>
-                <h3 className="font-display text-[clamp(1.6rem,2.8vw,2.8rem)] font-bold uppercase leading-[0.85] tracking-[-0.04em] text-[#EAEAEA]">
+                <h3 className="font-display text-[clamp(1.6rem,2.8vw,2.8rem)] font-bold uppercase leading-[0.85] tracking-[-0.04em] text-paper">
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.28em] text-raveRed/60">{item.subtitle}</p>
+                  <p className="mt-2.5 font-mono text-label uppercase tracking-[0.28em] text-raveRed/60">{item.subtitle}</p>
                 )}
               </div>
 
               {item.description && (
-                <p className="text-[0.8rem] leading-[1.75] text-white/45">{item.description}</p>
+                <p className="text-[0.8rem] leading-[1.75] text-white/60">{item.description}</p>
               )}
 
               {item.tags?.length ? (
                 <div className="flex flex-wrap gap-1.5">
                   {item.tags.map((tag) => (
-                    <span key={tag} className="border border-white/[0.08] px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.15em] text-white/35">
+                    <span key={tag} className="border border-white/[0.08] px-2.5 py-1 font-mono text-micro uppercase tracking-[0.15em] text-white/35">
                       {tag}
                     </span>
                   ))}
@@ -327,20 +382,20 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 <div className="grid gap-4 border-t border-white/[0.06] pt-5">
                   {item.year && (
                     <div>
-                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
-                      <p className="mt-1 font-mono text-[10px] text-white/50">{item.year}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                      <p className="mt-1 font-mono text-caption text-white/50">{item.year}</p>
                     </div>
                   )}
                   {item.role && (
                     <div>
-                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
-                      <p className="mt-1 font-mono text-[10px] text-white/50">{item.role}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                      <p className="mt-1 font-mono text-caption text-white/50">{item.role}</p>
                     </div>
                   )}
                   {item.status && (
                     <div>
-                      <p className="font-mono text-[7px] uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
-                      <p className="mt-1 font-mono text-[10px] text-raveRed/70">{item.status}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                      <p className="mt-1 font-mono text-caption text-raveRed/70">{item.status}</p>
                     </div>
                   )}
                 </div>
@@ -353,17 +408,17 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                   href={item.previewUrl}
                   target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
                   rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
-                  className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-[9px] uppercase tracking-[0.24em]"
+                  className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]"
                 >
                   {modalLabels.visitSite} ↗
                 </a>
               )}
               <div className="flex items-center justify-between">
                 {total > 1
-                  ? <p className="font-mono text-[8px] text-white/20">{viewer.slideIndex + 1} / {total}</p>
+                  ? <p className="font-mono text-micro text-white/20">{viewer.slideIndex + 1} / {total}</p>
                   : <span />
                 }
-                <p className="font-mono text-[7px] text-white/15">{modalLabels.closeHint}</p>
+                <p className="font-mono text-nano text-white/15">{modalLabels.closeHint}</p>
               </div>
             </div>
           </div>

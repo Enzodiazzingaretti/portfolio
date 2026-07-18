@@ -39,7 +39,7 @@ export default function SideNav({ nav }) {
             aria-label={item.label}
           >
             <span
-              className={`font-mono text-[8px] uppercase tracking-[0.2em] transition-all duration-300 ${
+              className={`font-mono text-micro uppercase tracking-[0.2em] transition-all duration-300 ${
                 isActive ? "opacity-60 text-white" : "opacity-0 text-white/40 group-hover:opacity-50"
               }`}
             >

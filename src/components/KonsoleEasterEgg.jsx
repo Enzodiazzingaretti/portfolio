@@ -301,28 +301,28 @@ export default function KonsoleEasterEgg({ onGlitch }) {
       className="fixed inset-0 z-[400] flex items-center justify-center bg-black/88 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
     >
-      <div className="konsole-window flex w-full max-w-4xl flex-col border border-white/10 bg-[#050505] shadow-2xl"
+      <div className="konsole-window flex w-full max-w-4xl flex-col border border-white/10 bg-ink shadow-2xl"
         style={{ height: "72vh" }}
       >
         {/* Title bar */}
         <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-2 shrink-0">
-          <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-raveRed/70">
+          <span className="font-mono text-label uppercase tracking-[0.3em] text-raveRed/70">
             KEXXY_ROOT — TERMINAL v1.0
           </span>
           <div className="flex items-center gap-4">
             {isPlaying && (
-              <span className={`font-mono text-[9px] tracking-[0.2em] transition-colors duration-150 ${bpmBlink ? "text-raveRed" : "text-raveRed/30"}`}>
+              <span className={`font-mono text-label tracking-[0.2em] transition-colors duration-150 ${bpmBlink ? "text-raveRed" : "text-raveRed/30"}`}>
                 ♦ BPM: {BPM}
               </span>
             )}
-            <button onClick={handleClose} className="font-mono text-[9px] text-white/30 transition hover:text-white/80">
+            <button onClick={handleClose} className="font-mono text-label text-white/30 transition hover:text-white/80">
               [ESC] CLOSE
             </button>
           </div>
         </div>
 
         {/* Body */}
-        <div className="konsole-body flex-1 overflow-y-auto overflow-x-auto p-5 font-mono text-[11px] leading-relaxed scrollbar-hide">
+        <div className="konsole-body flex-1 overflow-y-auto overflow-x-auto p-5 font-mono text-meta leading-relaxed scrollbar-hide">
           <pre className="text-raveRed/70 mb-3" style={{ fontSize: "7px", lineHeight: 1.18, letterSpacing: 0, whiteSpace: "pre" }}>{ASCII_ART}</pre>
           {lines.filter(Boolean).map((line, i) => {
             return (
@@ -339,8 +339,8 @@ export default function KonsoleEasterEgg({ onGlitch }) {
           {/* EQ visualizer */}
           {isPlaying && eqRow && (
             <div className="mt-2">
-              <p className="text-raveRed/60 tracking-widest text-[10px]">{eqRow}</p>
-              <p className="text-white/20 text-[8px] mt-1 tracking-[0.3em]">
+              <p className="text-raveRed/60 tracking-widest text-caption">{eqRow}</p>
+              <p className="text-white/20 text-micro mt-1 tracking-[0.3em]">
                 STREAM ACTIVE — UNDERGROUND_MESH — {BPM} BPM
               </p>
             </div>
@@ -360,7 +360,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
                 key={c}
                 type="button"
                 onClick={() => { runCommand(c); inputRef.current?.focus(); }}
-                className="font-mono text-[8px] uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/30 transition hover:border-raveRed/50 hover:text-white/70"
+                className="font-mono text-micro uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/30 transition hover:border-raveRed/50 hover:text-white/70"
               >
                 {c}
               </button>
@@ -374,12 +374,12 @@ export default function KonsoleEasterEgg({ onGlitch }) {
             onSubmit={handleSubmit}
             className="border-t border-white/[0.07] px-5 py-3 flex items-center gap-2 shrink-0"
           >
-            <span className="font-mono text-[10px] text-raveRed/70 shrink-0">KEXXY_ROOT &gt;</span>
+            <span className="font-mono text-caption text-raveRed/70 shrink-0">KEXXY_ROOT &gt;</span>
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 bg-transparent font-mono text-[11px] text-white/80 outline-none placeholder:text-white/20 uppercase tracking-[0.1em]"
+              className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/20 uppercase tracking-[0.1em]"
               placeholder="type a command..."
               autoComplete="off"
               spellCheck="false"

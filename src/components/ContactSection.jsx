@@ -6,7 +6,7 @@ export default function ContactSection({ section, contact, labels }) {
       <SectionHeading index={section.index} title={section.title} subtitle={section.subtitle} />
       <div className="reveal-on-scroll grid gap-12 md:grid-cols-[1.15fr_0.85fr] md:items-end">
         <div>
-          <p className="font-display text-[clamp(4rem,10vw,11rem)] font-bold uppercase leading-[0.76] tracking-[-0.07em] text-[#EAEAEA]">
+          <p className="font-display text-[clamp(4rem,10vw,11rem)] font-bold uppercase leading-[0.76] tracking-[-0.07em] text-paper">
             {contact.headline}
           </p>
           <a
@@ -16,12 +16,12 @@ export default function ContactSection({ section, contact, labels }) {
             {contact.cta} →
           </a>
           {contact.note ? (
-            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.24em] text-white/50">{contact.note}</p>
+            <p className="mt-5 font-mono text-caption uppercase tracking-[0.24em] text-white/50">{contact.note}</p>
           ) : null}
         </div>
         <div>
           <div className="mb-10">
-            <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.32em] text-raveRed/70">{contact.availableForLabel}</p>
+            <p className="mb-4 font-mono text-caption uppercase tracking-[0.32em] text-raveRed/70">{contact.availableForLabel}</p>
             <div className="grid gap-3">
               {contact.availableFor.map((item) => (
                 <p key={item} className="border-b border-white/10 pb-3 text-sm text-white/70">{item}</p>

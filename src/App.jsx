@@ -117,14 +117,16 @@ export default function App() {
       if (event.key === "ArrowLeft") {
         setViewer((current) => {
           if (!current) return current;
-          const total = current.items[current.index].slides.length;
+          const total = current.items[current.index].slides?.length ?? 0;
+          if (total <= 1) return current;
           return { ...current, slideIndex: (current.slideIndex - 1 + total) % total };
         });
       }
       if (event.key === "ArrowRight") {
         setViewer((current) => {
           if (!current) return current;
-          const total = current.items[current.index].slides.length;
+          const total = current.items[current.index].slides?.length ?? 0;
+          if (total <= 1) return current;
           return { ...current, slideIndex: (current.slideIndex + 1) % total };
         });
       }
@@ -138,7 +140,8 @@ export default function App() {
   }, [scrollProgress]);
 
   return (
-    <div className={`tribal-fluid relative min-h-screen overflow-x-hidden bg-[#050505] text-[#EAEAEA] selection:bg-raveRed/40${glitching ? " glitch-overdrive" : ""}`}>
+    <div className={`tribal-fluid relative min-h-screen overflow-x-hidden bg-ink text-paper selection:bg-raveRed/40${glitching ? " glitch-overdrive" : ""}`}>
+      <a href="#main" className="skip-link">{content.ui.skipToContent ?? "Saltar al contenido"}</a>
       <Analytics />
       {!preloaded && <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} />}
       {preloaded && <GlobalFX scrollProgress={scrollProgress} />}
@@ -157,7 +160,7 @@ export default function App() {
         navVisible={navVisible}
       />
 
-      <Suspense fallback={<div className="relative min-h-screen bg-[#050505]" />}>
+      <Suspense fallback={<div className="relative min-h-screen bg-ink" />}>
         <HeroSection
           hero={content.hero}
           heroImage={content.heroImage}
@@ -166,7 +169,7 @@ export default function App() {
         />
       </Suspense>
 
-      <main className="relative z-10 mx-auto max-w-7xl px-6 pb-44 pt-32 md:px-12 md:pt-44">
+      <main id="main" className="relative z-10 mx-auto max-w-7xl px-6 pb-44 pt-32 md:px-12 md:pt-44">
         <AboutSection
           section={s.about}
           about={content.about}
@@ -229,6 +232,7 @@ export default function App() {
           <RenderCarousel
             works={blenderDetails}
             sectionLabel={s.blender.index}
+            navLabels={content.ui.modal}
             onOpen={(index) => setViewer({ sectionLabel: s.blender.index, items: blenderDetails, index, slideIndex: 0 })}
           />
         </section>
@@ -248,6 +252,7 @@ export default function App() {
             <RenderCarousel
               works={content.flyers}
               sectionLabel={s.flyers.index}
+              navLabels={content.ui.modal}
               onOpen={(index) => setViewer({ sectionLabel: s.flyers.index, items: content.flyers.map((f) => ({ ...f, thumbnail: f.imageUrl, subtitle: f.type, slides: f.slides ?? [] })), index, slideIndex: 0 })}
             />
           </div>
@@ -263,6 +268,7 @@ export default function App() {
             works={content.logos}
             sectionLabel={s.logos.index}
             cardHeight={340}
+            navLabels={content.ui.modal}
             onOpen={(index) => setViewer({ sectionLabel: s.logos.index, items: content.logos.map((l) => ({ ...l, thumbnail: l.imageUrl, subtitle: l.type, slides: l.slides ?? [] })), index, slideIndex: 0 })}
           />
         </section>
@@ -282,6 +288,7 @@ export default function App() {
             <RenderCarousel
               works={content.espacios}
               sectionLabel={s.espacios.index}
+              navLabels={content.ui.modal}
               onOpen={(index) => setViewer({ sectionLabel: s.espacios.index, items: content.espacios.map((e) => ({ ...e, thumbnail: e.imageUrl, subtitle: e.type, slides: e.slides ?? [] })), index, slideIndex: 0 })}
             />
           </div>
@@ -296,8 +303,8 @@ export default function App() {
 
       <footer className="border-t border-white/[0.06] px-6 py-8 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">© {new Date().getFullYear()} Enzo Diaz Zingaretti</p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">{content.ui.footerLocation}</p>
+          <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/50">© {new Date().getFullYear()} Enzo Diaz Zingaretti</p>
+          <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/40">{content.ui.footerLocation}</p>
         </div>
       </footer>
 
