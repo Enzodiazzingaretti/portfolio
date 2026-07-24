@@ -17,5 +17,5 @@ Portfolio visual de Enzo Diaz Zingaretti (Kexxy), construido con React, Vite y T
 
 ## Contenido del sitio
 
-- El contenido principal vive en `src/siteContent.js`.
+- El contenido principal vive en `src/siteContent.i18n.js`.
 - Para priorizar la publicación visual, el backend anterior se archivó en `archive/backend-legacy`.
