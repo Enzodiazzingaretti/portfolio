@@ -76,7 +76,7 @@ export default function HudOverlay({ language = "es" }) {
       </div>
 
       <div className="hud-corner hud-corner--bl" aria-hidden="true">
-        <span>KEXXY / PORTFOLIO</span>
+        <span>PORTFOLIO</span>
         <span>BUILD: 2026.V1</span>
       </div>
 

@@ -7,11 +7,8 @@ function PortraitImage({ src, alt }) {
   if (error || !src) {
     return (
       <div className="about-portrait-placeholder relative h-full w-full overflow-hidden border border-white/10">
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 select-none whitespace-nowrap font-display text-[clamp(5rem,9vw,9rem)] font-bold uppercase leading-none tracking-[-0.04em] text-white/[0.07]">
-          KEXXY
-        </span>
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-5">
-          <span className="font-mono text-label uppercase tracking-[0.3em] text-raveRed/80">KEXXY.OBJ</span>
+          <span className="font-mono text-label uppercase tracking-[0.3em] text-raveRed/80">PORTRAIT</span>
           <span className="font-mono text-label uppercase tracking-[0.3em] text-white/40">EST. 2024</span>
         </div>
         <div className="absolute left-5 top-5 h-8 w-8 border-l border-t border-raveRed/50" />

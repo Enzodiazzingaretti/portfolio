@@ -89,7 +89,7 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
     >
       <div className="w-full max-w-2xl px-8 md:px-0">
         <p className="font-mono text-caption uppercase tracking-[0.35em] text-raveRed/60 mb-6">
-          KEXXY / PORTFOLIO_SYS
+          PORTFOLIO_SYS
         </p>
 
         <div

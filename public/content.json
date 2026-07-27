@@ -53,16 +53,16 @@
     "email": "k3xxy.art@gmail.com",
     "instagram": "https://www.instagram.com/kexxy.obj",
     "linkedin": "",
-    "presskit": "https://kexxy-presskit.netlify.app/"
+    "presskit": "https://presskit-digital.vercel.app/"
   },
   "webProjects": [
     {
       "year": "2025",
       "imageUrl": null,
-      "previewUrl": "https://kexxy-presskit.netlify.app/",
+      "previewUrl": "https://presskit-digital.vercel.app/",
       "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
       "slides": [],
-      "title": "KEXXY Press Kit",
+      "title": "Press Kit",
       "type": "Web / Diseño",
       "status": "Online",
       "role": "Diseño y desarrollo",
@@ -531,6 +531,33 @@
         "Motion",
         "3D"
       ]
+    }
+  ],
+  "labPieces": [
+    {
+      "id": "congregacion",
+      "title": "CONGREGACIÓN",
+      "description": "Multitud de partículas rezando en un campo de ruido; la luz acumulada es la memoria de sus trayectorias."
+    },
+    {
+      "id": "himno",
+      "title": "HIMNO FANTASMA",
+      "description": "Armonógrafo amortiguado con trazo de fósforo; cada compás re-excita el péndulo con nuevas armonías enteras."
+    },
+    {
+      "id": "comunion",
+      "title": "COMUNIÓN CELULAR",
+      "description": "Reacción-difusión de Gray-Scott: membranas que se devoran y regeneran sobre una grilla toroidal."
+    },
+    {
+      "id": "enjambre",
+      "title": "ENJAMBRE 145",
+      "description": "Atractor de De Jong en morfosis continua; la incandescencia no es paleta, es densidad."
+    },
+    {
+      "id": "liturgia",
+      "title": "LITURGIA BRUTAL",
+      "description": "Retícula brutalista de proporción áurea, cortada en bandas glitch al ritmo del golpe."
     }
   ]
 }

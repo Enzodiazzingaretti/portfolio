@@ -6,10 +6,10 @@
   <circle cx="90" cy="58" r="6" fill="#FFBD2E"/>
   <circle cx="110" cy="58" r="6" fill="#28CA41"/>
   <text x="400" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#666" font-weight="300">
-    KEXXY PRESSKIT PREVIEW
+    PRESS KIT PREVIEW
   </text>
   <text x="400" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#444">
-    Reemplazar con screenshot de kexxy-presskit.netlify.app
+    Reemplazar con screenshot de presskit-digital.vercel.app
   </text>
   <rect x="200" y="380" width="400" height="2" fill="#333"/>
 </svg>

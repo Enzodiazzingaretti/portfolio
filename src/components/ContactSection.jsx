@@ -45,7 +45,7 @@ export default function ContactSection({ section, contact, labels }) {
             ) : null}
             <a href={contact.presskit} target="_blank" rel="noreferrer" className="contact-link group border-t border-white/[0.08] border-b border-b-white/[0.08] py-4">
               <span>{labels.presskit}</span>
-              <span>KEXXY ↗</span>
+              <span>↗</span>
             </a>
           </div>
         </div>

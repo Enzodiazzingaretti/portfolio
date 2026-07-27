@@ -70,6 +70,7 @@ export default function App() {
           flyers: editable.flyers ?? base.flyers,
           logos: editable.logos ?? base.logos,
           espacios: editable.espacios ?? base.espacios,
+          labPieces: editable.labPieces ?? base.labPieces,
         }
       : base;
     const enabled = (arr) => (Array.isArray(arr) ? arr.filter((x) => x && x.enabled !== false) : arr);

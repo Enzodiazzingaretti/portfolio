@@ -5,6 +5,7 @@ import Section from "./Section.jsx";
 import HeroPanel from "./panels/HeroPanel.jsx";
 import AboutPanel from "./panels/AboutPanel.jsx";
 import ContactPanel from "./panels/ContactPanel.jsx";
+import LabPanel from "./panels/LabPanel.jsx";
 import ProjectListPanel from "./panels/ProjectListPanel.jsx";
 
 const CATEGORIES = [
@@ -212,6 +213,10 @@ export default function Editor({ onLogout }) {
               />
             </Section>
           ))}
+
+          <Section title="Arte generativo (Lab)" subtitle="Nombre y descripción de los 5 sistemas" count={(draft.labPieces || []).length}>
+            <LabPanel draft={draft} update={update} />
+          </Section>
 
           <Section title="Contacto" subtitle="Textos y enlaces">
             <ContactPanel draft={draft} update={update} />

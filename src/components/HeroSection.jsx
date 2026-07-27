@@ -152,8 +152,6 @@ export default function HeroSection({ hero, heroImage, heroPassed, preloaded = t
                 ))}
               </h1>
               <div className="mt-6 flex items-center gap-4">
-                <span className="font-display text-xl font-bold uppercase tracking-[0.18em] text-raveRed">KEXXY</span>
-                <span className="h-px w-10 bg-raveRed/50" />
                 <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-caption uppercase tracking-[0.32em] text-white/55">
                   {hero.roles.map((role) => (
                     <span key={role}>{role}</span>

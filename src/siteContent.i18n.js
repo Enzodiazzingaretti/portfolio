@@ -2,7 +2,7 @@ const webProjectAssets = {
   pressKit: {
     year: "2025",
     imageUrl: null,
-    previewUrl: "https://kexxy-presskit.netlify.app/",
+    previewUrl: "https://presskit-digital.vercel.app/",
     previewImage: "/images/previews/screenshot_kexxypresskit.jpeg",
     slides: [],
   },
@@ -337,7 +337,7 @@ export const siteContent = {
     email: "k3xxy.art@gmail.com",
     instagram: "https://www.instagram.com/kexxy.obj",
     linkedin: "",
-    presskit: "https://kexxy-presskit.netlify.app/",
+    presskit: "https://presskit-digital.vercel.app/",
   },
   locales: {
     es: {
@@ -351,7 +351,7 @@ export const siteContent = {
         { label: "Lab", href: "#lab" },
         { label: "Sobre mí", href: "#about" },
         { label: "Contacto", href: "#contact" },
-        { label: "KEXXY Press Kit ↗", href: "https://kexxy-presskit.netlify.app/", external: true },
+        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       sections: {
         about: { index: "01 / SOBRE MÍ", title: "SOBRE MÍ", subtitle: "3D, motion, branding, web y objetos físicos" },
@@ -392,7 +392,7 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "KEXXY Press Kit", type: "Web / Diseño", status: "Online", role: "Diseño y desarrollo", description: "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multiidioma", "Formulario de contacto", "Embeds musicales"] },
+        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Diseño", status: "Online", role: "Diseño y desarrollo", description: "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multiidioma", "Formulario de contacto", "Embeds musicales"] },
         { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Desarrollo", status: "En progreso", role: "Diseño y desarrollo", description: "Este portfolio. React + Vite + Tailwind CSS. Modal con carrusel multimedia, lazy loading, WebP, contenido centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Contenido centralizado", "Galerías multimedia", "Optimización de assets"] },
       ],
       touchDesignerLoops: [
@@ -480,7 +480,7 @@ export const siteContent = {
         { label: "Lab", href: "#lab" },
         { label: "About", href: "#about" },
         { label: "Contact", href: "#contact" },
-        { label: "KEXXY Press Kit ↗", href: "https://kexxy-presskit.netlify.app/", external: true },
+        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       sections: {
         about: { index: "01 / ABOUT", title: "ABOUT", subtitle: "3D, motion, branding, web and physical objects" },
@@ -521,7 +521,7 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "KEXXY Press Kit", type: "Web / Design", status: "Live", role: "Design and development", description: "Digital press kit for DJ. Static HTML, 3-language i18n, EmailJS contact form, SoundCloud embeds and a dates section.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilingual", "Contact form", "Music embeds"] },
+        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Design", status: "Live", role: "Design and development", description: "Digital press kit for DJ. Static HTML, 3-language i18n, EmailJS contact form, SoundCloud embeds and a dates section.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilingual", "Contact form", "Music embeds"] },
         { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Development", status: "In progress", role: "Design and development", description: "This portfolio. React + Vite + Tailwind CSS. Multimedia modal, lazy loading, WebP, centralized content.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Centralized content", "Multimedia galleries", "Asset optimization"] },
       ],
       touchDesignerLoops: [
@@ -609,7 +609,7 @@ export const siteContent = {
         { label: "Lab", href: "#lab" },
         { label: "Sobre", href: "#about" },
         { label: "Contato", href: "#contact" },
-        { label: "KEXXY Press Kit ↗", href: "https://kexxy-presskit.netlify.app/", external: true },
+        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       sections: {
         about: { index: "01 / SOBRE", title: "SOBRE", subtitle: "3D, motion, branding, web e objetos físicos" },
@@ -650,7 +650,7 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "KEXXY Press Kit", type: "Web / Design", status: "Online", role: "Design e desenvolvimento", description: "Press kit digital para DJ. HTML estático, i18n em 3 idiomas, formulário EmailJS, embeds do SoundCloud e seção de datas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilíngue", "Formulário de contato", "Embeds musicais"] },
+        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Design", status: "Online", role: "Design e desenvolvimento", description: "Press kit digital para DJ. HTML estático, i18n em 3 idiomas, formulário EmailJS, embeds do SoundCloud e seção de datas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilíngue", "Formulário de contato", "Embeds musicais"] },
         { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Desenvolvimento", status: "Em progresso", role: "Design e desenvolvimento", description: "Este portfólio. React + Vite + Tailwind CSS. Modal com carrossel multimídia, lazy loading, WebP, conteúdo centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Conteúdo centralizado", "Galerias multimídia", "Otimização de assets"] },
       ],
       touchDesignerLoops: [
