@@ -19,6 +19,7 @@ import Preloader from "./components/Preloader";
 import GrainOverlay from "./components/GrainOverlay";
 import HudOverlay from "./components/HudOverlay";
 import SideNav from "./components/SideNav";
+import { Terminal } from "lucide-react";
 
 const HeroSection = lazy(() => import("./components/HeroSection"));
 const KonsoleEasterEgg = lazy(() => import("./components/KonsoleEasterEgg"));
@@ -359,7 +360,9 @@ export default function App() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/50">© {new Date().getFullYear()} Enzo Diaz Zingaretti</p>
           <p className="hidden font-mono text-caption uppercase tracking-[0.25em] text-white/40 sm:block">{content.ui.footerLocation}</p>
-          <a href="/admin" aria-label="Panel de administración" title="Panel" className="font-mono text-caption text-white/15 transition hover:text-raveRed">◆</a>
+          <a href="/admin" aria-label="Panel de administración" title="Panel" className="text-white/30 transition-colors hover:text-raveRedBright">
+            <Terminal size={15} strokeWidth={1.5} />
+          </a>
           <a
             href="#hero"
             className="group flex items-center gap-2 font-mono text-caption uppercase tracking-[0.25em] text-white/50 transition hover:text-white"
