@@ -358,6 +358,15 @@ export default function App() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/50">© {new Date().getFullYear()} Enzo Diaz Zingaretti</p>
           <p className="hidden font-mono text-caption uppercase tracking-[0.25em] text-white/40 sm:block">{content.ui.footerLocation}</p>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("open-konsole"))}
+            aria-label="Abrir consola oculta"
+            className="font-mono text-caption uppercase tracking-[0.25em] text-white/30 transition-colors hover:text-raveRedBright"
+          >
+            <span className="hidden sm:inline">// {language === "en" ? 'type "kexxy"' : language === "pt" ? 'digite "kexxy"' : 'escribí "kexxy"'}</span>
+            <span className="sm:hidden">// {language === "en" ? "console" : language === "pt" ? "console" : "consola"}</span>
+          </button>
           <a href="/admin" aria-label="Panel de administración" title="Panel" className="text-white/30 transition-colors hover:text-raveRedBright">
             <Terminal size={15} strokeWidth={1.5} />
           </a>

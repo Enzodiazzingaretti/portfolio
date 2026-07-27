@@ -141,8 +141,14 @@ export default function KonsoleEasterEgg({ onGlitch }) {
         setOpen(true);
       }
     };
+    // Alternativa a escribir "kexxy": abrir por tap (útil en mobile, sin teclado).
+    const onOpenEvent = () => setOpen(true);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("open-konsole", onOpenEvent);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("open-konsole", onOpenEvent);
+    };
   }, [handleClose]);
 
   useEffect(() => {
