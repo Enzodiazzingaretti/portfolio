@@ -17,7 +17,6 @@ import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import Preloader from "./components/Preloader";
 import GrainOverlay from "./components/GrainOverlay";
-import HudOverlay from "./components/HudOverlay";
 import SideNav from "./components/SideNav";
 import { Terminal } from "lucide-react";
 
@@ -195,7 +194,6 @@ export default function App() {
       {!preloaded && <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} />}
       {preloaded && <Suspense fallback={null}><GlobalFX scrollProgress={scrollProgress} /></Suspense>}
       <GrainOverlay />
-      <HudOverlay language={language} />
       <Suspense fallback={null}><KonsoleEasterEgg onGlitch={handleGlitch} /></Suspense>
       <CustomCursor />
       <SideNav nav={content.nav} />
