@@ -17,7 +17,11 @@ export default function SelectedWorkCard({ project, index, onOpen, labels }) {
         <BrowserFrame
           src={project.thumbnail}
           title={project.title}
-          scrollPreview={project.title.toLowerCase().includes("press kit") || project.title.toLowerCase().includes("web v1")}
+          scrollPreview={
+            project.scrollPreview !== undefined
+              ? project.scrollPreview
+              : project.title.toLowerCase().includes("press kit") || project.title.toLowerCase().includes("web v1")
+          }
         />
       </button>
       <div className={`${textOrder} flex flex-col justify-end pb-1`}>

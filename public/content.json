@@ -1,0 +1,536 @@
+{
+  "hero": {
+    "tagline": "3D / Motion / Branding / Web",
+    "title": "ENZO DIAZ ZINGARETTI",
+    "description": "Trabajo en Blender, TouchDesigner, React y con materiales. Basado en Argentina, disponible internacionalmente.",
+    "location": "Argentina",
+    "availability": "Disponible",
+    "meta": "Portfolio / 2026",
+    "roles": [
+      "Artista 3D",
+      "Motion Designer",
+      "Creador Visual"
+    ],
+    "cta": "Ver proyectos ↓",
+    "scrollLabel": "scroll",
+    "shaderSelector": {
+      "ariaLabel": "Elegir fondo del hero",
+      "random": "azar",
+      "items": {
+        "sculpture": "Escultura",
+        "particles": "Particulas",
+        "organic": "Organica"
+      }
+    }
+  },
+  "about": {
+    "headline": "Motion, 3D, branding, web y objetos físicos.",
+    "paragraph": "Trabajo en Blender, TouchDesigner, After Effects y React. También con materiales: encendedores, piezas físicas, dirección de arte para eventos. No me limito a un solo servicio ni a una sola pantalla. Actualmente construyendo un estudio creativo personal en Argentina.",
+    "specializations": [
+      "Motion Design / TouchDesigner",
+      "Visualización 3D / Blender",
+      "Desarrollo Web / React",
+      "Dirección de Arte",
+      "Branding e Identidad",
+      "Objetos & Piezas Físicas"
+    ],
+    "portrait": null
+  },
+  "contact": {
+    "headline": "HABLEMOS",
+    "availableForLabel": "Disponible para",
+    "availableFor": [
+      "Proyectos Freelance",
+      "Motion Design",
+      "3D",
+      "Dirección de Arte",
+      "Branding"
+    ],
+    "cta": "Escribime",
+    "note": "Respondo en menos de 24 horas"
+  },
+  "contactLinks": {
+    "email": "k3xxy.art@gmail.com",
+    "instagram": "https://www.instagram.com/kexxy.obj",
+    "linkedin": "",
+    "presskit": "https://kexxy-presskit.netlify.app/"
+  },
+  "webProjects": [
+    {
+      "year": "2025",
+      "imageUrl": null,
+      "previewUrl": "https://kexxy-presskit.netlify.app/",
+      "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
+      "slides": [],
+      "title": "KEXXY Press Kit",
+      "type": "Web / Diseño",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "EmailJS",
+        "i18n"
+      ],
+      "features": [
+        "Multiidioma",
+        "Formulario de contacto",
+        "Embeds musicales"
+      ],
+      "scrollPreview": true
+    },
+    {
+      "year": "2025",
+      "imageUrl": null,
+      "previewUrl": "#hero",
+      "previewImage": "/images/previews/screenshot_portfolio.jpeg",
+      "slides": [],
+      "title": "WEB V1",
+      "type": "Web / Desarrollo",
+      "status": "En progreso",
+      "role": "Diseño y desarrollo",
+      "description": "Este portfolio. React + Vite + Tailwind CSS. Modal con carrusel multimedia, lazy loading, WebP, contenido centralizado.",
+      "tags": [
+        "React",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "features": [
+        "Contenido centralizado",
+        "Galerías multimedia",
+        "Optimización de assets"
+      ],
+      "scrollPreview": true
+    }
+  ],
+  "touchDesignerLoops": [
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
+        "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
+        "/images/touchdesigner/feedback-ritual/Audioreactive Vol5 Test(1).mp4",
+        "/images/touchdesigner/feedback-ritual/Audioreactive Vol6 Test(1).mp4",
+        "/images/touchdesigner/feedback-ritual/Audioreactive Vol7 Test(1).mp4"
+      ],
+      "name": "Feedback Ritual",
+      "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/pulse-vandal/visuales1.mp4"
+      ],
+      "name": "Pulse Vandal",
+      "notes": "Geometrías con bloom, estrobos y ruido procedural."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4"
+      ],
+      "name": "Ghost Tunnel",
+      "notes": "Túnel de texturas industriales con deformación en tiempo real."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/static-veil/humo.mp4",
+        "/images/touchdesigner/static-veil/humo mod.mp4"
+      ],
+      "name": "Static Veil",
+      "notes": "Ruido y feedback reactivos al volumen."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/iron-lattice/visuales4.mp4"
+      ],
+      "name": "Iron Lattice",
+      "notes": "Estructuras modulares generadas por audio mid-side."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/Eyes/Ojos Visuales.mp4"
+      ],
+      "name": "Eyes",
+      "notes": "Loop de ojos. Movimiento procedural en tiempo real."
+    },
+    {
+      "thumbnail": null,
+      "slides": [
+        "/images/touchdesigner/biology/biology1.mp4",
+        "/images/touchdesigner/biology/biology2.mp4",
+        "/images/touchdesigner/biology/biology3.mp4",
+        "/images/touchdesigner/biology/biology4.mp4",
+        "/images/touchdesigner/biology/biology5.mp4",
+        "/images/touchdesigner/biology/biology7.mp4",
+        "/images/touchdesigner/biology/biology8.mp4",
+        "/images/touchdesigner/biology/biology10.mp4",
+        "/images/touchdesigner/biology/biology11.mp4",
+        "/images/touchdesigner/biology/biology12.mp4",
+        "/images/touchdesigner/biology/biology13.mp4",
+        "/images/touchdesigner/biology/biology14.mp4"
+      ],
+      "name": "Biology",
+      "notes": "Serie de loops orgánicos. Fluidos y sistemas celulares."
+    },
+    {
+      "thumbnail": "/images/touchdesigner/kinetic-sand/kinetic-sand-1.jpg",
+      "slides": [
+        "/images/touchdesigner/kinetic-sand/kinetic-sand-1.mp4",
+        "/images/touchdesigner/kinetic-sand/kinetic-sand-1.jpg",
+        "/images/touchdesigner/kinetic-sand/kinetic-sand-2.jpg",
+        "/images/touchdesigner/kinetic-sand/kinetic-sand-3.jpg",
+        "/images/touchdesigner/kinetic-sand/kinetic-sand-4.jpg"
+      ],
+      "name": "Kinetic Sand",
+      "notes": "Arena cinética simulada con respuesta al audio."
+    }
+  ],
+  "blenderWorks": [
+    {
+      "slides": [
+        "/images/blender/golden-faces/golden-1.png",
+        "/images/blender/golden-faces/golden-2.png",
+        "/images/blender/golden-faces/golden-3.png"
+      ],
+      "title": "Golden Faces",
+      "description": "Retratos 3D con material dorado y especular."
+    },
+    {
+      "slides": [
+        "/images/blender/rather-modular/rathermodular-1.png",
+        "/images/blender/rather-modular/rathermodular-2.png",
+        "/images/blender/rather-modular/rathermodular-3.png",
+        "/images/blender/rather-modular/rathermodular-4.png",
+        "/images/blender/rather-modular/rathermodular-5.png",
+        "/images/blender/rather-modular/rathermodular-6.png",
+        "/images/blender/rather-modular/rathermodular-1.mp4",
+        "/images/blender/rather-modular/rathermodular-2.mp4"
+      ],
+      "title": "Rather Modular",
+      "description": "Estructuras modulares industriales en Blender."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/calvaria-glass/Calvarian Animation.mp4",
+        "/images/blender/calvaria-glass/calvarian_glass1.webp",
+        "/images/blender/calvaria-glass/calvarian_glass2.webp",
+        "/images/blender/calvaria-glass/calvarian_glass3.webp",
+        "/images/blender/calvaria-glass/calvarian_glass4.webp"
+      ],
+      "title": "Calvaria Glass",
+      "description": "Cráneo en vidrio. Estudio de refracción y render."
+    },
+    {
+      "slides": [
+        "/images/blender/metallic-swarm/metallic-swarm-1.png",
+        "/images/blender/metallic-swarm/METALLIC_SWARM2.png"
+      ],
+      "title": "Metallic Swarm",
+      "description": "Superficies metálicas densas. Exploración de textura y luz."
+    },
+    {
+      "slides": [
+        "/images/blender/plastic-studies/plastic_preview.png",
+        "/images/blender/plastic-studies/plastic-1.png",
+        "/images/blender/plastic-studies/plastic-2.png"
+      ],
+      "title": "Plastic Studies",
+      "description": "Estudio de materiales plásticos, color y transparencia."
+    },
+    {
+      "slides": [
+        "/images/blender/faces_alternative/FACES_ALTERNATIVE (1).png",
+        "/images/blender/faces_alternative/FACES_ALTERNATIVE (2).png",
+        "/images/blender/faces_alternative/FACES_ALTERNATIVE (3).png",
+        "/images/blender/faces_alternative/FACES_ALTERNATIVE (4).png"
+      ],
+      "title": "Faces Alternative",
+      "description": "Rostros alterados con geometría y distorsión."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/240KM-H/Semaforo Preview.mp4",
+        "/images/blender/240KM-H/semaforo-1.png",
+        "/images/blender/240KM-H/semaforo-2.png",
+        "/images/blender/240KM-H/semaforo-3.png"
+      ],
+      "title": "240 KM/H",
+      "description": "Render de semáforo. Pieza para evento de hardgroove."
+    },
+    {
+      "slides": [
+        "/images/blender/patrullero/patrullero-1.png",
+        "/images/blender/patrullero/patrullero-2.mp4",
+        "/images/blender/patrullero/patrullero-1.mp4"
+      ],
+      "title": "1312",
+      "description": "Modelo y animación de patrullero en Blender."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/cristales/Cristales Preview.mp4",
+        "/images/blender/cristales/cristales-1.png",
+        "/images/blender/cristales/cristales-2.png"
+      ],
+      "title": "Cristales",
+      "description": "Geometría cristalina con refracción en Blender Cycles."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/abstract/abstract.png",
+        "/images/blender/abstract/blackgoo.mp4"
+      ],
+      "title": "Abstract Vol. I",
+      "description": "Formas orgánicas y fluidos abstractos en Blender."
+    },
+    {
+      "square": true,
+      "slides": [
+        "/images/blender/Screaming_head/screaming_head_remake (1).png",
+        "/images/blender/Screaming_head/screaming_head_remake (2).png"
+      ],
+      "title": "Screaming Head",
+      "description": "Cabeza con deformación extrema. Estudio de malla y expresión."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/noclueyet/cabezas locas (1).png",
+        "/images/blender/noclueyet/cabezas locas (2).png",
+        "/images/blender/noclueyet/cabezas locas (3).png",
+        "/images/blender/noclueyet/cabezas locas (4).png"
+      ],
+      "title": "NCY — I",
+      "description": "Cabezas distorsionadas. Serie sin nombre."
+    },
+    {
+      "square": true,
+      "slides": [
+        "/images/blender/noclueyet_1/carasdeformes.png"
+      ],
+      "title": "NCY — II",
+      "description": "Caras deformes. Estudio de geometría facial."
+    },
+    {
+      "portrait": true,
+      "slides": [
+        "/images/blender/glass_skullz/glass_skullz (2).png",
+        "/images/blender/glass_skullz/glass_skullz (3).png"
+      ],
+      "title": "Glass Skullz",
+      "description": "Cráneos en vidrio. Exploración de refracción y render."
+    },
+    {
+      "square": true,
+      "slides": [
+        "/images/blender/Overkill/overkill_prueba.png"
+      ],
+      "title": "Overkill 3D",
+      "description": "Render 3D para la sesión Overkill."
+    }
+  ],
+  "flyers": [
+    {
+      "portrait": true,
+      "imageUrl": "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
+      "slides": [
+        "/images/flyers/aguantadero_bass/Aguantaderobass Preview.mp4",
+        "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
+        "/images/flyers/aguantadero_bass/aguantaderobass-2.png"
+      ],
+      "title": "Aguantadero Bass",
+      "type": "Flyer",
+      "description": "Flyers para Aguantadero Bass.",
+      "tags": [
+        "Diseño",
+        "Flyer"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/blastkick/blastkick_preview.png",
+      "slides": [
+        "/images/flyers/blastkick/blastkick_preview.png",
+        "/images/flyers/blastkick/blastkick-3.png",
+        "/images/flyers/blastkick/blastkick-reel.mp4"
+      ],
+      "title": "Blastkick",
+      "type": "Flyer",
+      "description": "Flyers para Blastkick. Incluye reel animado.",
+      "tags": [
+        "Diseño",
+        "Flyer",
+        "Motion"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/blastkick-ano-nuevo/blastkick-ano-nuevo-1.png",
+      "slides": [
+        "/images/flyers/blastkick-ano-nuevo/blastkick-ano-nuevo-1.png",
+        "/images/flyers/blastkick-ano-nuevo/blastkick-ano-nuevo-2.png"
+      ],
+      "title": "Blastkick — Año Nuevo",
+      "type": "Flyer",
+      "description": "Edición año nuevo para Blastkick.",
+      "tags": [
+        "Diseño",
+        "Flyer"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png",
+      "slides": [
+        "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png"
+      ],
+      "title": "Dist. Raptis. Kexxy.",
+      "type": "Flyer",
+      "description": "Flyer para fecha entre Dist. Raptis y Kexxy.",
+      "tags": [
+        "Diseño",
+        "Flyer"
+      ]
+    },
+    {
+      "portrait": true,
+      "imageUrl": "/images/flyers/maccari/maccari-1.png",
+      "slides": [
+        "/images/flyers/maccari/maccari-1.png",
+        "/images/flyers/maccari/Maccari1 2.mp4"
+      ],
+      "title": "Maccari",
+      "type": "Flyer",
+      "description": "Flyer para el evento Maccari.",
+      "tags": [
+        "Diseño",
+        "Flyer"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/overkill/overkill (1).png",
+      "slides": [
+        "/images/flyers/overkill/overkill (1).png",
+        "/images/flyers/overkill/overkill (2).png"
+      ],
+      "title": "Overkill",
+      "type": "Flyer",
+      "description": "Flyers para Overkill.",
+      "tags": [
+        "Diseño",
+        "Flyer"
+      ]
+    }
+  ],
+  "logos": [
+    {
+      "square": true,
+      "imageUrl": "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
+      "slides": [
+        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
+        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (2).png",
+        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).mp4"
+      ],
+      "title": "Grandgroove Records",
+      "type": "Logo",
+      "description": "Logo para Grandgroove Records. Incluye versión animada.",
+      "tags": [
+        "Logo",
+        "Branding",
+        "Motion"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png",
+      "slides": [
+        "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png"
+      ],
+      "title": "Chica Lunar",
+      "type": "Logo",
+      "description": "Logo para Chica Lunar.",
+      "tags": [
+        "Logo",
+        "Branding"
+      ]
+    }
+  ],
+  "espacios": [
+    {
+      "portrait": true,
+      "imageUrl": "/images/espacios/plug/plug-1.png",
+      "slides": [
+        "/images/espacios/plug/plug-1.png",
+        "/images/espacios/plug/plug-2.png",
+        "/images/espacios/plug/plug-3.png",
+        "/images/espacios/plug/plug-4.png",
+        "/images/espacios/plug/plug-5.png",
+        "/images/espacios/plug/plug-6.png",
+        "/images/espacios/plug/plug-7.png",
+        "/images/espacios/plug/plug-8.png",
+        "/images/espacios/plug/plug-9.png"
+      ],
+      "title": "Plug",
+      "type": "3D / Arquitectura",
+      "description": "Visualización 3D de espacio para eventos.",
+      "tags": [
+        "Blender",
+        "Arquitectura",
+        "3D"
+      ]
+    },
+    {
+      "portrait": true,
+      "imageUrl": "/images/espacios/rec-underclub/rec-underclub-1.png",
+      "slides": [
+        "/images/espacios/rec-underclub/rec-underclub-1.png",
+        "/images/espacios/rec-underclub/rec-underclub-2.png",
+        "/images/espacios/rec-underclub/rec-underclub-4.png",
+        "/images/espacios/rec-underclub/rec-underclub-ojodepez.png",
+        "/images/espacios/rec-underclub/Underclub Rec Videos (1).mp4",
+        "/images/espacios/rec-underclub/Underclub Rec Videos (2).mp4",
+        "/images/espacios/rec-underclub/underclubprueba1.mp4",
+        "/images/espacios/underclub/underclub-1.mp4",
+        "/images/espacios/underclub/underclub-2.mp4",
+        "/images/espacios/underclub/underclub-3.mp4"
+      ],
+      "title": "REC Underclub",
+      "type": "3D / Arquitectura",
+      "description": "Renders y video del espacio REC Underclub.",
+      "tags": [
+        "Blender",
+        "Arquitectura",
+        "3D"
+      ]
+    },
+    {
+      "portrait": true,
+      "imageUrl": "/images/espacios/underberlin/underberlin_preview.png",
+      "slides": [
+        "/images/espacios/underberlin/underberlin_preview.png",
+        "/images/espacios/underberlin/underberlin-1.mp4",
+        "/images/espacios/underberlin/underberlin-2.mp4",
+        "/images/espacios/underberlin/underberlin-3.mp4"
+      ],
+      "title": "Underberlin",
+      "type": "3D / Motion",
+      "description": "Visualización de club underground estilo Berlin.",
+      "tags": [
+        "Blender",
+        "Motion",
+        "3D"
+      ]
+    }
+  ]
+}

@@ -13,6 +13,7 @@ export function useProjectDetails(content) {
         status: project.status,
         year: project.year,
         role: project.role,
+        scrollPreview: project.scrollPreview,
         previewUrl: project.previewUrl,
         thumbnail: project.imageUrl
           ? resolvePublicAsset(project.imageUrl)
