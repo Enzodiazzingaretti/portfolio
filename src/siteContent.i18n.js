@@ -342,27 +342,48 @@ export const siteContent = {
   locales: {
     es: {
       nav: [
-        { label: "Proyectos", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Arquitectura", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "Sobre mí", href: "#about" },
-        { label: "Contacto", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Gráfica", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / SOBRE MÍ", title: "SOBRE MÍ", subtitle: "3D, motion, branding, web y objetos físicos" },
-        webReleases: { index: "02 / WEB", title: "DESARROLLO WEB", subtitle: "Proyectos web: diseño, desarrollo y deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION DESIGN", subtitle: "Loops audio-reactivos y visuales en tiempo real" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animaciones y estudios en Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Piezas gráficas para eventos de música electrónica" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos e identidades para artistas y proyectos" },
-        espacios: { index: "07 / ARQUITECTURA", title: "ARQUITECTURA", subtitle: "Visualización arquitectónica en Blender" },
-        lab: { index: "08 / LAB", title: "LAB GENERATIVO", subtitle: "Cinco sistemas algorítmicos en vivo: semillas, ruido y emergencia a 145 BPM" },
-        contact: { index: "09 / CONTACTO", title: "CONTACTO", subtitle: "Disponible para proyectos freelance y colaboraciones" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Tiempo real",
+          subtitle: "Loops audio-reactivos, visuales en vivo y sistemas generativos.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reactivos y visuales en tiempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos dibujándose en vivo a 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Render",
+          subtitle: "Renders, animaciones, estudios de material y visualización de espacios.",
+          groups: {
+            blender: { title: "Renders & estudios", note: "Piezas y series hechas en Blender" },
+            arquitectura: { title: "Arquitectura", note: "Visualización de espacios y clubes" },
+          },
+        },
+        grafica: {
+          title: "GRÁFICA",
+          kicker: "Flyers / Identidad",
+          subtitle: "Piezas para eventos de electrónica e identidades para artistas y sellos.",
+          groups: {
+            flyers: { title: "Flyers", note: "Piezas gráficas para eventos" },
+            logos: { title: "Logos & branding", note: "Identidades para artistas y proyectos" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Diseño y desarrollo",
+          subtitle: "Diseño, desarrollo y deploy de proyectos web propios y por encargo.",
+          groups: {
+            proyectos: { title: "Proyectos", note: "Diseño, desarrollo y deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "Multitud de partículas rezando en un campo de ruido; la luz acumulada es la memoria de sus trayectorias." },
@@ -453,6 +474,9 @@ export const siteContent = {
         note: "Respondo en menos de 24 horas",
       },
       ui: {
+        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
+        worksLabel: "piezas",
+        workLabelSingular: "pieza",
         viewCase: "Ver caso",
         visitSite: "Abrir web",
         loopLabel: "Loop",
@@ -471,27 +495,48 @@ export const siteContent = {
     },
     en: {
       nav: [
-        { label: "Projects", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Architecture", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "About", href: "#about" },
-        { label: "Contact", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Graphics", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / ABOUT", title: "ABOUT", subtitle: "3D, motion, branding, web and physical objects" },
-        webReleases: { index: "02 / WEB", title: "WEB", subtitle: "Web projects: design, development and deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION", subtitle: "Audio-reactive loops and real-time visuals" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animations and studies in Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Graphic pieces for electronic music events" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos and identities for artists and projects" },
-        espacios: { index: "07 / ARCHITECTURE", title: "ARCHITECTURE", subtitle: "Architectural visualization in Blender" },
-        lab: { index: "08 / LAB", title: "GENERATIVE LAB", subtitle: "Five live algorithmic systems: seeds, noise and emergence at 145 BPM" },
-        contact: { index: "09 / CONTACT", title: "CONTACT", subtitle: "Available for freelance and collaborations" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Real-time",
+          subtitle: "Audio-reactive loops, live visuals and generative systems.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Audio-reactive loops and real-time visuals" },
+            lab: { title: "Generative lab", note: "Algorithmic systems drawing live at 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Rendering",
+          subtitle: "Renders, animations, material studies and space visualisation.",
+          groups: {
+            blender: { title: "Renders & studies", note: "Pieces and series made in Blender" },
+            arquitectura: { title: "Architecture", note: "Visualisation of spaces and clubs" },
+          },
+        },
+        grafica: {
+          title: "GRAPHICS",
+          kicker: "Flyers / Identity",
+          subtitle: "Pieces for electronic music events and identities for artists and labels.",
+          groups: {
+            flyers: { title: "Flyers", note: "Graphic pieces for events" },
+            logos: { title: "Logos & branding", note: "Identities for artists and projects" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Design and development",
+          subtitle: "Design, development and deployment of web projects.",
+          groups: {
+            proyectos: { title: "Projects", note: "Design, development and deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "A crowd of particles praying inside a noise field; accumulated light is the memory of their paths." },
@@ -582,6 +627,9 @@ export const siteContent = {
         note: "I reply within 24 hours",
       },
       ui: {
+        nav: { back: "Back", home: "Home", index: "Index", about: "About", contact: "Contact", enter: "Enter", close: "Close" },
+        worksLabel: "works",
+        workLabelSingular: "work",
         viewCase: "View Case",
         visitSite: "Visit Site",
         loopLabel: "Loop",
@@ -600,27 +648,48 @@ export const siteContent = {
     },
     pt: {
       nav: [
-        { label: "Projetos", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Arquitetura", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "Sobre", href: "#about" },
-        { label: "Contato", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Gráfica", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / SOBRE", title: "SOBRE", subtitle: "3D, motion, branding, web e objetos físicos" },
-        webReleases: { index: "02 / WEB", title: "WEB", subtitle: "Projetos web: design, desenvolvimento e deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION", subtitle: "Loops audio-reativos e visuais em tempo real" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animações e estudos em Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Peças gráficas para eventos de música eletrônica" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos e identidades para artistas e projetos" },
-        espacios: { index: "07 / ARQUITETURA", title: "ARQUITETURA", subtitle: "Visualização arquitetônica em Blender" },
-        lab: { index: "08 / LAB", title: "LAB GENERATIVO", subtitle: "Cinco sistemas algorítmicos ao vivo: sementes, ruído e emergência a 145 BPM" },
-        contact: { index: "09 / CONTATO", title: "CONTATO", subtitle: "Disponível para freelance e colaborações" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Tempo real",
+          subtitle: "Loops audio-reativos, visuais ao vivo e sistemas generativos.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reativos e visuais em tempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos desenhando ao vivo a 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Render",
+          subtitle: "Renders, animações, estudos de material e visualização de espaços.",
+          groups: {
+            blender: { title: "Renders & estudos", note: "Peças e séries feitas em Blender" },
+            arquitectura: { title: "Arquitetura", note: "Visualização de espaços e clubes" },
+          },
+        },
+        grafica: {
+          title: "GRÁFICA",
+          kicker: "Flyers / Identidade",
+          subtitle: "Peças para eventos de eletrônica e identidades para artistas e selos.",
+          groups: {
+            flyers: { title: "Flyers", note: "Peças gráficas para eventos" },
+            logos: { title: "Logos & branding", note: "Identidades para artistas e projetos" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Design e desenvolvimento",
+          subtitle: "Design, desenvolvimento e deploy de projetos web.",
+          groups: {
+            proyectos: { title: "Projetos", note: "Design, desenvolvimento e deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "Multidão de partículas rezando num campo de ruído; a luz acumulada é a memória das suas trajetórias." },
@@ -711,6 +780,9 @@ export const siteContent = {
         note: "Respondo em menos de 24 horas",
       },
       ui: {
+        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", contact: "Contato", enter: "Entrar", close: "Fechar" },
+        worksLabel: "peças",
+        workLabelSingular: "peça",
         viewCase: "Ver caso",
         visitSite: "Abrir site",
         loopLabel: "Loop",

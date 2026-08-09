@@ -29,7 +29,9 @@ function LazyVideo({ src, className, controls }) {
       muted
       loop
       playsInline
-      preload="none"
+      // metadata y no none: sin esto el primer frame no se decodifica y la
+      // portada queda en negro hasta que el video entra en viewport
+      preload="metadata"
       controls={controls}
     />
   );

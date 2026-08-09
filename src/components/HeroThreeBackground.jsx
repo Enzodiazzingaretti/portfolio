@@ -292,15 +292,27 @@ function createSceneObject(sceneType, compact) {
   return createParticleField();
 }
 
-export default function HeroThreeBackground({ variant, staticMode = false, revealActive = true, instantReveal = false }) {
+export default function HeroThreeBackground({
+  variant,
+  staticMode = false,
+  revealActive = true,
+  instantReveal = false,
+  paused = false,
+}) {
   const mountRef = useRef(null);
   const rendererRef = useRef(null);
   const contextLossTimerRef = useRef(null);
   const revealActiveRef = useRef(revealActive);
+  // Ref y no dep: pausar no debe reconstruir la escena ni perder el contexto WebGL
+  const pausedRef = useRef(paused);
 
   useEffect(() => {
     revealActiveRef.current = revealActive;
   }, [revealActive]);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     if (contextLossTimerRef.current) {
@@ -390,6 +402,9 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       rafId = requestAnimationFrame(tick);
       // Fuera de viewport no gastamos GPU: el orbe solo vive en el hero
       if (!heroVisible) return;
+      // En rutas de categoría el fondo queda congelado: cero GPU mientras se
+      // scrollean decenas de videos, pero sin destruir el contexto WebGL
+      if (pausedRef.current) return;
       if (frameInterval && timestamp - lastFrame < frameInterval) return;
       const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.05) : 1 / 60;
       lastFrame = timestamp;
