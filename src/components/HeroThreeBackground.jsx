@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { createAsciiPass } from "./AsciiPass";
 
 const STATIC_FRAME_TIME = 18;
+
+// Ganancia del pase ASCII por escena
+const ASCII_GAIN = { sculpture: 2.0, particles: 3.1, organic: 2.4 };
 const RED = 0xb11212;
 const RED_DEEP = 0x5b0000;
-const RED_HOT = 0xff2a2a;
 
 function disposeObject(object) {
   object.traverse((child) => {
@@ -16,48 +19,133 @@ function disposeObject(object) {
   });
 }
 
-function createParticleField() {
-  const count = 560;
+/**
+ * Enjambre reactivo al cursor.
+ *
+ * Todo el movimiento vive en el vertex shader: orbita, respiracion y la
+ * reaccion al mouse se calculan por particula en GPU. Los 560 puntos que
+ * se movian con un for por frame pasaron a ser miles sin coste de CPU.
+ */
+function createParticleSwarm(compact) {
+  const count = compact ? 6000 : 16000;
   const positions = new Float32Array(count * 3);
   const seeds = new Float32Array(count);
+  const speeds = new Float32Array(count);
+  const scales = new Float32Array(count);
 
   for (let i = 0; i < count; i += 1) {
-    const radius = 0.7 + Math.random() * 2.2;
-    const angle = Math.random() * Math.PI * 2;
-    positions[i * 3] = Math.cos(angle) * radius;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 2.3;
-    positions[i * 3 + 2] = -Math.random() * 8.5;
+    // Cascaron esferico achatado, mas denso hacia el centro
+    const radius = 0.32 + Math.pow(Math.random(), 0.62) * 1.42;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const sinPhi = Math.sin(phi);
+
+    positions[i * 3] = radius * sinPhi * Math.cos(theta);
+    positions[i * 3 + 1] = radius * Math.cos(phi) * 0.66;
+    positions[i * 3 + 2] = radius * sinPhi * Math.sin(theta);
+
     seeds[i] = Math.random() * Math.PI * 2;
+    speeds[i] = 0.6 + Math.random() * 0.9;
+    scales[i] = 0.55 + Math.pow(Math.random(), 2.2) * 1.9;
   }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  const material = new THREE.PointsMaterial({
-    color: RED_HOT,
-    size: 0.042,
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+  geometry.setAttribute("aSpeed", new THREE.BufferAttribute(speeds, 1));
+  geometry.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(999, 999) },
+      uReveal: { value: 1 },
+      uPulse: { value: 0 },
+      uSize: { value: compact ? 4.2 : 5.4 },
+      // Mismo tope que usa el renderer, para que el punto mida igual en px
+      uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, compact ? 1 : 2) },
+      uCold: { value: new THREE.Color(0x7a1414) },
+      uHot: { value: new THREE.Color(0xff5a3c) },
+    },
+    vertexShader: `
+      uniform float uTime;
+      uniform vec2 uMouse;
+      uniform float uPulse;
+      uniform float uSize;
+      uniform float uPixelRatio;
+
+      attribute float aSeed;
+      attribute float aSpeed;
+      attribute float aScale;
+
+      varying float vGlow;
+
+      void main() {
+        vec3 p = position;
+
+        // Orbita lenta alrededor del eje Y, cada particula a su ritmo
+        float ang = uTime * aSpeed * 0.15 + aSeed;
+        float c = cos(ang);
+        float s = sin(ang);
+        p.xz = mat2(c, -s, s, c) * p.xz;
+
+        // Respiracion vertical desfasada
+        p.y += sin(uTime * 0.5 + aSeed * 2.0) * 0.07;
+
+        // Reaccion al cursor: aparta radialmente y enrosca en tangente.
+        // La gaussiana da un radio de influencia suave, sin borde duro.
+        vec2 d = p.xy - uMouse;
+        float dist = length(d) + 0.0001;
+        float influence = exp(-dist * dist * 0.5);
+        vec2 dir = d / dist;
+        vec2 tangent = vec2(-dir.y, dir.x);
+        p.xy += dir * influence * 2.15;
+        p.xy += tangent * influence * 1.35;
+
+        vGlow = influence;
+
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_Position = projectionMatrix * mv;
+        gl_PointSize = uSize * aScale * uPixelRatio * (1.0 + uPulse * 0.3 + influence * 2.2) * (3.4 / -mv.z);
+      }
+    `,
+    fragmentShader: `
+      uniform float uReveal;
+      uniform vec3 uCold;
+      uniform vec3 uHot;
+      varying float vGlow;
+
+      void main() {
+        vec2 uv = gl_PointCoord - 0.5;
+        float d = length(uv);
+        if (d > 0.5) discard;
+        float alpha = smoothstep(0.5, 0.05, d);
+        vec3 col = mix(uCold, uHot, clamp(vGlow * 1.7, 0.0, 1.0));
+        gl_FragColor = vec4(col * (1.0 + vGlow * 3.4), alpha * uReveal);
+      }
+    `,
     transparent: true,
-    opacity: 0.82,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
+
   const points = new THREE.Points(geometry, material);
+  const mouseLocal = new THREE.Vector2(999, 999);
 
   return {
     object: points,
-    animate: ({ time, mouse, reveal, dt = 1 / 60 }) => {
-      const f = dt * 60;
-      const position = geometry.attributes.position;
-      const array = position.array;
-      for (let i = 0; i < count; i += 1) {
-        const idx = i * 3;
-        array[idx] += (Math.sin(time * 0.35 + seeds[i]) * 0.0008 + mouse.x * 0.0009) * f;
-        array[idx + 1] += (Math.cos(time * 0.32 + seeds[i]) * 0.0007 + mouse.y * 0.0008) * f;
-        array[idx + 2] += (0.012 + Math.sin(time + seeds[i]) * 0.0015) * f;
-        if (array[idx + 2] > 1.5) array[idx + 2] = -8.5;
-      }
-      position.needsUpdate = true;
-      points.rotation.z = time * 0.018;
-      material.opacity = 0.82 * reveal;
+    animate: ({ time, mouse, reveal, pulse }) => {
+      // El cursor llega normalizado (-0.5..0.5); se lleva al espacio local
+      // del objeto, que esta desplazado y escalado por el llamador.
+      const scale = points.scale.x || 1;
+      mouseLocal.set(
+        (mouse.x * 5.8 - points.position.x) / scale,
+        (mouse.y * 3.6 - points.position.y) / scale,
+      );
+      material.uniforms.uMouse.value.copy(mouseLocal);
+      material.uniforms.uTime.value = time;
+      material.uniforms.uReveal.value = reveal;
+      material.uniforms.uPulse.value = pulse;
     },
   };
 }
@@ -289,7 +377,7 @@ function createLivingSculpture(compact) {
 function createSceneObject(sceneType, compact) {
   if (sceneType === "organic") return createOrganic();
   if (sceneType === "sculpture") return createLivingSculpture(compact);
-  return createParticleField();
+  return createParticleSwarm(compact);
 }
 
 export default function HeroThreeBackground({
@@ -345,7 +433,7 @@ export default function HeroThreeBackground({
       new THREE.MeshBasicMaterial({
         color: RED_DEEP,
         transparent: true,
-        opacity: 0.13,
+        opacity: 0.075,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -358,6 +446,12 @@ export default function HeroThreeBackground({
     sceneObject.object.position.set(compact ? 0.66 : 1.35, compact ? 0.28 : -0.04, 0);
     sceneObject.object.scale.setScalar(compact ? 1.48 : 1.46);
     scene.add(sceneObject.object);
+
+    // Celda mas grande en mobile: menos caracteres, pero legibles
+    const ascii = createAsciiPass(renderer, compact ? 9 : 11);
+    ascii.setGain(ASCII_GAIN[variant.scene] ?? 2.2);
+    // Handle de calibracion en dev: window.__ascii.ascii.setGain(2.5) etc.
+    if (import.meta.env.DEV) window.__ascii = { ascii, renderer, scene, camera };
 
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
     let rafId = 0;
@@ -379,6 +473,7 @@ export default function HeroThreeBackground({
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      ascii.setSize(width, height);
     };
 
     const render = (time, reveal = 1, dt = 1 / 60) => {
@@ -392,7 +487,15 @@ export default function HeroThreeBackground({
       camera.lookAt(0, 0, -2.5);
       const pulse = Math.pow(Math.max(Math.sin(time * BEAT_HZ * Math.PI * 2), 0), 4);
       sceneObject.animate({ time, mouse, reveal, scroll: heroScroll, pulse, dt });
+
+      // Escena al target y despues el quad ASCII a pantalla. El reveal se
+      // aplica en el pase y no en cada material, asi la entrada es una sola.
+      renderer.setRenderTarget(ascii.target);
+      renderer.clear();
       renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+      ascii.setReveal(reveal);
+      ascii.render();
     };
 
     let revealStart = null;
@@ -454,6 +557,7 @@ export default function HeroThreeBackground({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointerMove);
       disposeObject(scene);
+      ascii.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
       contextLossTimerRef.current = setTimeout(() => {

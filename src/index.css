@@ -1575,3 +1575,21 @@ button:focus-visible {
   text-transform: uppercase;
   color: rgba(255,255,255,0.62);
 }
+
+/* Scrim local bajo el bloque de texto del hero: con el campo ASCII detras,
+   el parrafo perdia contraste justo donde vive la escena. */
+.home-hero-side { position: relative; }
+
+.home-hero-side::before {
+  content: "";
+  position: absolute;
+  inset: -1.75rem -2rem -1.75rem -2.5rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 55% 50%,
+    rgba(5, 5, 5, 0.94) 0%,
+    rgba(5, 5, 5, 0.78) 48%,
+    rgba(5, 5, 5, 0) 82%
+  );
+}
