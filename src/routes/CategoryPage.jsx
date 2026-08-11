@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, Suspense, lazy } from "react";
-import { Link, Navigate, useOutletContext, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import MediaAsset from "../components/MediaAsset";
 import SelectedWorkCard from "../components/SelectedWorkCard";
 import DetailModal from "../components/DetailModal";
+import NotFound from "./NotFound";
 
 const LabGrid = lazy(() => import("../components/LabGrid"));
 
@@ -112,10 +113,13 @@ export default function CategoryPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [viewer]);
 
-  if (!category) return <Navigate to="/" replace />;
+  // Slug inventado: 404 de verdad, no un desvio silencioso al home
+  if (!category) return <NotFound />;
 
   const navLabels = content.ui.nav;
-  const open = (items, index) => setViewer({ items, index, slideIndex: 0 });
+  // sectionLabel alimenta el rotulo del modal, al lado del punto rojo. Sin el
+  // el punto quedaba solo, sin texto.
+  const open = (items, index, sectionLabel) => setViewer({ items, index, slideIndex: 0, sectionLabel });
 
   return (
     <div className="cat-page">
@@ -132,7 +136,7 @@ export default function CategoryPage() {
         <div className="cat-header-meta">
           <p className="font-mono text-label uppercase tracking-[0.32em] text-raveRedBright">{category.kicker}</p>
           <p className="cat-header-sub">{category.subtitle}</p>
-          <p className="font-mono text-label uppercase tracking-[0.3em] text-white/30">
+          <p className="font-mono text-label uppercase tracking-[0.3em] text-white/52">
             {String(category.count).padStart(2, "0")} {content.ui.worksLabel}
           </p>
         </div>
@@ -156,11 +160,11 @@ export default function CategoryPage() {
             <div className="loop-grid">
               {group.items.map((item, index) => (
                 <VideoTile
-                  key={item.title}
+                  key={`${item.title}-${index}`}
                   item={item}
                   index={index}
                   label={content.ui.loopLabel}
-                  onOpen={() => open(group.items, index)}
+                  onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}
             </div>
@@ -168,18 +172,22 @@ export default function CategoryPage() {
             <div className="wide-grid">
               {group.items.map((item, index) => (
                 <SelectedWorkCard
-                  key={item.title}
+                  key={`${item.title}-${index}`}
                   project={item}
                   index={index}
                   labels={content.ui}
-                  onOpen={() => open(group.items, index)}
+                  onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}
             </div>
           ) : (
             <div className="work-grid">
               {group.items.map((item, index) => (
-                <WorkTile key={item.title} item={item} onOpen={() => open(group.items, index)} />
+                <WorkTile
+                  key={`${item.title}-${index}`}
+                  item={item}
+                  onOpen={() => open(group.items, index, group.title ?? category.title)}
+                />
               ))}
             </div>
           )}

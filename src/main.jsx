@@ -1,9 +1,10 @@
 import { StrictMode, lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Shell from "./layout/Shell.jsx";
 import Home from "./routes/Home.jsx";
 import CategoryPage from "./routes/CategoryPage.jsx";
+import NotFound from "./routes/NotFound.jsx";
 import "./index.css";
 
 // El admin es otra app: fuera del bundle del portfolio
@@ -21,11 +22,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </Suspense>
           }
         />
+        {/* El 404 vive adentro del Shell: conserva barra, fondo y paneles en
+            vez de escupir al visitante al home sin explicacion. */}
         <Route element={<Shell />}>
           <Route index element={<Home />} />
           <Route path="/:slug" element={<CategoryPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
