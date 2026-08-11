@@ -52,7 +52,7 @@ export default function Home() {
             {navLabels.index}
           </span>
           <span className="home-index-rule" aria-hidden="true" />
-          <span className="font-mono text-label uppercase tracking-[0.3em] text-white/30">
+          <span className="font-mono text-label uppercase tracking-[0.3em] text-white/52">
             {String(categories.length).padStart(2, "0")}
           </span>
         </div>

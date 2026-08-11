@@ -310,20 +310,167 @@ button:focus-visible {
   to   { opacity: 1; transform: none; }
 }
 
+/* ── Modal de obra: vidrio, no bloque ──────────────────────────────
+   El modal era negro sólido de borde a borde: entraba como un corte seco y
+   la página desaparecía. Ahora el fondo se difumina detrás y el panel es una
+   lámina translúcida, así se mantiene la sensación de estar sobre la obra y
+   no en otra pantalla. */
+.modal-scrim {
+  background: rgba(5, 5, 5, 0.62);
+  backdrop-filter: blur(22px) saturate(115%);
+  -webkit-backdrop-filter: blur(22px) saturate(115%);
+  animation: scrimIn 220ms var(--ease-out) both;
+}
+
 .modal-cinematic {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(14, 14, 16, 0.55);
+  backdrop-filter: blur(30px) saturate(135%);
+  -webkit-backdrop-filter: blur(30px) saturate(135%);
+  box-shadow:
+    0 40px 120px -40px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
   animation: modalIn 280ms var(--ease-out) both;
 }
 
+/* Filo de luz arriba: es lo que hace que se lea como vidrio y no como una
+   caja gris translúcida */
+.modal-cinematic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0) 38%
+  );
+  z-index: 3;
+}
+
+/* La media va sobre un fondo casi negro para no ensuciar el color de la obra,
+   pero translúcido para que el blur del panel siga leyéndose en los márgenes
+   de las piezas verticales. */
+.modal-media {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 17px 0 0 17px;
+}
+
+.modal-aside {
+  background: rgba(10, 10, 12, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0 17px 17px 0;
+}
+
+/* Controles: pastillas de vidrio en vez de cuadrados opacos */
+.modal-ctrl {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px;
+  transition: background var(--base) var(--ease-out), border-color var(--base) var(--ease-out), color var(--base) var(--ease-out);
+}
+
+.modal-ctrl:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+/* En mobile el visor es a pantalla completa, así que el vidrio va en las
+   franjas de chrome y en la hoja de info, no en un marco. */
+.modal-sheet {
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 767px) {
+  .modal-media { border-radius: 0; background: rgba(0, 0, 0, 0.45); }
+}
+
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.97); }
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-cinematic, .modal-scrim { animation-duration: 1ms; }
+}
+
+/* ── 404 ───────────────────────────────────────────────────────── */
+.notfound {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.1rem;
+  min-height: 70vh;
+  justify-content: center;
+  /* La barra es fixed: sin este colchon el titular le queda debajo */
+  padding: 8rem var(--page-px) 6rem;
+}
+
+.notfound-code {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--accent-hover);
+}
+
+.notfound-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.notfound-text {
+  max-width: 42ch;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.notfound-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.notfound-link {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  transition: color var(--base) var(--ease-out);
+}
+
+.notfound-link:hover { color: #fff; }
 
 /* ─────────────────────────────────────────
    CUSTOM CURSOR
 ───────────────────────────────────────── */
+/* La regla cuelga de .has-custom-cursor, clase que pone y saca el propio
+   componente CustomCursor. Antes escondia el cursor del sistema en todo el
+   documento, pero CustomCursor vive dentro del Shell y /admin se monta fuera:
+   el panel se manejaba literalmente sin cursor. Atado al componente, si el
+   punto no esta dibujado el cursor nativo vuelve solo. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  *, *::before, *::after { cursor: none !important; }
+  .has-custom-cursor,
+  .has-custom-cursor *,
+  .has-custom-cursor *::before,
+  .has-custom-cursor *::after { cursor: none !important; }
 
   .cursor-dot {
     position: fixed;
@@ -669,11 +816,13 @@ button:focus-visible {
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* En el home la barra se disuelve: el hero manda. Solo en desktop, donde
-   hay aire de sobra; en mobile la barra pisaria el texto del hero. */
+/* En el home la barra casi se disuelve: el hero manda. Queda un velo minimo
+   porque el enjambre y el filtro ASCII llegan hasta arriba y sin nada debajo
+   la nav se pierde entre los caracteres. Solo en desktop; en mobile la barra
+   pisaria el texto del hero y conserva el fondo completo. */
 @media (min-width: 768px) {
   .shell-bar--home {
-    background: none;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.62), rgba(5,5,5,0));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -715,6 +864,40 @@ button:focus-visible {
 
 @media (min-width: 768px) {
   .shell-nav { display: flex; }
+}
+
+/* En mobile la nav de categorias era display:none y no habia manera de saltar
+   de una categoria a otra: habia que volver al home o bajar hasta el pager del
+   final. Ahora baja a una segunda fila de la barra, pero solo fuera del home
+   —ahi el indice esta a un scroll y una fila extra le comeria aire al hero—. */
+@media (max-width: 767px) {
+  .shell-bar:not(.shell-bar--home) {
+    flex-wrap: wrap;
+    row-gap: 0.15rem;
+    column-gap: 1rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin-inline: 0;
+    gap: 1.35rem;
+    /* Con 4 categorias entra justo; si se agregan mas, se desliza */
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav::-webkit-scrollbar { display: none; }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav .shell-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    letter-spacing: 0.2em;
+  }
 }
 
 .shell-actions {
@@ -801,6 +984,11 @@ button:focus-visible {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.5);
+  /* Esta linea cae del lado derecho, que es justo donde el campo ASCII es
+     mas denso. La mascara del shader no llega hasta aca sin abrir un hueco
+     horizontal en el medio del hero, asi que la legibilidad se resuelve con
+     un halo oscuro pegado al texto. */
+  text-shadow: 0 0 3px rgba(5,5,5,0.95), 0 0 10px rgba(5,5,5,0.9);
 }
 
 .home-status-dot {
@@ -873,7 +1061,7 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.32);
+  color: rgba(255,255,255,0.48);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -958,7 +1146,7 @@ button:focus-visible {
 .cat-row-num {
   font-size: 10px;
   letter-spacing: 0.28em;
-  color: rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.46);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -987,7 +1175,7 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.34);
+  color: rgba(255,255,255,0.48);
 }
 
 /* Avance de la obra: solo desktop, aparece en hover */
@@ -1029,14 +1217,14 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.48);
   white-space: nowrap;
 }
 
 .cat-row-arrow {
   display: inline-block;
   font-size: 14px;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.47);
   transition: transform var(--base) var(--ease-out), color var(--base) var(--ease-out);
 }
 
@@ -1055,7 +1243,7 @@ button:focus-visible {
   font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.5);
   border-bottom: 1px solid transparent;
   padding-bottom: 3px;
   transition: color var(--base) var(--ease-out), border-color var(--base) var(--ease-out);
@@ -1490,7 +1678,7 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.42);
+  color: rgba(255,255,255,0.52);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -1558,7 +1746,7 @@ button:focus-visible {
   grid-row: 1 / 3;
   grid-column: 2;
   align-self: center;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.45);
   transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);
 }
 

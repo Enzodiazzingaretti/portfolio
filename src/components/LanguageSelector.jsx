@@ -11,7 +11,7 @@ export default function LanguageSelector({ languages, currentLanguage, onChange 
           className={`min-h-[32px] min-w-[32px] px-2 py-1 font-mono text-label uppercase tracking-[0.2em] transition ${
             currentLanguage === language.code
               ? "bg-raveRed/20 text-white"
-              : "text-white/30 hover:text-white"
+              : "text-white/52 hover:text-white"
           }`}
         >
           {language.label}

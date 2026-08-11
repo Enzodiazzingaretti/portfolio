@@ -321,7 +321,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
                 ♦ BPM: {BPM}
               </span>
             )}
-            <button onClick={handleClose} className="font-mono text-label text-white/30 transition hover:text-white/80">
+            <button onClick={handleClose} className="font-mono text-label text-white/52 transition hover:text-white/80">
               [ESC] CLOSE
             </button>
           </div>
@@ -334,10 +334,10 @@ export default function KonsoleEasterEgg({ onGlitch }) {
             return (
               <p key={i} className={
                 line.startsWith(">") ? "text-white/90" :
-                line.startsWith("——") ? "text-white/10" :
+                line.startsWith("——") ? "text-white/46" :
                 line.startsWith("WARNING") || line.startsWith("[!]") ? "text-raveRed/80" :
                 line.includes(":") && !line.startsWith(" ") && !line.startsWith("TYPE") ? "text-white/60" :
-                "text-white/40"
+                "text-white/60"
               }>{line}</p>
             );
           })}
@@ -346,7 +346,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
           {isPlaying && eqRow && (
             <div className="mt-2">
               <p className="text-raveRed/60 tracking-widest text-caption">{eqRow}</p>
-              <p className="text-white/20 text-micro mt-1 tracking-[0.3em]">
+              <p className="text-white/46 text-micro mt-1 tracking-[0.3em]">
                 STREAM ACTIVE — UNDERGROUND_MESH — {BPM} BPM
               </p>
             </div>
@@ -366,7 +366,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
                 key={c}
                 type="button"
                 onClick={() => { runCommand(c); inputRef.current?.focus(); }}
-                className="font-mono text-micro uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/30 transition hover:border-raveRed/50 hover:text-white/70"
+                className="font-mono text-micro uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/52 transition hover:border-raveRed/50 hover:text-white/70"
               >
                 {c}
               </button>
@@ -385,7 +385,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/20 uppercase tracking-[0.1em]"
+              className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/46 uppercase tracking-[0.1em]"
               placeholder="type a command..."
               autoComplete="off"
               spellCheck="false"

@@ -90,7 +90,7 @@ export default function InfoPanel({ open, kind, content, labels, onClose }) {
                     rel={key === "email" ? undefined : "noreferrer"}
                     className="info-contact-link"
                   >
-                    <span className="font-mono text-label uppercase tracking-[0.3em] text-white/40">
+                    <span className="font-mono text-label uppercase tracking-[0.3em] text-white/60">
                       {labels.contactLabels?.[key] ?? key}
                     </span>
                     <span className="info-contact-value font-display">
@@ -106,7 +106,7 @@ export default function InfoPanel({ open, kind, content, labels, onClose }) {
 
             {contact.availableFor?.length ? (
               <div className="mt-12">
-                <p className="font-mono text-label uppercase tracking-[0.32em] text-white/35">
+                <p className="font-mono text-label uppercase tracking-[0.32em] text-white/56">
                   {contact.availableForLabel}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Enzo Diaz Zingaretti — Artista 3D, Motion Designer y Creador Visual. Portfolio de proyectos 3D, motion graphics, diseño visual y desarrollo web." />
     <title>Enzo Diaz Zingaretti | Portfolio</title>
+    <link rel="canonical" href="https://portfolio-kexxy.vercel.app/" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="author" content="Enzo Diaz Zingaretti" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050505'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='900' font-size='18' fill='%238B0000'>E</text></svg>" />
@@ -14,20 +17,56 @@
     <meta property="og:url" content="https://portfolio-kexxy.vercel.app/" />
     <meta property="og:title" content="Enzo Diaz Zingaretti | Portfolio" />
     <meta property="og:description" content="Artista 3D, Motion Designer y Creador Visual. Proyectos 3D, motion graphics, diseño visual y desarrollo web." />
-    <meta property="og:image" content="https://portfolio-kexxy.vercel.app/images/portadas/PORTADA_1.webp" />
+    <!-- og-card.jpg es 1200x630 de verdad. Antes apuntaba a PORTADA_1.webp,
+         que es 1024x1024: la tarjeta salia recortada porque las plataformas
+         maquetan con el tamano declarado. JPEG y no WebP porque varios
+         scrapers todavia no lo resuelven. -->
+    <meta property="og:image" content="https://portfolio-kexxy.vercel.app/images/portadas/og-card.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portfolio de Enzo Diaz Zingaretti" />
     <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="pt_BR" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://portfolio-kexxy.vercel.app/images/portadas/PORTADA_1.webp" />
+    <meta name="twitter:image" content="https://portfolio-kexxy.vercel.app/images/portadas/og-card.jpg" />
     <meta name="twitter:title" content="Enzo Diaz Zingaretti | Portfolio" />
     <meta name="twitter:description" content="Artista 3D, Motion Designer y Creador Visual." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    <!-- La hoja de Google Fonts bloqueaba el render. Se carga como `print` y
+         se promueve a `all` al terminar: el primer pintado no la espera y
+         `display=swap` evita el texto invisible mientras tanto. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!-- El sitio es una SPA: el crawler ve el #root vacio. Esto es lo unico
+         que puede leer sin ejecutar JS. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Enzo Diaz Zingaretti",
+        "alternateName": "Kexxy",
+        "url": "https://portfolio-kexxy.vercel.app/",
+        "image": "https://portfolio-kexxy.vercel.app/images/portadas/og-card.jpg",
+        "jobTitle": "Artista 3D, Motion Designer y Creador Visual",
+        "address": { "@type": "PostalAddress", "addressCountry": "AR" },
+        "knowsAbout": ["Blender", "TouchDesigner", "Motion design", "Diseño gráfico", "Desarrollo web"],
+        "sameAs": ["https://instagram.com/kexxy.obj", "https://presskit-digital.vercel.app/"]
+      }
+    </script>
   </head>
   <body class="bg-black">
     <div id="root"></div>

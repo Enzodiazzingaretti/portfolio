@@ -110,7 +110,7 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
         <div className="mt-5 h-4 overflow-hidden">
           <p
             key={lineIndex}
-            className="font-mono text-label uppercase tracking-[0.28em] text-white/25 animate-[fadeSlideUp_120ms_ease_both]"
+            className="font-mono text-label uppercase tracking-[0.28em] text-white/48 animate-[fadeSlideUp_120ms_ease_both]"
           >
             {LINES[lineIndex]}
           </p>
