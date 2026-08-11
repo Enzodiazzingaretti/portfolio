@@ -1,6 +1,5 @@
 {
   "hero": {
-    "tagline": "3D / Motion / Branding / Web",
     "title": "ENZO DIAZ ZINGARETTI",
     "description": "Trabajo en Blender, TouchDesigner, React y con materiales. Basado en Argentina, disponible internacionalmente.",
     "location": "Argentina",
@@ -107,7 +106,7 @@
   ],
   "touchDesignerLoops": [
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/feedback-ritual.mp4",
       "slides": [
         "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
         "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
@@ -119,7 +118,7 @@
       "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/pulse-vandal.mp4",
       "slides": [
         "/images/touchdesigner/pulse-vandal/visuales1.mp4"
       ],
@@ -127,7 +126,7 @@
       "notes": "Geometrías con bloom, estrobos y ruido procedural."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/ghost-tunnel.mp4",
       "slides": [
         "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4"
       ],
@@ -135,7 +134,7 @@
       "notes": "Túnel de texturas industriales con deformación en tiempo real."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/static-veil.mp4",
       "slides": [
         "/images/touchdesigner/static-veil/humo.mp4",
         "/images/touchdesigner/static-veil/humo mod.mp4"
@@ -144,7 +143,7 @@
       "notes": "Ruido y feedback reactivos al volumen."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/iron-lattice.mp4",
       "slides": [
         "/images/touchdesigner/iron-lattice/visuales4.mp4"
       ],
@@ -152,7 +151,7 @@
       "notes": "Estructuras modulares generadas por audio mid-side."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/eyes.mp4",
       "slides": [
         "/images/touchdesigner/Eyes/Ojos Visuales.mp4"
       ],
@@ -160,7 +159,7 @@
       "notes": "Loop de ojos. Movimiento procedural en tiempo real."
     },
     {
-      "thumbnail": null,
+      "thumbnail": "/images/loops/biology.mp4",
       "slides": [
         "/images/touchdesigner/biology/biology1.mp4",
         "/images/touchdesigner/biology/biology2.mp4",
@@ -225,7 +224,8 @@
         "/images/blender/calvaria-glass/calvarian_glass4.webp"
       ],
       "title": "Calvaria Glass",
-      "description": "Cráneo en vidrio. Estudio de refracción y render."
+      "description": "Cráneo en vidrio. Estudio de refracción y render.",
+      "thumbnail": "/images/loops/calvaria-glass.mp4"
     },
     {
       "slides": [
@@ -263,7 +263,8 @@
         "/images/blender/240KM-H/semaforo-3.png"
       ],
       "title": "240 KM/H",
-      "description": "Render de semáforo. Pieza para evento de hardgroove."
+      "description": "Render de semáforo. Pieza para evento de hardgroove.",
+      "thumbnail": "/images/loops/240kmh.mp4"
     },
     {
       "slides": [
@@ -282,7 +283,8 @@
         "/images/blender/cristales/cristales-2.png"
       ],
       "title": "Cristales",
-      "description": "Geometría cristalina con refracción en Blender Cycles."
+      "description": "Geometría cristalina con refracción en Blender Cycles.",
+      "thumbnail": "/images/loops/cristales.mp4"
     },
     {
       "portrait": true,

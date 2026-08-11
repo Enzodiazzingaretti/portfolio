@@ -3,6 +3,14 @@ import { useEffect, useRef } from "react";
 export default function CustomCursor() {
   const dot = useRef(null);
 
+  // La clase que esconde el cursor del sistema la pone el componente que
+  // dibuja el reemplazo, no la hoja global: asi las rutas que no montan el
+  // Shell (/admin) conservan el cursor nativo en vez de quedarse sin ninguno.
+  useEffect(() => {
+    document.documentElement.classList.add("has-custom-cursor");
+    return () => document.documentElement.classList.remove("has-custom-cursor");
+  }, []);
+
   useEffect(() => {
     const el = dot.current;
     if (!el) return;

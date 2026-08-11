@@ -18,7 +18,7 @@ export default function BrowserFrame({ src, title, scrollPreview = false }) {
         <span className="h-2 w-2 rounded-full bg-raveRed/70" />
         <span className="h-2 w-2 rounded-full bg-white/20" />
         <span className="h-2 w-2 rounded-full bg-white/10" />
-        <span className="ml-3 truncate font-mono text-label uppercase tracking-[0.2em] text-white/25">{title}</span>
+        <span className="ml-3 truncate font-mono text-label uppercase tracking-[0.2em] text-white/48">{title}</span>
       </div>
       <div className="aspect-video overflow-hidden bg-black">
         <MediaAsset src={src} alt={title} className={mediaClass} />

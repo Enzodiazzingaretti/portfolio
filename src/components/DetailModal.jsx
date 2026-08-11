@@ -1,5 +1,26 @@
 import { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import MediaAsset from "./MediaAsset";
+
+/**
+ * El modal tiene dos layouts muy distintos y antes los renderizaba a los dos,
+ * escondiendo uno con `md:hidden`. Como cada uno monta su propio <video>, cada
+ * pieza abierta descargaba y decodificaba el media dos veces —verificado: dos
+ * elementos con readyState 4 del mismo archivo—. Elegir el arbol en JS deja uno
+ * solo. El breakpoint es el mismo `md` de Tailwind.
+ */
+function useEsDesktop() {
+  const [esDesktop, setEsDesktop] = useState(() =>
+    typeof window === "undefined" ? true : window.matchMedia("(min-width: 768px)").matches,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setEsDesktop(mq.matches);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return esDesktop;
+}
 
 /**
  * DetailModal - Modal de detalle con navegación de slides
@@ -10,6 +31,7 @@ import MediaAsset from "./MediaAsset";
  * @param {Object} [props.labels] - Labels traducidos para el UI
  */
 export default function DetailModal({ viewer, setViewer, onClose, labels }) {
+  const esDesktop = useEsDesktop();
   const [infoOpen, setInfoOpen] = useState(false);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
@@ -144,7 +166,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <span className="font-mono text-caption uppercase tracking-[0.2em] text-white/20">{item.title}</span>
+          <span className="font-mono text-caption uppercase tracking-[0.2em] text-white/46">{item.title}</span>
         </div>
       )}
 
@@ -163,7 +185,15 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     </>
   );
 
-  return (
+  // Portal a <body>: el modal vive dentro de .cat-page, que tiene animacion de
+  // entrada y z-index propio. Eso hacia dos cosas: el transform retenido de la
+  // animacion convertia a .cat-page en bloque contenedor y el `fixed` del
+  // modal se resolvia contra la pagina entera (1871px de alto en vez del
+  // viewport, con el contenido centrado fuera de pantalla), y su contexto de
+  // apilado dejaba al modal por debajo de la barra pase lo que pase con el
+  // z-index. Colgando de <body> las dos desaparecen, y queda inmune a
+  // cualquier transform que se agregue mas adelante.
+  return createPortal(
     <div
       ref={dialogRef}
       role="dialog"
@@ -171,34 +201,35 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
       aria-label={item.title}
       tabIndex={-1}
       onKeyDown={handleTrapKeyDown}
-      className="fixed inset-0 z-[120] bg-black outline-none"
+      className="modal-scrim fixed inset-0 z-[120] outline-none"
       onClick={onClose}
     >
 
       {/* ══════════════════════════════════════
           MOBILE — fullscreen cinematic viewer
       ══════════════════════════════════════ */}
+      {!esDesktop && (
       <div
-        className="flex h-full flex-col md:hidden"
+        className="flex h-full flex-col"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {/* Media — fills everything */}
-        <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black">
+        <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden">
           {mediaCore}
 
           {/* Top chrome */}
           <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5">
             <div className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-raveRed" />
-              <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/40">{viewer.sectionLabel}</span>
+              <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/60">{viewer.sectionLabel}</span>
             </div>
             <button
               type="button"
               onClick={onClose}
               aria-label={modalLabels.close}
-              className="flex h-11 w-11 items-center justify-center text-white/40 transition-colors active:text-white"
+              className="flex h-11 w-11 items-center justify-center text-white/60 transition-colors active:text-white"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -209,7 +240,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           {/* Bottom overlay — always visible info strip */}
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-6 pt-16">
             {item.subtitle && (
-              <p className="mb-2 font-mono text-micro uppercase tracking-[0.35em] text-raveRed/80">{item.subtitle}</p>
+              <p className="mb-2 font-mono text-micro uppercase tracking-[0.35em] text-raveRedBright/80">{item.subtitle}</p>
             )}
             <h3 className="font-display text-[2rem] font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
               {item.title}
@@ -218,7 +249,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             <div className="mt-4 flex items-center justify-between">
               {slideIndicators || <span />}
               {total > 1 && (
-                <span className="font-mono text-label text-white/30">{viewer.slideIndex + 1} / {total}</span>
+                <span className="font-mono text-label text-white/52">{viewer.slideIndex + 1} / {total}</span>
               )}
             </div>
 
@@ -229,10 +260,10 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               aria-expanded={infoOpen}
               className="mt-4 flex w-full items-center justify-between border-t border-white/[0.08] pt-4"
             >
-              <span className="font-mono text-label uppercase tracking-[0.25em] text-white/40">
+              <span className="font-mono text-label uppercase tracking-[0.25em] text-white/60">
                 {infoOpen ? modalLabels.infoClose : modalLabels.infoShow}
               </span>
-              <span className={`text-white/30 transition-transform duration-300 ${infoOpen ? "rotate-180" : ""}`}>
+              <span className={`text-white/52 transition-transform duration-300 ${infoOpen ? "rotate-180" : ""}`}>
                 <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
                   <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -243,7 +274,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
 
         {/* Info sheet — slides up */}
         <div
-          className={`shrink-0 overflow-y-auto bg-surfaceDeep transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`modal-sheet shrink-0 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             infoOpen ? "max-h-[52vh]" : "max-h-0"
           }`}
         >
@@ -255,7 +286,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             {item.tags?.length ? (
               <div className="mt-5 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
-                  <span key={tag} className="border border-white/[0.08] px-3 py-1 font-mono text-micro uppercase tracking-[0.18em] text-white/35">
+                  <span key={tag} className="border border-white/[0.08] px-3 py-1 font-mono text-micro uppercase tracking-[0.18em] text-white/56">
                     {tag}
                   </span>
                 ))}
@@ -266,19 +297,19 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               <div className="mt-6 flex gap-8 border-t border-white/[0.06] pt-5">
                 {item.year && (
                   <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.year}</p>
                     <p className="mt-1.5 font-mono text-meta text-white/55">{item.year}</p>
                   </div>
                 )}
                 {item.role && (
                   <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.role}</p>
                     <p className="mt-1.5 font-mono text-meta text-white/55">{item.role}</p>
                   </div>
                 )}
                 {item.status && (
                   <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
                     <p className="mt-1.5 font-mono text-meta text-raveRed/70">{item.status}</p>
                   </div>
                 )}
@@ -298,12 +329,14 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           </div>
         </div>
       </div>
+      )}
 
       {/* ══════════════════════════════════════
           DESKTOP — side by side
       ══════════════════════════════════════ */}
+      {esDesktop && (
       <div
-        className="hidden h-full items-center justify-center p-8 md:flex lg:p-12"
+        className="flex h-full items-center justify-center p-8 lg:p-12"
         onClick={onClose}
       >
         <div
@@ -313,15 +346,15 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           onTouchEnd={handleTouchEnd}
         >
           {/* Media */}
-          <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black">
+          <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden">
             {mediaCore}
             {total > 1 && (
               <>
                 <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                  className="modal-ctrl absolute left-4 top-1/2 z-[4] flex h-11 w-11 -translate-y-1/2 items-center justify-center text-white/60"
                 >←</button>
                 <button type="button" onClick={handleNext} aria-label={modalLabels.next}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/10 bg-black/60 text-white/40 backdrop-blur-sm transition hover:border-white/30 hover:text-white"
+                  className="modal-ctrl absolute right-4 top-1/2 z-[4] flex h-11 w-11 -translate-y-1/2 items-center justify-center text-white/60"
                 >→</button>
                 <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 gap-[5px]">
                   {item.slides.map((_, i) => (
@@ -339,15 +372,15 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           </div>
 
           {/* Info panel */}
-          <div className="flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-l border-white/[0.06] bg-surfaceDeep p-8 lg:w-80">
+          <div className="modal-aside relative z-[2] flex w-72 shrink-0 flex-col justify-between overflow-y-auto p-8 lg:w-80">
             <div className="flex flex-col gap-6">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-raveRed" />
-                  <p className="font-mono text-micro uppercase tracking-[0.32em] text-white/30">{viewer.sectionLabel}</p>
+                  <p className="font-mono text-micro uppercase tracking-[0.32em] text-white/52">{viewer.sectionLabel}</p>
                 </div>
                 <button type="button" onClick={onClose} aria-label={modalLabels.close}
-                  className="flex h-7 w-7 shrink-0 items-center justify-center text-white/25 transition hover:text-white"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center text-white/48 transition hover:text-white"
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
@@ -360,7 +393,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="mt-2.5 font-mono text-label uppercase tracking-[0.28em] text-raveRed/60">{item.subtitle}</p>
+                  <p className="mt-2.5 font-mono text-label uppercase tracking-[0.28em] text-raveRedBright/75">{item.subtitle}</p>
                 )}
               </div>
 
@@ -371,7 +404,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               {item.tags?.length ? (
                 <div className="flex flex-wrap gap-1.5">
                   {item.tags.map((tag) => (
-                    <span key={tag} className="border border-white/[0.08] px-2.5 py-1 font-mono text-micro uppercase tracking-[0.15em] text-white/35">
+                    <span key={tag} className="border border-white/[0.08] px-2.5 py-1 font-mono text-micro uppercase tracking-[0.15em] text-white/56">
                       {tag}
                     </span>
                   ))}
@@ -382,19 +415,19 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 <div className="grid gap-4 border-t border-white/[0.06] pt-5">
                   {item.year && (
                     <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.year}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.year}</p>
                       <p className="mt-1 font-mono text-caption text-white/50">{item.year}</p>
                     </div>
                   )}
                   {item.role && (
                     <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.role}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.role}</p>
                       <p className="mt-1 font-mono text-caption text-white/50">{item.role}</p>
                     </div>
                   )}
                   {item.status && (
                     <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/20">{modalLabels.status}</p>
+                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
                       <p className="mt-1 font-mono text-caption text-raveRed/70">{item.status}</p>
                     </div>
                   )}
@@ -415,15 +448,17 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               )}
               <div className="flex items-center justify-between">
                 {total > 1
-                  ? <p className="font-mono text-micro text-white/20">{viewer.slideIndex + 1} / {total}</p>
+                  ? <p className="font-mono text-micro text-white/46">{viewer.slideIndex + 1} / {total}</p>
                   : <span />
                 }
-                <p className="font-mono text-nano text-white/15">{modalLabels.closeHint}</p>
+                <p className="font-mono text-nano text-white/46">{modalLabels.closeHint}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      )}
+    </div>,
+    document.body,
   );
 }

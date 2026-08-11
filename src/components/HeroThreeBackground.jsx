@@ -1,10 +1,26 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { createAsciiPass } from "./AsciiPass";
 
 const STATIC_FRAME_TIME = 18;
+
+// Niveles del pase ASCII por escena: uGain es el punto de blanco y uFloor el
+// de negro, los dos en unidades de luminancia del render target. Los tres
+// rangos no se parecen en nada —la escultura es un solido de rango estrecho
+// y alto (0.27 a 0.60), el enjambre son puntos casi blancos sobre negro, y
+// las hebras organicas no llegan a 0.28— asi que una sola curva deja una
+// escena saturada en manchas y otra invisible. Medidos leyendo el render
+// target, no elegidos a ojo.
+const ASCII_GAIN = { sculpture: 3.2, particles: 1.1, organic: 9.0 };
+const ASCII_FLOOR = { sculpture: 0.29, particles: 0.30, organic: 0.01 };
+
+// En compact el enjambre tiene 6.000 puntos en vez de 16.000 y mas chicos:
+// la luminancia por celda cae de 0.97 a 0.11 de maxima y el punto de negro
+// de desktop lo borra entero. La escultura y las hebras son la misma
+// geometria en las dos resoluciones, asi que solo el enjambre se corrige.
+const ASCII_LEVELS_COMPACT = { particles: { gain: 12, floor: 0.006 } };
 const RED = 0xb11212;
 const RED_DEEP = 0x5b0000;
-const RED_HOT = 0xff2a2a;
 
 function disposeObject(object) {
   object.traverse((child) => {
@@ -16,48 +32,150 @@ function disposeObject(object) {
   });
 }
 
-function createParticleField() {
-  const count = 560;
+/**
+ * Enjambre reactivo al cursor.
+ *
+ * Todo el movimiento vive en el vertex shader: orbita, respiracion y la
+ * reaccion al mouse se calculan por particula en GPU. Los 560 puntos que
+ * se movian con un for por frame pasaron a ser miles sin coste de CPU.
+ */
+function createParticleSwarm(compact) {
+  const count = compact ? 6000 : 16000;
   const positions = new Float32Array(count * 3);
   const seeds = new Float32Array(count);
+  const speeds = new Float32Array(count);
+  const scales = new Float32Array(count);
 
   for (let i = 0; i < count; i += 1) {
-    const radius = 0.7 + Math.random() * 2.2;
-    const angle = Math.random() * Math.PI * 2;
-    positions[i * 3] = Math.cos(angle) * radius;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 2.3;
-    positions[i * 3 + 2] = -Math.random() * 8.5;
+    // Cascaron esferico achatado, mas denso hacia el centro
+    const radius = 0.32 + Math.pow(Math.random(), 0.62) * 1.42;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const sinPhi = Math.sin(phi);
+
+    positions[i * 3] = radius * sinPhi * Math.cos(theta);
+    positions[i * 3 + 1] = radius * Math.cos(phi) * 0.66;
+    positions[i * 3 + 2] = radius * sinPhi * Math.sin(theta);
+
     seeds[i] = Math.random() * Math.PI * 2;
+    speeds[i] = 0.6 + Math.random() * 0.9;
+    scales[i] = 0.55 + Math.pow(Math.random(), 2.2) * 1.9;
   }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  const material = new THREE.PointsMaterial({
-    color: RED_HOT,
-    size: 0.042,
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+  geometry.setAttribute("aSpeed", new THREE.BufferAttribute(speeds, 1));
+  geometry.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(999, 999) },
+      uReveal: { value: 1 },
+      uPulse: { value: 0 },
+      // Amplitud de la reaccion al puntero. En desktop es 1 apenas se mueve
+      // el mouse; en tactil sube al apoyar y baja al soltar, si no el hueco
+      // queda clavado donde estuvo el ultimo dedo.
+      uPointerAmp: { value: 0 },
+      uSize: { value: compact ? 4.2 : 5.4 },
+      // Mismo tope que usa el renderer, para que el punto mida igual en px
+      uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, compact ? 1 : 2) },
+      uCold: { value: new THREE.Color(0x7a1414) },
+      uHot: { value: new THREE.Color(0xff5a3c) },
+    },
+    vertexShader: `
+      uniform float uTime;
+      uniform vec2 uMouse;
+      uniform float uPulse;
+      uniform float uPointerAmp;
+      uniform float uSize;
+      uniform float uPixelRatio;
+
+      attribute float aSeed;
+      attribute float aSpeed;
+      attribute float aScale;
+
+      varying float vGlow;
+
+      void main() {
+        vec3 p = position;
+
+        // Orbita lenta alrededor del eje Y, cada particula a su ritmo
+        float ang = uTime * aSpeed * 0.15 + aSeed;
+        float c = cos(ang);
+        float s = sin(ang);
+        p.xz = mat2(c, -s, s, c) * p.xz;
+
+        // Respiracion vertical desfasada
+        p.y += sin(uTime * 0.5 + aSeed * 2.0) * 0.07;
+
+        // Reaccion al cursor: aparta radialmente y enrosca en tangente.
+        // La gaussiana da un radio de influencia suave, sin borde duro.
+        // El radio y el empuje son deliberadamente cortos: con la campana
+        // ancha de antes el hueco medía un tercio de pantalla y las
+        // particulas desplazadas terminaban lejos del puntero, asi que el
+        // efecto no se leia como "el cursor las aparta" sino como una marea
+        // de fondo. Lo que hace legible la reaccion a traves del filtro no
+        // es el desplazamiento sino el tamaño: mas luz por celda es lo unico
+        // que el ASCII traduce. De ahi que el empuje sea chico y el
+        // crecimiento del punto grande.
+        vec2 d = p.xy - uMouse;
+        float dist = length(d) + 0.0001;
+        float influence = exp(-dist * dist * 5.0) * uPointerAmp;
+        vec2 dir = d / dist;
+        vec2 tangent = vec2(-dir.y, dir.x);
+        p.xy += dir * influence * 0.42;
+        p.xy += tangent * influence * 0.30;
+
+        vGlow = influence;
+
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_Position = projectionMatrix * mv;
+        gl_PointSize = uSize * aScale * uPixelRatio * (1.0 + uPulse * 0.3 + influence * 3.4) * (3.4 / -mv.z);
+      }
+    `,
+    fragmentShader: `
+      uniform float uReveal;
+      uniform vec3 uCold;
+      uniform vec3 uHot;
+      varying float vGlow;
+
+      void main() {
+        vec2 uv = gl_PointCoord - 0.5;
+        float d = length(uv);
+        if (d > 0.5) discard;
+        float alpha = smoothstep(0.5, 0.05, d);
+        vec3 col = mix(uCold, uHot, clamp(vGlow * 1.7, 0.0, 1.0));
+        gl_FragColor = vec4(col * (1.0 + vGlow * 3.4), alpha * uReveal);
+      }
+    `,
     transparent: true,
-    opacity: 0.82,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
+
   const points = new THREE.Points(geometry, material);
+  const mouseLocal = new THREE.Vector2(999, 999);
 
   return {
     object: points,
-    animate: ({ time, mouse, reveal, dt = 1 / 60 }) => {
-      const f = dt * 60;
-      const position = geometry.attributes.position;
-      const array = position.array;
-      for (let i = 0; i < count; i += 1) {
-        const idx = i * 3;
-        array[idx] += (Math.sin(time * 0.35 + seeds[i]) * 0.0008 + mouse.x * 0.0009) * f;
-        array[idx + 1] += (Math.cos(time * 0.32 + seeds[i]) * 0.0007 + mouse.y * 0.0008) * f;
-        array[idx + 2] += (0.012 + Math.sin(time + seeds[i]) * 0.0015) * f;
-        if (array[idx + 2] > 1.5) array[idx + 2] = -8.5;
+    animate: ({ time, pointer, pointerAmp = 0, reveal, pulse }) => {
+      // `pointer` ya viene en coordenadas de mundo sobre el plano del
+      // enjambre: solo queda pasarlo al espacio local del objeto, que esta
+      // desplazado y escalado por el llamador.
+      const scale = points.scale.x || 1;
+      if (pointer) {
+        mouseLocal.set(
+          (pointer.x - points.position.x) / scale,
+          (pointer.y - points.position.y) / scale,
+        );
+        material.uniforms.uMouse.value.copy(mouseLocal);
       }
-      position.needsUpdate = true;
-      points.rotation.z = time * 0.018;
-      material.opacity = 0.82 * reveal;
+      material.uniforms.uPointerAmp.value = pointerAmp;
+      material.uniforms.uTime.value = time;
+      material.uniforms.uReveal.value = reveal;
+      material.uniforms.uPulse.value = pulse;
     },
   };
 }
@@ -289,18 +407,30 @@ function createLivingSculpture(compact) {
 function createSceneObject(sceneType, compact) {
   if (sceneType === "organic") return createOrganic();
   if (sceneType === "sculpture") return createLivingSculpture(compact);
-  return createParticleField();
+  return createParticleSwarm(compact);
 }
 
-export default function HeroThreeBackground({ variant, staticMode = false, revealActive = true, instantReveal = false }) {
+export default function HeroThreeBackground({
+  variant,
+  staticMode = false,
+  revealActive = true,
+  instantReveal = false,
+  paused = false,
+}) {
   const mountRef = useRef(null);
   const rendererRef = useRef(null);
   const contextLossTimerRef = useRef(null);
   const revealActiveRef = useRef(revealActive);
+  // Ref y no dep: pausar no debe reconstruir la escena ni perder el contexto WebGL
+  const pausedRef = useRef(paused);
 
   useEffect(() => {
     revealActiveRef.current = revealActive;
   }, [revealActive]);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     if (contextLossTimerRef.current) {
@@ -328,12 +458,36 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     rendererRef.current = renderer;
     mount.appendChild(renderer.domElement);
 
+    // Caida radial y no un rectangulo de color plano. Con el material basico
+    // el plano tenia la misma luminancia en toda su superficie y cuatro
+    // bordes duros: a ojo desnudo era un wash invisible, pero el pase ASCII
+    // cuantiza por celda y dibujaba el rectangulo entero — una pared de
+    // caracteres con esquinas rectas, encima de la barra y del titular.
     const glow = new THREE.Mesh(
       new THREE.PlaneGeometry(7, 4),
-      new THREE.MeshBasicMaterial({
-        color: RED_DEEP,
+      new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color(RED_DEEP) },
+          uStrength: { value: 0.22 },
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 uColor;
+          uniform float uStrength;
+          varying vec2 vUv;
+          void main() {
+            float d = length(vUv - 0.5) * 2.0;
+            float falloff = pow(max(1.0 - d, 0.0), 2.2);
+            gl_FragColor = vec4(uColor * uStrength * falloff, 1.0);
+          }
+        `,
         transparent: true,
-        opacity: 0.13,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -347,7 +501,34 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
     sceneObject.object.scale.setScalar(compact ? 1.48 : 1.46);
     scene.add(sceneObject.object);
 
+    // Celda mas grande en mobile: menos caracteres, pero legibles
+    const ascii = createAsciiPass(renderer, compact ? 9 : 11);
+    const levels = (compact && ASCII_LEVELS_COMPACT[variant.scene]) || {
+      gain: ASCII_GAIN[variant.scene] ?? 3.2,
+      floor: ASCII_FLOOR[variant.scene] ?? 0.25,
+    };
+    ascii.setGain(levels.gain);
+    ascii.setFloor(levels.floor);
+    // Desktop: el titular vive en la columna izquierda, la barra en el 9% de
+    // arriba. Mobile: todo el texto es de ancho completo y apilado, asi que
+    // la columna deja de tener sentido y hay que bajar el corte de arriba
+    // hasta pasar la linea de "3D / MOTION / BRANDING / WEB" y la de
+    // disponibilidad, que en esa composicion caen mucho mas abajo.
+    ascii.setMask(
+      compact ? [0.02, 0.14] : [0.16, 0.56],
+      compact ? [0.90, 0.70, 0.35] : [0.99, 0.86, 0.5],
+    );
+    // Handle de calibracion en dev: window.__ascii.ascii.setGain(2.5) etc.
+    if (import.meta.env.DEV) window.__ascii = { ascii, renderer, scene, camera };
+
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+    // Amplitud de la reaccion al puntero, amortiguada. Arranca en 0 —sin
+    // esto el enjambre nacia con la mordida puesta en medio de la pantalla,
+    // antes de que nadie tocara nada—. En desktop sube a 1 con el primer
+    // movimiento y se queda; en tactil sube al apoyar y vuelve a 0 al
+    // soltar, para que el hueco no quede clavado donde estuvo el dedo.
+    let pointerAmp = 0;
+    let pointerAmpTarget = 0;
     let rafId = 0;
     let destroyed = false;
     let start = null;
@@ -361,12 +542,31 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
 
     const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
 
+    // Cursor proyectado al plano z del objeto con la camara real. Antes se
+    // estimaba con dos constantes (mouse.x * 5.8, mouse.y * 3.6) que son el
+    // alto y el ancho visibles a esa distancia solo en 16:10; en cualquier
+    // otra relacion de aspecto el punto de influencia caia corrido y el
+    // enjambre reaccionaba a un palmo del puntero. Ademas la camara se
+    // desplaza con el mouse, y eso tampoco entraba en la cuenta.
+    const pointerRay = new THREE.Vector3();
+    const pointerWorld = new THREE.Vector3();
+    const projectPointer = (targetZ) => {
+      // unproject lee matrixWorld, y el renderer recien la actualiza al
+      // dibujar: sin esto el primer frame proyecta contra una camara en el
+      // origen.
+      camera.updateMatrixWorld();
+      pointerRay.set(mouse.x * 2, mouse.y * 2, 0.5).unproject(camera).sub(camera.position);
+      const t = (targetZ - camera.position.z) / pointerRay.z;
+      return pointerWorld.copy(camera.position).addScaledVector(pointerRay, t);
+    };
+
     const resize = () => {
       const width = Math.max(2, mount.clientWidth);
       const height = Math.max(2, mount.clientHeight);
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      ascii.setSize(width, height);
     };
 
     const render = (time, reveal = 1, dt = 1 / 60) => {
@@ -378,9 +578,20 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       camera.position.x = mouse.x * 0.18;
       camera.position.y = 0.18 + mouse.y * 0.12;
       camera.lookAt(0, 0, -2.5);
+      pointerAmp += (pointerAmpTarget - pointerAmp) * (1 - Math.exp(-dt * 5));
       const pulse = Math.pow(Math.max(Math.sin(time * BEAT_HZ * Math.PI * 2), 0), 4);
-      sceneObject.animate({ time, mouse, reveal, scroll: heroScroll, pulse, dt });
+      const active = pointerAmpTarget > 0 || pointerAmp > 0.002;
+      const pointer = active ? projectPointer(sceneObject.object.position.z) : null;
+      sceneObject.animate({ time, mouse, pointer, pointerAmp, reveal, scroll: heroScroll, pulse, dt });
+
+      // Escena al target y despues el quad ASCII a pantalla. El reveal se
+      // aplica en el pase y no en cada material, asi la entrada es una sola.
+      renderer.setRenderTarget(ascii.target);
+      renderer.clear();
       renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+      ascii.setReveal(reveal);
+      ascii.render();
     };
 
     let revealStart = null;
@@ -390,6 +601,9 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       rafId = requestAnimationFrame(tick);
       // Fuera de viewport no gastamos GPU: el orbe solo vive en el hero
       if (!heroVisible) return;
+      // En rutas de categoría el fondo queda congelado: cero GPU mientras se
+      // scrollean decenas de videos, pero sin destruir el contexto WebGL
+      if (pausedRef.current) return;
       if (frameInterval && timestamp - lastFrame < frameInterval) return;
       const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.05) : 1 / 60;
       lastFrame = timestamp;
@@ -405,9 +619,34 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       render(((timestamp - start) * 0.001) % 3600, reveal, dt);
     };
 
+    const aim = (clientX, clientY) => {
+      mouse.tx = clientX / window.innerWidth - 0.5;
+      mouse.ty = -(clientY / window.innerHeight - 0.5);
+    };
+
     const onPointerMove = (event) => {
-      mouse.tx = event.clientX / window.innerWidth - 0.5;
-      mouse.ty = -(event.clientY / window.innerHeight - 0.5);
+      pointerAmpTarget = 1;
+      aim(event.clientX, event.clientY);
+    };
+
+    // Tactil: el enjambre reacciona al dedo mientras esta apoyado. El
+    // touchstart ademas saltea el amortiguado de posicion — al apoyar, el
+    // hueco tiene que abrirse donde se toco y no venir viajando desde el
+    // toque anterior. Los listeners son passive: no bloquean el scroll, y
+    // arrastrar para scrollear tambien arrastra el enjambre.
+    const onTouch = (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      aim(touch.clientX, touch.clientY);
+      if (event.type === "touchstart") {
+        mouse.x = mouse.tx;
+        mouse.y = mouse.ty;
+      }
+      pointerAmpTarget = 1;
+    };
+
+    const onTouchEnd = () => {
+      pointerAmpTarget = 0;
     };
 
     const onScroll = () => {
@@ -427,7 +666,14 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       rafId = requestAnimationFrame(tick);
       visibilityObserver.observe(mount);
       window.addEventListener("scroll", onScroll, { passive: true });
-      if (!compact) window.addEventListener("pointermove", onPointerMove, { passive: true });
+      if (compact) {
+        window.addEventListener("touchstart", onTouch, { passive: true });
+        window.addEventListener("touchmove", onTouch, { passive: true });
+        window.addEventListener("touchend", onTouchEnd, { passive: true });
+        window.addEventListener("touchcancel", onTouchEnd, { passive: true });
+      } else {
+        window.addEventListener("pointermove", onPointerMove, { passive: true });
+      }
     }
     window.addEventListener("resize", resize);
 
@@ -438,7 +684,12 @@ export default function HeroThreeBackground({ variant, staticMode = false, revea
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
       disposeObject(scene);
+      ascii.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
       contextLossTimerRef.current = setTimeout(() => {

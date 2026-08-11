@@ -15,9 +15,16 @@ const webProjectAssets = {
   },
 };
 
+/**
+ * `thumbnail` apunta a /images/loops/: versiones de 8 s y ~600 KB generadas
+ * para la grilla, con su poster .jpg al lado. Los originales siguen en
+ * `slides` y son los que abre el modal. Antes la grilla usaba `slides[0]`
+ * directo —el MP4 completo, hasta 28 MB— y /motion transferia 20 MB.
+ * Para regenerarlas ver la seccion "Portadas de grilla" en CLAUDE.md.
+ */
 const touchDesignerAssets = {
   feedbackRitual: {
-    thumbnail: null,
+    thumbnail: "/images/loops/feedback-ritual.mp4",
     slides: [
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
@@ -27,38 +34,38 @@ const touchDesignerAssets = {
     ],
   },
   pulseVandal: {
-    thumbnail: null,
+    thumbnail: "/images/loops/pulse-vandal.mp4",
     slides: [
       "/images/touchdesigner/pulse-vandal/visuales1.mp4",
     ],
   },
   ghostTunnel: {
-    thumbnail: null,
+    thumbnail: "/images/loops/ghost-tunnel.mp4",
     slides: [
       "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4",
     ],
   },
   staticVeil: {
-    thumbnail: null,
+    thumbnail: "/images/loops/static-veil.mp4",
     slides: [
       "/images/touchdesigner/static-veil/humo.mp4",
       "/images/touchdesigner/static-veil/humo mod.mp4",
     ],
   },
   ironLattice: {
-    thumbnail: null,
+    thumbnail: "/images/loops/iron-lattice.mp4",
     slides: [
       "/images/touchdesigner/iron-lattice/visuales4.mp4",
     ],
   },
   eyes: {
-    thumbnail: null,
+    thumbnail: "/images/loops/eyes.mp4",
     slides: [
       "/images/touchdesigner/Eyes/Ojos Visuales.mp4",
     ],
   },
   biology: {
-    thumbnail: null,
+    thumbnail: "/images/loops/biology.mp4",
     slides: [
       "/images/touchdesigner/biology/biology1.mp4",
       "/images/touchdesigner/biology/biology2.mp4",
@@ -227,6 +234,7 @@ const blenderAssets = {
   },
   calvariaGlass: {
     portrait: true,
+    thumbnail: "/images/loops/calvaria-glass.mp4",
     slides: [
       "/images/blender/calvaria-glass/Calvarian Animation.mp4",
       "/images/blender/calvaria-glass/calvarian_glass1.webp",
@@ -300,6 +308,7 @@ const blenderAssets = {
   },
   km240: {
     portrait: true,
+    thumbnail: "/images/loops/240kmh.mp4",
     slides: [
       "/images/blender/240KM-H/Semaforo Preview.mp4",
       "/images/blender/240KM-H/semaforo-1.png",
@@ -316,6 +325,7 @@ const blenderAssets = {
   },
   cristales: {
     portrait: true,
+    thumbnail: "/images/loops/cristales.mp4",
     slides: [
       "/images/blender/cristales/Cristales Preview.mp4",
       "/images/blender/cristales/cristales-1.png",
@@ -342,27 +352,48 @@ export const siteContent = {
   locales: {
     es: {
       nav: [
-        { label: "Proyectos", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Arquitectura", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "Sobre mí", href: "#about" },
-        { label: "Contacto", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Gráfica", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / SOBRE MÍ", title: "SOBRE MÍ", subtitle: "3D, motion, branding, web y objetos físicos" },
-        webReleases: { index: "02 / WEB", title: "DESARROLLO WEB", subtitle: "Proyectos web: diseño, desarrollo y deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION DESIGN", subtitle: "Loops audio-reactivos y visuales en tiempo real" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animaciones y estudios en Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Piezas gráficas para eventos de música electrónica" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos e identidades para artistas y proyectos" },
-        espacios: { index: "07 / ARQUITECTURA", title: "ARQUITECTURA", subtitle: "Visualización arquitectónica en Blender" },
-        lab: { index: "08 / LAB", title: "LAB GENERATIVO", subtitle: "Cinco sistemas algorítmicos en vivo: semillas, ruido y emergencia a 145 BPM" },
-        contact: { index: "09 / CONTACTO", title: "CONTACTO", subtitle: "Disponible para proyectos freelance y colaboraciones" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Tiempo real",
+          subtitle: "Loops audio-reactivos, visuales en vivo y sistemas generativos.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reactivos y visuales en tiempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos dibujándose en vivo a 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Render",
+          subtitle: "Renders, animaciones, estudios de material y visualización de espacios.",
+          groups: {
+            blender: { title: "Renders & estudios", note: "Piezas y series hechas en Blender" },
+            arquitectura: { title: "Arquitectura", note: "Visualización de espacios y clubes" },
+          },
+        },
+        grafica: {
+          title: "GRÁFICA",
+          kicker: "Flyers / Identidad",
+          subtitle: "Piezas para eventos de electrónica e identidades para artistas y sellos.",
+          groups: {
+            flyers: { title: "Flyers", note: "Piezas gráficas para eventos" },
+            logos: { title: "Logos & branding", note: "Identidades para artistas y proyectos" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Diseño y desarrollo",
+          subtitle: "Diseño, desarrollo y deploy de proyectos web propios y por encargo.",
+          groups: {
+            proyectos: { title: "Proyectos", note: "Diseño, desarrollo y deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "Multitud de partículas rezando en un campo de ruido; la luz acumulada es la memoria de sus trayectorias." },
@@ -372,7 +403,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Retícula brutalista de proporción áurea, cortada en bandas glitch al ritmo del golpe." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Trabajo en Blender, TouchDesigner, React y con materiales. Basado en Argentina, disponible internacionalmente.",
         location: "Argentina",
@@ -453,6 +483,9 @@ export const siteContent = {
         note: "Respondo en menos de 24 horas",
       },
       ui: {
+        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
+        worksLabel: "piezas",
+        workLabelSingular: "pieza",
         viewCase: "Ver caso",
         visitSite: "Abrir web",
         loopLabel: "Loop",
@@ -466,32 +499,87 @@ export const siteContent = {
         lab: { seed: "Semilla", hint: "Click: nueva semilla", reseed: "nueva semilla" },
         footerLocation: "Argentina / Internacional",
         pageTitle: "Portfolio",
+        notFound: { title: "Esta página no existe", text: "El enlace es viejo o está mal escrito. Probá con una categoría." },
         aboutCta: "Hablemos",
+        // Rotulos que solo escucha un lector de pantalla. Estaban en español
+        // fijo: alguien navegando el sitio en inglés los oia igual en español.
+        a11y: { openConsole: "Abrir la consola oculta", adminPanel: "Panel de administración" },
+        konsole: {
+          hintLong: 'escribí "kexxy"',
+          hintShort: "consola",
+          prompt: "escribí un comando...",
+          // Las descripciones del `help`. El resto de la terminal es salida de
+          // maquina y queda en inglés a proposito, en los tres idiomas.
+          commands: {
+            about: "manifiesto de identidad",
+            links: "redes y contacto",
+            stack: "herramientas y software",
+            play: "activar stream de audio underground",
+            vjpack: "descargar VJ asset pack (coming soon)",
+            glitch: "fragmentar la interfaz visual",
+            status: "diagnóstico del sistema",
+            credits: "stack técnico + mensaje oculto",
+            clear: "limpiar consola",
+            exit: "cerrar terminal",
+          },
+        },
+        // Secuencia de arranque. Es texto de maquina, va igual en los tres
+        // idiomas; vive acá para poder cambiarlo sin tocar el componente.
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
     en: {
       nav: [
-        { label: "Projects", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Architecture", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "About", href: "#about" },
-        { label: "Contact", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Graphics", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / ABOUT", title: "ABOUT", subtitle: "3D, motion, branding, web and physical objects" },
-        webReleases: { index: "02 / WEB", title: "WEB", subtitle: "Web projects: design, development and deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION", subtitle: "Audio-reactive loops and real-time visuals" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animations and studies in Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Graphic pieces for electronic music events" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos and identities for artists and projects" },
-        espacios: { index: "07 / ARCHITECTURE", title: "ARCHITECTURE", subtitle: "Architectural visualization in Blender" },
-        lab: { index: "08 / LAB", title: "GENERATIVE LAB", subtitle: "Five live algorithmic systems: seeds, noise and emergence at 145 BPM" },
-        contact: { index: "09 / CONTACT", title: "CONTACT", subtitle: "Available for freelance and collaborations" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Real-time",
+          subtitle: "Audio-reactive loops, live visuals and generative systems.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Audio-reactive loops and real-time visuals" },
+            lab: { title: "Generative lab", note: "Algorithmic systems drawing live at 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Rendering",
+          subtitle: "Renders, animations, material studies and space visualisation.",
+          groups: {
+            blender: { title: "Renders & studies", note: "Pieces and series made in Blender" },
+            arquitectura: { title: "Architecture", note: "Visualisation of spaces and clubs" },
+          },
+        },
+        grafica: {
+          title: "GRAPHICS",
+          kicker: "Flyers / Identity",
+          subtitle: "Pieces for electronic music events and identities for artists and labels.",
+          groups: {
+            flyers: { title: "Flyers", note: "Graphic pieces for events" },
+            logos: { title: "Logos & branding", note: "Identities for artists and projects" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Design and development",
+          subtitle: "Design, development and deployment of web projects.",
+          groups: {
+            proyectos: { title: "Projects", note: "Design, development and deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "A crowd of particles praying inside a noise field; accumulated light is the memory of their paths." },
@@ -501,7 +589,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Brutalist golden-ratio grid, sliced into glitch bands on the beat." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Working in Blender, TouchDesigner, React and with physical materials. Based in Argentina.",
         location: "Argentina",
@@ -582,6 +669,9 @@ export const siteContent = {
         note: "I reply within 24 hours",
       },
       ui: {
+        nav: { back: "Back", home: "Home", index: "Index", about: "About", contact: "Contact", enter: "Enter", close: "Close" },
+        worksLabel: "works",
+        workLabelSingular: "work",
         viewCase: "View Case",
         visitSite: "Visit Site",
         loopLabel: "Loop",
@@ -595,32 +685,81 @@ export const siteContent = {
         lab: { seed: "Seed", hint: "Click: new seed", reseed: "new seed" },
         footerLocation: "Argentina / Worldwide",
         pageTitle: "Portfolio",
+        notFound: { title: "This page doesn't exist", text: "The link is old or mistyped. Try one of the categories." },
         aboutCta: "Let's Talk",
+        a11y: { openConsole: "Open the hidden console", adminPanel: "Admin panel" },
+        konsole: {
+          hintLong: 'type "kexxy"',
+          hintShort: "console",
+          prompt: "type a command...",
+          commands: {
+            about: "identity manifesto",
+            links: "socials and contact",
+            stack: "tools and software",
+            play: "start the underground audio stream",
+            vjpack: "download the VJ asset pack (coming soon)",
+            glitch: "fragment the visual interface",
+            status: "system diagnostic",
+            credits: "tech stack + hidden message",
+            clear: "clear the console",
+            exit: "close the terminal",
+          },
+        },
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
     pt: {
       nav: [
-        { label: "Projetos", href: "#work" },
-        { label: "Motion", href: "#motion" },
-        { label: "3D", href: "#renders" },
-        { label: "Flyers", href: "#flyers" },
-        { label: "Logos", href: "#logos" },
-        { label: "Arquitetura", href: "#espacios" },
-        { label: "Lab", href: "#lab" },
-        { label: "Sobre", href: "#about" },
-        { label: "Contato", href: "#contact" },
+        { label: "Motion", href: "/motion" },
+        { label: "3D", href: "/3d" },
+        { label: "Gráfica", href: "/grafica" },
+        { label: "Web", href: "/web" },
         { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
-      sections: {
-        about: { index: "01 / SOBRE", title: "SOBRE", subtitle: "3D, motion, branding, web e objetos físicos" },
-        webReleases: { index: "02 / WEB", title: "WEB", subtitle: "Projetos web: design, desenvolvimento e deploy" },
-        touchDesigner: { index: "03 / MOTION", title: "MOTION", subtitle: "Loops audio-reativos e visuais em tempo real" },
-        blender: { index: "04 / 3D", title: "3D", subtitle: "Renders, animações e estudos em Blender" },
-        flyers: { index: "05 / FLYERS", title: "FLYERS", subtitle: "Peças gráficas para eventos de música eletrônica" },
-        logos: { index: "06 / LOGOS", title: "LOGOS & BRANDING", subtitle: "Logos e identidades para artistas e projetos" },
-        espacios: { index: "07 / ARQUITETURA", title: "ARQUITETURA", subtitle: "Visualização arquitetônica em Blender" },
-        lab: { index: "08 / LAB", title: "LAB GENERATIVO", subtitle: "Cinco sistemas algorítmicos ao vivo: sementes, ruído e emergência a 145 BPM" },
-        contact: { index: "09 / CONTATO", title: "CONTATO", subtitle: "Disponível para freelance e colaborações" },
+      categories: {
+        motion: {
+          title: "MOTION",
+          kicker: "TouchDesigner / Tempo real",
+          subtitle: "Loops audio-reativos, visuais ao vivo e sistemas generativos.",
+          groups: {
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reativos e visuais em tempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos desenhando ao vivo a 145 BPM" },
+          },
+        },
+        tresd: {
+          title: "3D",
+          kicker: "Blender / Render",
+          subtitle: "Renders, animações, estudos de material e visualização de espaços.",
+          groups: {
+            blender: { title: "Renders & estudos", note: "Peças e séries feitas em Blender" },
+            arquitectura: { title: "Arquitetura", note: "Visualização de espaços e clubes" },
+          },
+        },
+        grafica: {
+          title: "GRÁFICA",
+          kicker: "Flyers / Identidade",
+          subtitle: "Peças para eventos de eletrônica e identidades para artistas e selos.",
+          groups: {
+            flyers: { title: "Flyers", note: "Peças gráficas para eventos" },
+            logos: { title: "Logos & branding", note: "Identidades para artistas e projetos" },
+          },
+        },
+        web: {
+          title: "WEB",
+          kicker: "React / Design e desenvolvimento",
+          subtitle: "Design, desenvolvimento e deploy de projetos web.",
+          groups: {
+            proyectos: { title: "Projetos", note: "Design, desenvolvimento e deploy" },
+          },
+        },
       },
       labPieces: [
         { id: "congregacion", title: "CONGREGACIÓN", description: "Multidão de partículas rezando num campo de ruído; a luz acumulada é a memória das suas trajetórias." },
@@ -630,7 +769,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Grade brutalista de proporção áurea, cortada em bandas glitch no ritmo da batida." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Trabalho em Blender, TouchDesigner, React e com materiais físicos. Baseado na Argentina.",
         location: "Argentina",
@@ -711,6 +849,9 @@ export const siteContent = {
         note: "Respondo em menos de 24 horas",
       },
       ui: {
+        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", contact: "Contato", enter: "Entrar", close: "Fechar" },
+        worksLabel: "peças",
+        workLabelSingular: "peça",
         viewCase: "Ver caso",
         visitSite: "Abrir site",
         loopLabel: "Loop",
@@ -724,7 +865,35 @@ export const siteContent = {
         lab: { seed: "Semente", hint: "Clique: nova semente", reseed: "nova semente" },
         footerLocation: "Argentina / Internacional",
         pageTitle: "Portfólio",
+        notFound: { title: "Esta página não existe", text: "O link é antigo ou está mal escrito. Tente uma das categorias." },
         aboutCta: "Vamos Conversar",
+        a11y: { openConsole: "Abrir o console oculto", adminPanel: "Painel de administração" },
+        konsole: {
+          hintLong: 'digite "kexxy"',
+          hintShort: "console",
+          prompt: "digite um comando...",
+          commands: {
+            about: "manifesto de identidade",
+            links: "redes e contato",
+            stack: "ferramentas e software",
+            play: "ativar o stream de áudio underground",
+            vjpack: "baixar o VJ asset pack (coming soon)",
+            glitch: "fragmentar a interface visual",
+            status: "diagnóstico do sistema",
+            credits: "stack técnico + mensagem oculta",
+            clear: "limpar o console",
+            exit: "fechar o terminal",
+          },
+        },
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
   },

@@ -113,33 +113,6 @@ button:focus-visible {
 /* ─────────────────────────────────────────
    LAYOUT
 ───────────────────────────────────────── */
-.tribal-fluid {
-  position: relative;
-  isolation: isolate;
-}
-
-.tribal-fluid::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
-  background-size: 120px 120px;
-  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
-  opacity: 0.16;
-}
-
-.site-grain {
-  background-image:
-    repeating-radial-gradient(circle at 17% 23%, rgba(255,255,255,0.08) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(115deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 7px);
-  opacity: 0.035;
-  mix-blend-mode: screen;
-}
-
 /* ─────────────────────────────────────────
    PREVIEW SCROLL ANIMATION
 ───────────────────────────────────────── */
@@ -201,21 +174,6 @@ button:focus-visible {
 }
 
 /* ─────────────────────────────────────────
-   PAGE REVEAL
-───────────────────────────────────────── */
-.page-enter-overlay {
-  background: var(--bg);
-  opacity: 1;
-  animation: pageReveal 950ms var(--ease-out) forwards;
-}
-
-@keyframes pageReveal {
-  0%   { opacity: 1; }
-  60%  { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
-}
-
-/* ─────────────────────────────────────────
    SCROLL REVEAL
 ───────────────────────────────────────── */
 .reveal-on-scroll {
@@ -236,125 +194,8 @@ button:focus-visible {
 }
 
 /* ─────────────────────────────────────────
-   SCROLL FOCUS EFFECT
-───────────────────────────────────────── */
-.scroll-focus-item {
-  transition:
-    opacity 600ms var(--ease-out),
-    filter 600ms var(--ease-out),
-    transform 600ms var(--ease-out);
-  will-change: opacity, filter;
-}
-
-.scroll-focus-item.is-focused {
-  opacity: 1;
-  filter: none;
-  transform: scale(1);
-}
-
-.scroll-focus-item.is-unfocused {
-  opacity: 0.28;
-  filter: blur(3px);
-  transform: scale(0.99);
-}
-
-/* ─────────────────────────────────────────
-   NAV LINK
-───────────────────────────────────────── */
-.nav-link {
-  position: relative;
-  transition: color var(--fast) ease;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: -3px;
-  width: 100%; height: 1px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--base) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .nav-link:hover::after { transform: scaleX(1); }
-}
-
-/* Scrollspy: la sección visible mantiene el subrayado rojo */
-.nav-link--active::after { transform: scaleX(1); }
-
-/* ─────────────────────────────────────────
-   SECTION HEADING
-───────────────────────────────────────── */
-.fluid-section-head {
-  position: relative;
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-/* ─────────────────────────────────────────
-   CELLULAR DIVIDER (Voronoi / membranas)
-───────────────────────────────────────── */
-.cell-divider {
-  width: 100%;
-  height: 58px;
-  margin-top: 1rem;
-  overflow: hidden;
-}
-
-.cell-divider .cell {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.26);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 2400ms var(--ease-out);
-}
-
-.cell-divider .cell--accent {
-  stroke: rgba(255, 59, 59, 0.62);
-  stroke-width: 1.4;
-}
-
-.cell-divider.is-drawn .cell {
-  stroke-dashoffset: 0;
-}
-
-@media (max-width: 640px) {
-  .cell-divider { height: 42px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cell-divider .cell {
-    transition: none;
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ─────────────────────────────────────────
-   CARDS
-───────────────────────────────────────── */
-.grime-panel {
-  background: var(--surface);
-}
-
-.organic-card {
-  transition: background var(--fast) ease;
-}
-
-@media (hover: hover) {
-  .organic-card:hover { background: rgba(255,255,255,0.02); }
-}
-
-/* ─────────────────────────────────────────
    HERO PORTRAIT
 ───────────────────────────────────────── */
-.hero-portrait {
-  box-shadow: inset 0 -160px 160px -120px rgba(5,5,5,1);
-}
-
 /* Crossfade entre variantes del hero */
 .hero-bg-layer {
   position: absolute;
@@ -372,24 +213,6 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-bg-layer--enter { animation-duration: 320ms; }
-}
-
-/* ─────────────────────────────────────────
-   HERO PARALLAX
-───────────────────────────────────────── */
-.hero-parallax-image {
-  transform: translateY(calc(var(--scroll-progress) * -70px)) scale(1.06);
-  transition: transform 80ms linear;
-}
-
-.hero-vignette {
-  box-shadow:
-    inset 0 0 220px rgba(0,0,0,0.92),
-    inset 0 -180px 180px rgba(5,5,5,1);
-}
-
-.hero-title {
-  text-shadow: 0 28px 70px rgba(0,0,0,0.78);
 }
 
 .premium-media {
@@ -458,50 +281,6 @@ button:focus-visible {
 }
 
 /* ─────────────────────────────────────────
-   SECTION BANDS — ritmo alternado de fondos
-───────────────────────────────────────── */
-.section-band {
-  background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(8,8,8,0.55) 100%);
-  border-top: 1px solid rgba(255,255,255,0.07);
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-
-.motion-section {
-  border-top: 1px solid rgba(139,0,0,0.35);
-  border-bottom: 1px solid rgba(139,0,0,0.35);
-}
-
-/* ─────────────────────────────────────────
-   MEDIA LIFT — levanta thumbnails oscuros del fondo
-───────────────────────────────────────── */
-.media-lift img,
-.media-lift video {
-  filter: brightness(1.08) contrast(1.04);
-}
-
-.archive-card,
-.motion-card {
-  transform: translateZ(0);
-}
-
-.archive-card button,
-.motion-card button {
-  box-shadow: 0 28px 90px -68px rgba(255,255,255,0.18);
-}
-
-.archive-card button > div,
-.motion-card button > div {
-  border: 1px solid rgba(255,255,255,0.12);
-  transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
-}
-
-.archive-card button:hover > div,
-.motion-card button:hover > div {
-  border-color: rgba(177,18,18,0.5);
-  box-shadow: 0 0 40px -12px rgba(139,0,0,0.35);
-}
-
-/* ─────────────────────────────────────────
    LAB GENERATIVO (Liturgia Máquina)
 ───────────────────────────────────────── */
 .lab-frame {
@@ -519,36 +298,6 @@ button:focus-visible {
   object-fit: cover;
 }
 
-.contact-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  transition:
-    color var(--base) var(--ease-out),
-    border-color var(--base) var(--ease-out);
-}
-
-.contact-link:hover {
-  color: rgba(234,234,234,0.9);
-  border-color: rgba(177,18,18,0.5) !important;
-}
-
-/* ─────────────────────────────────────────
-   ABOUT PORTRAIT PLACEHOLDER
-───────────────────────────────────────── */
-.about-portrait-placeholder {
-  background-color: #0A0A0A;
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-
 /* ─────────────────────────────────────────
    MODAL
 ───────────────────────────────────────── */
@@ -561,20 +310,167 @@ button:focus-visible {
   to   { opacity: 1; transform: none; }
 }
 
+/* ── Modal de obra: vidrio, no bloque ──────────────────────────────
+   El modal era negro sólido de borde a borde: entraba como un corte seco y
+   la página desaparecía. Ahora el fondo se difumina detrás y el panel es una
+   lámina translúcida, así se mantiene la sensación de estar sobre la obra y
+   no en otra pantalla. */
+.modal-scrim {
+  background: rgba(5, 5, 5, 0.62);
+  backdrop-filter: blur(22px) saturate(115%);
+  -webkit-backdrop-filter: blur(22px) saturate(115%);
+  animation: scrimIn 220ms var(--ease-out) both;
+}
+
 .modal-cinematic {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(14, 14, 16, 0.55);
+  backdrop-filter: blur(30px) saturate(135%);
+  -webkit-backdrop-filter: blur(30px) saturate(135%);
+  box-shadow:
+    0 40px 120px -40px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
   animation: modalIn 280ms var(--ease-out) both;
 }
 
+/* Filo de luz arriba: es lo que hace que se lea como vidrio y no como una
+   caja gris translúcida */
+.modal-cinematic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0) 38%
+  );
+  z-index: 3;
+}
+
+/* La media va sobre un fondo casi negro para no ensuciar el color de la obra,
+   pero translúcido para que el blur del panel siga leyéndose en los márgenes
+   de las piezas verticales. */
+.modal-media {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 17px 0 0 17px;
+}
+
+.modal-aside {
+  background: rgba(10, 10, 12, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0 17px 17px 0;
+}
+
+/* Controles: pastillas de vidrio en vez de cuadrados opacos */
+.modal-ctrl {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px;
+  transition: background var(--base) var(--ease-out), border-color var(--base) var(--ease-out), color var(--base) var(--ease-out);
+}
+
+.modal-ctrl:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+/* En mobile el visor es a pantalla completa, así que el vidrio va en las
+   franjas de chrome y en la hoja de info, no en un marco. */
+.modal-sheet {
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 767px) {
+  .modal-media { border-radius: 0; background: rgba(0, 0, 0, 0.45); }
+}
+
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.97); }
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-cinematic, .modal-scrim { animation-duration: 1ms; }
+}
+
+/* ── 404 ───────────────────────────────────────────────────────── */
+.notfound {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.1rem;
+  min-height: 70vh;
+  justify-content: center;
+  /* La barra es fixed: sin este colchon el titular le queda debajo */
+  padding: 8rem var(--page-px) 6rem;
+}
+
+.notfound-code {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--accent-hover);
+}
+
+.notfound-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.notfound-text {
+  max-width: 42ch;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.notfound-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.notfound-link {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  transition: color var(--base) var(--ease-out);
+}
+
+.notfound-link:hover { color: #fff; }
 
 /* ─────────────────────────────────────────
    CUSTOM CURSOR
 ───────────────────────────────────────── */
+/* La regla cuelga de .has-custom-cursor, clase que pone y saca el propio
+   componente CustomCursor. Antes escondia el cursor del sistema en todo el
+   documento, pero CustomCursor vive dentro del Shell y /admin se monta fuera:
+   el panel se manejaba literalmente sin cursor. Atado al componente, si el
+   punto no esta dibujado el cursor nativo vuelve solo. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  *, *::before, *::after { cursor: none !important; }
+  .has-custom-cursor,
+  .has-custom-cursor *,
+  .has-custom-cursor *::before,
+  .has-custom-cursor *::after { cursor: none !important; }
 
   .cursor-dot {
     position: fixed;
@@ -691,37 +587,6 @@ button:focus-visible {
 
 /* ─────────────────────────────────────────
    HUD CORNERS
-───────────────────────────────────────── */
-.hud-corner {
-  position: fixed;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  pointer-events: none;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  line-height: 1.4;
-}
-
-/* Debajo del nav pill (fixed top ~1rem + ~40px de alto) para no pisarse */
-.hud-corner--tl { top: 4.5rem; left: 1.5rem; }
-.hud-corner--tr { top: 4.5rem; right: 1.5rem; text-align: right; }
-/* Más tenue: convive con el © del footer al llegar al fondo */
-.hud-corner--bl { bottom: 1.5rem; left: 1.5rem; color: rgba(255,255,255,0.14); }
-.hud-corner--br { bottom: 4rem; right: 1.5rem; text-align: right; }
-
-@media (max-width: 767px) {
-  .hud-corner--tl,
-  .hud-corner--tr,
-  .hud-corner--bl { display: none; }
-}
-
-/* ─────────────────────────────────────────
-   PRELOADER ANIMATION
 ───────────────────────────────────────── */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(6px); }
@@ -901,4 +766,1124 @@ button:focus-visible {
   .render-card:hover video {
     filter: grayscale(0) brightness(1.1) contrast(1.04);
   }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   REDISEÑO — ÍNDICE DE 4 CATEGORÍAS
+   El scroll de 9 secciones se reemplaza por: hero + índice, y una
+   ruta por disciplina. Todo lo de abajo es nuevo.
+═════════════════════════════════════════════════════════════════ */
+
+/* ── Fondo three.js persistente ────────────────────────────────── */
+.hero-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 900ms var(--ease-out), filter 900ms var(--ease-out);
+}
+
+/* En rutas de categoría el fondo sigue vivo pero se corre a un susurro:
+   el render está pausado, así que esto no cuesta GPU. */
+.hero-backdrop--dim {
+  opacity: 0.28;
+  filter: saturate(0.55) blur(2px);
+}
+
+.hero-backdrop-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 50%, rgba(139,0,0,0.16), transparent 38%),
+    linear-gradient(to right, rgba(5,5,5,0.90) 0%, rgba(5,5,5,0.38) 44%, rgba(5,5,5,0) 74%),
+    linear-gradient(to top, rgba(5,5,5,0.80) 0%, rgba(5,5,5,0.16) 30%, transparent 55%);
+}
+
+/* ── Barra superior ────────────────────────────────────────────── */
+.shell-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.1rem var(--page-px);
+  background: linear-gradient(to bottom, rgba(5,5,5,0.88), rgba(5,5,5,0));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* En el home la barra casi se disuelve: el hero manda. Queda un velo minimo
+   porque el enjambre y el filtro ASCII llegan hasta arriba y sin nada debajo
+   la nav se pierde entre los caracteres. Solo en desktop; en mobile la barra
+   pisaria el texto del hero y conserva el fondo completo. */
+@media (min-width: 768px) {
+  .shell-bar--home {
+    background: linear-gradient(to bottom, rgba(5,5,5,0.62), rgba(5,5,5,0));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.shell-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(234,234,234,0.85);
+  white-space: nowrap;
+}
+
+.shell-brand-mark {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(139,0,0,0.9);
+  animation: brandPulse 3.4s ease-in-out infinite;
+}
+
+@keyframes brandPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
+@media (max-width: 900px) {
+  .shell-brand-text { display: none; }
+}
+
+.shell-nav {
+  display: none;
+  gap: 1.5rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .shell-nav { display: flex; }
+}
+
+/* En mobile la nav de categorias era display:none y no habia manera de saltar
+   de una categoria a otra: habia que volver al home o bajar hasta el pager del
+   final. Ahora baja a una segunda fila de la barra, pero solo fuera del home
+   —ahi el indice esta a un scroll y una fila extra le comeria aire al hero—. */
+@media (max-width: 767px) {
+  .shell-bar:not(.shell-bar--home) {
+    flex-wrap: wrap;
+    row-gap: 0.15rem;
+    column-gap: 1rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin-inline: 0;
+    gap: 1.35rem;
+    /* Con 4 categorias entra justo; si se agregan mas, se desliza */
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav::-webkit-scrollbar { display: none; }
+
+  .shell-bar:not(.shell-bar--home) .shell-nav .shell-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    letter-spacing: 0.2em;
+  }
+}
+
+.shell-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-left: auto;
+}
+
+.shell-nav-link {
+  position: relative;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.48);
+  transition: color var(--base) var(--ease-out);
+  white-space: nowrap;
+}
+
+.shell-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent-hover);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--base) var(--ease-out);
+}
+
+.shell-nav-link:hover { color: #fff; }
+.shell-nav-link:hover::after,
+.shell-nav-link.is-active::after { transform: scaleX(1); }
+.shell-nav-link.is-active { color: rgba(255,255,255,0.92); }
+
+@media (max-width: 520px) {
+  .shell-actions { gap: 0.85rem; }
+  .shell-actions .shell-nav-link { font-size: 9px; letter-spacing: 0.18em; }
+}
+
+/* ── Footer ────────────────────────────────────────────────────── */
+.shell-footer {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem var(--page-px);
+  border-top: 1px solid var(--line);
+}
+
+/* ── HOME ──────────────────────────────────────────────────────── */
+.home-root {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.home-hero {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 7rem var(--page-px) 2rem;
+}
+
+.home-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* Quedó un solo hijo cuando se saco la linea de disciplinas: sin esto la
+     chapa de estado se iba al margen izquierdo. */
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.home-hero-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+  /* Placa propia y no solo sombra de texto. Esta linea cae del lado derecho,
+     encima de lo mas denso del campo ASCII, y a 9 px con letterspacing el
+     halo no alcanza cuando pasa el orbe o el enjambre. Es una chapa de
+     estado —ya tiene su punto que late—, asi que llevar fondo no la
+     desentona. Translucida y con blur: los caracteres se siguen viendo
+     atras, apagados, sin el corte recto que dejaba la mascara del shader.
+
+     El fondo va bajo y el blur alto a proposito: lo que vuelve ilegible el
+     texto no es el brillo del campo sino que los glifos compiten a la misma
+     escala que las letras. Desenfocandolos fuerte dejan de leerse como
+     caracteres y quedan como un resplandor con textura, que es lo que tiene
+     que verse debajo; el velo solo baja la luminancia lo justo. */
+  padding: 0.4rem 0.7rem;
+  background: rgba(5,5,5,0.42);
+  backdrop-filter: blur(13px) saturate(0.85);
+  -webkit-backdrop-filter: blur(13px) saturate(0.85);
+  border: 1px solid rgba(255,255,255,0.07);
+  text-shadow: 0 0 4px rgba(5,5,5,0.85);
+}
+
+.home-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-hover);
+  box-shadow: 0 0 10px rgba(255,59,59,0.8);
+  animation: brandPulse 2.6s ease-in-out infinite;
+}
+
+.home-hero-main {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .home-hero-main {
+    grid-template-columns: 1fr minmax(280px, 340px);
+    align-items: flex-end;
+  }
+}
+
+.home-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(4rem, 13vw, 12rem);
+  line-height: 0.76;
+  letter-spacing: -0.075em;
+  color: var(--text);
+  text-shadow: 0 28px 70px rgba(0,0,0,0.8);
+}
+
+.home-title-line {
+  display: block;
+  /* Entrada escalonada por palabra */
+  animation: titleRise 1100ms var(--ease-out) both;
+}
+
+.home-title-line:nth-child(2) { animation-delay: 90ms; }
+.home-title-line:nth-child(3) { animation-delay: 180ms; }
+.home-title-line:nth-child(4) { animation-delay: 270ms; }
+
+@keyframes titleRise {
+  from { opacity: 0; transform: translateY(0.24em); }
+  to   { opacity: 1; transform: none; }
+}
+
+.home-hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.home-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.home-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  align-self: flex-start;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.48);
+  transition: color var(--base) var(--ease-out);
+}
+
+.home-scroll:hover { color: rgba(255,255,255,0.75); }
+
+.home-scroll-rule {
+  display: block;
+  width: 1px;
+  height: 2.4rem;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+  animation: scrollRule 2.4s ease-in-out infinite;
+}
+
+@keyframes scrollRule {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; transform-origin: top; }
+  50%      { transform: scaleY(0.55); opacity: 1; transform-origin: top; }
+}
+
+/* ── Índice de categorías ──────────────────────────────────────── */
+/* Sobre mí abre el cuerpo de la página: es lo primero después del hero, así
+   que se lleva el degradado que corta el fondo WebGL. El índice y contacto
+   vienen abajo, ya sobre fondo opaco. */
+.home-about {
+  padding: 5rem var(--page-px) 4rem;
+  background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
+}
+
+.home-index {
+  padding: 1rem var(--page-px) 4rem;
+  background: rgba(5,5,5,0.95);
+}
+
+.home-contact {
+  padding: 2rem var(--page-px) 7rem;
+  background: rgba(5,5,5,0.95);
+}
+
+.about-layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .about-layout {
+    grid-template-columns: minmax(240px, 0.72fr) 1.28fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+}
+
+.about-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface, rgba(255,255,255,0.02));
+  border: 1px solid var(--line);
+}
+
+/* Estado vacío: marco con las esquinas del sistema. Es un hueco pendiente,
+   no una imagen que se rompió, y tiene que leerse así. */
+.about-portrait--vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.014) 0 10px,
+      transparent 10px 20px
+    ),
+    rgba(255,255,255,0.02);
+}
+
+.about-portrait-label {
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.30);
+}
+
+.about-portrait-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.about-portrait-corner--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--accent-hover);
+  border-left: 1px solid var(--accent-hover);
+  opacity: 0.55;
+}
+
+.about-portrait-corner--br {
+  right: 14px;
+  bottom: 14px;
+  border-right: 1px solid rgba(255,255,255,0.18);
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+}
+
+.home-index-head {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-index-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(139,0,0,0.6), rgba(255,255,255,0.07));
+}
+
+.cat-index {
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  transition: padding-left var(--base) var(--ease-out);
+}
+
+@media (min-width: 1024px) {
+  .cat-row {
+    grid-template-columns: auto 1fr auto auto;
+    gap: 2rem;
+    padding: 2.1rem 0;
+  }
+}
+
+/* Barrido rojo que entra desde la izquierda en hover */
+.cat-row-rule {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent-hover);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--base) var(--ease-out);
+}
+
+.cat-row.is-hovered .cat-row-rule { transform: scaleY(1); transform-origin: top; }
+
+@media (hover: hover) {
+  .cat-row.is-hovered { padding-left: 1.4rem; }
+}
+
+.cat-row-num {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: rgba(255,255,255,0.46);
+  transition: color var(--base) var(--ease-out);
+}
+
+.cat-row.is-hovered .cat-row-num { color: var(--accent-hover); }
+
+.cat-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.cat-row-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  color: rgba(234,234,234,0.72);
+  transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);
+}
+
+.cat-row.is-hovered .cat-row-title { color: #fff; }
+
+.cat-row-kicker {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.48);
+}
+
+/* Avance de la obra: solo desktop, aparece en hover */
+.cat-row-peek {
+  display: none;
+  gap: 0.5rem;
+}
+
+@media (min-width: 1024px) and (hover: hover) {
+  .cat-row-peek { display: flex; }
+}
+
+.cat-peek-tile {
+  display: block;
+  width: 92px;
+  height: 62px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  opacity: 0;
+  transform: translateY(10px);
+  filter: grayscale(1);
+  transition:
+    opacity var(--base) var(--ease-out),
+    transform var(--base) var(--ease-out),
+    filter var(--base) var(--ease-out);
+  transition-delay: calc(var(--i) * 60ms);
+}
+
+.cat-row.is-hovered .cat-peek-tile {
+  opacity: 1;
+  transform: none;
+  filter: grayscale(0.35);
+}
+
+.cat-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.48);
+  white-space: nowrap;
+}
+
+.cat-row-arrow {
+  display: inline-block;
+  font-size: 14px;
+  color: rgba(255,255,255,0.47);
+  transition: transform var(--base) var(--ease-out), color var(--base) var(--ease-out);
+}
+
+.cat-row.is-hovered .cat-row-arrow {
+  transform: translateX(6px);
+  color: var(--accent-hover);
+}
+
+/* ── PÁGINA DE CATEGORÍA ───────────────────────────────────────── */
+.cat-page {
+  position: relative;
+  z-index: var(--z-content);
+  padding: 0 var(--page-px) 4rem;
+  animation: catEnter 520ms var(--ease-out) both;
+}
+
+@keyframes catEnter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cat-header {
+  display: grid;
+  gap: 1.5rem;
+  padding: 7.5rem 0 2.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 1024px) {
+  .cat-header {
+    grid-template-columns: 1fr minmax(280px, 380px);
+    align-items: flex-end;
+    gap: 3rem;
+  }
+  .cat-back { grid-column: 1 / -1; }
+}
+
+.cat-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  transition: color var(--base) var(--ease-out), gap var(--base) var(--ease-out);
+}
+
+.cat-back:hover { color: var(--accent-hover); gap: 1rem; }
+
+.cat-header-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.cat-header-num {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--accent-hover);
+  padding-top: 0.9rem;
+}
+
+.cat-header-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 10vw, 8.5rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: var(--text);
+}
+
+.cat-header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-bottom: 0.4rem;
+}
+
+.cat-header-sub {
+  max-width: 42ch;
+  border-left: 2px solid rgba(139,0,0,0.6);
+  padding-left: 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: 0.72;
+}
+
+/* ── Grupos dentro de la categoría ─────────────────────────────── */
+.cat-group { padding: 3.5rem 0 0; }
+
+.cat-group-head {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.cat-group-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+  letter-spacing: -0.01em;
+  color: rgba(234,234,234,0.9);
+  white-space: nowrap;
+}
+
+.cat-group-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(139,0,0,0.5), rgba(255,255,255,0.06));
+}
+
+.cat-group-note {
+  display: none;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .cat-group-note { display: block; }
+}
+
+.cat-lab-fallback { min-height: 40vh; }
+
+/* ── Grillas de obra ───────────────────────────────────────────── */
+/* Masonry por columnas: cada pieza conserva su formato original (vertical,
+   cuadrado, apaisado) sin desalinear la fila ni dejar huecos. */
+.work-grid {
+  columns: 2;
+  column-gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .work-grid { columns: 3; column-gap: 1.25rem; }
+}
+
+@media (min-width: 1280px) {
+  .work-grid { columns: 4; column-gap: 1.5rem; }
+}
+
+.work-tile {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 1.75rem;
+}
+.work-tile-button { display: block; width: 100%; text-align: left; }
+
+.work-tile-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
+}
+
+.work-tile--landscape .work-tile-media { aspect-ratio: 16 / 10; }
+.work-tile--square    .work-tile-media { aspect-ratio: 1 / 1; }
+.work-tile--portrait  .work-tile-media { aspect-ratio: 4 / 5; }
+
+.work-tile-media img,
+.work-tile-media video {
+  transition: transform 900ms var(--ease-out), filter var(--base) var(--ease-out);
+  filter: brightness(1.05) contrast(1.03) grayscale(0.2);
+}
+
+.work-tile-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 48%);
+  opacity: 0.75;
+  transition: opacity var(--base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .work-tile-button:hover .work-tile-media {
+    border-color: rgba(177,18,18,0.55);
+    box-shadow: 0 0 44px -14px rgba(139,0,0,0.45);
+  }
+  .work-tile-button:hover .work-tile-media img,
+  .work-tile-button:hover .work-tile-media video {
+    transform: scale(1.05);
+    filter: brightness(1.08) contrast(1.05) grayscale(0);
+  }
+  .work-tile-button:hover .work-tile-veil { opacity: 0.35; }
+}
+
+.work-tile-caption {
+  display: flex;
+  gap: 0.7rem;
+  padding-top: 0.85rem;
+}
+
+/* Marca roja en vez de número: con masonry el orden es por columna y una
+   numeración visible leería 01, 03, 05 de izquierda a derecha. */
+.work-tile-index {
+  width: 3px;
+  align-self: stretch;
+  background: rgba(139,0,0,0.9);
+  flex-shrink: 0;
+  transition: background var(--base) var(--ease-out);
+}
+
+.work-tile-button:hover .work-tile-index { background: var(--accent-hover); }
+
+.work-tile-text { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+
+.work-tile-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: rgba(234,234,234,0.92);
+}
+
+.work-tile-desc {
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: rgba(234,234,234,0.5);
+}
+
+/* Loops de video: más grandes, el movimiento es el contenido */
+.loop-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .loop-grid { grid-template-columns: repeat(2, 1fr); }
+  /* El primero abre a lo ancho, pero en banda: 16:9 a 1440px era una pared */
+  .loop-tile:first-child { grid-column: span 2; }
+  .loop-tile:first-child .loop-tile-media { aspect-ratio: 21 / 9; }
+}
+
+.loop-tile-button { display: block; width: 100%; text-align: left; }
+
+.loop-tile-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
+}
+
+.loop-tile-media img,
+.loop-tile-media video { transition: transform 900ms var(--ease-out); }
+
+.loop-tile-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(139,0,0,0.2), transparent 46%),
+    linear-gradient(to top, rgba(0,0,0,0.6), transparent 52%);
+}
+
+.loop-tile-badge {
+  position: absolute;
+  left: 1.1rem;
+  top: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.82);
+}
+
+.loop-tile-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (hover: hover) {
+  .loop-tile-button:hover .loop-tile-media {
+    border-color: rgba(177,18,18,0.5);
+    box-shadow: 0 0 44px -14px rgba(139,0,0,0.4);
+  }
+  .loop-tile-button:hover .loop-tile-media img,
+  .loop-tile-button:hover .loop-tile-media video { transform: scale(1.04); }
+}
+
+.loop-tile-caption { display: flex; flex-direction: column; gap: 0.4rem; padding-top: 0.85rem; }
+
+.loop-tile-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.loop-tile-desc {
+  max-width: 52ch;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: rgba(234,234,234,0.55);
+}
+
+.wide-grid { display: grid; gap: 5rem; }
+
+@media (min-width: 768px) {
+  .wide-grid { gap: 7rem; }
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .lab-grid { grid-template-columns: repeat(2, 1fr); }
+  .lab-card--wide { grid-column: span 2; }
+}
+
+/* ── Paginador entre categorías ────────────────────────────────── */
+.cat-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 6rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.cat-pager-link { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.cat-pager-link--next { text-align: right; align-items: flex-end; }
+
+.cat-pager-dir {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  transition: color var(--base) var(--ease-out);
+}
+
+.cat-pager-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.2rem, 3.4vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: rgba(234,234,234,0.6);
+  transition: color var(--base) var(--ease-out);
+}
+
+.cat-pager-link:hover .cat-pager-dir { color: var(--accent-hover); }
+.cat-pager-link:hover .cat-pager-title { color: #fff; }
+
+.cat-pager-home {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  transition: color var(--base) var(--ease-out);
+}
+
+.cat-pager-home:hover { color: #fff; }
+
+/* ── Panel About / Contacto ────────────────────────────────────── */
+.info-panel-root { position: fixed; inset: 0; z-index: var(--z-modal); }
+
+.info-panel-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: rgba(5,5,5,0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: scrimIn 260ms var(--ease-out) both;
+}
+
+@keyframes scrimIn { from { opacity: 0; } to { opacity: 1; } }
+
+.info-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(560px, 100%);
+  overflow-y: auto;
+  background: linear-gradient(180deg, #0A0A0A 0%, #070707 100%);
+  border-left: 1px solid rgba(255,255,255,0.09);
+  box-shadow: -40px 0 120px -40px rgba(0,0,0,0.9);
+  animation: panelIn 380ms var(--ease-out) both;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateX(36px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-panel { animation-duration: 1ms; }
+}
+
+.info-panel-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 2rem;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.info-panel-close {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.52);
+  transition: color var(--base) var(--ease-out);
+}
+
+.info-panel-close:hover { color: var(--accent-hover); }
+
+.info-panel-body { padding: 2.5rem 2rem 4rem; }
+
+.info-spec-list {
+  display: grid;
+  gap: 0;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.info-spec-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.58);
+}
+
+.info-spec-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.info-contact-list {
+  display: grid;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Tres columnas: ícono, texto, flecha. El ícono ocupa las dos filas del
+   bloque de texto (rótulo arriba, valor abajo) para quedar centrado contra
+   los dos, no colgado del rótulo. */
+.info-contact-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: padding-left var(--base) var(--ease-out);
+}
+
+.info-contact-link:hover { padding-left: 0.7rem; }
+
+.info-contact-icon {
+  grid-row: 1 / 3;
+  grid-column: 1;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  color: rgba(255,255,255,0.55);
+  transition:
+    color var(--base) var(--ease-out),
+    border-color var(--base) var(--ease-out),
+    background var(--base) var(--ease-out);
+}
+
+.info-contact-link:hover .info-contact-icon {
+  color: var(--accent-hover);
+  border-color: rgba(255,59,59,0.45);
+  background: rgba(255,59,59,0.06);
+}
+
+.info-contact-key { grid-column: 2; }
+
+/* Fila sin rótulo chico: el valor se centra contra el ícono en vez de quedar
+   colgado de la fila de abajo. */
+.info-contact-link--simple .info-contact-value {
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
+.info-contact-value {
+  grid-column: 2;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  color: rgba(234,234,234,0.85);
+  word-break: break-all;
+  transition: color var(--base) var(--ease-out);
+}
+
+.info-contact-link:hover .info-contact-value { color: #fff; }
+
+.info-contact-arrow {
+  grid-row: 1 / 3;
+  grid-column: 3;
+  align-self: center;
+  color: rgba(255,255,255,0.45);
+  transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);
+}
+
+.info-contact-link:hover .info-contact-arrow {
+  color: var(--accent-hover);
+  transform: translate(3px, -3px);
+}
+
+.info-tag {
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 0.35rem 0.7rem;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.62);
+}
+
+/* Scrim local bajo el bloque de texto del hero: con el campo ASCII detras,
+   el parrafo perdia contraste justo donde vive la escena. */
+.home-hero-side { position: relative; }
+
+.home-hero-side::before {
+  content: "";
+  position: absolute;
+  inset: -1.75rem -2rem -1.75rem -2.5rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 55% 50%,
+    rgba(5, 5, 5, 0.94) 0%,
+    rgba(5, 5, 5, 0.78) 48%,
+    rgba(5, 5, 5, 0) 82%
+  );
 }

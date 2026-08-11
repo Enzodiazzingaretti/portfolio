@@ -51,22 +51,38 @@ const DIAG_LINES = [
   "——————————————————————————",
 ];
 
-const HELP_LINES = [
-  "——————————————————————————",
-  "AVAILABLE COMMANDS:",
-  "——————————————————————————",
-  "  about              — manifiesto de identidad",
-  "  links              — redes y contacto",
-  "  stack              — herramientas y software",
-  "  kexxy --play       — activar stream de audio underground",
-  "  get --vj-pack      — descargar VJ asset pack (coming soon)",
-  "  glitch --overdrive — fragmentar la interfaz visual",
-  "  sys --status       — diagnóstico del sistema",
-  "  credits            — stack técnico + mensaje oculto",
-  "  clear              — limpiar consola",
-  "  exit               — cerrar terminal",
-  "——————————————————————————",
+const RULE = "——————————————————————————";
+
+/**
+ * El comando y su descripcion. El nombre del comando no se traduce —se escribe
+ * tal cual— pero la descripcion es prosa y estaba en español fijo dentro de una
+ * terminal que por lo demas habla en ingles. El resto de la consola (arranque,
+ * diagnostico, creditos) es salida de maquina y queda igual en los tres idiomas.
+ */
+const HELP_COMMANDS = [
+  ["about", "about"],
+  ["links", "links"],
+  ["stack", "stack"],
+  ["kexxy --play", "play"],
+  ["get --vj-pack", "vjpack"],
+  ["glitch --overdrive", "glitch"],
+  ["sys --status", "status"],
+  ["credits", "credits"],
+  ["clear", "clear"],
+  ["exit", "exit"],
 ];
+
+const ANCHO_COMANDO = Math.max(...HELP_COMMANDS.map(([cmd]) => cmd.length));
+
+function helpLines(commands = {}) {
+  return [
+    RULE,
+    "AVAILABLE COMMANDS:",
+    RULE,
+    ...HELP_COMMANDS.map(([cmd, key]) => `  ${cmd.padEnd(ANCHO_COMANDO)} — ${commands[key] ?? ""}`),
+    RULE,
+  ];
+}
 
 const CREDITS_LINES = [
   "——————————————————————————",
@@ -92,7 +108,7 @@ const CREDITS_LINES = [
   "——————————————————————————",
 ];
 
-export default function KonsoleEasterEgg({ onGlitch }) {
+export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState([]);
   const [input, setInput] = useState("");
@@ -190,7 +206,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
     if (cmd === "clear") { setLines([]); return; }
     const push = (arr) => setLines((prev) => [...prev, ...arr]);
 
-    if (cmd === "help") { push(HELP_LINES); return; }
+    if (cmd === "help") { push(helpLines(labels.commands)); return; }
 
     if (cmd === "about") {
       push([
@@ -293,7 +309,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
     }
 
     push([`COMMAND NOT FOUND: "${raw}" — type "help"`]);
-  }, [handleClose, isPlaying, onGlitch]);
+  }, [handleClose, isPlaying, onGlitch, labels.commands]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -321,7 +337,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
                 ♦ BPM: {BPM}
               </span>
             )}
-            <button onClick={handleClose} className="font-mono text-label text-white/30 transition hover:text-white/80">
+            <button onClick={handleClose} className="font-mono text-label text-white/52 transition hover:text-white/80">
               [ESC] CLOSE
             </button>
           </div>
@@ -334,10 +350,10 @@ export default function KonsoleEasterEgg({ onGlitch }) {
             return (
               <p key={i} className={
                 line.startsWith(">") ? "text-white/90" :
-                line.startsWith("——") ? "text-white/10" :
+                line.startsWith("——") ? "text-white/46" :
                 line.startsWith("WARNING") || line.startsWith("[!]") ? "text-raveRed/80" :
                 line.includes(":") && !line.startsWith(" ") && !line.startsWith("TYPE") ? "text-white/60" :
-                "text-white/40"
+                "text-white/60"
               }>{line}</p>
             );
           })}
@@ -346,7 +362,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
           {isPlaying && eqRow && (
             <div className="mt-2">
               <p className="text-raveRed/60 tracking-widest text-caption">{eqRow}</p>
-              <p className="text-white/20 text-micro mt-1 tracking-[0.3em]">
+              <p className="text-white/46 text-micro mt-1 tracking-[0.3em]">
                 STREAM ACTIVE — UNDERGROUND_MESH — {BPM} BPM
               </p>
             </div>
@@ -366,7 +382,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
                 key={c}
                 type="button"
                 onClick={() => { runCommand(c); inputRef.current?.focus(); }}
-                className="font-mono text-micro uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/30 transition hover:border-raveRed/50 hover:text-white/70"
+                className="font-mono text-micro uppercase tracking-[0.2em] border border-white/[0.08] px-2 py-1 text-white/52 transition hover:border-raveRed/50 hover:text-white/70"
               >
                 {c}
               </button>
@@ -385,8 +401,8 @@ export default function KonsoleEasterEgg({ onGlitch }) {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/20 uppercase tracking-[0.1em]"
-              placeholder="type a command..."
+              className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/46 uppercase tracking-[0.1em]"
+              placeholder={labels.prompt ?? "type a command..."}
               autoComplete="off"
               spellCheck="false"
             />

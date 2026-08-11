@@ -1,19 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 
-const LINES = [
-  "INITIALIZING PORTFOLIO_SYS v1.0",
-  "LOADING ASSET MANIFEST...",
-  "3D RENDER CACHE: OK",
-  "MOTION SYSTEM: ONLINE",
-  "VISUAL ARCHIVE: INDEXED",
-  "IDENTITY LAYER: ACTIVE",
-  "BOOT SEQUENCE COMPLETE",
-];
+// Ultimo recurso: el preloader se monta antes de que content.json resuelva, y
+// sin lineas la secuencia de arranque queda muda.
+const FALLBACK_LINES = ["INITIALIZING PORTFOLIO_SYS v1.0", "BOOT SEQUENCE COMPLETE"];
 
 const MIN_DURATION = 1200;
 const MAX_WAIT = 8000;
 
-export default function Preloader({ onDone, criticalAssets = [] }) {
+export default function Preloader({ onDone, criticalAssets = [], lines }) {
+  const LINES = lines?.length ? lines : FALLBACK_LINES;
   const [percent, setPercent] = useState(0);
   const [lineIndex, setLineIndex] = useState(0);
   const [exiting, setExiting] = useState(false);
@@ -22,6 +17,10 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
   const rafRef = useRef(null);
   const startRef = useRef(null);
   const doneRef = useRef(false);
+  // Por ref y no por dependencia: content.json resuelve con la carga ya
+  // empezada y meter las lineas en las deps reiniciaria la cuenta a la mitad.
+  const linesRef = useRef(LINES);
+  linesRef.current = LINES;
 
   useEffect(() => {
     const total = criticalAssets.length || 1;
@@ -32,7 +31,7 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
       doneRef.current = true;
       cancelAnimationFrame(rafRef.current);
       setPercent(100);
-      setLineIndex(LINES.length - 1);
+      setLineIndex(linesRef.current.length - 1);
       setTimeout(() => {
         setExiting(true);
         setTimeout(onDone, 600);
@@ -65,7 +64,8 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
       displayRef.current += (target - displayRef.current) * 0.06;
       const p = Math.min(Math.round(displayRef.current * 100), 99);
       setPercent(p);
-      setLineIndex(Math.min(Math.floor(displayRef.current * LINES.length), LINES.length - 1));
+      const n = linesRef.current.length;
+      setLineIndex(Math.min(Math.floor(displayRef.current * n), n - 1));
 
       if (realProgress >= 1 && elapsed >= MIN_DURATION) {
         clearTimeout(deadline);
@@ -110,7 +110,7 @@ export default function Preloader({ onDone, criticalAssets = [] }) {
         <div className="mt-5 h-4 overflow-hidden">
           <p
             key={lineIndex}
-            className="font-mono text-label uppercase tracking-[0.28em] text-white/25 animate-[fadeSlideUp_120ms_ease_both]"
+            className="font-mono text-label uppercase tracking-[0.28em] text-white/48 animate-[fadeSlideUp_120ms_ease_both]"
           >
             {LINES[lineIndex]}
           </p>
