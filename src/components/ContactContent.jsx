@@ -17,6 +17,25 @@ function contactHref(key, value) {
 }
 
 /**
+ * Lo que se muestra no es la URL. Una red social se identifica por el handle
+ * —`instagram.com/kexxy.obj` es ruido alrededor de `@kexxy.obj`— y el press
+ * kit por lo que es, no por dónde está alojado: que diga "vercel.app" cuenta
+ * un detalle de infraestructura que al visitante no le importa.
+ */
+function valorVisible(key, value, labels) {
+  if (key === "email") return value;
+  if (key === "instagram" || key === "linkedin") {
+    const handle = value.replace(/\/+$/, "").split("/").pop();
+    return handle ? `@${handle}` : value;
+  }
+  return labels?.[key] ?? value;
+}
+
+// El press kit muestra su nombre como valor, así que el rótulo chico de
+// arriba diría exactamente lo mismo dos veces.
+const SIN_ROTULO = new Set(["presskit"]);
+
+/**
  * El cuerpo de Contacto, compartido por la sección del home y el panel
  * lateral. Mismo criterio que [AboutContent]: una sola copia del contenido.
  *
@@ -44,22 +63,25 @@ export default function ContactContent({ contact, labels, variant = "panel" }) {
       <ul className="info-contact-list">
         {CONTACT_ORDER.filter((key) => contact[key]).map((key) => {
           const Icono = CONTACT_ICON[key];
+          const conRotulo = !SIN_ROTULO.has(key);
           return (
             <li key={key}>
               <a
                 href={contactHref(key, contact[key])}
                 target={key === "email" ? undefined : "_blank"}
                 rel={key === "email" ? undefined : "noreferrer"}
-                className="info-contact-link"
+                className={`info-contact-link${conRotulo ? "" : " info-contact-link--simple"}`}
               >
                 <span className="info-contact-icon" aria-hidden="true">
                   {Icono ? <Icono size={17} strokeWidth={1.5} /> : null}
                 </span>
-                <span className="info-contact-key font-mono text-label uppercase tracking-[0.3em] text-white/60">
-                  {labels?.[key] ?? key}
-                </span>
+                {conRotulo ? (
+                  <span className="info-contact-key font-mono text-label uppercase tracking-[0.3em] text-white/60">
+                    {labels?.[key] ?? key}
+                  </span>
+                ) : null}
                 <span className="info-contact-value font-display">
-                  {key === "email" ? contact[key] : contact[key].replace(/^https?:\/\/(www\.)?/, "")}
+                  {valorVisible(key, contact[key], labels)}
                 </span>
                 <span className="info-contact-arrow" aria-hidden="true">
                   ↗

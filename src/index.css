@@ -1829,6 +1829,13 @@ button:focus-visible {
 
 .info-contact-key { grid-column: 2; }
 
+/* Fila sin rótulo chico: el valor se centra contra el ícono en vez de quedar
+   colgado de la fila de abajo. */
+.info-contact-link--simple .info-contact-value {
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
 .info-contact-value {
   grid-column: 2;
   font-weight: 600;
