@@ -81,7 +81,10 @@ const NORMALIZERS = {
     tags: ui.renderTags,
     portrait: work.portrait ?? false,
     square: work.square ?? false,
-    thumbnail: asset(work.slides?.[0]),
+    // Igual que en `loop`: si la pieza tiene portada propia se usa esa. Los
+    // tres renders cuya primera slide es un video la tienen, para no bajar el
+    // original entero en la grilla.
+    thumbnail: asset(work.thumbnail) ?? asset(work.slides?.[0]),
     slides: slides(work.slides),
   }),
   space: (space) => ({

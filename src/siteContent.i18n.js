@@ -15,9 +15,16 @@ const webProjectAssets = {
   },
 };
 
+/**
+ * `thumbnail` apunta a /images/loops/: versiones de 8 s y ~600 KB generadas
+ * para la grilla, con su poster .jpg al lado. Los originales siguen en
+ * `slides` y son los que abre el modal. Antes la grilla usaba `slides[0]`
+ * directo —el MP4 completo, hasta 28 MB— y /motion transferia 20 MB.
+ * Para regenerarlas ver la seccion "Portadas de grilla" en CLAUDE.md.
+ */
 const touchDesignerAssets = {
   feedbackRitual: {
-    thumbnail: null,
+    thumbnail: "/images/loops/feedback-ritual.mp4",
     slides: [
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
@@ -27,38 +34,38 @@ const touchDesignerAssets = {
     ],
   },
   pulseVandal: {
-    thumbnail: null,
+    thumbnail: "/images/loops/pulse-vandal.mp4",
     slides: [
       "/images/touchdesigner/pulse-vandal/visuales1.mp4",
     ],
   },
   ghostTunnel: {
-    thumbnail: null,
+    thumbnail: "/images/loops/ghost-tunnel.mp4",
     slides: [
       "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4",
     ],
   },
   staticVeil: {
-    thumbnail: null,
+    thumbnail: "/images/loops/static-veil.mp4",
     slides: [
       "/images/touchdesigner/static-veil/humo.mp4",
       "/images/touchdesigner/static-veil/humo mod.mp4",
     ],
   },
   ironLattice: {
-    thumbnail: null,
+    thumbnail: "/images/loops/iron-lattice.mp4",
     slides: [
       "/images/touchdesigner/iron-lattice/visuales4.mp4",
     ],
   },
   eyes: {
-    thumbnail: null,
+    thumbnail: "/images/loops/eyes.mp4",
     slides: [
       "/images/touchdesigner/Eyes/Ojos Visuales.mp4",
     ],
   },
   biology: {
-    thumbnail: null,
+    thumbnail: "/images/loops/biology.mp4",
     slides: [
       "/images/touchdesigner/biology/biology1.mp4",
       "/images/touchdesigner/biology/biology2.mp4",
@@ -227,6 +234,7 @@ const blenderAssets = {
   },
   calvariaGlass: {
     portrait: true,
+    thumbnail: "/images/loops/calvaria-glass.mp4",
     slides: [
       "/images/blender/calvaria-glass/Calvarian Animation.mp4",
       "/images/blender/calvaria-glass/calvarian_glass1.webp",
@@ -300,6 +308,7 @@ const blenderAssets = {
   },
   km240: {
     portrait: true,
+    thumbnail: "/images/loops/240kmh.mp4",
     slides: [
       "/images/blender/240KM-H/Semaforo Preview.mp4",
       "/images/blender/240KM-H/semaforo-1.png",
@@ -316,6 +325,7 @@ const blenderAssets = {
   },
   cristales: {
     portrait: true,
+    thumbnail: "/images/loops/cristales.mp4",
     slides: [
       "/images/blender/cristales/Cristales Preview.mp4",
       "/images/blender/cristales/cristales-1.png",
@@ -490,6 +500,7 @@ export const siteContent = {
         lab: { seed: "Semilla", hint: "Click: nueva semilla", reseed: "nueva semilla" },
         footerLocation: "Argentina / Internacional",
         pageTitle: "Portfolio",
+        notFound: { title: "Esta página no existe", text: "El enlace es viejo o está mal escrito. Probá con una categoría." },
         aboutCta: "Hablemos",
       },
     },
@@ -643,6 +654,7 @@ export const siteContent = {
         lab: { seed: "Seed", hint: "Click: new seed", reseed: "new seed" },
         footerLocation: "Argentina / Worldwide",
         pageTitle: "Portfolio",
+        notFound: { title: "This page doesn't exist", text: "The link is old or mistyped. Try one of the categories." },
         aboutCta: "Let's Talk",
       },
     },
@@ -796,6 +808,7 @@ export const siteContent = {
         lab: { seed: "Semente", hint: "Clique: nova semente", reseed: "nova semente" },
         footerLocation: "Argentina / Internacional",
         pageTitle: "Portfólio",
+        notFound: { title: "Esta página não existe", text: "O link é antigo ou está mal escrito. Tente uma das categorias." },
         aboutCta: "Vamos Conversar",
       },
     },
