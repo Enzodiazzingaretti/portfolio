@@ -28,11 +28,36 @@ export default function Shell() {
   const [preloaded, setPreloaded] = useState(false);
   const [panel, setPanel] = useState(null);
   const [glitching, setGlitching] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  /**
+   * En el home la barra se disuelve sobre el hero, pero el fondo WebGL es
+   * fijo: al bajar a Sobre mí o al índice el campo ASCII sigue detrás y la
+   * nav se pierde entre los caracteres. Recupera fondo apenas se scrollea.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const categories = useMemo(() => buildCategories(content), [content]);
   const navLabels = content.ui.nav;
+  const a11y = content.ui.a11y;
+  const konsole = content.ui.konsole;
 
-  const { scrollToTop } = useLenis(Boolean(panel) || !preloaded);
+  const { scrollToTop, scrollToSection } = useLenis(Boolean(panel) || !preloaded);
+
+  /**
+   * En el home, Sobre mí y Contacto son secciones de la página: la barra
+   * scrollea hasta ellas en vez de abrir un panel que diría lo mismo. En las
+   * rutas de categoría no están a la vista, así que ahí sí abre el panel.
+   */
+  const irASeccion = (kind) => {
+    if (isHome) scrollToSection(kind);
+    else setPanel(kind);
+  };
 
   // Precarga solo las portadas del índice: 4 miniaturas, no la obra entera
   const criticalAssets = useMemo(
@@ -72,7 +97,9 @@ export default function Shell() {
       </a>
       <Analytics />
 
-      {!preloaded && <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} />}
+      {!preloaded && (
+        <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} lines={content.ui.boot} />
+      )}
 
       <Suspense fallback={null}>
         <HeroBackdrop active={isHome} revealActive={preloaded} />
@@ -80,10 +107,10 @@ export default function Shell() {
       <GrainOverlay />
       <CustomCursor />
       <Suspense fallback={null}>
-        <KonsoleEasterEgg onGlitch={handleGlitch} />
+        <KonsoleEasterEgg onGlitch={handleGlitch} labels={konsole} />
       </Suspense>
 
-      <header className={`shell-bar${isHome ? " shell-bar--home" : ""}`}>
+      <header className={`shell-bar${isHome && !scrolled ? " shell-bar--home" : ""}`}>
         <Link to="/" className="shell-brand font-mono" aria-label={navLabels.home}>
           <span className="shell-brand-mark" aria-hidden="true" />
           <span className="shell-brand-text">{content.brand}</span>
@@ -102,10 +129,10 @@ export default function Shell() {
         </nav>
 
         <div className="shell-actions">
-          <button type="button" onClick={() => setPanel("about")} className="shell-nav-link font-mono">
+          <button type="button" onClick={() => irASeccion("about")} className="shell-nav-link font-mono">
             {navLabels.about}
           </button>
-          <button type="button" onClick={() => setPanel("contact")} className="shell-nav-link font-mono">
+          <button type="button" onClick={() => irASeccion("contact")} className="shell-nav-link font-mono">
             {navLabels.contact}
           </button>
           <LanguageSelector
@@ -130,15 +157,13 @@ export default function Shell() {
         <button
           type="button"
           onClick={() => window.dispatchEvent(new CustomEvent("open-konsole"))}
-          aria-label="Abrir consola oculta"
+          aria-label={a11y.openConsole}
           className="font-mono text-caption uppercase tracking-[0.25em] text-white/48 transition-colors hover:text-raveRedBright"
         >
-          <span className="hidden sm:inline">
-            // {language === "en" ? 'type "kexxy"' : language === "pt" ? 'digite "kexxy"' : 'escribí "kexxy"'}
-          </span>
-          <span className="sm:hidden">// {language === "en" ? "console" : "consola"}</span>
+          <span className="hidden sm:inline">// {konsole.hintLong}</span>
+          <span className="sm:hidden">// {konsole.hintShort}</span>
         </button>
-        <a href="/admin" aria-label="Panel de administración" title="Panel" className="text-white/48 transition-colors hover:text-raveRedBright">
+        <a href="/admin" aria-label={a11y.adminPanel} title={a11y.adminPanel} className="text-white/48 transition-colors hover:text-raveRedBright">
           <Terminal size={15} strokeWidth={1.5} />
         </a>
       </footer>

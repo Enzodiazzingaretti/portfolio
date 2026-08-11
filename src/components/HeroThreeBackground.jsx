@@ -514,7 +514,10 @@ export default function HeroThreeBackground({
     // la columna deja de tener sentido y hay que bajar el corte de arriba
     // hasta pasar la linea de "3D / MOTION / BRANDING / WEB" y la de
     // disponibilidad, que en esa composicion caen mucho mas abajo.
-    ascii.setMask(compact ? [0.02, 0.14] : [0.16, 0.56], compact ? [0.76, 0.66] : [0.91, 0.76]);
+    ascii.setMask(
+      compact ? [0.02, 0.14] : [0.16, 0.56],
+      compact ? [0.90, 0.70, 0.35] : [0.99, 0.86, 0.5],
+    );
     // Handle de calibracion en dev: window.__ascii.ascii.setGain(2.5) etc.
     if (import.meta.env.DEV) window.__ascii = { ascii, renderer, scene, camera };
 

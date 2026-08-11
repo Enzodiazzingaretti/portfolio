@@ -403,7 +403,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Retícula brutalista de proporción áurea, cortada en bandas glitch al ritmo del golpe." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Trabajo en Blender, TouchDesigner, React y con materiales. Basado en Argentina, disponible internacionalmente.",
         location: "Argentina",
@@ -502,6 +501,39 @@ export const siteContent = {
         pageTitle: "Portfolio",
         notFound: { title: "Esta página no existe", text: "El enlace es viejo o está mal escrito. Probá con una categoría." },
         aboutCta: "Hablemos",
+        // Rotulos que solo escucha un lector de pantalla. Estaban en español
+        // fijo: alguien navegando el sitio en inglés los oia igual en español.
+        a11y: { openConsole: "Abrir la consola oculta", adminPanel: "Panel de administración" },
+        konsole: {
+          hintLong: 'escribí "kexxy"',
+          hintShort: "consola",
+          prompt: "escribí un comando...",
+          // Las descripciones del `help`. El resto de la terminal es salida de
+          // maquina y queda en inglés a proposito, en los tres idiomas.
+          commands: {
+            about: "manifiesto de identidad",
+            links: "redes y contacto",
+            stack: "herramientas y software",
+            play: "activar stream de audio underground",
+            vjpack: "descargar VJ asset pack (coming soon)",
+            glitch: "fragmentar la interfaz visual",
+            status: "diagnóstico del sistema",
+            credits: "stack técnico + mensaje oculto",
+            clear: "limpiar consola",
+            exit: "cerrar terminal",
+          },
+        },
+        // Secuencia de arranque. Es texto de maquina, va igual en los tres
+        // idiomas; vive acá para poder cambiarlo sin tocar el componente.
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
     en: {
@@ -557,7 +589,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Brutalist golden-ratio grid, sliced into glitch bands on the beat." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Working in Blender, TouchDesigner, React and with physical materials. Based in Argentina.",
         location: "Argentina",
@@ -656,6 +687,33 @@ export const siteContent = {
         pageTitle: "Portfolio",
         notFound: { title: "This page doesn't exist", text: "The link is old or mistyped. Try one of the categories." },
         aboutCta: "Let's Talk",
+        a11y: { openConsole: "Open the hidden console", adminPanel: "Admin panel" },
+        konsole: {
+          hintLong: 'type "kexxy"',
+          hintShort: "console",
+          prompt: "type a command...",
+          commands: {
+            about: "identity manifesto",
+            links: "socials and contact",
+            stack: "tools and software",
+            play: "start the underground audio stream",
+            vjpack: "download the VJ asset pack (coming soon)",
+            glitch: "fragment the visual interface",
+            status: "system diagnostic",
+            credits: "tech stack + hidden message",
+            clear: "clear the console",
+            exit: "close the terminal",
+          },
+        },
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
     pt: {
@@ -711,7 +769,6 @@ export const siteContent = {
         { id: "liturgia", title: "LITURGIA BRUTAL", description: "Grade brutalista de proporção áurea, cortada em bandas glitch no ritmo da batida." },
       ],
       hero: {
-        tagline: "3D / Motion / Branding / Web",
         title: "ENZO DIAZ ZINGARETTI",
         description: "Trabalho em Blender, TouchDesigner, React e com materiais físicos. Baseado na Argentina.",
         location: "Argentina",
@@ -810,6 +867,33 @@ export const siteContent = {
         pageTitle: "Portfólio",
         notFound: { title: "Esta página não existe", text: "O link é antigo ou está mal escrito. Tente uma das categorias." },
         aboutCta: "Vamos Conversar",
+        a11y: { openConsole: "Abrir o console oculto", adminPanel: "Painel de administração" },
+        konsole: {
+          hintLong: 'digite "kexxy"',
+          hintShort: "console",
+          prompt: "digite um comando...",
+          commands: {
+            about: "manifesto de identidade",
+            links: "redes e contato",
+            stack: "ferramentas e software",
+            play: "ativar o stream de áudio underground",
+            vjpack: "baixar o VJ asset pack (coming soon)",
+            glitch: "fragmentar a interface visual",
+            status: "diagnóstico do sistema",
+            credits: "stack técnico + mensagem oculta",
+            clear: "limpar o console",
+            exit: "fechar o terminal",
+          },
+        },
+        boot: [
+          "INITIALIZING PORTFOLIO_SYS v1.0",
+          "LOADING ASSET MANIFEST...",
+          "3D RENDER CACHE: OK",
+          "MOTION SYSTEM: ONLINE",
+          "VISUAL ARCHIVE: INDEXED",
+          "IDENTITY LAYER: ACTIVE",
+          "BOOT SEQUENCE COMPLETE",
+        ],
       },
     },
   },

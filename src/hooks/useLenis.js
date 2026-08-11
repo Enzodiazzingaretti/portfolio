@@ -54,5 +54,18 @@ export function useLenis(paused = false) {
     else window.scrollTo(0, 0);
   }, []);
 
-  return { scrollToTop };
+  /**
+   * Lleva a una sección por id. Mismo motivo que scrollToTop: si se usa
+   * scrollIntoView, Lenis lo pisa en el frame siguiente.
+   * @param {string} id - sin el '#'
+   */
+  const scrollToSection = useCallback((id) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const lenis = lenisRef.current;
+    if (lenis) lenis.scrollTo(target);
+    else target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  return { scrollToTop, scrollToSection };
 }

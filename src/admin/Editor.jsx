@@ -222,7 +222,7 @@ export default function Editor({ onLogout }) {
             <ContactPanel draft={draft} update={update} />
           </Section>
 
-          <Section title="Portada (hero)" subtitle="Título, tagline y roles del inicio">
+          <Section title="Portada (hero)" subtitle="Título, descripción y roles del inicio">
             <HeroPanel draft={draft} update={update} />
           </Section>
         </div>

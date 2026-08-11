@@ -79,7 +79,12 @@ const FRAG = `
   // una columna a la izquierda, en mobile todo el texto es de ancho completo
   // y apilado, asi que la franja a proteger es otra.
   uniform vec2 uMaskX;
-  uniform vec2 uMaskTop;
+  // x,y = bordes de la rampa. z = piso: cuanto queda del filtro arriba de
+  // todo. Con piso 0 la franja superior quedaba vacia y se veia el corte
+  // recto justo a la altura de la linea de disponibilidad. La legibilidad de
+  // esa zona ya la resuelven el velo de la barra y la sombra del texto, asi
+  // que el shader solo tiene que atenuar, no apagar.
+  uniform vec3 uMaskTop;
 
   varying vec2 vUv;
 
@@ -143,7 +148,7 @@ const FRAG = `
     // color, los caracteres se apagan sin cambiar de forma y el borde
     // desaparece.
     float maskX = smoothstep(uMaskX.x, uMaskX.y, vUv.x);
-    float maskTop = smoothstep(uMaskTop.x, uMaskTop.y, vUv.y);
+    float maskTop = mix(uMaskTop.z, 1.0, smoothstep(uMaskTop.x, uMaskTop.y, vUv.y));
     float maskBottom = smoothstep(0.0, 0.07, vUv.y);
     float legible = maskX * maskTop * maskBottom;
 
@@ -199,7 +204,7 @@ export function createAsciiPass(renderer, cell = 8) {
       uFloor: { value: 0.25 },
       uSceneKeep: { value: 0.42 },
       uMaskX: { value: new THREE.Vector2(0.16, 0.56) },
-      uMaskTop: { value: new THREE.Vector2(0.91, 0.76) },
+      uMaskTop: { value: new THREE.Vector3(0.99, 0.86, 0.5) },
     },
     vertexShader: VERT,
     fragmentShader: FRAG,
@@ -262,11 +267,13 @@ export function createAsciiPass(renderer, cell = 8) {
     /**
      * Bordes de la mascara de legibilidad, en uv.
      * @param {[number, number]} x - rampa horizontal: apagado en x[0], pleno en x[1]
-     * @param {[number, number]} top - rampa vertical: apagado sobre top[0], pleno bajo top[1]
+     * @param {[number, number, number]} top - rampa vertical: [borde alto, borde
+     *   bajo, piso]. El piso es lo que queda del filtro arriba de todo; en 0
+     *   deja una franja vacia y se ve el corte.
      */
     setMask(x, top) {
       material.uniforms.uMaskX.value.set(x[0], x[1]);
-      material.uniforms.uMaskTop.value.set(top[0], top[1]);
+      material.uniforms.uMaskTop.value.set(top[0], top[1], top[2]);
     },
 
     /** Cuanto de la escena original queda debajo de los caracteres */

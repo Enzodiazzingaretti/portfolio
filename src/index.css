@@ -971,8 +971,10 @@ button:focus-visible {
 .home-hero-top {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
+  /* Quedó un solo hijo cuando se saco la linea de disciplinas: sin esto la
+     chapa de estado se iba al margen izquierdo. */
+  justify-content: flex-end;
   gap: 1rem;
 }
 
@@ -983,12 +985,25 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  /* Esta linea cae del lado derecho, que es justo donde el campo ASCII es
-     mas denso. La mascara del shader no llega hasta aca sin abrir un hueco
-     horizontal en el medio del hero, asi que la legibilidad se resuelve con
-     un halo oscuro pegado al texto. */
-  text-shadow: 0 0 3px rgba(5,5,5,0.95), 0 0 10px rgba(5,5,5,0.9);
+  color: rgba(255,255,255,0.72);
+  /* Placa propia y no solo sombra de texto. Esta linea cae del lado derecho,
+     encima de lo mas denso del campo ASCII, y a 9 px con letterspacing el
+     halo no alcanza cuando pasa el orbe o el enjambre. Es una chapa de
+     estado —ya tiene su punto que late—, asi que llevar fondo no la
+     desentona. Translucida y con blur: los caracteres se siguen viendo
+     atras, apagados, sin el corte recto que dejaba la mascara del shader.
+
+     El fondo va bajo y el blur alto a proposito: lo que vuelve ilegible el
+     texto no es el brillo del campo sino que los glifos compiten a la misma
+     escala que las letras. Desenfocandolos fuerte dejan de leerse como
+     caracteres y quedan como un resplandor con textura, que es lo que tiene
+     que verse debajo; el velo solo baja la luminancia lo justo. */
+  padding: 0.4rem 0.7rem;
+  background: rgba(5,5,5,0.42);
+  backdrop-filter: blur(13px) saturate(0.85);
+  -webkit-backdrop-filter: blur(13px) saturate(0.85);
+  border: 1px solid rgba(255,255,255,0.07);
+  text-shadow: 0 0 4px rgba(5,5,5,0.85);
 }
 
 .home-status-dot {
@@ -1081,9 +1096,86 @@ button:focus-visible {
 }
 
 /* ── Índice de categorías ──────────────────────────────────────── */
-.home-index {
-  padding: 1rem var(--page-px) 6rem;
+/* Sobre mí abre el cuerpo de la página: es lo primero después del hero, así
+   que se lleva el degradado que corta el fondo WebGL. El índice y contacto
+   vienen abajo, ya sobre fondo opaco. */
+.home-about {
+  padding: 5rem var(--page-px) 4rem;
   background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
+}
+
+.home-index {
+  padding: 1rem var(--page-px) 4rem;
+  background: rgba(5,5,5,0.95);
+}
+
+.home-contact {
+  padding: 2rem var(--page-px) 7rem;
+  background: rgba(5,5,5,0.95);
+}
+
+.about-layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .about-layout {
+    grid-template-columns: minmax(240px, 0.72fr) 1.28fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+}
+
+.about-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface, rgba(255,255,255,0.02));
+  border: 1px solid var(--line);
+}
+
+/* Estado vacío: marco con las esquinas del sistema. Es un hueco pendiente,
+   no una imagen que se rompió, y tiene que leerse así. */
+.about-portrait--vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.014) 0 10px,
+      transparent 10px 20px
+    ),
+    rgba(255,255,255,0.02);
+}
+
+.about-portrait-label {
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.30);
+}
+
+.about-portrait-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.about-portrait-corner--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--accent-hover);
+  border-left: 1px solid var(--accent-hover);
+  opacity: 0.55;
+}
+
+.about-portrait-corner--br {
+  right: 14px;
+  bottom: 14px;
+  border-right: 1px solid rgba(255,255,255,0.18);
+  border-bottom: 1px solid rgba(255,255,255,0.18);
 }
 
 .home-index-head {
@@ -1231,27 +1323,6 @@ button:focus-visible {
 .cat-row.is-hovered .cat-row-arrow {
   transform: translateX(6px);
   color: var(--accent-hover);
-}
-
-.home-index-foot {
-  display: flex;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.home-foot-link {
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  border-bottom: 1px solid transparent;
-  padding-bottom: 3px;
-  transition: color var(--base) var(--ease-out), border-color var(--base) var(--ease-out);
-}
-
-.home-foot-link:hover {
-  color: #fff;
-  border-color: var(--accent-hover);
 }
 
 /* ── PÁGINA DE CATEGORÍA ───────────────────────────────────────── */
@@ -1718,9 +1789,12 @@ button:focus-visible {
   border-top: 1px solid var(--line);
 }
 
+/* Tres columnas: ícono, texto, flecha. El ícono ocupa las dos filas del
+   bloque de texto (rótulo arriba, valor abajo) para quedar centrado contra
+   los dos, no colgado del rótulo. */
 .info-contact-link {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: baseline;
   gap: 0.35rem 1rem;
   padding: 1.1rem 0;
@@ -1730,8 +1804,33 @@ button:focus-visible {
 
 .info-contact-link:hover { padding-left: 0.7rem; }
 
-.info-contact-value {
+.info-contact-icon {
+  grid-row: 1 / 3;
   grid-column: 1;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  color: rgba(255,255,255,0.55);
+  transition:
+    color var(--base) var(--ease-out),
+    border-color var(--base) var(--ease-out),
+    background var(--base) var(--ease-out);
+}
+
+.info-contact-link:hover .info-contact-icon {
+  color: var(--accent-hover);
+  border-color: rgba(255,59,59,0.45);
+  background: rgba(255,59,59,0.06);
+}
+
+.info-contact-key { grid-column: 2; }
+
+.info-contact-value {
+  grid-column: 2;
   font-weight: 600;
   font-size: 1.3rem;
   letter-spacing: -0.01em;
@@ -1744,7 +1843,7 @@ button:focus-visible {
 
 .info-contact-arrow {
   grid-row: 1 / 3;
-  grid-column: 2;
+  grid-column: 3;
   align-self: center;
   color: rgba(255,255,255,0.45);
   transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);

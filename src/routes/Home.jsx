@@ -1,20 +1,35 @@
 import { useOutletContext } from "react-router-dom";
 import CategoryIndex from "../components/CategoryIndex";
+import AboutContent from "../components/AboutContent";
+import ContactContent from "../components/ContactContent";
+
+/** Rótulo de sección: label rojo, regla al medio y numeral a la derecha. */
+function SectionHead({ label, numeral }) {
+  return (
+    <div className="home-index-head">
+      <span className="font-mono text-label uppercase tracking-[0.4em] text-raveRedBright">{label}</span>
+      <span className="home-index-rule" aria-hidden="true" />
+      <span className="font-mono text-label uppercase tracking-[0.3em] text-white/52">{numeral}</span>
+    </div>
+  );
+}
 
 /**
- * Home: solo hero + índice. Nada de obra apilada. Todo el peso de los medios
- * vive detrás de una ruta, no en la primera pantalla.
+ * Home: hero, sobre mí, índice de categorías y contacto. La obra en sí no se
+ * apila acá — cada disciplina vive detrás de su ruta, y esta página es el
+ * recorrido corto: quién es, qué hay, cómo escribirle.
  */
 export default function Home() {
-  const { content, categories, openPanel } = useOutletContext();
-  const { hero, ui } = content;
+  const { content, categories } = useOutletContext();
+  const { hero, ui, about, contact } = content;
   const navLabels = ui.nav;
 
   return (
     <div className="home-root">
       <section className="home-hero" aria-label={hero.title}>
+        {/* La linea de disciplinas que iba acá decia lo mismo que la nav
+            ("3D / Motion / Branding / Web") dos renglones mas arriba. */}
         <div className="home-hero-top">
-          <p className="font-mono text-meta uppercase tracking-[0.42em] text-white/60">{hero.tagline}</p>
           <p className="home-hero-status font-mono">
             <span className="home-status-dot" aria-hidden="true" />
             {hero.availability} — {hero.location}
@@ -40,36 +55,32 @@ export default function Home() {
           </div>
         </div>
 
-        <a href="#index" className="home-scroll font-mono" aria-label={navLabels.index}>
+        <a href="#about" className="home-scroll font-mono" aria-label={navLabels.about}>
           <span className="home-scroll-rule" aria-hidden="true" />
           {hero.scrollLabel}
         </a>
       </section>
 
+      <section id="about" className="home-about" aria-label={navLabels.about}>
+        <SectionHead label={navLabels.about} numeral="01" />
+        <AboutContent about={about} variant="page" portraitAlt={content.brand} />
+      </section>
+
+      {/* Numeral correlativo de sección, no el conteo de categorías que iba
+          antes: en la misma posición visual que el 01 de Sobre mí, un 04 se
+          leía como "sección 4". El conteo de piezas ya está en cada fila. */}
       <section id="index" className="home-index" aria-label={navLabels.index}>
-        <div className="home-index-head">
-          <span className="font-mono text-label uppercase tracking-[0.4em] text-raveRedBright">
-            {navLabels.index}
-          </span>
-          <span className="home-index-rule" aria-hidden="true" />
-          <span className="font-mono text-label uppercase tracking-[0.3em] text-white/52">
-            {String(categories.length).padStart(2, "0")}
-          </span>
-        </div>
+        <SectionHead label={navLabels.index} numeral="02" />
 
         <CategoryIndex
           categories={categories}
           labels={{ index: navLabels.index, plural: ui.worksLabel, singular: ui.workLabelSingular }}
         />
+      </section>
 
-        <div className="home-index-foot">
-          <button type="button" onClick={() => openPanel("about")} className="home-foot-link font-mono">
-            {navLabels.about}
-          </button>
-          <button type="button" onClick={() => openPanel("contact")} className="home-foot-link font-mono">
-            {navLabels.contact}
-          </button>
-        </div>
+      <section id="contact" className="home-contact" aria-label={navLabels.contact}>
+        <SectionHead label={navLabels.contact} numeral="03" />
+        <ContactContent contact={contact} labels={ui.contactLabels} variant="page" />
       </section>
     </div>
   );

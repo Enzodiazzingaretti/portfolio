@@ -51,22 +51,38 @@ const DIAG_LINES = [
   "——————————————————————————",
 ];
 
-const HELP_LINES = [
-  "——————————————————————————",
-  "AVAILABLE COMMANDS:",
-  "——————————————————————————",
-  "  about              — manifiesto de identidad",
-  "  links              — redes y contacto",
-  "  stack              — herramientas y software",
-  "  kexxy --play       — activar stream de audio underground",
-  "  get --vj-pack      — descargar VJ asset pack (coming soon)",
-  "  glitch --overdrive — fragmentar la interfaz visual",
-  "  sys --status       — diagnóstico del sistema",
-  "  credits            — stack técnico + mensaje oculto",
-  "  clear              — limpiar consola",
-  "  exit               — cerrar terminal",
-  "——————————————————————————",
+const RULE = "——————————————————————————";
+
+/**
+ * El comando y su descripcion. El nombre del comando no se traduce —se escribe
+ * tal cual— pero la descripcion es prosa y estaba en español fijo dentro de una
+ * terminal que por lo demas habla en ingles. El resto de la consola (arranque,
+ * diagnostico, creditos) es salida de maquina y queda igual en los tres idiomas.
+ */
+const HELP_COMMANDS = [
+  ["about", "about"],
+  ["links", "links"],
+  ["stack", "stack"],
+  ["kexxy --play", "play"],
+  ["get --vj-pack", "vjpack"],
+  ["glitch --overdrive", "glitch"],
+  ["sys --status", "status"],
+  ["credits", "credits"],
+  ["clear", "clear"],
+  ["exit", "exit"],
 ];
+
+const ANCHO_COMANDO = Math.max(...HELP_COMMANDS.map(([cmd]) => cmd.length));
+
+function helpLines(commands = {}) {
+  return [
+    RULE,
+    "AVAILABLE COMMANDS:",
+    RULE,
+    ...HELP_COMMANDS.map(([cmd, key]) => `  ${cmd.padEnd(ANCHO_COMANDO)} — ${commands[key] ?? ""}`),
+    RULE,
+  ];
+}
 
 const CREDITS_LINES = [
   "——————————————————————————",
@@ -92,7 +108,7 @@ const CREDITS_LINES = [
   "——————————————————————————",
 ];
 
-export default function KonsoleEasterEgg({ onGlitch }) {
+export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState([]);
   const [input, setInput] = useState("");
@@ -190,7 +206,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
     if (cmd === "clear") { setLines([]); return; }
     const push = (arr) => setLines((prev) => [...prev, ...arr]);
 
-    if (cmd === "help") { push(HELP_LINES); return; }
+    if (cmd === "help") { push(helpLines(labels.commands)); return; }
 
     if (cmd === "about") {
       push([
@@ -293,7 +309,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
     }
 
     push([`COMMAND NOT FOUND: "${raw}" — type "help"`]);
-  }, [handleClose, isPlaying, onGlitch]);
+  }, [handleClose, isPlaying, onGlitch, labels.commands]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -386,7 +402,7 @@ export default function KonsoleEasterEgg({ onGlitch }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 bg-transparent font-mono text-meta text-white/80 outline-none placeholder:text-white/46 uppercase tracking-[0.1em]"
-              placeholder="type a command..."
+              placeholder={labels.prompt ?? "type a command..."}
               autoComplete="off"
               spellCheck="false"
             />
