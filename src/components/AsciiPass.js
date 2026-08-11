@@ -74,6 +74,12 @@ const FRAG = `
   uniform float uGain;
   uniform float uFloor;
   uniform float uSceneKeep;
+  // Bordes de la mascara de legibilidad, en uv. Son uniforms y no constantes
+  // porque la composicion cambia por breakpoint: en desktop el titular ocupa
+  // una columna a la izquierda, en mobile todo el texto es de ancho completo
+  // y apilado, asi que la franja a proteger es otra.
+  uniform vec2 uMaskX;
+  uniform vec2 uMaskTop;
 
   varying vec2 vUv;
 
@@ -108,20 +114,38 @@ const FRAG = `
     acc += texture2D(tScene, uvC + vec2( 0.0, -s.y)).rgb;
     vec3 src = linearToSRGB(acc / 10.0);
 
-    float lum = luma(src);
-    // Curva: levanta los medios para que la escultura no quede en dos tonos
-    float shaped = pow(clamp(lum * uGain, 0.0, 1.0), 0.62);
+    // La escena que queda debajo se muestrea a resolucion plena, no con el
+    // promedio de la celda: reusando el promedio, el fondo queda cuantizado
+    // a bloques del tamano de celda y el orbe pierde la forma, que es
+    // justamente lo que uSceneKeep venia a salvar.
+    vec3 srcFull = linearToSRGB(texture2D(tScene, vUv).rgb);
 
-    // Umbral: el glow de fondo es un plano additivo enorme y sin este corte
-    // deja un piso de luz que llena la pantalla entera de caracteres
-    shaped = max(shaped - uFloor, 0.0) / max(1.0 - uFloor, 0.001);
+    float lum = luma(src);
+
+    // Niveles, no umbral. uFloor es el punto de negro en unidades de
+    // luminancia y uGain el de blanco; el recorte va ANTES de la curva.
+    // Aplicandolo despues, el interior de la escultura —que ocupa un rango
+    // estrecho, 0.25 a 0.62— caia entero en los ultimos cuatro glifos de la
+    // rampa: leia como una mancha llena y no como una forma. Estirar ese
+    // rango sobre la rampa completa es lo que hace que el filtro dibuje el
+    // volumen en vez de taparlo.
+    float lifted = max(lum - uFloor, 0.0) / max(1.0 - uFloor, 0.001);
+    float shaped = pow(clamp(lifted * uGain, 0.0, 1.0), 0.62);
 
     // Mascara de legibilidad: el ASCII se apaga sobre la columna del titular
     // y sobre la franja de la barra. Sin esto el campo compite con el texto.
-    float maskX = smoothstep(0.14, 0.52, vUv.x);
-    float maskTop = smoothstep(1.0, 0.85, vUv.y);
+    // La franja de la barra se apaga entera (no atenuada): con la barra sin
+    // fondo en el home, media docena de caracteres encima ya vuelven
+    // ilegible "SOBRE MI / CONTACTO / ES EN PT".
+    // La mascara atenua la TINTA, no el indice de glifo. Multiplicando la
+    // densidad, el borde de la mascara caia escalon por escalon de la rampa
+    // y se veia como una pared recta al costado del titular; atenuando el
+    // color, los caracteres se apagan sin cambiar de forma y el borde
+    // desaparece.
+    float maskX = smoothstep(uMaskX.x, uMaskX.y, vUv.x);
+    float maskTop = smoothstep(uMaskTop.x, uMaskTop.y, vUv.y);
     float maskBottom = smoothstep(0.0, 0.07, vUv.y);
-    shaped *= maskX * maskTop * maskBottom;
+    float legible = maskX * maskTop * maskBottom;
 
     float gi = floor(shaped * (uGlyphs - 0.001));
     vec2 inCell = fract(px / uCell);
@@ -133,12 +157,12 @@ const FRAG = `
     float heat = smoothstep(0.80, 0.99, shaped);
     vec3 tint = mix(uInk, uAccent, heat);
 
-    vec3 ascii = tint * glyph * (0.50 + shaped * 1.30);
+    vec3 ascii = tint * glyph * (0.50 + shaped * 1.30) * legible;
 
     // La escena se conserva atenuada debajo y los caracteres se suman
     // encima. Reemplazarla del todo mataba el movimiento: quedaba solo la
     // grilla saltando de celda en celda.
-    vec3 base = src * uSceneKeep;
+    vec3 base = srcFull * uSceneKeep;
     vec3 outColor = (base + ascii * uMix) * uReveal;
     gl_FragColor = vec4(outColor, 1.0);
   }
@@ -171,9 +195,11 @@ export function createAsciiPass(renderer, cell = 8) {
       uAccent: { value: ACCENT.clone() },
       uMix: { value: 1 },
       uReveal: { value: 1 },
-      uGain: { value: 2.9 },
-      uFloor: { value: 0.14 },
+      uGain: { value: 3.2 },
+      uFloor: { value: 0.25 },
       uSceneKeep: { value: 0.42 },
+      uMaskX: { value: new THREE.Vector2(0.16, 0.56) },
+      uMaskTop: { value: new THREE.Vector2(0.91, 0.76) },
     },
     vertexShader: VERT,
     fragmentShader: FRAG,
@@ -228,9 +254,19 @@ export function createAsciiPass(renderer, cell = 8) {
       material.uniforms.uGain.value = value;
     },
 
-    /** Corte del piso de luz: mas alto = menos caracteres en las sombras */
+    /** Punto de negro en luminancia: mas alto = menos caracteres en las sombras */
     setFloor(value) {
       material.uniforms.uFloor.value = value;
+    },
+
+    /**
+     * Bordes de la mascara de legibilidad, en uv.
+     * @param {[number, number]} x - rampa horizontal: apagado en x[0], pleno en x[1]
+     * @param {[number, number]} top - rampa vertical: apagado sobre top[0], pleno bajo top[1]
+     */
+    setMask(x, top) {
+      material.uniforms.uMaskX.value.set(x[0], x[1]);
+      material.uniforms.uMaskTop.value.set(top[0], top[1]);
     },
 
     /** Cuanto de la escena original queda debajo de los caracteres */
