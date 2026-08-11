@@ -32,7 +32,7 @@ export default function Shell() {
   const categories = useMemo(() => buildCategories(content), [content]);
   const navLabels = content.ui.nav;
 
-  useLenis(Boolean(panel) || !preloaded);
+  const { scrollToTop } = useLenis(Boolean(panel) || !preloaded);
 
   // Precarga solo las portadas del índice: 4 miniaturas, no la obra entera
   const criticalAssets = useMemo(
@@ -57,8 +57,8 @@ export default function Shell() {
 
   // Cada ruta arranca arriba; sin esto se hereda el scroll de la anterior
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    scrollToTop();
+  }, [location.pathname, scrollToTop]);
 
   const handleGlitch = () => {
     setGlitching(true);

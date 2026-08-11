@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 /**
@@ -6,6 +6,7 @@ import Lenis from "lenis";
  * Respeta prefers-reduced-motion y expone la instancia
  * para poder frenarlo cuando hay un modal abierto.
  * @param {boolean} paused - Si el scroll debe frenarse (modal abierto)
+ * @returns {{ scrollToTop: () => void }}
  */
 export function useLenis(paused = false) {
   const lenisRef = useRef(null);
@@ -39,4 +40,19 @@ export function useLenis(paused = false) {
     if (paused) lenis.stop();
     else lenis.start();
   }, [paused]);
+
+  /**
+   * Lenis se apropia del scroll y se traga los `window.scrollTo`: el reset al
+   * cambiar de ruta no hacia nada y se caia en la categoria nueva a la altura
+   * que tenia la anterior. Verificado en produccion: de /motion a 1047 px se
+   * llegaba a /3d con esos mismos 1047 px.
+   * Sin Lenis —reduced motion— no hay instancia y va el nativo.
+   */
+  const scrollToTop = useCallback(() => {
+    const lenis = lenisRef.current;
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  }, []);
+
+  return { scrollToTop };
 }
