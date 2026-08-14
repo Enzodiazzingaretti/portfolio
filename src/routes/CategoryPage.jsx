@@ -73,26 +73,50 @@ export default function CategoryPage() {
 
   // Reveal on scroll: se re-arma en cada categoría porque el DOM cambia entero
   useEffect(() => {
-    let observer;
+    let io;
+    let mo;
+
+    const observarDentroDe = (raiz) => {
+      if (raiz.nodeType !== 1 && raiz !== document) return;
+      if (raiz.nodeType === 1 && raiz.classList.contains("reveal-on-scroll") && !raiz.classList.contains("is-visible")) {
+        io.observe(raiz);
+      }
+      raiz.querySelectorAll?.(".reveal-on-scroll:not(.is-visible)").forEach((n) => io.observe(n));
+    };
+
     const raf = requestAnimationFrame(() => {
-      const nodes = document.querySelectorAll(".reveal-on-scroll:not(.is-visible)");
-      if (!nodes.length) return;
-      observer = new IntersectionObserver(
+      io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
+              io.unobserve(entry.target);
             }
           });
         },
         { threshold: 0.06, rootMargin: "0px 0px -2% 0px" },
       );
-      nodes.forEach((node) => observer.observe(node));
+
+      observarDentroDe(document);
+
+      /**
+       * El lab entra por `lazy()`, asi que sus tarjetas montan despues de este
+       * rAF y no estaban en la lista inicial: nadie las observaba y se
+       * quedaban en `opacity: 0` para siempre. Era una carrera —con el chunk
+       * ya en cache montaba a tiempo y no se notaba—, por eso solo aparecia en
+       * carga fria. El MutationObserver toma cualquier nodo que llegue tarde,
+       * no solo el lab.
+       */
+      mo = new MutationObserver((mutaciones) => {
+        mutaciones.forEach((m) => m.addedNodes.forEach(observarDentroDe));
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
     });
+
     return () => {
       cancelAnimationFrame(raf);
-      observer?.disconnect();
+      io?.disconnect();
+      mo?.disconnect();
     };
   }, [slug, preloaded]);
 
