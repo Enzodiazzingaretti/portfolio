@@ -13,6 +13,36 @@ const webProjectAssets = {
     previewImage: "/images/previews/screenshot_portfolio.jpeg",
     slides: [],
   },
+  tamara: {
+    year: "2026",
+    imageUrl: null,
+    previewUrl: "https://tamara-portfolio-xi.vercel.app/",
+    previewImage: "/images/previews/screenshot_tamaraportfolio.jpeg",
+    slides: [],
+  },
+  newMetals: {
+    year: "2026",
+    imageUrl: null,
+    previewUrl: "https://newmetals-portfolio.vercel.app/",
+    previewImage: "/images/previews/screenshot_newmetalsportfolio.jpeg",
+    slides: [],
+  },
+  ctrlzPresskit: {
+    year: "2026",
+    imageUrl: null,
+    previewUrl: "https://ctrlz-presskit.vercel.app/",
+    previewImage: "/images/previews/screenshot_ctrlzpresskit.jpeg",
+    slides: [],
+  },
+  // Sin deploy propio: previewUrl vacio, asi SelectedWorkCard no dibuja el
+  // boton "Visitar sitio" para un link que no existe.
+  aurora: {
+    year: "2026",
+    imageUrl: null,
+    previewUrl: "",
+    previewImage: "/images/previews/screenshot_auroraretreat.jpeg",
+    slides: [],
+  },
 };
 
 /**
@@ -422,8 +452,12 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Diseño", status: "Online", role: "Diseño y desarrollo", description: "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multiidioma", "Formulario de contacto", "Embeds musicales"] },
-        { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Desarrollo", status: "En progreso", role: "Diseño y desarrollo", description: "Este portfolio. React + Vite + Tailwind CSS. Modal con carrusel multimedia, lazy loading, WebP, contenido centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Contenido centralizado", "Galerías multimedia", "Optimización de assets"] },
+        { ...webProjectAssets.pressKit, scrollPreview: true, title: "Presskit para DJ", type: "Web / Diseño", status: "Online", role: "Diseño y desarrollo", description: "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multiidioma", "Formulario de contacto", "Embeds musicales"] },
+        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Press kit digital para Brenda Hetcer (CTRL.Z), DJ de música urbana de Mendoza. HTML, CSS y JavaScript a mano, sobre el contenido del press kit original en PDF de la artista.", tags: ["HTML", "CSS", "JavaScript"], features: ["Rider técnico", "Fotos de prensa", "Contacto de booking"] },
+        { ...webProjectAssets.portfolio, scrollPreview: true, title: "Portfolio Personal", type: "Web / Desarrollo", status: "En progreso", role: "Diseño y desarrollo", description: "Este portfolio. React + Vite + Tailwind CSS. Modal con carrusel multimedia, lazy loading, WebP, contenido centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Contenido centralizado", "Galerías multimedia", "Optimización de assets"] },
+        { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Portfolio de artista visual — tatuajes, ilustración y pintura. React + Vite + Tailwind CSS, panel de administración propio, galería de trabajos por categoría.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Panel de administración", "Galería por categoría", "Contacto por WhatsApp"] },
+        { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Sitio para un taller de fabricación y soldadura metálica. React + Vite + Tailwind CSS, panel de administración propio, contacto directo por WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Panel de administración", "Catálogo de trabajos", "Contacto por WhatsApp"] },
+        { ...webProjectAssets.aurora, title: "Cecilia — Hospedajes", type: "Web / Diseño y desarrollo", status: "En desarrollo", role: "Diseño y desarrollo", description: "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propiedad", "Trilingüe", "Scroll suave"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
@@ -608,8 +642,12 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Design", status: "Live", role: "Design and development", description: "Digital press kit for DJ. Static HTML, 3-language i18n, EmailJS contact form, SoundCloud embeds and a dates section.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilingual", "Contact form", "Music embeds"] },
-        { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Development", status: "In progress", role: "Design and development", description: "This portfolio. React + Vite + Tailwind CSS. Multimedia modal, lazy loading, WebP, centralized content.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Centralized content", "Multimedia galleries", "Asset optimization"] },
+        { ...webProjectAssets.pressKit, scrollPreview: true, title: "DJ Presskit", type: "Web / Design", status: "Live", role: "Design and development", description: "Digital press kit for DJ. Static HTML, 3-language i18n, EmailJS contact form, SoundCloud embeds and a dates section.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilingual", "Contact form", "Music embeds"] },
+        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Digital press kit for Brenda Hetcer (CTRL.Z), an urban music DJ from Mendoza. Hand-written HTML, CSS and JavaScript, built from the artist's original PDF press kit.", tags: ["HTML", "CSS", "JavaScript"], features: ["Technical rider", "Press photos", "Booking contact"] },
+        { ...webProjectAssets.portfolio, scrollPreview: true, title: "Personal Portfolio", type: "Web / Development", status: "In progress", role: "Design and development", description: "This portfolio. React + Vite + Tailwind CSS. Multimedia modal, lazy loading, WebP, centralized content.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Centralized content", "Multimedia galleries", "Asset optimization"] },
+        { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Visual artist portfolio — tattoos, illustration and painting. React + Vite + Tailwind CSS, custom admin panel, work gallery by category.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Admin panel", "Gallery by category", "WhatsApp contact"] },
+        { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Site for a metal fabrication and welding workshop. React + Vite + Tailwind CSS, custom admin panel, direct WhatsApp contact.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Admin panel", "Work catalog", "WhatsApp contact"] },
+        { ...webProjectAssets.aurora, title: "Cecilia — Stays", type: "Web / Design and development", status: "In development", role: "Design and development", description: "Site for two rental houses in Mendoza. Next.js + TypeScript + Tailwind CSS, cinematic landing per property, trilingual.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing per property", "Trilingual", "Smooth scroll"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
@@ -788,8 +826,12 @@ export const siteContent = {
         },
       },
       webProjects: [
-        { ...webProjectAssets.pressKit, title: "Press Kit", type: "Web / Design", status: "Online", role: "Design e desenvolvimento", description: "Press kit digital para DJ. HTML estático, i18n em 3 idiomas, formulário EmailJS, embeds do SoundCloud e seção de datas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilíngue", "Formulário de contato", "Embeds musicais"] },
-        { ...webProjectAssets.portfolio, title: "WEB V1", type: "Web / Desenvolvimento", status: "Em progresso", role: "Design e desenvolvimento", description: "Este portfólio. React + Vite + Tailwind CSS. Modal com carrossel multimídia, lazy loading, WebP, conteúdo centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Conteúdo centralizado", "Galerias multimídia", "Otimização de assets"] },
+        { ...webProjectAssets.pressKit, scrollPreview: true, title: "Presskit para DJ", type: "Web / Design", status: "Online", role: "Design e desenvolvimento", description: "Press kit digital para DJ. HTML estático, i18n em 3 idiomas, formulário EmailJS, embeds do SoundCloud e seção de datas.", tags: ["HTML", "CSS", "JavaScript", "EmailJS", "i18n"], features: ["Multilíngue", "Formulário de contato", "Embeds musicais"] },
+        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Press kit digital para Brenda Hetcer (CTRL.Z), DJ de música urbana de Mendoza. HTML, CSS e JavaScript escritos à mão, a partir do press kit original em PDF da artista.", tags: ["HTML", "CSS", "JavaScript"], features: ["Rider técnico", "Fotos de imprensa", "Contato de booking"] },
+        { ...webProjectAssets.portfolio, scrollPreview: true, title: "Portfólio Pessoal", type: "Web / Desenvolvimento", status: "Em progresso", role: "Design e desenvolvimento", description: "Este portfólio. React + Vite + Tailwind CSS. Modal com carrossel multimídia, lazy loading, WebP, conteúdo centralizado.", tags: ["React", "Vite", "Tailwind CSS"], features: ["Conteúdo centralizado", "Galerias multimídia", "Otimização de assets"] },
+        { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Portfólio de artista visual — tatuagens, ilustração e pintura. React + Vite + Tailwind CSS, painel de administração próprio, galeria de trabalhos por categoria.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Painel de administração", "Galeria por categoria", "Contato via WhatsApp"] },
+        { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Site para uma oficina de fabricação e solda metálica. React + Vite + Tailwind CSS, painel de administração próprio, contato direto via WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Painel de administração", "Catálogo de trabalhos", "Contato via WhatsApp"] },
+        { ...webProjectAssets.aurora, title: "Cecilia — Hospedagens", type: "Web / Design e desenvolvimento", status: "Em desenvolvimento", role: "Design e desenvolvimento", description: "Site para duas casas de aluguel em Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinematográfica por propriedade, trilíngue.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propriedade", "Trilíngue", "Rolagem suave"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },

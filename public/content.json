@@ -61,7 +61,7 @@
       "previewUrl": "https://presskit-digital.vercel.app/",
       "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
       "slides": [],
-      "title": "Press Kit",
+      "title": "Presskit para DJ",
       "type": "Web / Diseño",
       "status": "Online",
       "role": "Diseño y desarrollo",
@@ -81,12 +81,35 @@
       "scrollPreview": true
     },
     {
+      "year": "2026",
+      "imageUrl": null,
+      "previewUrl": "https://ctrlz-presskit.vercel.app/",
+      "previewImage": "/images/previews/screenshot_ctrlzpresskit.jpeg",
+      "slides": [],
+      "title": "CTRL.Z — Press Kit",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Press kit digital para Brenda Hetcer (CTRL.Z), DJ de música urbana de Mendoza. HTML, CSS y JavaScript a mano, sobre el contenido del press kit original en PDF de la artista.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "features": [
+        "Rider técnico",
+        "Fotos de prensa",
+        "Contacto de booking"
+      ],
+      "scrollPreview": true
+    },
+    {
       "year": "2025",
       "imageUrl": null,
       "previewUrl": "#hero",
       "previewImage": "/images/previews/screenshot_portfolio.jpeg",
       "slides": [],
-      "title": "WEB V1",
+      "title": "Portfolio Personal",
       "type": "Web / Desarrollo",
       "status": "En progreso",
       "role": "Diseño y desarrollo",
@@ -102,6 +125,78 @@
         "Optimización de assets"
       ],
       "scrollPreview": true
+    },
+    {
+      "year": "2026",
+      "imageUrl": null,
+      "previewUrl": "https://tamara-portfolio-xi.vercel.app/",
+      "previewImage": "/images/previews/screenshot_tamaraportfolio.jpeg",
+      "slides": [],
+      "title": "Tamara González",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Portfolio de artista visual — tatuajes, ilustración y pintura. React + Vite + Tailwind CSS, panel de administración propio, galería de trabajos por categoría.",
+      "tags": [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "Framer Motion"
+      ],
+      "features": [
+        "Panel de administración",
+        "Galería por categoría",
+        "Contacto por WhatsApp"
+      ],
+      "scrollPreview": false
+    },
+    {
+      "year": "2026",
+      "imageUrl": null,
+      "previewUrl": "https://newmetals-portfolio.vercel.app/",
+      "previewImage": "/images/previews/screenshot_newmetalsportfolio.jpeg",
+      "slides": [],
+      "title": "New Metals",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Sitio para un taller de fabricación y soldadura metálica. React + Vite + Tailwind CSS, panel de administración propio, contacto directo por WhatsApp.",
+      "tags": [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "Framer Motion"
+      ],
+      "features": [
+        "Panel de administración",
+        "Catálogo de trabajos",
+        "Contacto por WhatsApp"
+      ],
+      "scrollPreview": false
+    },
+    {
+      "year": "2026",
+      "imageUrl": null,
+      "previewUrl": "",
+      "previewImage": "/images/previews/screenshot_auroraretreat.jpeg",
+      "slides": [],
+      "title": "Cecilia — Hospedajes",
+      "type": "Web / Diseño y desarrollo",
+      "status": "En desarrollo",
+      "role": "Diseño y desarrollo",
+      "description": "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.",
+      "tags": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion"
+      ],
+      "features": [
+        "Landing por propiedad",
+        "Trilingüe",
+        "Scroll suave"
+      ],
+      "scrollPreview": false
     }
   ],
   "touchDesignerLoops": [
