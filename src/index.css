@@ -1143,6 +1143,9 @@ section.home-lead {
 /* La pista sangra hasta el borde de la pantalla para que se lea como algo
    que sigue, y no como una fila que termina justo en el margen. */
 .showcase-track {
+  --fade-izq: 3rem;
+  --fade-der: 3rem;
+
   display: flex;
   gap: 1.25rem;
   overflow-x: auto;
@@ -1151,18 +1154,44 @@ section.home-lead {
   padding: 0.25rem var(--page-px) 1.25rem;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+
+  /* Sin esto el snap alinea la card contra el borde del contenedor y anula el
+     padding: la primera quedaba pegada al filo de la pantalla mientras el
+     rótulo de la sección arrancaba en el margen normal. Con scroll-padding la
+     card descansa sobre ese mismo margen y la columna queda alineada. */
+  scroll-padding-inline: var(--page-px);
+
+  /* La obra se disuelve en el borde en vez de cortarse a cuchillo, que es lo
+     que hacía que la card se viera pegada al margen. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-izq), #000 calc(100% - var(--fade-der)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade-izq), #000 calc(100% - var(--fade-der)), transparent);
 }
+
+/* Sin nada más para scrollear de ese lado no hay nada que insinuar, y el
+   degradado solo se comería la primera o la última pieza. */
+.showcase-track.is-at-start { --fade-izq: 0px; }
+.showcase-track.is-at-end { --fade-der: 0px; }
 
 .showcase-track::-webkit-scrollbar { display: none; }
 
 .showcase-card {
   position: relative;
-  flex: 0 0 clamp(15rem, 76vw, 20rem);
+  /* El piso en `rem` dejaba la card más ancha que la pista en ventanas
+     angostas, pegada al borde y con el texto cortado. En porcentaje se mide
+     contra la pista, así que nunca puede pasarse. */
+  flex: 0 0 min(20rem, 82%);
   scroll-snap-align: start;
+  transition: opacity 520ms var(--ease-out);
 }
 
 @media (min-width: 768px) {
-  .showcase-card { flex-basis: 23rem; }
+  .showcase-card { flex-basis: min(23rem, 82%); }
+}
+
+/* Al apuntar una pieza, las demás se corren a un segundo plano. Lento a
+   propósito: la idea es que se note el foco, no que parpadee. */
+@media (hover: hover) {
+  .showcase:has(.showcase-card:hover) .showcase-card:not(:hover) { opacity: 0.4; }
 }
 
 .showcase-card-link { display: block; }

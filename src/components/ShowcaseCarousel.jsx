@@ -92,7 +92,12 @@ export default function ShowcaseCarousel({ items, labels }) {
 
   return (
     <div className="showcase">
-      <div className="showcase-track" ref={pistaRef}>
+      {/* Las clases de borde apagan el degradado del lado donde ya no hay más
+          que scrollear: si no, la primera card nace desvanecida. */}
+      <div
+        className={`showcase-track${limite.inicio ? " is-at-start" : ""}${limite.fin ? " is-at-end" : ""}`}
+        ref={pistaRef}
+      >
         {items.map((item) => (
           <article
             key={item.id}
