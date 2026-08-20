@@ -265,14 +265,9 @@ ffmpeg -ss 5 -i ORIGINAL.mp4 -frames:v 1 -vf "scale=-2:'min(640,ih)'" \
 319bcfe  feat: filtro ASCII y enjambre reactivo en el hero + handover
 ```
 
-La calibración del hero (2026-08-10) está en el working tree **sin commitear**:
-
-```
-M  src/components/AsciiPass.js       niveles, srcFull, mascara por uniform
-M  src/components/HeroThreeBackground.jsx  glow radial, projectPointer, tactil
-M  src/index.css                     velo de la barra, halo en la linea de estado
-M  src/layout/Shell.jsx              arregla el selector de idioma (ver abajo)
-```
+La calibración del hero (2026-08-10) quedó commiteada en `390390a` (niveles,
+`srcFull`, máscara por uniform, glow radial, `projectPointer`, táctil, velo de
+la barra) y ya está mergeada en `main`.
 
 **El selector de idioma estaba roto** y no tiene nada que ver con el hero: se
 encontró probando. `Shell.jsx` le pasaba `onLanguageChange` a `LanguageSelector`,
