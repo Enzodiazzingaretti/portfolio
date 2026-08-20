@@ -207,11 +207,11 @@
     {
       "thumbnail": "/images/loops/feedback-ritual.mp4",
       "slides": [
-        "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
-        "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
-        "/images/touchdesigner/feedback-ritual/Audioreactive Vol5 Test(1).mp4",
-        "/images/touchdesigner/feedback-ritual/Audioreactive Vol6 Test(1).mp4",
-        "/images/touchdesigner/feedback-ritual/Audioreactive Vol7 Test(1).mp4"
+        "/images/touchdesigner/feedback-ritual/audioreactive-vol2-test.mp4",
+        "/images/touchdesigner/feedback-ritual/audioreactive-vol3-test-1-1.mp4",
+        "/images/touchdesigner/feedback-ritual/audioreactive-vol5-test-1.mp4",
+        "/images/touchdesigner/feedback-ritual/audioreactive-vol6-test-1.mp4",
+        "/images/touchdesigner/feedback-ritual/audioreactive-vol7-test-1.mp4"
       ],
       "name": "Feedback Ritual",
       "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM.",
@@ -228,7 +228,7 @@
     {
       "thumbnail": "/images/loops/ghost-tunnel.mp4",
       "slides": [
-        "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4"
+        "/images/touchdesigner/ghost-tunnel/c4-animacion-1.mp4"
       ],
       "name": "Ghost Tunnel",
       "notes": "Túnel de texturas industriales con deformación en tiempo real.",
@@ -238,7 +238,7 @@
       "thumbnail": "/images/loops/static-veil.mp4",
       "slides": [
         "/images/touchdesigner/static-veil/humo.mp4",
-        "/images/touchdesigner/static-veil/humo mod.mp4"
+        "/images/touchdesigner/static-veil/humo-mod.mp4"
       ],
       "name": "Static Veil",
       "notes": "Ruido y feedback reactivos al volumen."
@@ -255,7 +255,7 @@
     {
       "thumbnail": "/images/loops/eyes.mp4",
       "slides": [
-        "/images/touchdesigner/Eyes/Ojos Visuales.mp4"
+        "/images/touchdesigner/Eyes/ojos-visuales.mp4"
       ],
       "name": "Eyes",
       "notes": "Loop de ojos. Movimiento procedural en tiempo real."
@@ -319,7 +319,7 @@
     {
       "portrait": true,
       "slides": [
-        "/images/blender/calvaria-glass/Calvarian Animation.mp4",
+        "/images/blender/calvaria-glass/calvarian-animation.mp4",
         "/images/blender/calvaria-glass/calvarian_glass1.webp",
         "/images/blender/calvaria-glass/calvarian_glass2.webp",
         "/images/blender/calvaria-glass/calvarian_glass3.webp",
@@ -348,10 +348,10 @@
     },
     {
       "slides": [
-        "/images/blender/faces_alternative/FACES_ALTERNATIVE (1).png",
-        "/images/blender/faces_alternative/FACES_ALTERNATIVE (2).png",
-        "/images/blender/faces_alternative/FACES_ALTERNATIVE (3).png",
-        "/images/blender/faces_alternative/FACES_ALTERNATIVE (4).png"
+        "/images/blender/faces_alternative/faces-alternative-1.png",
+        "/images/blender/faces_alternative/faces-alternative-2.png",
+        "/images/blender/faces_alternative/faces-alternative-3.png",
+        "/images/blender/faces_alternative/faces-alternative-4.png"
       ],
       "title": "Faces Alternative",
       "description": "Rostros alterados con geometría y distorsión."
@@ -359,7 +359,7 @@
     {
       "portrait": true,
       "slides": [
-        "/images/blender/240KM-H/Semaforo Preview.mp4",
+        "/images/blender/240KM-H/semaforo-preview.mp4",
         "/images/blender/240KM-H/semaforo-1.png",
         "/images/blender/240KM-H/semaforo-2.png",
         "/images/blender/240KM-H/semaforo-3.png"
@@ -380,7 +380,7 @@
     {
       "portrait": true,
       "slides": [
-        "/images/blender/cristales/Cristales Preview.mp4",
+        "/images/blender/cristales/cristales-preview.mp4",
         "/images/blender/cristales/cristales-1.png",
         "/images/blender/cristales/cristales-2.png"
       ],
@@ -400,8 +400,8 @@
     {
       "square": true,
       "slides": [
-        "/images/blender/Screaming_head/screaming_head_remake (1).png",
-        "/images/blender/Screaming_head/screaming_head_remake (2).png"
+        "/images/blender/Screaming_head/screaming-head-remake-1.png",
+        "/images/blender/Screaming_head/screaming-head-remake-2.png"
       ],
       "title": "Screaming Head",
       "description": "Cabeza con deformación extrema. Estudio de malla y expresión."
@@ -409,10 +409,10 @@
     {
       "portrait": true,
       "slides": [
-        "/images/blender/noclueyet/cabezas locas (1).png",
-        "/images/blender/noclueyet/cabezas locas (2).png",
-        "/images/blender/noclueyet/cabezas locas (3).png",
-        "/images/blender/noclueyet/cabezas locas (4).png"
+        "/images/blender/noclueyet/cabezas-locas-1.png",
+        "/images/blender/noclueyet/cabezas-locas-2.png",
+        "/images/blender/noclueyet/cabezas-locas-3.png",
+        "/images/blender/noclueyet/cabezas-locas-4.png"
       ],
       "title": "NCY — I",
       "description": "Cabezas distorsionadas. Serie sin nombre."
@@ -428,8 +428,8 @@
     {
       "portrait": true,
       "slides": [
-        "/images/blender/glass_skullz/glass_skullz (2).png",
-        "/images/blender/glass_skullz/glass_skullz (3).png"
+        "/images/blender/glass_skullz/glass-skullz-2.png",
+        "/images/blender/glass_skullz/glass-skullz-3.png"
       ],
       "title": "Glass Skullz",
       "description": "Cráneos en vidrio. Exploración de refracción y render."
@@ -448,7 +448,7 @@
       "portrait": true,
       "imageUrl": "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
       "slides": [
-        "/images/flyers/aguantadero_bass/Aguantaderobass Preview.mp4",
+        "/images/flyers/aguantadero_bass/aguantaderobass-preview.mp4",
         "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
         "/images/flyers/aguantadero_bass/aguantaderobass-2.png"
       ],
@@ -511,7 +511,7 @@
       "imageUrl": "/images/flyers/maccari/maccari-1.png",
       "slides": [
         "/images/flyers/maccari/maccari-1.png",
-        "/images/flyers/maccari/Maccari1 2.mp4"
+        "/images/flyers/maccari/maccari1-2.mp4"
       ],
       "title": "Maccari",
       "type": "Flyer",
@@ -523,10 +523,10 @@
     },
     {
       "square": true,
-      "imageUrl": "/images/flyers/overkill/overkill (1).png",
+      "imageUrl": "/images/flyers/overkill/overkill-1.png",
       "slides": [
-        "/images/flyers/overkill/overkill (1).png",
-        "/images/flyers/overkill/overkill (2).png"
+        "/images/flyers/overkill/overkill-1.png",
+        "/images/flyers/overkill/overkill-2.png"
       ],
       "title": "Overkill",
       "type": "Flyer",
@@ -540,11 +540,11 @@
   "logos": [
     {
       "square": true,
-      "imageUrl": "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
+      "imageUrl": "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.png",
       "slides": [
-        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
-        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (2).png",
-        "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).mp4"
+        "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.png",
+        "/images/visual/Logos/Grandgroove/grandgroove-records-logo-2.png",
+        "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.mp4"
       ],
       "title": "Grandgroove Records",
       "type": "Logo",
@@ -557,9 +557,9 @@
     },
     {
       "square": true,
-      "imageUrl": "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png",
+      "imageUrl": "/images/visual/Logos/chicalunar/logo-chica-lunar-3.png",
       "slides": [
-        "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png"
+        "/images/visual/Logos/chicalunar/logo-chica-lunar-3.png"
       ],
       "title": "Chica Lunar",
       "type": "Logo",
@@ -602,8 +602,8 @@
         "/images/espacios/rec-underclub/rec-underclub-2.png",
         "/images/espacios/rec-underclub/rec-underclub-4.png",
         "/images/espacios/rec-underclub/rec-underclub-ojodepez.png",
-        "/images/espacios/rec-underclub/Underclub Rec Videos (1).mp4",
-        "/images/espacios/rec-underclub/Underclub Rec Videos (2).mp4",
+        "/images/espacios/rec-underclub/underclub-rec-videos-1.mp4",
+        "/images/espacios/rec-underclub/underclub-rec-videos-2.mp4",
         "/images/espacios/rec-underclub/underclubprueba1.mp4",
         "/images/espacios/underclub/underclub-1.mp4",
         "/images/espacios/underclub/underclub-2.mp4",

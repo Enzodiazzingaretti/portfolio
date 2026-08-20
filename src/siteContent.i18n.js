@@ -57,11 +57,11 @@ const touchDesignerAssets = {
     thumbnail: "/images/loops/feedback-ritual.mp4",
     audio: "/images/loops/feedback-ritual.m4a",
     slides: [
-      "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
-      "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
-      "/images/touchdesigner/feedback-ritual/Audioreactive Vol5 Test(1).mp4",
-      "/images/touchdesigner/feedback-ritual/Audioreactive Vol6 Test(1).mp4",
-      "/images/touchdesigner/feedback-ritual/Audioreactive Vol7 Test(1).mp4",
+      "/images/touchdesigner/feedback-ritual/audioreactive-vol2-test.mp4",
+      "/images/touchdesigner/feedback-ritual/audioreactive-vol3-test-1-1.mp4",
+      "/images/touchdesigner/feedback-ritual/audioreactive-vol5-test-1.mp4",
+      "/images/touchdesigner/feedback-ritual/audioreactive-vol6-test-1.mp4",
+      "/images/touchdesigner/feedback-ritual/audioreactive-vol7-test-1.mp4",
     ],
   },
   pulseVandal: {
@@ -74,14 +74,14 @@ const touchDesignerAssets = {
     thumbnail: "/images/loops/ghost-tunnel.mp4",
     audio: "/images/loops/ghost-tunnel.m4a",
     slides: [
-      "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4",
+      "/images/touchdesigner/ghost-tunnel/c4-animacion-1.mp4",
     ],
   },
   staticVeil: {
     thumbnail: "/images/loops/static-veil.mp4",
     slides: [
       "/images/touchdesigner/static-veil/humo.mp4",
-      "/images/touchdesigner/static-veil/humo mod.mp4",
+      "/images/touchdesigner/static-veil/humo-mod.mp4",
     ],
   },
   ironLattice: {
@@ -94,7 +94,7 @@ const touchDesignerAssets = {
   eyes: {
     thumbnail: "/images/loops/eyes.mp4",
     slides: [
-      "/images/touchdesigner/Eyes/Ojos Visuales.mp4",
+      "/images/touchdesigner/Eyes/ojos-visuales.mp4",
     ],
   },
   biology: {
@@ -135,7 +135,7 @@ const flyerAssets = {
     portrait: true,
     imageUrl: "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
     slides: [
-      "/images/flyers/aguantadero_bass/Aguantaderobass Preview.mp4",
+      "/images/flyers/aguantadero_bass/aguantaderobass-preview.mp4",
       "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
       "/images/flyers/aguantadero_bass/aguantaderobass-2.png",
     ],
@@ -169,15 +169,15 @@ const flyerAssets = {
     imageUrl: "/images/flyers/maccari/maccari-1.png",
     slides: [
       "/images/flyers/maccari/maccari-1.png",
-      "/images/flyers/maccari/Maccari1 2.mp4",
+      "/images/flyers/maccari/maccari1-2.mp4",
     ],
   },
   overkill: {
     square: true,
-    imageUrl: "/images/flyers/overkill/overkill (1).png",
+    imageUrl: "/images/flyers/overkill/overkill-1.png",
     slides: [
-      "/images/flyers/overkill/overkill (1).png",
-      "/images/flyers/overkill/overkill (2).png",
+      "/images/flyers/overkill/overkill-1.png",
+      "/images/flyers/overkill/overkill-2.png",
     ],
   },
 };
@@ -206,8 +206,8 @@ const espaciosAssets = {
       "/images/espacios/rec-underclub/rec-underclub-2.png",
       "/images/espacios/rec-underclub/rec-underclub-4.png",
       "/images/espacios/rec-underclub/rec-underclub-ojodepez.png",
-      "/images/espacios/rec-underclub/Underclub Rec Videos (1).mp4",
-      "/images/espacios/rec-underclub/Underclub Rec Videos (2).mp4",
+      "/images/espacios/rec-underclub/underclub-rec-videos-1.mp4",
+      "/images/espacios/rec-underclub/underclub-rec-videos-2.mp4",
       "/images/espacios/rec-underclub/underclubprueba1.mp4",
       "/images/espacios/underclub/underclub-1.mp4",
       "/images/espacios/underclub/underclub-2.mp4",
@@ -229,18 +229,18 @@ const espaciosAssets = {
 const logosAssets = {
   grandgroove: {
     square: true,
-    imageUrl: "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
+    imageUrl: "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.png",
     slides: [
-      "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).png",
-      "/images/visual/Logos/Grandgroove/grandgroove_records_logo (2).png",
-      "/images/visual/Logos/Grandgroove/grandgroove_records_logo (1).mp4",
+      "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.png",
+      "/images/visual/Logos/Grandgroove/grandgroove-records-logo-2.png",
+      "/images/visual/Logos/Grandgroove/grandgroove-records-logo-1.mp4",
     ],
   },
   chicaLunar: {
     square: true,
-    imageUrl: "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png",
+    imageUrl: "/images/visual/Logos/chicalunar/logo-chica-lunar-3.png",
     slides: [
-      "/images/visual/Logos/chicalunar/logo_chica_lunar (3).png",
+      "/images/visual/Logos/chicalunar/logo-chica-lunar-3.png",
     ],
   },
 };
@@ -269,7 +269,7 @@ const blenderAssets = {
     portrait: true,
     thumbnail: "/images/loops/calvaria-glass.mp4",
     slides: [
-      "/images/blender/calvaria-glass/Calvarian Animation.mp4",
+      "/images/blender/calvaria-glass/calvarian-animation.mp4",
       "/images/blender/calvaria-glass/calvarian_glass1.webp",
       "/images/blender/calvaria-glass/calvarian_glass2.webp",
       "/images/blender/calvaria-glass/calvarian_glass3.webp",
@@ -299,24 +299,24 @@ const blenderAssets = {
   glassSkullz: {
     portrait: true,
     slides: [
-      "/images/blender/glass_skullz/glass_skullz (2).png",
-      "/images/blender/glass_skullz/glass_skullz (3).png",
+      "/images/blender/glass_skullz/glass-skullz-2.png",
+      "/images/blender/glass_skullz/glass-skullz-3.png",
     ],
   },
   screamingHead: {
     square: true,
     slides: [
-      "/images/blender/Screaming_head/screaming_head_remake (1).png",
-      "/images/blender/Screaming_head/screaming_head_remake (2).png",
+      "/images/blender/Screaming_head/screaming-head-remake-1.png",
+      "/images/blender/Screaming_head/screaming-head-remake-2.png",
     ],
   },
   noclueyet: {
     portrait: true,
     slides: [
-      "/images/blender/noclueyet/cabezas locas (1).png",
-      "/images/blender/noclueyet/cabezas locas (2).png",
-      "/images/blender/noclueyet/cabezas locas (3).png",
-      "/images/blender/noclueyet/cabezas locas (4).png",
+      "/images/blender/noclueyet/cabezas-locas-1.png",
+      "/images/blender/noclueyet/cabezas-locas-2.png",
+      "/images/blender/noclueyet/cabezas-locas-3.png",
+      "/images/blender/noclueyet/cabezas-locas-4.png",
     ],
   },
   noclueyetB: {
@@ -333,17 +333,17 @@ const blenderAssets = {
   },
   facesAlternative: {
     slides: [
-      "/images/blender/faces_alternative/FACES_ALTERNATIVE (1).png",
-      "/images/blender/faces_alternative/FACES_ALTERNATIVE (2).png",
-      "/images/blender/faces_alternative/FACES_ALTERNATIVE (3).png",
-      "/images/blender/faces_alternative/FACES_ALTERNATIVE (4).png",
+      "/images/blender/faces_alternative/faces-alternative-1.png",
+      "/images/blender/faces_alternative/faces-alternative-2.png",
+      "/images/blender/faces_alternative/faces-alternative-3.png",
+      "/images/blender/faces_alternative/faces-alternative-4.png",
     ],
   },
   km240: {
     portrait: true,
     thumbnail: "/images/loops/240kmh.mp4",
     slides: [
-      "/images/blender/240KM-H/Semaforo Preview.mp4",
+      "/images/blender/240KM-H/semaforo-preview.mp4",
       "/images/blender/240KM-H/semaforo-1.png",
       "/images/blender/240KM-H/semaforo-2.png",
       "/images/blender/240KM-H/semaforo-3.png",
@@ -360,7 +360,7 @@ const blenderAssets = {
     portrait: true,
     thumbnail: "/images/loops/cristales.mp4",
     slides: [
-      "/images/blender/cristales/Cristales Preview.mp4",
+      "/images/blender/cristales/cristales-preview.mp4",
       "/images/blender/cristales/cristales-1.png",
       "/images/blender/cristales/cristales-2.png",
     ],
