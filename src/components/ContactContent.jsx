@@ -1,13 +1,14 @@
-import { Mail, Instagram, Linkedin, FileText } from "lucide-react";
+import { Mail, Instagram, Linkedin, Github, FileText } from "lucide-react";
 
-const CONTACT_ORDER = ["email", "instagram", "linkedin", "presskit"];
+const CONTACT_ORDER = ["email", "instagram", "linkedin", "github", "presskit"];
 
-// lucide ya viaja en el bundle por el ícono del footer, así que estos cuatro
+// lucide ya viaja en el bundle por el ícono del footer, así que estos cinco
 // no agregan dependencia; el tree-shaking los trae de a uno.
 const CONTACT_ICON = {
   email: Mail,
   instagram: Instagram,
   linkedin: Linkedin,
+  github: Github,
   presskit: FileText,
 };
 
@@ -24,7 +25,7 @@ function contactHref(key, value) {
  */
 function valorVisible(key, value, labels) {
   if (key === "email") return value;
-  if (key === "instagram" || key === "linkedin") {
+  if (key === "instagram" || key === "linkedin" || key === "github") {
     const handle = value.replace(/\/+$/, "").split("/").pop();
     return handle ? `@${handle}` : value;
   }

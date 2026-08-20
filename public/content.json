@@ -8,7 +8,8 @@
     "roles": [
       "Artista 3D",
       "Motion Designer",
-      "Creador Visual"
+      "Creador Visual",
+      "Desarrollador Creativo"
     ],
     "cta": "Ver proyectos ↓",
     "scrollLabel": "scroll",
@@ -40,6 +41,7 @@
     "availableForLabel": "Disponible para",
     "availableFor": [
       "Proyectos Freelance",
+      "Desarrollo Web",
       "Motion Design",
       "3D",
       "Dirección de Arte",
@@ -49,9 +51,10 @@
     "note": "Respondo en menos de 24 horas"
   },
   "contactLinks": {
-    "email": "k3xxy.art@gmail.com",
+    "email": "enzodiazzingaretti27@gmail.com",
     "instagram": "https://www.instagram.com/kexxy.obj",
-    "linkedin": "",
+    "linkedin": "https://www.linkedin.com/in/enzo-diaz-zingaretti",
+    "github": "https://github.com/Enzodiazzingaretti",
     "presskit": "https://presskit-digital.vercel.app/"
   },
   "webProjects": [

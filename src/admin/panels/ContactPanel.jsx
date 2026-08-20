@@ -18,6 +18,7 @@ export default function ContactPanel({ draft, update }) {
         <TextField label="Email" value={links.email} onChange={setL("email")} />
         <TextField label="Instagram (URL)" value={links.instagram} onChange={setL("instagram")} placeholder="https://instagram.com/..." />
         <TextField label="LinkedIn (URL)" value={links.linkedin} onChange={setL("linkedin")} hint="Dejalo vacío para ocultar el enlace." />
+        <TextField label="GitHub (URL)" value={links.github} onChange={setL("github")} hint="Dejalo vacío para ocultar el enlace." />
         <TextField label="Press Kit (URL)" value={links.presskit} onChange={setL("presskit")} />
       </div>
     </div>
