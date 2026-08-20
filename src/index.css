@@ -1127,6 +1127,17 @@ button:focus-visible {
   }
 }
 
+/* En una sola columna el retrato hereda el ancho completo del contenido y
+   domina la pantalla antes de que el texto entre en vista. Se lo acota a un
+   tamaño de foto de perfil, centrado. */
+@media (max-width: 899px) {
+  .about-portrait {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+}
+
 .about-portrait {
   position: relative;
   aspect-ratio: 4 / 5;

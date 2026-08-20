@@ -29,7 +29,10 @@ function Portrait({ src, alt }) {
         onError={() => setFalló(true)}
         loading="lazy"
         decoding="async"
-        className="h-full w-full object-cover"
+        // Centrado (50/50) cae justo en la cara en una selfie vertical: el
+        // recorte 4:5 termina mostrando solo ojos-nariz-boca. Subir el punto
+        // de foco dentro del marco deja lugar para el pelo y los hombros.
+        className="h-full w-full object-cover object-[center_30%]"
       />
     </div>
   );
