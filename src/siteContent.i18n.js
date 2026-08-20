@@ -509,7 +509,7 @@ export const siteContent = {
       ],
       about: {
         headline: "Motion, 3D, branding, web y objetos físicos.",
-        paragraph: "Trabajo en Blender, TouchDesigner, After Effects y React. También con materiales: encendedores, piezas físicas, dirección de arte para eventos. Buena parte de eso no termina en una pantalla. Ahora estoy armando un estudio creativo propio en Argentina.",
+        paragraph: "Trabajo en Blender, TouchDesigner, After Effects y React. También hago encendedores artesanales, piezas esculpidas a mano y dirección de arte para eventos. Ahora estoy armando un estudio creativo propio en Argentina.",
         specializations: ["Motion Design / TouchDesigner", "Visualización 3D / Blender", "Desarrollo Web / React", "Dirección de Arte", "Branding e Identidad", "Objetos & Piezas Físicas"],
       },
       contact: {
@@ -703,7 +703,7 @@ export const siteContent = {
       ],
       about: {
         headline: "Motion, 3D, branding, web and physical objects.",
-        paragraph: "I work in Blender, TouchDesigner, After Effects and React. Also with physical materials: lighters, handcrafted pieces, art direction for events. A good part of that never ends up on a screen. Right now I'm building my own creative studio in Argentina.",
+        paragraph: "I work in Blender, TouchDesigner, After Effects and React. I also make handcrafted lighters and hand-sculpted pieces, and handle art direction for events. Right now I'm building my own creative studio in Argentina.",
         specializations: ["Motion Design / TouchDesigner", "3D Visualization / Blender", "Web Development / React", "Art Direction", "Branding & Identity", "Physical Objects & Craft"],
       },
       contact: {
@@ -891,7 +891,7 @@ export const siteContent = {
       ],
       about: {
         headline: "Motion, 3D, branding, web e objetos físicos.",
-        paragraph: "Trabalho em Blender, TouchDesigner, After Effects e React. Também com materiais físicos: isqueiros, peças artesanais, direção de arte para eventos. Boa parte disso não termina numa tela. Agora estou montando um estúdio criativo próprio na Argentina.",
+        paragraph: "Trabalho em Blender, TouchDesigner, After Effects e React. Também faço isqueiros artesanais, peças esculpidas à mão e direção de arte para eventos. Agora estou montando um estúdio criativo próprio na Argentina.",
         specializations: ["Motion Design / TouchDesigner", "Visualização 3D / Blender", "Desenvolvimento Web / React", "Direção de Arte", "Branding & Identidade", "Objetos & Artesanato"],
       },
       contact: {
