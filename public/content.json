@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "ENZO DIAZ ZINGARETTI",
-    "description": "Trabajo en Blender, TouchDesigner, React y con materiales. Basado en Argentina, disponible internacionalmente.",
+    "description": "Vengo del motion y el 3D. Hoy diseño y programo los sitios que entrego. Basado en Argentina, disponible internacionalmente.",
     "location": "Argentina",
     "availability": "Disponible",
     "meta": "Portfolio / 2026",
@@ -78,7 +78,8 @@
       "features": [
         "Multiidioma",
         "Formulario de contacto",
-        "Embeds musicales"
+        "Embeds de SoundCloud",
+        "Sección de fechas"
       ],
       "scrollPreview": true
     },
@@ -115,16 +116,17 @@
       "type": "Web / Desarrollo",
       "status": "En progreso",
       "role": "Diseño y desarrollo",
-      "description": "Este portfolio. React + Vite + Tailwind CSS. Modal con carrusel multimedia, lazy loading, WebP, contenido centralizado.",
+      "description": "Este portfolio. React + Vite + Tailwind, con el hero en Three.js y un filtro ASCII escrito a mano. Adentro hay un lab generativo, panel de administración propio y contenido en tres idiomas.",
       "tags": [
         "React",
         "Vite",
         "Tailwind CSS"
       ],
       "features": [
-        "Contenido centralizado",
-        "Galerías multimedia",
-        "Optimización de assets"
+        "Filtro ASCII en Three.js",
+        "Lab generativo",
+        "Panel de administración",
+        "Trilingüe"
       ],
       "scrollPreview": true
     },
@@ -452,7 +454,7 @@
       ],
       "title": "Aguantadero Bass",
       "type": "Flyer",
-      "description": "Flyers para Aguantadero Bass.",
+      "description": "",
       "tags": [
         "Diseño",
         "Flyer"
@@ -468,7 +470,7 @@
       ],
       "title": "Blastkick",
       "type": "Flyer",
-      "description": "Flyers para Blastkick. Incluye reel animado.",
+      "description": "Incluye reel animado.",
       "tags": [
         "Diseño",
         "Flyer",
@@ -484,7 +486,7 @@
       ],
       "title": "Blastkick — Año Nuevo",
       "type": "Flyer",
-      "description": "Edición año nuevo para Blastkick.",
+      "description": "",
       "tags": [
         "Diseño",
         "Flyer"
@@ -498,7 +500,7 @@
       ],
       "title": "Dist. Raptis. Kexxy.",
       "type": "Flyer",
-      "description": "Flyer para fecha entre Dist. Raptis y Kexxy.",
+      "description": "",
       "tags": [
         "Diseño",
         "Flyer"
@@ -513,7 +515,7 @@
       ],
       "title": "Maccari",
       "type": "Flyer",
-      "description": "Flyer para el evento Maccari.",
+      "description": "",
       "tags": [
         "Diseño",
         "Flyer"
@@ -528,7 +530,7 @@
       ],
       "title": "Overkill",
       "type": "Flyer",
-      "description": "Flyers para Overkill.",
+      "description": "",
       "tags": [
         "Diseño",
         "Flyer"
@@ -546,7 +548,7 @@
       ],
       "title": "Grandgroove Records",
       "type": "Logo",
-      "description": "Logo para Grandgroove Records. Incluye versión animada.",
+      "description": "Incluye versión animada.",
       "tags": [
         "Logo",
         "Branding",
@@ -561,7 +563,7 @@
       ],
       "title": "Chica Lunar",
       "type": "Logo",
-      "description": "Logo para Chica Lunar.",
+      "description": "",
       "tags": [
         "Logo",
         "Branding"
@@ -609,7 +611,7 @@
       ],
       "title": "REC Underclub",
       "type": "3D / Arquitectura",
-      "description": "Renders y video del espacio REC Underclub.",
+      "description": "Renders y video del espacio.",
       "tags": [
         "Blender",
         "Arquitectura",
@@ -639,27 +641,27 @@
     {
       "id": "congregacion",
       "title": "CONGREGACIÓN",
-      "description": "Multitud de partículas rezando en un campo de ruido; la luz acumulada es la memoria de sus trayectorias."
+      "description": "Partículas siguiendo un campo de ruido fbm. Los trazos se acumulan sobre un fade lento y el pulso a 145 BPM les inyecta velocidad."
     },
     {
       "id": "himno",
       "title": "HIMNO FANTASMA",
-      "description": "Armonógrafo amortiguado con trazo de fósforo; cada compás re-excita el péndulo con nuevas armonías enteras."
+      "description": "Armonógrafo de dos péndulos amortiguados. Cuando la curva se apaga, el compás siguiente la reinicia con otra relación de frecuencias enteras."
     },
     {
       "id": "comunion",
       "title": "COMUNIÓN CELULAR",
-      "description": "Reacción-difusión de Gray-Scott: membranas que se devoran y regeneran sobre una grilla toroidal."
+      "description": "Reacción-difusión de Gray-Scott sobre una grilla toroidal. Cinco regímenes: mitosis, gusanos, laberintos, coral y caos pulsante."
     },
     {
       "id": "enjambre",
       "title": "ENJAMBRE 145",
-      "description": "Atractor de De Jong en morfosis continua; la incandescencia no es paleta, es densidad."
+      "description": "Atractor de De Jong. Miles de iteraciones por frame se acumulan en aditivo y los parámetros derivan a nuevos valores cada 8 compases."
     },
     {
       "id": "liturgia",
       "title": "LITURGIA BRUTAL",
-      "description": "Retícula brutalista de proporción áurea, cortada en bandas glitch al ritmo del golpe."
+      "description": "Subdivisión recursiva en proporción áurea. El golpe corta la retícula en bandas desplazadas y cada 32 se recompone."
     }
   ]
 }
