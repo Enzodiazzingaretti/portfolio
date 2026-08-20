@@ -63,7 +63,7 @@ export default function Home() {
 
       <section id="about" className="home-about" aria-label={navLabels.about}>
         <SectionHead label={navLabels.about} numeral="01" />
-        <AboutContent about={about} variant="page" portraitAlt={content.brand} />
+        <AboutContent about={about} variant="page" />
       </section>
 
       {/* Numeral correlativo de sección, no el conteo de categorías que iba

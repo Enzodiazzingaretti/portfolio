@@ -1,52 +1,16 @@
-import { useState } from "react";
-import { resolvePublicAsset } from "../utils/helpers";
-
-/**
- * El retrato. `about.portrait` se carga desde /admin → Sobre mí → "Foto /
- * retrato"; mientras esté vacío —o si el archivo no está— se dibuja un marco
- * con las esquinas del sistema, para que el hueco se lea como pendiente y no
- * como imagen rota.
- */
-function Portrait({ src, alt }) {
-  const [falló, setFalló] = useState(false);
-  const resuelto = resolvePublicAsset(src);
-
-  if (!resuelto || falló) {
-    return (
-      <div className="about-portrait about-portrait--vacio" role="img" aria-label={alt}>
-        <span className="about-portrait-corner about-portrait-corner--tl" aria-hidden="true" />
-        <span className="about-portrait-corner about-portrait-corner--br" aria-hidden="true" />
-        <span className="about-portrait-label font-mono">RETRATO</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="about-portrait">
-      <img
-        src={resuelto}
-        alt={alt}
-        onError={() => setFalló(true)}
-        loading="lazy"
-        decoding="async"
-        // Centrado (50/50) cae justo en la cara en una selfie vertical: el
-        // recorte 4:5 termina mostrando solo ojos-nariz-boca. Subir el punto
-        // de foco dentro del marco deja lugar para el pelo y los hombros.
-        className="h-full w-full object-cover object-[center_30%]"
-      />
-    </div>
-  );
-}
-
 /**
  * El cuerpo de "Sobre mí", compartido por la sección del home y el panel
  * lateral que se abre desde las rutas de categoría. Vive aparte para que no
  * haya dos copias del mismo contenido: cuando se toca el texto, se toca acá.
  *
- * @param {"panel"|"page"} variant - el panel es angosto, va en una columna y
- *   sin retrato; la sección del home tiene el ancho de la página.
+ * Deliberadamente sin retrato: el sitio ya es visualmente denso (shader
+ * ASCII, piezas generativas) y una foto de perfil no aportaba nada que el
+ * trabajo no dijera mejor. La cara ya vive en LinkedIn.
+ *
+ * @param {"panel"|"page"} variant - el panel es angosto y va en una columna;
+ *   la sección del home tiene el ancho de la página.
  */
-export default function AboutContent({ about, variant = "panel", portraitAlt = "" }) {
+export default function AboutContent({ about, variant = "panel" }) {
   const enPagina = variant === "page";
 
   const texto = (
@@ -80,10 +44,5 @@ export default function AboutContent({ about, variant = "panel", portraitAlt = "
 
   if (!enPagina) return texto;
 
-  return (
-    <div className="about-layout">
-      <Portrait src={about.portrait} alt={portraitAlt} />
-      <div>{texto}</div>
-    </div>
-  );
+  return <div className="about-page">{texto}</div>;
 }

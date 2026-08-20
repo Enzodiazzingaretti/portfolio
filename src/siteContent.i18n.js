@@ -508,7 +508,6 @@ export const siteContent = {
         headline: "Motion, 3D, branding, web y objetos físicos.",
         paragraph: "Trabajo en Blender, TouchDesigner, After Effects y React. También con materiales: encendedores, piezas físicas, dirección de arte para eventos. No me limito a un solo servicio ni a una sola pantalla. Actualmente construyendo un estudio creativo personal en Argentina.",
         specializations: ["Motion Design / TouchDesigner", "Visualización 3D / Blender", "Desarrollo Web / React", "Dirección de Arte", "Branding e Identidad", "Objetos & Piezas Físicas"],
-        portrait: null,
       },
       contact: {
         headline: "HABLEMOS",
@@ -698,7 +697,6 @@ export const siteContent = {
         headline: "Motion, 3D, branding, web and physical objects.",
         paragraph: "I work in Blender, TouchDesigner, After Effects and React. Also with physical materials: lighters, handcrafted pieces, art direction for events. Not limited to a single service or screen. Currently building a personal creative studio in Argentina.",
         specializations: ["Motion Design / TouchDesigner", "3D Visualization / Blender", "Web Development / React", "Art Direction", "Branding & Identity", "Physical Objects & Craft"],
-        portrait: null,
       },
       contact: {
         headline: "LET'S TALK",
@@ -882,7 +880,6 @@ export const siteContent = {
         headline: "Motion, 3D, branding, web e objetos físicos.",
         paragraph: "Trabalho em Blender, TouchDesigner, After Effects e React. Também com materiais físicos: isqueiros, peças artesanais, direção de arte para eventos. Não me limito a um único serviço. Atualmente construindo um estúdio criativo pessoal na Argentina.",
         specializations: ["Motion Design / TouchDesigner", "Visualização 3D / Blender", "Desenvolvimento Web / React", "Direção de Arte", "Branding & Identidade", "Objetos & Artesanato"],
-        portrait: null,
       },
       contact: {
         headline: "VAMOS FALAR",

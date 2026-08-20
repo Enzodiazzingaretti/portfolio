@@ -1114,79 +1114,8 @@ button:focus-visible {
   background: rgba(5,5,5,0.95);
 }
 
-.about-layout {
-  display: grid;
-  gap: 2.5rem;
-}
-
-@media (min-width: 900px) {
-  .about-layout {
-    grid-template-columns: minmax(240px, 0.72fr) 1.28fr;
-    gap: 3.5rem;
-    align-items: start;
-  }
-}
-
-/* En una sola columna el retrato hereda el ancho completo del contenido y
-   domina la pantalla antes de que el texto entre en vista. Se lo acota a un
-   tamaño de foto de perfil, centrado. */
-@media (max-width: 899px) {
-  .about-portrait {
-    width: 100%;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-}
-
-.about-portrait {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--surface, rgba(255,255,255,0.02));
-  border: 1px solid var(--line);
-}
-
-/* Estado vacío: marco con las esquinas del sistema. Es un hueco pendiente,
-   no una imagen que se rompió, y tiene que leerse así. */
-.about-portrait--vacio {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255,255,255,0.014) 0 10px,
-      transparent 10px 20px
-    ),
-    rgba(255,255,255,0.02);
-}
-
-.about-portrait-label {
-  font-size: 10px;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.30);
-}
-
-.about-portrait-corner {
-  position: absolute;
-  width: 26px;
-  height: 26px;
-}
-
-.about-portrait-corner--tl {
-  top: 14px;
-  left: 14px;
-  border-top: 1px solid var(--accent-hover);
-  border-left: 1px solid var(--accent-hover);
-  opacity: 0.55;
-}
-
-.about-portrait-corner--br {
-  right: 14px;
-  bottom: 14px;
-  border-right: 1px solid rgba(255,255,255,0.18);
-  border-bottom: 1px solid rgba(255,255,255,0.18);
+.about-page {
+  max-width: 46rem;
 }
 
 .home-index-head {
