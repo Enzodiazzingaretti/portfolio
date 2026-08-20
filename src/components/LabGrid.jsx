@@ -1,19 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GenerativeCanvas from "./GenerativeCanvas";
 import { LAB_PIECES } from "../lab/pieces";
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return undefined;
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(media.matches);
-    sync();
-    media.addEventListener?.("change", sync);
-    return () => media.removeEventListener?.("change", sync);
-  }, []);
-  return reduced;
-}
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 /**
  * Lab generativo sin la envoltura de sección: ahora es un grupo dentro de

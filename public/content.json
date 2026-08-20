@@ -212,7 +212,8 @@
         "/images/touchdesigner/feedback-ritual/Audioreactive Vol7 Test(1).mp4"
       ],
       "name": "Feedback Ritual",
-      "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM."
+      "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM.",
+      "audio": "/images/loops/feedback-ritual.m4a"
     },
     {
       "thumbnail": "/images/loops/pulse-vandal.mp4",
@@ -228,7 +229,8 @@
         "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4"
       ],
       "name": "Ghost Tunnel",
-      "notes": "Túnel de texturas industriales con deformación en tiempo real."
+      "notes": "Túnel de texturas industriales con deformación en tiempo real.",
+      "audio": "/images/loops/ghost-tunnel.m4a"
     },
     {
       "thumbnail": "/images/loops/static-veil.mp4",
@@ -245,7 +247,8 @@
         "/images/touchdesigner/iron-lattice/visuales4.mp4"
       ],
       "name": "Iron Lattice",
-      "notes": "Estructuras modulares generadas por audio mid-side."
+      "notes": "Estructuras modulares generadas por audio mid-side.",
+      "audio": "/images/loops/iron-lattice.m4a"
     },
     {
       "thumbnail": "/images/loops/eyes.mp4",

@@ -72,6 +72,10 @@ const NORMALIZERS = {
     description: loop.notes,
     tags: ["touchdesigner", "generative", "live visuals"],
     thumbnail: asset(loop.thumbnail) ?? asset(loop.slides?.[0]),
+    // Solo las piezas que tienen pista real. Las otras cuatro traen un track
+    // de silencio digital en el original, así que no declaran `audio` y no
+    // muestran el parlante.
+    audio: loop.audio ? asset(loop.audio) : null,
     slides: slides(loop.slides),
   }),
   render: (work, ui) => ({

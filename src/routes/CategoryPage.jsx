@@ -3,6 +3,8 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 import MediaAsset from "../components/MediaAsset";
 import SelectedWorkCard from "../components/SelectedWorkCard";
 import DetailModal from "../components/DetailModal";
+import LoopAudioButton from "../components/LoopAudioButton";
+import { loopAudio } from "../audio/loopAudio";
 import NotFound from "./NotFound";
 
 const LabGrid = lazy(() => import("../components/LabGrid"));
@@ -34,9 +36,15 @@ function WorkTile({ item, onOpen }) {
   );
 }
 
-function VideoTile({ item, index, onOpen, label }) {
+function VideoTile({ item, index, onOpen, label, audioLabels }) {
   return (
-    <article className="loop-tile reveal-on-scroll">
+    <article
+      className="loop-tile reveal-on-scroll"
+      // Solo las piezas con pista real declaran `audio`; en las demás estas
+      // llamadas no hacen nada.
+      onMouseEnter={() => loopAudio.alEntrar(item.audio)}
+      onMouseLeave={() => loopAudio.alSalir(item.audio)}
+    >
       <button type="button" onClick={onOpen} className="loop-tile-button">
         <span className="loop-tile-media">
           <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
@@ -51,6 +59,8 @@ function VideoTile({ item, index, onOpen, label }) {
           {item.description ? <span className="loop-tile-desc">{item.description}</span> : null}
         </span>
       </button>
+
+      {item.audio ? <LoopAudioButton src={item.audio} labels={audioLabels} /> : null}
     </article>
   );
 }
@@ -188,6 +198,7 @@ export default function CategoryPage() {
                   item={item}
                   index={index}
                   label={content.ui.loopLabel}
+                  audioLabels={content.ui.showcase?.audio}
                   onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}

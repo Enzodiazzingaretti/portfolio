@@ -22,7 +22,8 @@ dependencias nuevas ni reconstruir el sistema de modales existente.
 Cinco piezas, una por categoría más un bonus:
 
 1. **Feedback Ritual** (Motion) — `touchDesignerAssets.feedbackRitual`, loop
-   de `/images/loops/feedback-ritual.mp4` con su poster, ya optimizado.
+   de `/images/loops/feedback-ritual.mp4` con su poster. **Su portada se
+   regenera desde Vol5** — ver "Audio en hover" abajo.
 2. **Golden Faces** (3D) — `blenderAssets.goldenFaces`, imagen estática
    `/images/blender/golden-faces/golden-1.png`.
 3. **Blastkick** (Gráfica) — `flyerAssets.blastkick`, imagen estática
@@ -96,6 +97,86 @@ Label de sección: "Destacados" / "Selected Work" / "Destaques", siguiendo el
 patrón i18n ya usado para "Sobre mí"/"Índice"/"Contacto" en las tres
 locales.
 
+## Audio en hover
+
+Pedido aparte del carrusel, aplica a **dos lugares**: la card de Motion del
+showcase y los tiles de TouchDesigner en `/motion`.
+
+### Qué piezas lo llevan — medido, no asumido
+
+Solo las que tienen pista de audio real. Medido con `volumedetect`:
+
+| Pieza | mean_volume | ¿Audio? |
+|---|---|---|
+| Feedback Ritual (Vol5/Vol6) | −14.9 / −13.8 dB | sí |
+| Ghost Tunnel | −12.7 dB | sí |
+| Iron Lattice (visuales3/4) | −12.6 / −18.4 dB | sí |
+| Pulse Vandal · Eyes · Kinetic Sand · Static Veil | −91.0 dB | **no** |
+
+−91 dB es silencio digital: esos cuatro archivos traen una pista AAC vacía
+(~2.3 kbps). Darles el ícono de sonido mostraría una feature rota. **La
+capacidad de audio es por pieza, declarada en los datos**, no un global.
+
+### Entrega: archivo de audio aparte, no muxeado en la portada
+
+Las portadas `.mp4` se usan como tiles autoplay-muted en toda `/motion`.
+Muxearles audio haría que las 8 carguen ese peso para nada (5 son mudas) y
+regresaría la optimización documentada de 20 MB → 3,6 MB.
+
+En cambio: `/images/loops/<slug>.m4a`, 8 s, mono, ~64 kbps (~60 KB),
+extraído **del mismo archivo fuente y el mismo rango temporal que la portada
+de video**. Así lo que se escucha es exactamente el audio al que reacciona lo
+que se ve. Con `preload="none"`: no baja un byte hasta que alguien hace hover.
+
+**Feedback Ritual necesita que se regenere su portada.** Se verificó por SSIM
+que la actual salió de `Audioreactive Vol2 Test.mp4` (0.72 contra 0.62/0.61 de
+Vol5/Vol6), y Vol2 **no tiene pista de audio**. Vol5 y Vol6 son tomas
+distintas del mismo sistema, con otro track. Pegarle el audio de Vol5 al video
+de Vol2 se vería fuera de tempo — y en una pieza audio-reactiva el punto
+entero es que el visual pegue con el golpe. Se regenera la portada desde Vol5
+con el pipeline documentado en `CLAUDE.md`, para que video y audio sean del
+mismo render.
+
+### Por qué el hover solo no alcanza
+
+Los navegadores bloquean audio audible sin un gesto de activación del usuario,
+y `mouseenter` no cuenta como tal. En una carga limpia, `audio.play()` sin
+mutear se rechaza con `NotAllowedError`. O sea: hover-audio **necesita** un
+click previo, no es opcional.
+
+Y coincide con el criterio de UX correcto: alguien que abre el portfolio desde
+una oficina no puede llevarse un hardgroove a todo volumen de sorpresa.
+
+### Diseño: un click para armar, después hover
+
+- Las piezas con audio muestran un botón chico de parlante.
+- **El sonido arranca apagado.**
+- El click en el parlante arma el audio (ese click es el gesto de activación
+  que el navegador exige) y reproduce esa pieza.
+- Ya armado, hacer hover sobre cualquier pieza con audio hace fade-in de su
+  track; al salir, fade-out.
+- Una sola pista sonando a la vez, garantizado por construcción.
+- Fade de ~250 ms en vez de corte seco (coherente con la preferencia de
+  crossfade ya documentada para este proyecto).
+- El estado "armado" se guarda en `sessionStorage`, así navegar entre el home
+  y `/motion` no vuelve a pedir el click.
+- El botón corta la propagación del evento: no dispara la navegación de la
+  card.
+- El audio se detiene si la pestaña se oculta.
+
+### Mobile
+
+No hay hover. Ahí el botón de parlante funciona como play/pausa directo de esa
+pieza, y la card sigue navegando al tocarla.
+
+### Estado compartido entre rutas
+
+El showcase (home) y los tiles de `/motion` necesitan compartir "qué suena" y
+"está armado". Se resuelve con un singleton a nivel de módulo
+(`src/audio/loopAudio.js`) que es dueño de un único `HTMLAudioElement` y un set
+de suscriptores, consumido con un hook `useLoopAudio`. Evita atravesar dos
+rutas con un contexto y garantiza una sola pista a la vez por construcción.
+
 ## Fuera de alcance
 
 - No se toca el panel de `/admin`: la selección queda fija en código (ya
@@ -103,6 +184,10 @@ locales.
 - No se agrega la sección a la nav superior.
 - No se adapta `DetailModal` a las cinco estructuras de datos distintas.
 - No se agregan librerías de carrusel — todo con CSS scroll-snap nativo.
+- **No se le pone audio a las 4 piezas mudas.** Si algún día aparecen los
+  archivos con sonido real, alcanza con agregarles el `.m4a` y el flag.
+- No se toca el audio del `DetailModal` (los originales ya suenan ahí con sus
+  controles nativos).
 
 ## Testing
 
@@ -113,3 +198,8 @@ locales.
   la card de Enjambre 145 cae a su frame estático en vez de animar.
 - Verificado que las cards con video (Feedback Ritual) se pausan fuera de
   viewport, reusando el comportamiento ya probado de `MediaAsset`.
+- **Audio:** verificado en el navegador que sin armar no suena nada, que el
+  click arma y suena, que el hover cambia de pista, que solo suena una a la
+  vez, y que las piezas mudas no muestran el botón.
+- **Audio:** verificado que el `.m4a` no se descarga hasta el primer hover
+  (mirando la pestaña de red), para no regresar el peso de `/motion`.

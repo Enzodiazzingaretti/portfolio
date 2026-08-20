@@ -1,7 +1,10 @@
+import { useMemo } from "react";
 import { useOutletContext } from "react-router-dom";
 import CategoryIndex from "../components/CategoryIndex";
+import ShowcaseCarousel from "../components/ShowcaseCarousel";
 import AboutContent from "../components/AboutContent";
 import ContactContent from "../components/ContactContent";
+import { buildShowcase } from "../showcasePicks";
 
 /** Rótulo de sección: label rojo, regla al medio y numeral a la derecha. */
 function SectionHead({ label, numeral }) {
@@ -23,6 +26,7 @@ export default function Home() {
   const { content, categories } = useOutletContext();
   const { hero, ui, about, contact } = content;
   const navLabels = ui.nav;
+  const destacados = useMemo(() => buildShowcase(categories), [categories]);
 
   return (
     <div className="home-root">
@@ -66,11 +70,18 @@ export default function Home() {
         <AboutContent about={about} variant="page" />
       </section>
 
+      {destacados.length ? (
+        <section id="showcase" className="home-showcase" aria-label={navLabels.showcase}>
+          <SectionHead label={navLabels.showcase} numeral="02" />
+          <ShowcaseCarousel items={destacados} labels={ui.showcase} />
+        </section>
+      ) : null}
+
       {/* Numeral correlativo de sección, no el conteo de categorías que iba
           antes: en la misma posición visual que el 01 de Sobre mí, un 04 se
           leía como "sección 4". El conteo de piezas ya está en cada fila. */}
       <section id="index" className="home-index" aria-label={navLabels.index}>
-        <SectionHead label={navLabels.index} numeral="02" />
+        <SectionHead label={navLabels.index} numeral="03" />
 
         <CategoryIndex
           categories={categories}
@@ -79,7 +90,7 @@ export default function Home() {
       </section>
 
       <section id="contact" className="home-contact" aria-label={navLabels.contact}>
-        <SectionHead label={navLabels.contact} numeral="03" />
+        <SectionHead label={navLabels.contact} numeral="04" />
         <ContactContent contact={contact} labels={ui.contactLabels} variant="page" />
       </section>
     </div>

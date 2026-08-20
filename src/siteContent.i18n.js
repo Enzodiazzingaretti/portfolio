@@ -55,6 +55,7 @@ const webProjectAssets = {
 const touchDesignerAssets = {
   feedbackRitual: {
     thumbnail: "/images/loops/feedback-ritual.mp4",
+    audio: "/images/loops/feedback-ritual.m4a",
     slides: [
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol2 Test.mp4",
       "/images/touchdesigner/feedback-ritual/Audioreactive Vol3 Test 1(1).mp4",
@@ -71,6 +72,7 @@ const touchDesignerAssets = {
   },
   ghostTunnel: {
     thumbnail: "/images/loops/ghost-tunnel.mp4",
+    audio: "/images/loops/ghost-tunnel.m4a",
     slides: [
       "/images/touchdesigner/ghost-tunnel/C4 Animacion (1).mp4",
     ],
@@ -84,6 +86,7 @@ const touchDesignerAssets = {
   },
   ironLattice: {
     thumbnail: "/images/loops/iron-lattice.mp4",
+    audio: "/images/loops/iron-lattice.m4a",
     slides: [
       "/images/touchdesigner/iron-lattice/visuales4.mp4",
     ],
@@ -517,7 +520,12 @@ export const siteContent = {
         note: "Respondo en menos de 24 horas",
       },
       ui: {
-        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
+        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", showcase: "Destacados", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
+        showcase: {
+          previous: "Anterior",
+          next: "Siguiente",
+          audio: { listen: "Escuchar el audio de esta pieza", mute: "Silenciar" },
+        },
         worksLabel: "piezas",
         workLabelSingular: "pieza",
         viewCase: "Ver caso",
@@ -706,7 +714,12 @@ export const siteContent = {
         note: "I reply within 24 hours",
       },
       ui: {
-        nav: { back: "Back", home: "Home", index: "Index", about: "About", contact: "Contact", enter: "Enter", close: "Close" },
+        nav: { back: "Back", home: "Home", index: "Index", about: "About", showcase: "Selected work", contact: "Contact", enter: "Enter", close: "Close" },
+        showcase: {
+          previous: "Previous",
+          next: "Next",
+          audio: { listen: "Play this piece's audio", mute: "Mute" },
+        },
         worksLabel: "works",
         workLabelSingular: "work",
         viewCase: "View Case",
@@ -889,7 +902,12 @@ export const siteContent = {
         note: "Respondo em menos de 24 horas",
       },
       ui: {
-        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", contact: "Contato", enter: "Entrar", close: "Fechar" },
+        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", showcase: "Destaques", contact: "Contato", enter: "Entrar", close: "Fechar" },
+        showcase: {
+          previous: "Anterior",
+          next: "Próximo",
+          audio: { listen: "Ouvir o áudio desta peça", mute: "Silenciar" },
+        },
         worksLabel: "peças",
         workLabelSingular: "peça",
         viewCase: "Ver caso",
