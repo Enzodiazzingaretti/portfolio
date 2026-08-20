@@ -27,6 +27,17 @@ export default function Home() {
   const { hero, ui, about, contact } = content;
   const navLabels = ui.nav;
   const destacados = useMemo(() => buildShowcase(categories), [categories]);
+  const hayDestacados = destacados.length > 0;
+
+  /**
+   * Qué sección queda pegada al hero. Importa por dos cosas: es adonde apunta
+   * la flecha de scroll, y es la que lleva el degradado que disuelve el fondo
+   * WebGL en la página (`.home-lead`). Se calcula en vez de fijarse porque el
+   * showcase desaparece si sus piezas se borran desde /admin.
+   */
+  const primera = hayDestacados
+    ? { id: "showcase", label: navLabels.showcase }
+    : { id: "index", label: navLabels.index };
 
   return (
     <div className="home-root">
@@ -59,29 +70,35 @@ export default function Home() {
           </div>
         </div>
 
-        <a href="#about" className="home-scroll font-mono" aria-label={navLabels.about}>
+        <a href={`#${primera.id}`} className="home-scroll font-mono" aria-label={primera.label}>
           <span className="home-scroll-rule" aria-hidden="true" />
           {hero.scrollLabel}
         </a>
       </section>
 
-      <section id="about" className="home-about" aria-label={navLabels.about}>
-        <SectionHead label={navLabels.about} numeral="01" />
-        <AboutContent about={about} variant="page" />
-      </section>
-
-      {destacados.length ? (
-        <section id="showcase" className="home-showcase" aria-label={navLabels.showcase}>
-          <SectionHead label={navLabels.showcase} numeral="02" />
+      {/* El trabajo va antes que la bio: quien entra al portfolio viene a ver
+          obra, y "Sobre mí" se lee mejor una vez que ya vio algo, pegado a
+          Contacto. */}
+      {hayDestacados ? (
+        <section
+          id="showcase"
+          className={`home-showcase${primera.id === "showcase" ? " home-lead" : ""}`}
+          aria-label={navLabels.showcase}
+        >
+          <SectionHead label={navLabels.showcase} numeral="01" />
           <ShowcaseCarousel items={destacados} labels={ui.showcase} />
         </section>
       ) : null}
 
       {/* Numeral correlativo de sección, no el conteo de categorías que iba
-          antes: en la misma posición visual que el 01 de Sobre mí, un 04 se
-          leía como "sección 4". El conteo de piezas ya está en cada fila. */}
-      <section id="index" className="home-index" aria-label={navLabels.index}>
-        <SectionHead label={navLabels.index} numeral="03" />
+          antes: en la misma posición visual que el 01, un 04 se leía como
+          "sección 4". El conteo de piezas ya está en cada fila. */}
+      <section
+        id="index"
+        className={`home-index${primera.id === "index" ? " home-lead" : ""}`}
+        aria-label={navLabels.index}
+      >
+        <SectionHead label={navLabels.index} numeral={hayDestacados ? "02" : "01"} />
 
         <CategoryIndex
           categories={categories}
@@ -89,8 +106,13 @@ export default function Home() {
         />
       </section>
 
+      <section id="about" className="home-about" aria-label={navLabels.about}>
+        <SectionHead label={navLabels.about} numeral={hayDestacados ? "03" : "02"} />
+        <AboutContent about={about} variant="page" />
+      </section>
+
       <section id="contact" className="home-contact" aria-label={navLabels.contact}>
-        <SectionHead label={navLabels.contact} numeral="04" />
+        <SectionHead label={navLabels.contact} numeral={hayDestacados ? "04" : "03"} />
         <ContactContent contact={contact} labels={ui.contactLabels} variant="page" />
       </section>
     </div>

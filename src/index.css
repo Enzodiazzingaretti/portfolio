@@ -1100,8 +1100,8 @@ button:focus-visible {
    que se lleva el degradado que corta el fondo WebGL. El índice y contacto
    vienen abajo, ya sobre fondo opaco. */
 .home-about {
-  padding: 5rem var(--page-px) 4rem;
-  background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
+  padding: 1rem var(--page-px) 4rem;
+  background: rgba(5,5,5,0.95);
 }
 
 .home-index {
@@ -1112,6 +1112,17 @@ button:focus-visible {
 .home-contact {
   padding: 2rem var(--page-px) 7rem;
   background: rgba(5,5,5,0.95);
+}
+
+/* La sección que queda pegada al hero, sea cual sea. El degradado disuelve el
+   fondo WebGL en la página: sin él el corte contra el hero es seco. Vivía en
+   `.home-about`, que era la primera hasta que la bio se movió abajo.
+   Va con `section.` a propósito: tiene que ganarle a la regla de la sección que
+   la lleve, y varias de esas están definidas más abajo en este archivo. Con una
+   sola clase dependería del orden y se rompería al mover un bloque. */
+section.home-lead {
+  padding-top: 5rem;
+  background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
 }
 
 .about-page {
