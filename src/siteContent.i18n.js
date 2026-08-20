@@ -374,9 +374,9 @@ export const siteContent = {
     { code: "pt", label: "PT", name: "Português" },
   ],
   contactLinks: {
-    email: "k3xxy.art@gmail.com",
+    email: "enzodiazzingaretti27@gmail.com",
     instagram: "https://www.instagram.com/kexxy.obj",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/enzo-diaz-zingaretti",
     presskit: "https://presskit-digital.vercel.app/",
   },
   locales: {
@@ -438,7 +438,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Disponible",
         meta: "Portfolio / 2026",
-        roles: ["Artista 3D", "Motion Designer", "Creador Visual"],
+        roles: ["Artista 3D", "Motion Designer", "Creador Visual", "Desarrollador Creativo"],
         cta: "Ver proyectos ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -512,7 +512,7 @@ export const siteContent = {
       contact: {
         headline: "HABLEMOS",
         availableForLabel: "Disponible para",
-        availableFor: ["Proyectos Freelance", "Motion Design", "3D", "Dirección de Arte", "Branding"],
+        availableFor: ["Proyectos Freelance", "Desarrollo Web", "Motion Design", "3D", "Dirección de Arte", "Branding"],
         cta: "Escribime",
         note: "Respondo en menos de 24 horas",
       },
@@ -628,7 +628,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Available",
         meta: "Portfolio / 2026",
-        roles: ["3D Artist", "Motion Designer", "Visual Creator"],
+        roles: ["3D Artist", "Motion Designer", "Visual Creator", "Creative Developer"],
         cta: "View Projects ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -702,7 +702,7 @@ export const siteContent = {
       contact: {
         headline: "LET'S TALK",
         availableForLabel: "Available for",
-        availableFor: ["Freelance Projects", "Motion Design", "3D", "Art Direction", "Branding"],
+        availableFor: ["Freelance Projects", "Web Development", "Motion Design", "3D", "Art Direction", "Branding"],
         cta: "Get in touch",
         note: "I reply within 24 hours",
       },
@@ -812,7 +812,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Disponível",
         meta: "Portfólio / 2026",
-        roles: ["Artista 3D", "Motion Designer", "Criador Visual"],
+        roles: ["Artista 3D", "Motion Designer", "Criador Visual", "Desenvolvedor Criativo"],
         cta: "Ver projetos ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -886,7 +886,7 @@ export const siteContent = {
       contact: {
         headline: "VAMOS FALAR",
         availableForLabel: "Disponível para",
-        availableFor: ["Projetos Freelance", "Motion Design", "3D", "Direção de Arte", "Branding"],
+        availableFor: ["Projetos Freelance", "Desenvolvimento Web", "Motion Design", "3D", "Direção de Arte", "Branding"],
         cta: "Me escreve",
         note: "Respondo em menos de 24 horas",
       },
