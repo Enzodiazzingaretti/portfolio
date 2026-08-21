@@ -288,7 +288,7 @@ button:focus-visible {
   transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
 }
 
-.lab-card button:hover .lab-frame {
+.lab-shot:hover .lab-frame {
   border-color: rgba(177,18,18,0.5);
   box-shadow: 0 0 40px -12px rgba(139,0,0,0.35);
 }
@@ -297,6 +297,141 @@ button:focus-visible {
   display: block;
   object-fit: cover;
 }
+
+/* ── Tablero de parámetros ─────────────────────────────────────
+   Cada obra expone cuatro controles. La tipografía es la misma micro
+   monoespaciada del resto del sitio, y los alfas respetan el piso de
+   contraste (0.45 sobre #050505 = 4.5:1 en texto chico). */
+.lab-controls {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.lab-controls__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.lab-reset {
+  color: rgba(255,255,255,0.5);
+  transition: color var(--fast) var(--ease-out);
+}
+
+.lab-reset:hover:not(:disabled) { color: var(--accent-hover); }
+
+.lab-reset:disabled {
+  color: rgba(255,255,255,0.2);
+  cursor: default;
+}
+
+.lab-controls__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .lab-controls__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .lab-card--wide .lab-controls__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.lab-ctrl { display: block; }
+
+.lab-ctrl__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.lab-ctrl__name {
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.62);
+}
+
+.lab-ctrl__value {
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85);
+  font-variant-numeric: tabular-nums;
+}
+
+/* El relleno rojo hasta el pulgar sale de --fill, que setea el JSX: el
+   range nativo no expone la fracción recorrida en CSS (Firefox sí, con
+   ::-moz-range-progress). */
+.lab-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 14px;
+  background: transparent;
+  /* el gesto horizontal es del slider; el vertical sigue scrolleando */
+  touch-action: pan-y;
+}
+
+.lab-slider:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 4px;
+}
+
+.lab-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  /* el recorrido va en la variante brillante: --accent (#8B0000) sobre negro
+     es casi invisible en una línea de 2px, el mismo motivo por el que los
+     anillos de foco del sitio usan --accent-hover */
+  background: linear-gradient(
+    to right,
+    var(--accent-hover) 0 var(--fill, 0%),
+    rgba(255,255,255,0.18) var(--fill, 0%) 100%
+  );
+}
+
+.lab-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  margin-top: -4px;
+  border: 0;
+  border-radius: 0;
+  background: var(--text);
+  transition: background var(--fast) var(--ease-out);
+}
+
+.lab-slider:hover::-webkit-slider-thumb,
+.lab-slider:active::-webkit-slider-thumb { background: var(--accent-hover); }
+
+.lab-slider::-moz-range-track {
+  height: 2px;
+  background: rgba(255,255,255,0.18);
+}
+
+.lab-slider::-moz-range-progress {
+  height: 2px;
+  background: var(--accent-hover);
+}
+
+.lab-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 0;
+  background: var(--text);
+  transition: background var(--fast) var(--ease-out);
+}
+
+.lab-slider:hover::-moz-range-thumb,
+.lab-slider:active::-moz-range-thumb { background: var(--accent-hover); }
 
 /* ─────────────────────────────────────────
    MODAL

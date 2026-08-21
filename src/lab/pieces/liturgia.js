@@ -1,4 +1,5 @@
 import { mulberry32, makeRng, beatEnv, beatIndex, BEAT_S } from "../prng";
+import { paramReader } from "../controls";
 
 /**
  * LITURGIA BRUTAL — subdivisión recursiva con glitch a tempo.
@@ -9,7 +10,19 @@ import { mulberry32, makeRng, beatEnv, beatIndex, BEAT_S } from "../prng";
  */
 const SPLITS = [0.382, 0.5, 0.618];
 
-export default function createLiturgia({ w, h, seed }) {
+/**
+ * `profundidad` y `corte` recomponen la retícula, así que se rebuildea sola
+ * cuando cambian. Los guardas de tamaño mínimo acotan las hojas incluso en 7.
+ */
+export const controls = [
+  { id: "profundidad", min: 3, max: 7, step: 1, def: 5 },
+  { id: "corte", min: 0.4, max: 2.2, step: 0.01, def: 1 },
+  { id: "glitch", min: 0, max: 2.5, step: 0.01, def: 1 },
+  { id: "epoca", min: 0.25, max: 3, step: 0.01, def: 1 },
+];
+
+export default function createLiturgia({ w, h, seed, params }) {
+  const p = paramReader(controls, params);
   const off = document.createElement("canvas");
   off.width = w;
   off.height = h;
@@ -20,10 +33,13 @@ export default function createLiturgia({ w, h, seed }) {
   ghost.height = h;
   const ghostCtx = ghost.getContext("2d");
 
-  function buildLeaves(rng) {
+  function buildLeaves(rng, maxDepth, cut) {
     const leaves = [];
+    // chance() consume un rand() pase lo que pase: con corte en 1 la
+    // secuencia es idéntica a la de antes de que esto fuera regulable.
+    const stop = Math.min(0.32 * cut, 0.85);
     const subdivide = (x, y, ww, hh, depth) => {
-      const done = depth >= 5 || (depth >= 2 && rng.chance(0.32)) || ww < w * 0.07 || hh < h * 0.09;
+      const done = depth >= maxDepth || (depth >= 2 && rng.chance(stop)) || ww < w * 0.07 || hh < h * 0.09;
       if (done) {
         const roll = rng.rand();
         leaves.push({
@@ -91,22 +107,29 @@ export default function createLiturgia({ w, h, seed }) {
   }
 
   let epoch = -1;
+  let builtWith = "";
 
   return {
     warmupFrames: 1,
     frame(ctx, t) {
+      const depth = Math.round(p("profundidad"));
+      const cut = p("corte");
+      const gm = p("glitch");
+
       // Recomposición cada 32 golpes: corte seco, determinista por época
-      const currentEpoch = Math.floor(t / (BEAT_S * 32));
-      if (currentEpoch !== epoch) {
+      const currentEpoch = Math.floor(t / (BEAT_S * 32 * p("epoca")));
+      const signature = `${currentEpoch}|${depth}|${cut}`;
+      if (signature !== builtWith) {
+        builtWith = signature;
         epoch = currentEpoch;
-        renderLayout(buildLeaves(makeRng((seed ^ (epoch * 0x9E3779B9)) >>> 0)));
+        renderLayout(buildLeaves(makeRng((seed ^ (epoch * 0x9E3779B9)) >>> 0), depth, cut));
       }
 
       ctx.globalCompositeOperation = "source-over";
       ctx.drawImage(off, 0, 0);
 
       // Glitch cuantizado: el golpe corta la imagen en bandas desplazadas
-      const g = beatEnv(t, 2);
+      const g = beatEnv(t, 2) * gm;
       if (g > 0.3) {
         const bandRand = mulberry32((seed + beatIndex(t) * 2654435761) >>> 0);
         const bands = 2 + Math.floor(bandRand() * 3);
@@ -118,7 +141,7 @@ export default function createLiturgia({ w, h, seed }) {
         }
         // Eco rojo aditivo desplazado: cromatismo de pantalla rota
         ctx.globalCompositeOperation = "lighter";
-        ctx.globalAlpha = 0.35 * g;
+        ctx.globalAlpha = Math.min(0.35 * g, 0.6);
         ctx.drawImage(ghost, (bandRand() - 0.5) * 10 * g, (bandRand() - 0.5) * 6 * g);
         ctx.globalAlpha = 1;
         ctx.globalCompositeOperation = "source-over";

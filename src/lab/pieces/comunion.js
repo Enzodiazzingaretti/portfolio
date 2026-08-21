@@ -1,4 +1,5 @@
 import { makeRng, beatIndex, BEAT_S } from "../prng";
+import { paramReader } from "../controls";
 
 /**
  * COMUNIÓN CELULAR — reacción-difusión de Gray-Scott.
@@ -15,15 +16,51 @@ const REGIMES = [
   { f: 0.026,  k: 0.053 },   // caos pulsante
 ];
 
-export default function createComunion({ w, h, seed }) {
+// Gray-Scott no admite un slider crudo de F/K: casi todo el plano es muerte
+// (la reacción se apaga y la grilla queda negra). El control recorre un
+// camino curado entre los cinco regímenes, ordenados de caos a mitosis, y
+// solo interpola entre vecinos. Verificado numéricamente: en todo el
+// recorrido, y en los extremos de difusión, el sistema sigue vivo.
+const PATH = [4, 2, 1, 3, 0];
+
+/** F/K en una posición continua del camino [0, 4] */
+export function regimeAt(pos) {
+  const clamped = Math.min(Math.max(pos, 0), PATH.length - 1);
+  const i = Math.floor(clamped);
+  const j = Math.min(i + 1, PATH.length - 1);
+  const u = clamped - i;
+  const a = REGIMES[PATH[i]];
+  const b = REGIMES[PATH[j]];
+  return { f: a.f + (b.f - a.f) * u, k: a.k + (b.k - a.k) * u };
+}
+
+// La difusión de B NO es regulable a propósito. Medido sobre 4.000 pasos en
+// todo el camino: por debajo de 0.95x el Euler explícito diverge a NaN (y el
+// NaN es permanente: la grilla queda negra hasta la próxima semilla), y por
+// encima de 1.05x la mitosis se apaga. La banda viable es tan angosta que el
+// slider no movía nada. En su lugar va `incandescencia`, que es ganancia de
+// render: no puede romper la ecuación.
+/** `regimen` es un offset sobre el régimen que fijó la semilla, no un absoluto. */
+export const controls = [
+  { id: "regimen", min: -2, max: 2, step: 0.01, def: 0 },
+  { id: "incandescencia", min: 1.2, max: 3.6, step: 0.01, def: 2.6 },
+  { id: "velocidad", min: 3, max: 16, step: 1, def: 9 },
+  { id: "siembra", min: 0, max: 3, step: 0.01, def: 1 },
+];
+
+export default function createComunion({ w, h, seed, params }) {
   const rng = makeRng(seed);
+  const p = paramReader(controls, params);
   const GW = 160;
   const GH = 120;
   const N = GW * GH;
 
-  const regime = rng.pick(REGIMES);
-  const F = regime.f + rng.range(-0.0008, 0.0008);
-  const K = regime.k + rng.range(-0.0006, 0.0006);
+  // int(0,4) consume el mismo rand() que el pick original: la semilla sigue
+  // devolviendo el mismo régimen que antes de que esto fuera regulable.
+  const regimeIndex = rng.int(0, REGIMES.length - 1);
+  const seedPos = PATH.indexOf(regimeIndex);
+  const jitterF = rng.range(-0.0008, 0.0008);
+  const jitterK = rng.range(-0.0006, 0.0006);
   const DA = 1.0;
   const DB = 0.48;
 
@@ -55,7 +92,7 @@ export default function createComunion({ w, h, seed }) {
   const offCtx = off.getContext("2d");
   const image = offCtx.createImageData(GW, GH);
 
-  function step() {
+  function step(F, K) {
     for (let y = 0; y < GH; y += 1) {
       const up = ((y - 1 + GH) % GH) * GW;
       const dn = ((y + 1) % GH) * GW;
@@ -105,18 +142,25 @@ export default function createComunion({ w, h, seed }) {
   return {
     warmupFrames: 230,
     frame(ctx, t) {
+      const { f, k } = regimeAt(seedPos + p("regimen"));
+      const F = f + jitterF;
+      const K = k + jitterK;
+      const glow = p("incandescencia");
+      const sow = p("siembra");
+
       // Comunión a tempo: nueva semilla química cada 16 golpes
-      const beat = Math.floor(beatIndex(t) / 16);
+      const beat = sow > 0.05 ? Math.floor((beatIndex(t) * sow) / 16) : -1;
       if (beat !== lastInjection && t > BEAT_S) {
         lastInjection = beat;
         inject(rng.int(0, GW - 1), rng.int(0, GH - 1), rng.int(2, 3));
       }
 
-      for (let i = 0; i < 9; i += 1) step();
+      const steps = Math.round(p("velocidad"));
+      for (let i = 0; i < steps; i += 1) step(F, K);
 
       const data = image.data;
       for (let i = 0; i < N; i += 1) {
-        const v = Math.min(Math.max(B[i] * 2.6, 0), 1);
+        const v = Math.min(Math.max(B[i] * glow, 0), 1);
         const j = i * 4;
         data[j] = ramp(v, 0);
         data[j + 1] = ramp(v, 1);

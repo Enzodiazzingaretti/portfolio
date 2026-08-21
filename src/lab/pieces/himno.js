@@ -1,4 +1,5 @@
 import { makeRng, beatEnv, BEAT_S, PALETTE } from "../prng";
+import { paramReader } from "../controls";
 
 /**
  * HIMNO FANTASMA — armonógrafo de fósforo.
@@ -9,8 +10,17 @@ import { makeRng, beatEnv, BEAT_S, PALETTE } from "../prng";
  */
 const RATIOS = [[2, 3], [3, 4], [3, 5], [4, 5], [5, 6], [2, 5], [5, 7]];
 
-export default function createHimno({ w, h, seed }) {
+/** Amplitud tope 1.2: más alto y la figura se recorta contra el marco. */
+export const controls = [
+  { id: "amortiguacion", min: 0.25, max: 3, step: 0.01, def: 1 },
+  { id: "velocidad", min: 0.35, max: 2.2, step: 0.01, def: 1 },
+  { id: "amplitud", min: 0.5, max: 1.2, step: 0.01, def: 1 },
+  { id: "estela", min: 0.25, max: 3, step: 0.01, def: 1 },
+];
+
+export default function createHimno({ w, h, seed, params }) {
   const rng = makeRng(seed);
+  const p = paramReader(controls, params);
   const cx = w / 2;
   const cy = h / 2;
   const S = Math.min(w, h) * 0.40;
@@ -47,11 +57,14 @@ export default function createHimno({ w, h, seed }) {
   return {
     warmupFrames: 300,
     frame(ctx, t, dt) {
+      const amp = p("amplitud");
+      const fade = 0.045 / p("estela");
+
       ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = `${PALETTE.fade}0.045)`;
+      ctx.fillStyle = `${PALETTE.fade}${fade.toFixed(4)})`;
       ctx.fillRect(0, 0, w, h);
 
-      state.energy *= Math.exp(-dt * DECAY * 4);
+      state.energy *= Math.exp(-dt * DECAY * 4 * p("amortiguacion"));
       // Re-excitación cuantizada al compás: el himno respira a tempo
       const beat = Math.floor(t / (BEAT_S * 4));
       if (state.energy < 0.16 && beat !== state.lastBeat) {
@@ -59,10 +72,10 @@ export default function createHimno({ w, h, seed }) {
         excite();
       }
 
-      const speed = 0.9 + beatEnv(t, 4) * 0.25;
+      const speed = (0.9 + beatEnv(t, 4) * 0.25) * p("velocidad");
       const stepTau = (dt * speed * 2.2) / STEPS * 60;
       // Piso de amplitud: la figura respira pero nunca colapsa del todo
-      const E = 0.38 + state.energy * 0.62;
+      const E = (0.38 + state.energy * 0.62) * amp;
 
       // Trazo continuo: retoma el último punto del frame anterior
       const path = new Path2D();

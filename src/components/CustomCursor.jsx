@@ -20,7 +20,7 @@ export default function CustomCursor() {
       el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
     };
     const onOver = (e) => {
-      const hoverable = e.target.closest("a, button, [role='button']");
+      const hoverable = e.target.closest("a, button, [role='button'], input[type='range']");
       el.classList.toggle("hovering", !!hoverable);
     };
     const onDown = () => el.classList.add("clicking");

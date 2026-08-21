@@ -1,4 +1,5 @@
 import { makeRng, fbm3, beatEnv, PALETTE } from "../prng";
+import { paramReader } from "../controls";
 
 /**
  * CONGREGACIÓN — campo de flujo litúrgico.
@@ -6,8 +7,18 @@ import { makeRng, fbm3, beatEnv, PALETTE } from "../prng";
  * La luz es memoria: los trazos se acumulan sobre un fade translúcido.
  * El pulso a 145 BPM inyecta velocidad; las "brasas" (15%) queman en rojo aditivo.
  */
-export default function createCongregacion({ w, h, seed }) {
+
+/** Multiplicadores sobre lo que fijó la semilla: en 1 la obra es la notarial. */
+export const controls = [
+  { id: "densidad", min: 0.15, max: 1, step: 0.01, def: 1 },
+  { id: "campo", min: 0.4, max: 2.4, step: 0.01, def: 1 },
+  { id: "turbulencia", min: 0.3, max: 2.5, step: 0.01, def: 1 },
+  { id: "estela", min: 0.25, max: 3, step: 0.01, def: 1 },
+];
+
+export default function createCongregacion({ w, h, seed, params }) {
   const rng = makeRng(seed);
+  const p = paramReader(controls, params);
 
   const COUNT = Math.round((w * h) / 760);
   const ox = rng.range(0, 200);
@@ -32,9 +43,15 @@ export default function createCongregacion({ w, h, seed }) {
   return {
     warmupFrames: 260,
     frame(ctx, t, dt) {
+      // Un solo read por frame: adentro del loop serían 900 lecturas por pasada
+      const alive = Math.max(1, Math.round(COUNT * p("densidad")));
+      const fieldScale = scale * p("campo");
+      const twist = Math.PI * 2 * curl * p("turbulencia");
+      const fade = 0.022 / p("estela");
+
       const f = dt * 60;
       ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = `${PALETTE.fade}0.022)`;
+      ctx.fillStyle = `${PALETTE.fade}${fade.toFixed(4)})`;
       ctx.fillRect(0, 0, w, h);
 
       const pulse = beatEnv(t);
@@ -43,9 +60,9 @@ export default function createCongregacion({ w, h, seed }) {
       // Dos pasadas batcheadas: fieles (blanco tenue) y brasas (rojo aditivo)
       for (let pass = 0; pass < 2; pass += 1) {
         ctx.beginPath();
-        for (let i = 0; i < COUNT; i += 1) {
+        for (let i = 0; i < alive; i += 1) {
           if (ember[i] !== pass) continue;
-          const angle = fbm3(px[i] * scale + ox, py[i] * scale + oy, zt) * Math.PI * 2 * curl;
+          const angle = fbm3(px[i] * fieldScale + ox, py[i] * fieldScale + oy, zt) * twist;
           const speed = (0.5 + temper[i] * 0.95) * (1 + pulse * 1.7) * f;
           const nx = px[i] + Math.cos(angle) * speed;
           const ny = py[i] + Math.sin(angle) * speed;

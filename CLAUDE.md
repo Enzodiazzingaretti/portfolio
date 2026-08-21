@@ -245,6 +245,75 @@ ffmpeg -ss 5 -i ORIGINAL.mp4 -frames:v 1 -vf "scale=-2:'min(640,ih)'" \
 
 ---
 
+## 3ter. El lab: cada obra con su tablero
+
+Las cinco obras dejaron de ser algo que se mira. Cada tarjeta tiene ahora dos
+entradas independientes: el lienzo (click / Enter = nueva semilla, como antes) y
+cuatro sliders debajo. Son ortogonales — cambiar la semilla no toca los
+parámetros, y resetear los parámetros no toca la semilla.
+
+### El contrato
+
+Cada obra exporta su `controls` al lado del factory (`src/lab/pieces/*.js`);
+los helpers están en `src/lab/controls.js`.
+
+**Con todos los controles en su `def`, lo que se ve es exactamente la obra que
+fija la semilla.** Por eso son multiplicadores neutros en 1 (o un offset en 0) y
+nunca valores absolutos: si `turbulencia` fijara el curl en lugar de escalarlo,
+la semilla dejaría de decidir y se cae el azar notarial del manifiesto.
+
+**Mover un slider no reconstruye la obra.** `GenerativeCanvas` le pasa al factory
+un objeto de identidad estable que muta en su lugar, y la obra lo lee en el frame
+siguiente. Reconstruir vaciaría el lienzo, y en estas piezas la imagen es memoria
+acumulada de miles de frames: un control que borra la pantalla no se siente como
+un control, se siente como un reset. Lo único que sí se reconstruye es la
+retícula de LITURGIA cuando cambian `profundidad` o `corte`, porque ahí la
+composición **es** el estado.
+
+Los ids se comparten entre obras (`estela` está en tres) y las etiquetas salen de
+`ui.lab.controls` en `siteContent.i18n.js`, en los tres idiomas. Van en `ui` y no
+en los arrays de obra a propósito: `content.json` pisa arrays enteros (ver la
+nota de 3bis) y se las llevaría puestas.
+
+### Gray-Scott no admite un slider crudo de F/K
+
+Era lo obvio para COMUNIÓN y es justo lo que no hay que hacer: casi todo el plano
+F/K es muerte. Medido sobre 4.000 pasos, moviendo la difusión de B:
+
+| difusión de B | resultado |
+|---------------|-----------|
+| ≤ 0.90x | el Euler explícito diverge a **NaN**, y el NaN es permanente: la grilla queda negra hasta la próxima semilla |
+| 0.95–1.00x | vivo en todo el recorrido |
+| ≥ 1.05x | la mitosis se apaga (2 % de la grilla encendida) |
+
+La banda viable era tan angosta que el slider no movía nada, así que la difusión
+quedó fija y ese control pasó a ser `incandescencia`, que es ganancia de render y
+no puede romper la ecuación. El **régimen** sí es regulable, pero como offset
+sobre un camino curado entre los cinco presets (caos → laberintos → gusanos →
+coral → mitosis) que solo interpola entre vecinos: verificado que en todo el
+recorrido la reacción sigue viva.
+
+### Los 20 extremos están medidos
+
+Se recorrieron los dos extremos de los 20 controles en el navegador, leyendo el
+canvas con `getImageData`: luminancia media, porcentaje quemado y porcentaje
+negro. El único rango que destruía la obra era `incandescencia` hasta 5 — lavaba
+la grilla entera a rosa, con 37,9 % de los píxeles quemados. El techo bajó a 3.6
+(3,1 %). Ningún otro extremo apaga ni quema una pieza.
+
+> [!warning] Si cambia el material de una obra, hay que volver a medir sus extremos
+> Vale lo mismo que para los niveles del ASCII: los rangos salen de leer píxeles,
+> no de elegir a ojo.
+
+### Reduced motion
+
+Sin animación no hay frame siguiente donde leer el parámetro, así que ahí sí se
+recompone la obra entera con su warmup. En comunión son ~40M de actualizaciones
+de celda: arrastrando un slider, eso traba la pestaña. Por eso la recomposición
+del modo estático va con 220 ms de debounce.
+
+---
+
 ## 4. Quirks del entorno
 
 - **Locks huérfanos de git.** Quedaron `.git/index.lock` y `.git/HEAD.lock` de

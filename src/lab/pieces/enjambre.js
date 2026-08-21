@@ -1,4 +1,5 @@
 import { makeRng, BEAT_S, PALETTE } from "../prng";
+import { paramReader } from "../controls";
 
 /**
  * ENJAMBRE 145 — atractor de De Jong en morfosis.
@@ -7,8 +8,18 @@ import { makeRng, BEAT_S, PALETTE } from "../prng";
  * Los cuatro parámetros derivan lentamente hacia nuevos destinos cada 8
  * compases: el enjambre nunca repite figura, pero nunca rompe su ley.
  */
-export default function createEnjambre({ w, h, seed }) {
+
+/** `plegado` escala los cuatro parámetros del mapa; en 1 son los de la semilla. */
+export const controls = [
+  { id: "densidad", min: 0.25, max: 2, step: 0.01, def: 1 },
+  { id: "plegado", min: 0.6, max: 1.4, step: 0.01, def: 1 },
+  { id: "morfosis", min: 0.25, max: 3, step: 0.01, def: 1 },
+  { id: "estela", min: 0.25, max: 3, step: 0.01, def: 1 },
+];
+
+export default function createEnjambre({ w, h, seed, params }) {
   const rng = makeRng(seed);
+  const p = paramReader(controls, params);
 
   function newParams() {
     return [
@@ -22,7 +33,7 @@ export default function createEnjambre({ w, h, seed }) {
   let P = newParams();
   let Q = newParams();
   let u = 0;
-  const MORPH_S = BEAT_S * 32; // 8 compases por transición
+  const MORPH_BASE = BEAT_S * 32; // 8 compases por transición
 
   let x = 0.1;
   let y = 0.1;
@@ -35,11 +46,15 @@ export default function createEnjambre({ w, h, seed }) {
   return {
     warmupFrames: 240,
     frame(ctx, t, dt) {
+      const fold = p("plegado");
+      const iters = Math.round(ITER * p("densidad"));
+      const fade = 0.03 / p("estela");
+
       ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = `${PALETTE.fade}0.03)`;
+      ctx.fillStyle = `${PALETTE.fade}${fade.toFixed(4)})`;
       ctx.fillRect(0, 0, w, h);
 
-      u += dt / MORPH_S;
+      u += dt / (MORPH_BASE / p("morfosis"));
       if (u >= 1) {
         u = 0;
         P = Q;
@@ -47,16 +62,16 @@ export default function createEnjambre({ w, h, seed }) {
       }
       // Easing suave del morph: el enjambre respira, no salta
       const e = u * u * (3 - 2 * u);
-      const a = P[0] + (Q[0] - P[0]) * e;
-      const b = P[1] + (Q[1] - P[1]) * e;
-      const c = P[2] + (Q[2] - P[2]) * e;
-      const d = P[3] + (Q[3] - P[3]) * e;
+      const a = (P[0] + (Q[0] - P[0]) * e) * fold;
+      const b = (P[1] + (Q[1] - P[1]) * e) * fold;
+      const c = (P[2] + (Q[2] - P[2]) * e) * fold;
+      const d = (P[3] + (Q[3] - P[3]) * e) * fold;
 
       // Brasa única en aditivo: donde el enjambre insiste, el rojo se
       // acumula hasta blanco — la incandescencia es densidad, no paleta
       ctx.globalCompositeOperation = "lighter";
       ctx.fillStyle = `${PALETTE.hot}0.10)`;
-      for (let i = 0; i < ITER; i += 1) {
+      for (let i = 0; i < iters; i += 1) {
         const nx = Math.sin(a * y) - Math.cos(b * x);
         const ny = Math.sin(c * x) - Math.cos(d * y);
         x = nx;
