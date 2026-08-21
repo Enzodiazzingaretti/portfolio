@@ -662,6 +662,21 @@
       "id": "liturgia",
       "title": "LITURGIA BRUTAL",
       "description": "Subdivisión recursiva en proporción áurea. El golpe corta la retícula en bandas desplazadas y cada 32 se recompone."
+    },
+    {
+      "id": "sudario",
+      "title": "SUDARIO",
+      "description": "Nube de 5.200 puntos sobre una esfera irregular, deformada por un campo de ruido que deriva. Gira en 3D con proyección en perspectiva y lo que el campo arranca del cuerpo quema en rojo."
+    },
+    {
+      "id": "salmo",
+      "title": "SALMO DE ARENA",
+      "description": "Figuras de Chladni. La arena camina al azar con un paso proporcional a la vibración de la placa, así que solo queda quieta sobre las líneas nodales. Cambia de modo cada 16 golpes."
+    },
+    {
+      "id": "velo",
+      "title": "VELO DEL TEMPLO",
+      "description": "Tela de Verlet de 30×20 nudos. El viento la infla y el golpe la sacude; los hilos que se estiran de más se cortan y no vuelven hasta que el velo se teje de nuevo."
     }
   ]
 }

@@ -312,6 +312,68 @@ recompone la obra entera con su warmup. En comunión son ~40M de actualizaciones
 de celda: arrastrando un slider, eso traba la pestaña. Por eso la recomposición
 del modo estático va con 220 ms de debounce.
 
+### Las tres obras nuevas (2026-08-21)
+
+De cinco a ocho. Cada una es una familia de algoritmo distinta a lo que ya
+había, no una variante de color:
+
+| Obra | Sistema | Controles |
+|------|---------|-----------|
+| SUDARIO | 5.200 puntos sobre una esfera irregular, deformados por ruido 3D y proyectados en perspectiva | densidad, deformación, campo, rotación |
+| SALMO DE ARENA | figuras de Chladni: paso aleatorio proporcional a la vibración de la placa | modo, simetría, agitación, densidad |
+| VELO DEL TEMPLO | tela de Verlet con restricciones que se cortan | gravedad, viento, rigidez, desgarro |
+
+**SUDARIO.** La esfera de Fibonacci reparte parejo pero deja una espiral que a
+través de puntos de 1 px se lee como trama de malla 3D, no como polvo: hay un
+jitter angular de ±0.09 rad que la rompe. Y el color de cada punto no puede ser
+un `fillStyle` propio —serían 5.200 cambios de contexto por frame—, así que los
+puntos se reparten en tres cubos (lejos / cerca / estirado) y cada cubo se
+dibuja en una pasada.
+
+**SALMO DE ARENA.** El golpe multiplicativo no servía: el paso del grano es
+proporcional a la amplitud de la placa y sobre la línea nodal esa amplitud es
+cero, así que multiplicar por el pulso no movía justamente a la arena que forma
+la figura. El golpe necesita un piso aditivo (`kick`) para que se vea.
+
+**VELO DEL TEMPLO.** Tres cosas, todas encontradas mirando:
+
+1. **El latigazo del pulso tenía signo fijo.** `beatEnv` es siempre positivo, así
+   que sumaba una componente constante: en vez de un sacudón era un viento que
+   empujaba el velo fuera del cuadro. Ahora alterna de lado en cada golpe.
+2. **El corte va atado al golpe, no a la tensión sola.** Con el corte por
+   estiramiento a secas, subir `gravedad` o bajar `rigidez` —dos controles que
+   no hablan de desgarro— rompían el velo entero y dejaban el lienzo vacío
+   hasta el próximo tejido.
+3. **Paso de integración fijo (60 Hz, 3 subpasos por frame) y techo de
+   velocidad.** Con dt variable un frame largo estira las restricciones más de
+   lo que la relajación corrige. El techo evita que un nudo se dispare.
+
+Además el velo se vuelve a tejer no solo cada 16 golpes, sino apenas quedan
+menos del 45 % de los hilos o menos del 25 % de los nudos dentro del cuadro.
+
+> [!warning] Las obras con estado hay que probarlas de a una, en carga limpia
+> El barrido secuencial de extremos dio cinco falsos "APAGADO" seguidos en el
+> velo: el primer extremo lo rompía y los cuatro siguientes medían el mismo
+> desastre, no su propio parámetro. Con una carga por extremo, los ocho dan
+> sano. Vale para todo lo que acumula estado entre frames.
+
+### Lo que cuesta cada obra
+
+Medido con un contexto 2D simulado: es el costo del algoritmo, sin la
+rasterización. Presupuesto de un frame a 60 fps: 16,67 ms.
+
+```
+congregacion   0.35 ms      sudario   0.74 ms
+himno          0.08 ms      salmo     1.13 ms
+enjambre       0.94 ms      velo      0.11 ms
+```
+
+Las tres nuevas entran en el mismo orden que las que ya estaban —la más cara
+empata con el enjambre, que ya se enviaba— y el `IntersectionObserver` deja
+corriendo solo las que están a la vista. Lo que este número no mide son los
+`fillRect` por punto: el salmo dibuja 7.000 por frame y el sudario 5.200,
+contra los 7.500 del enjambre.
+
 ---
 
 ## 4. Quirks del entorno
