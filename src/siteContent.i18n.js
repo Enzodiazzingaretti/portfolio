@@ -445,7 +445,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Disponible",
         meta: "Portfolio / 2026",
-        roles: ["Artista 3D", "Motion Designer", "Creador Visual", "Desarrollador Creativo"],
+        roles: ["Creative Technologist", "Diseñador 3D & Motion", "Desarrollador Creativo"],
         cta: "Ver proyectos ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -511,8 +511,8 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "Visualización de club underground estilo Berlin.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "Motion, 3D, branding, web y objetos físicos.",
-        paragraph: "Trabajo en Blender, TouchDesigner, After Effects y React. También hago encendedores artesanales, piezas esculpidas a mano y dirección de arte para eventos. Ahora estoy armando un estudio creativo propio en Argentina.",
+        headline: "Piezas y experiencias digitales de alto impacto — de la dirección de arte al producto final.",
+        paragraph: "Trabajo en la intersección del diseño visual, el movimiento y la tecnología interactiva. Llevo cada proyecto de punta a punta: entiendo el objetivo comercial, defino la dirección de arte, itero sobre el feedback y entrego una pieza pulida y lista para publicar. Combino producción visual (3D y motion en Blender y After Effects) con tecnología en tiempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, y construyo la web que sostiene esas piezas.",
         specializations: ["Motion Design / TouchDesigner", "Visualización 3D / Blender", "Desarrollo Web / React", "Dirección de Arte", "Branding e Identidad", "Objetos & Piezas Físicas"],
       },
       contact: {
@@ -655,7 +655,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Available",
         meta: "Portfolio / 2026",
-        roles: ["3D Artist", "Motion Designer", "Visual Creator", "Creative Developer"],
+        roles: ["Creative Technologist", "3D & Motion Designer", "Creative Developer"],
         cta: "View Projects ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -721,8 +721,8 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "Berlin-style underground club visualization.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "Motion, 3D, branding, web and physical objects.",
-        paragraph: "I work in Blender, TouchDesigner, After Effects and React. I also make handcrafted lighters and hand-sculpted pieces, and handle art direction for events. Right now I'm building my own creative studio in Argentina.",
+        headline: "High-impact digital pieces and experiences — from art direction to shipped product.",
+        paragraph: "I work at the intersection of visual design, motion and interactive technology. I take each project end to end: I understand the commercial goal, set the art direction, iterate on feedback and deliver a polished, publish-ready piece. I combine visual production (3D and motion in Blender and After Effects) with real-time tech (TouchDesigner, WebGL, Three.js) and applied AI, and I build the web that carries those pieces.",
         specializations: ["Motion Design / TouchDesigner", "3D Visualization / Blender", "Web Development / React", "Art Direction", "Branding & Identity", "Physical Objects & Craft"],
       },
       contact: {
@@ -859,7 +859,7 @@ export const siteContent = {
         location: "Argentina",
         availability: "Disponível",
         meta: "Portfólio / 2026",
-        roles: ["Artista 3D", "Motion Designer", "Criador Visual", "Desenvolvedor Criativo"],
+        roles: ["Creative Technologist", "Designer 3D & Motion", "Desenvolvedor Criativo"],
         cta: "Ver projetos ↓",
         scrollLabel: "scroll",
         shaderSelector: {
@@ -925,8 +925,8 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "Visualização de clube underground estilo Berlim.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "Motion, 3D, branding, web e objetos físicos.",
-        paragraph: "Trabalho em Blender, TouchDesigner, After Effects e React. Também faço isqueiros artesanais, peças esculpidas à mão e direção de arte para eventos. Agora estou montando um estúdio criativo próprio na Argentina.",
+        headline: "Peças e experiências digitais de alto impacto — da direção de arte ao produto final.",
+        paragraph: "Trabalho na interseção entre design visual, movimento e tecnologia interativa. Levo cada projeto de ponta a ponta: entendo o objetivo comercial, defino a direção de arte, itero sobre o feedback e entrego uma peça polida e pronta para publicar. Combino produção visual (3D e motion em Blender e After Effects) com tecnologia em tempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, e construo a web que sustenta essas peças.",
         specializations: ["Motion Design / TouchDesigner", "Visualização 3D / Blender", "Desenvolvimento Web / React", "Direção de Arte", "Branding & Identidade", "Objetos & Artesanato"],
       },
       contact: {
