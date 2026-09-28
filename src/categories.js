@@ -124,6 +124,8 @@ const NORMALIZERS = {
     // Repo público en GitHub: quien evalúa un perfil técnico quiere ver el
     // código, no solo la captura.
     repoUrl: project.repoUrl || null,
+    // Slug del caso de estudio (/web/<slug>), si el proyecto tiene uno escrito
+    caseSlug: project.caseSlug || null,
     thumbnail: asset(project.imageUrl) ?? asset(project.previewImage),
     previewImage: asset(project.previewImage),
     slides: slides(project.slides),

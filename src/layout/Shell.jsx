@@ -13,6 +13,7 @@ import Preloader from "../components/Preloader";
 
 const KonsoleEasterEgg = lazy(() => import("../components/KonsoleEasterEgg"));
 const PRELOADER_FLAG = "kexxy-preloaded";
+const SITE_URL = "https://portfolio-kexxy.vercel.app";
 // three.js fuera del bundle inicial: entra recién cuando el preloader terminó
 const HeroBackdrop = lazy(() => import("../components/HeroBackdrop"));
 
@@ -109,10 +110,23 @@ export default function Shell() {
   }, [language]);
 
   useEffect(() => {
+    // Las rutas de dos niveles (un caso de /web) ponen su propio título: este
+    // efecto corre después que el de la página y lo pisaría.
+    if (location.pathname.split("/").filter(Boolean).length > 1) return;
     const active = categories.find((c) => location.pathname === `/${c.slug}`);
     const suffix = active ? ` — ${active.title}` : ` | ${content.ui.pageTitle ?? "Portfolio"}`;
     document.title = `${content.brand}${suffix}`;
   }, [location.pathname, categories, content.brand, content.ui.pageTitle]);
+
+  /**
+   * El canonical de index.html apunta al home. Sin corregirlo por ruta, cada
+   * categoría y cada caso le decían a Google "soy el home" y no se indexaban
+   * como páginas propias.
+   */
+  useEffect(() => {
+    const link = document.querySelector('link[rel="canonical"]');
+    if (link) link.setAttribute("href", `${SITE_URL}${location.pathname === "/" ? "/" : location.pathname}`);
+  }, [location.pathname]);
 
   // Cada ruta arranca arriba; sin esto se hereda el scroll de la anterior
   useEffect(() => {
@@ -180,7 +194,7 @@ export default function Shell() {
       </header>
 
       <main id="main">
-        <Outlet context={{ content, categories, preloaded, openPanel: setPanel }} />
+        <Outlet context={{ content, language, categories, preloaded, openPanel: setPanel }} />
       </main>
 
       <footer className="shell-footer">

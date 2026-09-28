@@ -9,6 +9,8 @@ import "./index.css";
 
 // El admin es otra app: fuera del bundle del portfolio
 const Admin = lazy(() => import("./admin/Admin.jsx"));
+// Los casos de estudio traen sus textos en tres idiomas: entran con su página
+const CasePage = lazy(() => import("./routes/CasePage.jsx"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -27,6 +29,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route element={<Shell />}>
           <Route index element={<Home />} />
           <Route path="/:slug" element={<CategoryPage />} />
+          <Route
+            path="/:slug/:caso"
+            element={
+              <Suspense fallback={<div className="case-fallback" />}>
+                <CasePage />
+              </Suspense>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

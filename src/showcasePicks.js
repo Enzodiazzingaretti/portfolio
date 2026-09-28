@@ -61,7 +61,9 @@ export function buildShowcase(categories) {
 
     return {
       id: pick.id,
-      href: `/${category.slug}`,
+      // Un proyecto con caso escrito lleva al caso: es lo que cuenta cómo se
+      // hizo, y la categoría queda a un clic con «Proyectos web».
+      href: item.caseSlug ? `/${category.slug}/${item.caseSlug}` : `/${category.slug}`,
       // Sale del normalizador, no de la selección: así la pieza tiene audio en
       // el showcase exactamente cuando lo tiene en /motion, sin dos listas que
       // se puedan contradecir.

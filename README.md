@@ -12,11 +12,12 @@ Portfolio of a creative technologist: 3D and motion work, real-time generative p
 
 | If you care about… | Start here |
 |---|---|
+| **How the work was done** | Three case studies on the live site: [this portfolio](https://portfolio-kexxy.vercel.app/web/portfolio), [Tamara González](https://portfolio-kexxy.vercel.app/web/tamara-gonzalez) and [CTRL.Z](https://portfolio-kexxy.vercel.app/web/ctrl-z). The brief, the decisions and what was ruled out, and what testing turned up. Source in [`src/cases/`](src/cases). |
 | **Real-time graphics** | [`src/components/AsciiPass.js`](src/components/AsciiPass.js): a hand-written post-processing pass that rewrites the Three.js hero as a grid of characters, with per-scene black and white points measured from the render target. [`HeroThreeBackground.jsx`](src/components/HeroThreeBackground.jsx): a 16,000-particle swarm moved entirely in the vertex shader, and the pointer projected through the real camera. |
 | **Generative systems** | [`src/lab/pieces/`](src/lab/pieces): eight canvas pieces, each a different algorithm family (Gray-Scott reaction-diffusion, De Jong attractor, Chladni figures, Verlet cloth, harmonograph…), with live parameters and seeded randomness: same seed, same artwork. |
 | **Product engineering** | [`api/`](api): a git-backed admin. Serverless functions commit content to this repository through the GitHub API and Vercel redeploys. scrypt password hash, HMAC-signed session cookies, a write allowlist. No database. |
 | **Performance** | three.js loads only once the home page is visited; the preloader runs once per session; grid covers are 8-second, ~600 KB cuts instead of the full videos; images are capped at 1600 px; hashed assets are cached as immutable. |
-| **Testing** | [`tests/`](tests): content integrity across the three languages, the admin's auth and path checks, category building. CI runs lint, tests and a production build on every push. |
+| **Testing** | [`tests/`](tests): content integrity across the three languages, the case studies (same structure in every language, images that exist and measure what they declare), the admin's auth and path checks, category building. CI runs lint, tests and a production build on every push. |
 
 ## Stack
 
@@ -24,7 +25,7 @@ React 19 · Vite 6 · React Router 7 · Tailwind CSS 3 · Three.js · Lenis · V
 
 ## Architecture notes
 
-- **Four routes, one per discipline** (`/motion`, `/3d`, `/grafica`, `/web`) inside a persistent shell. The WebGL background lives in the shell, so moving between routes pauses and dims it instead of recreating the context.
+- **Four routes, one per discipline** (`/motion`, `/3d`, `/grafica`, `/web`) inside a persistent shell, plus a case study page per web project (`/web/<slug>`) that loads its text only when opened. The WebGL background lives in the shell, so moving between routes pauses and dims it instead of recreating the context.
 - **Content has two sources.** [`src/siteContent.i18n.js`](src/siteContent.i18n.js) holds every string in the three languages. [`public/content.json`](public/content.json) is what the admin edits, and it overrides the Spanish copy at runtime. [`tests/content.test.js`](tests/content.test.js) fails if the two drift apart, or if a piece points at a file that is not in `public/`.
 - **The initial language comes from the browser**, falling back to English.
 - **Overlays and smooth scroll:** Lenis cancels wheel and touch events while an overlay is open, so every scrollable container inside one carries `data-lenis-prevent`.
@@ -40,7 +41,7 @@ npm run build
 
 Admin setup (environment variables, password hash): [`ADMIN_SETUP.md`](ADMIN_SETUP.md).
 
-`CLAUDE.md` is the engineering log used in AI-assisted sessions, in Spanish: decisions, measurements and traps that were already solved.
+`CLAUDE.md` is the engineering log, in Spanish: decisions, measurements and traps that were already solved.
 
 ---
 
@@ -56,6 +57,7 @@ Portfolio de un creative technologist: piezas 3D y motion, obra generativa en ti
 - **Gráficos en tiempo real:** `src/components/AsciiPass.js`, un post-proceso escrito a mano que reescribe el hero de Three.js como grilla de caracteres, y `HeroThreeBackground.jsx`, con un enjambre de 16.000 partículas movido entero en el vertex shader.
 - **Sistemas generativos:** `src/lab/pieces/`, ocho piezas en canvas, cada una de una familia de algoritmo distinta, con parámetros en vivo y azar con semilla.
 - **Producto:** `api/`, un panel de administración sobre git: las funciones serverless commitean el contenido en este repo por la API de GitHub. Hash scrypt, cookies de sesión firmadas con HMAC, lista blanca de escritura, sin base de datos.
+- **Casos de estudio:** `/web/portfolio`, `/web/tamara-gonzalez` y `/web/ctrl-z` en el sitio: el pedido, las decisiones y lo descartado, y lo que apareció probando. El texto vive en `src/cases/`.
 - **Tests:** `tests/`, integridad del contenido en los tres idiomas, la autenticación del panel y la construcción de categorías. El CI corre lint, tests y build en cada push.
 
 **Contenido:** los textos viven en `src/siteContent.i18n.js` (tres idiomas) y `public/content.json`, que edita el panel y pisa el español. Un test falla si se desincronizan.

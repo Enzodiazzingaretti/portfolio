@@ -13,6 +13,7 @@ const webProjectAssets = {
     previewUrl: "#hero",
     previewImage: "/images/previews/screenshot_portfolio.jpeg",
     repoUrl: "https://github.com/Enzodiazzingaretti/portfolio",
+    caseSlug: "portfolio",
     slides: [],
   },
   tamara: {
@@ -21,6 +22,7 @@ const webProjectAssets = {
     previewUrl: "https://tamara-portfolio-xi.vercel.app/",
     previewImage: "/images/previews/screenshot_tamaraportfolio.jpeg",
     repoUrl: "https://github.com/Enzodiazzingaretti/tamara-portfolio",
+    caseSlug: "tamara-gonzalez",
     slides: [],
   },
   newMetals: {
@@ -37,6 +39,7 @@ const webProjectAssets = {
     previewUrl: "https://ctrlz-presskit.vercel.app/",
     previewImage: "/images/previews/screenshot_ctrlzpresskit.jpeg",
     repoUrl: "https://github.com/Enzodiazzingaretti/ctrlz-presskit",
+    caseSlug: "ctrl-z",
     slides: [],
   },
   // Sin deploy propio: previewUrl vacio, asi SelectedWorkCard no dibuja el
@@ -478,6 +481,13 @@ export const siteContent = {
         { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Mi press kit como DJ y la plantilla de la que salió el de CTRL.Z. JavaScript sin framework, trilingüe, con service worker, formulario de contacto con EmailJS y un panel de dos niveles (simple y avanzado) que guarda los cambios en el repo vía la API de GitHub.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilingüe", "Panel de administración", "Embeds de SoundCloud", "Sección de fechas"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedajes", type: "Web / Diseño y desarrollo", status: "En desarrollo", role: "Diseño y desarrollo", description: "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propiedad", "Trilingüe", "Scroll suave"] },
       ],
+      // Casos de estudio: título, bajada y orden. El cuerpo vive en src/cases/
+      // y entra solo con la página del caso (/web/<slug>). No los edita /admin.
+      cases: [
+        { slug: "portfolio", title: "Portfolio Personal", tags: "React · Three.js · GLSL", summary: "Rehice la estructura de mi sitio y escribí a mano el filtro ASCII del hero. Los niveles del filtro, el peso de las páginas y el contraste los fijé midiendo." },
+        { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
+        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "El pedido era clonar mi press kit para otra DJ. Terminé rehaciéndolo: la plantilla daba por hecho un material que ella no tenía, y en un press kit inventar datos es falsificar a la artista." },
+      ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Humo en blanco y negro que envuelve un vacío en el centro." },
@@ -543,7 +553,7 @@ export const siteContent = {
         cv: "/cv/Enzo-Diaz-Zingaretti-CV-ES.pdf",
       },
       ui: {
-        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", showcase: "Destacados", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
+        nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", showcase: "Destacados", cases: "Casos", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
         showcase: {
           previous: "Anterior",
           next: "Siguiente",
@@ -551,7 +561,8 @@ export const siteContent = {
         },
         worksLabel: "piezas",
         workLabelSingular: "pieza",
-        viewCase: "Ver caso",
+        details: "Ver detalles",
+        readCase: "Leer el caso",
         visitSite: "Abrir web",
         viewCode: "Código",
         loopLabel: "Loop",
@@ -698,6 +709,11 @@ export const siteContent = {
         { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Design and development", status: "Live", role: "Design and development", description: "My own DJ press kit, and the template the CTRL.Z one was built from. Framework-free JavaScript, trilingual, with a service worker, an EmailJS contact form and a two-level admin panel (simple and advanced) that commits changes to the repo through the GitHub API.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilingual", "Admin panel", "SoundCloud embeds", "Dates section"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Stays", type: "Web / Design and development", status: "In development", role: "Design and development", description: "Site for two rental houses in Mendoza. Next.js + TypeScript + Tailwind CSS, cinematic landing per property, trilingual.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing per property", "Trilingual", "Smooth scroll"] },
       ],
+      cases: [
+        { slug: "portfolio", title: "Personal Portfolio", tags: "React · Three.js · GLSL", summary: "I rebuilt my site's structure and hand-wrote the ASCII filter on the hero. The filter levels, page weight and contrast were all set by measuring." },
+        { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
+        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "The brief was to clone my press kit for another DJ. I ended up rebuilding it: the template assumed material she didn't have, and in a press kit, making up data means misrepresenting the artist." },
+      ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Black-and-white smoke wrapped around an empty centre." },
@@ -763,7 +779,7 @@ export const siteContent = {
         cv: "/cv/Enzo-Diaz-Zingaretti-CV-EN.pdf",
       },
       ui: {
-        nav: { back: "Back", home: "Home", index: "Index", about: "About", showcase: "Selected work", contact: "Contact", enter: "Enter", close: "Close" },
+        nav: { back: "Back", home: "Home", index: "Index", about: "About", showcase: "Selected work", cases: "Case studies", contact: "Contact", enter: "Enter", close: "Close" },
         showcase: {
           previous: "Previous",
           next: "Next",
@@ -771,7 +787,8 @@ export const siteContent = {
         },
         worksLabel: "works",
         workLabelSingular: "work",
-        viewCase: "View Case",
+        details: "Details",
+        readCase: "Read the case study",
         visitSite: "Visit Site",
         viewCode: "Code",
         loopLabel: "Loop",
@@ -912,6 +929,11 @@ export const siteContent = {
         { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Meu press kit como DJ e o template de onde saiu o do CTRL.Z. JavaScript sem framework, trilíngue, com service worker, formulário de contato com EmailJS e um painel de dois níveis (simples e avançado) que salva as alterações no repositório pela API do GitHub.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilíngue", "Painel de administração", "Embeds do SoundCloud", "Seção de datas"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedagens", type: "Web / Design e desenvolvimento", status: "Em desenvolvimento", role: "Design e desenvolvimento", description: "Site para duas casas de aluguel em Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinematográfica por propriedade, trilíngue.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propriedade", "Trilíngue", "Rolagem suave"] },
       ],
+      cases: [
+        { slug: "portfolio", title: "Portfólio Pessoal", tags: "React · Three.js · GLSL", summary: "Refiz a estrutura do meu site e escrevi à mão o filtro ASCII do hero. Os níveis do filtro, o peso das páginas e o contraste foram definidos medindo." },
+        { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
+        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "O pedido era clonar meu press kit para outra DJ. Acabei refazendo: o modelo pressupunha um material que ela não tinha, e num press kit inventar dados é falsificar a artista." },
+      ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Fumaça em preto e branco envolvendo um vazio no centro." },
@@ -977,7 +999,7 @@ export const siteContent = {
         cv: "/cv/Enzo-Diaz-Zingaretti-CV-PT.pdf",
       },
       ui: {
-        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", showcase: "Destaques", contact: "Contato", enter: "Entrar", close: "Fechar" },
+        nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", showcase: "Destaques", cases: "Cases", contact: "Contato", enter: "Entrar", close: "Fechar" },
         showcase: {
           previous: "Anterior",
           next: "Próximo",
@@ -985,7 +1007,8 @@ export const siteContent = {
         },
         worksLabel: "peças",
         workLabelSingular: "peça",
-        viewCase: "Ver caso",
+        details: "Ver detalhes",
+        readCase: "Ler o case",
         visitSite: "Abrir site",
         viewCode: "Código",
         loopLabel: "Loop",

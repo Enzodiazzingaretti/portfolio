@@ -82,7 +82,8 @@
         "Trilingüe"
       ],
       "scrollPreview": true,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/portfolio"
+      "repoUrl": "https://github.com/Enzodiazzingaretti/portfolio",
+      "caseSlug": "portfolio"
     },
     {
       "year": "2026",
@@ -109,7 +110,8 @@
         "Contacto por WhatsApp"
       ],
       "scrollPreview": false,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/tamara-portfolio"
+      "repoUrl": "https://github.com/Enzodiazzingaretti/tamara-portfolio",
+      "caseSlug": "tamara-gonzalez"
     },
     {
       "year": "2026",
@@ -160,7 +162,8 @@
         "Panel de administración"
       ],
       "scrollPreview": true,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/ctrlz-presskit"
+      "repoUrl": "https://github.com/Enzodiazzingaretti/ctrlz-presskit",
+      "caseSlug": "ctrl-z"
     },
     {
       "year": "2025",

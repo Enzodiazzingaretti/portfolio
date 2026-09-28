@@ -49,12 +49,31 @@ Cecilia Hospedajes, hasta que esté online, y Screaming Head, cuya portada sale
 casi negra. Golden Faces y Faces Alternative son una sola ficha, igual que NCY I
 y II.
 
+**Casos de estudio (2026-09-28).** `/web/<slug>`: `src/routes/CasePage.jsx`, que
+entra lazy con sus textos. Título, bajada y orden en `siteContent.i18n.js` →
+`cases` (tres idiomas; el home los lista en «Casos» y las tarjetas de `/web`
+llevan a cada uno). El cuerpo en `src/cases/{es,en,pt}.js`, con bloques `text`,
+`decisions`, `list`, `stats` y `figure`; imágenes, año y stack en
+`src/cases/index.js` (`CASE_ASSETS`, con el ancho y alto reales de cada
+imagen). Un proyecto se enlaza con `caseSlug` en `webProjectAssets` **y** en
+`content.json` (el admin conserva el campo al editar). `tests/cases.test.js`
+falla si un idioma cuenta un caso con otra estructura, si falta una imagen o
+si no mide lo declarado. Regla del contenido: solo hechos registrados en la
+bóveda o en el repo; ninguna cifra que no se haya medido. Para sumar un caso:
+teaser en `cases` (tres idiomas), cuerpo en los tres archivos, assets,
+`caseSlug` en el proyecto (bundle y `content.json`), capturas en
+`public/images/casos/<slug>/` (máx. 1600 px) y la URL en `sitemap.xml`.
+
 **El lienzo del hero en pantallas HiDPI (2026-09-28).** `resize()` llama a
 `renderer.setSize(w, h, false)`, que no toca el estilo: el canvas se mostraba a
 su tamaño en píxeles de dispositivo, así que con dpr 2 (Retina) medía el doble
 del viewport y el hero salía ampliado y recortado. Ahora lleva `width` y
 `height` al 100 %. Con dpr 1, donde se calibró, no se notaba; apareció
 capturando a 2x.
+
+**Canonical por ruta.** `index.html` declara el home como canonical; el `Shell`
+lo reescribe con la ruta actual, si no cada categoría y cada caso le decían a
+Google que eran el home.
 
 ---
 
@@ -65,7 +84,7 @@ abrir-local.bat          # limpia locks de git, instala si falta, arranca Vite y
 npm run dev              # equivalente manual, http://localhost:5173
 npm run build
 npm run lint             # limpio salvo 2 warnings preexistentes en src/admin/ReorderableList.jsx
-npm test                 # vitest: tests/ (contenido en 3 idiomas, auth del admin, categorías)
+npm test                 # vitest: tests/ (contenido en 3 idiomas, casos, auth del admin, categorías)
 ```
 
 `tests/content.test.js` falla si `content.json` y el bundle se desincronizan

@@ -4,6 +4,7 @@ import CategoryIndex from "../components/CategoryIndex";
 import ShowcaseCarousel from "../components/ShowcaseCarousel";
 import AboutContent from "../components/AboutContent";
 import ContactContent from "../components/ContactContent";
+import CaseList from "../components/CaseList";
 import { buildShowcase } from "../showcasePicks";
 
 /** Rótulo de sección: label rojo, regla al medio y numeral a la derecha. */
@@ -24,7 +25,7 @@ function SectionHead({ label, numeral }) {
  */
 export default function Home() {
   const { content, categories } = useOutletContext();
-  const { hero, ui, about, contact } = content;
+  const { hero, ui, about, contact, cases } = content;
   const navLabels = ui.nav;
   const destacados = useMemo(() => buildShowcase(categories), [categories]);
   const hayDestacados = destacados.length > 0;
@@ -38,6 +39,12 @@ export default function Home() {
   const primera = hayDestacados
     ? { id: "showcase", label: navLabels.showcase }
     : { id: "index", label: navLabels.index };
+
+  // Numeral correlativo de cada sección, según cuáles están presentes: el
+  // showcase y los casos pueden no estar.
+  const hayCasos = Boolean(cases?.length);
+  const orden = [hayDestacados && "showcase", "index", hayCasos && "cases", "about", "contact"].filter(Boolean);
+  const numeral = (id) => String(orden.indexOf(id) + 1).padStart(2, "0");
 
   return (
     <div className="home-root">
@@ -102,7 +109,7 @@ export default function Home() {
           className={`home-showcase${primera.id === "showcase" ? " home-lead" : ""}`}
           aria-label={navLabels.showcase}
         >
-          <SectionHead label={navLabels.showcase} numeral="01" />
+          <SectionHead label={navLabels.showcase} numeral={numeral("showcase")} />
           <ShowcaseCarousel items={destacados} labels={ui.showcase} />
         </section>
       ) : null}
@@ -115,7 +122,7 @@ export default function Home() {
         className={`home-index${primera.id === "index" ? " home-lead" : ""}`}
         aria-label={navLabels.index}
       >
-        <SectionHead label={navLabels.index} numeral={hayDestacados ? "02" : "01"} />
+        <SectionHead label={navLabels.index} numeral={numeral("index")} />
 
         <CategoryIndex
           categories={categories}
@@ -123,13 +130,22 @@ export default function Home() {
         />
       </section>
 
+      {/* Los casos van después del índice: primero qué hay, después cómo se
+          hizo. Es lo que más le sirve a quien evalúa un perfil técnico. */}
+      {hayCasos ? (
+        <section id="cases" className="home-cases" aria-label={navLabels.cases}>
+          <SectionHead label={navLabels.cases} numeral={numeral("cases")} />
+          <CaseList cases={cases} label={navLabels.cases} />
+        </section>
+      ) : null}
+
       <section id="about" className="home-about" aria-label={navLabels.about}>
-        <SectionHead label={navLabels.about} numeral={hayDestacados ? "03" : "02"} />
+        <SectionHead label={navLabels.about} numeral={numeral("about")} />
         <AboutContent about={about} variant="page" />
       </section>
 
       <section id="contact" className="home-contact" aria-label={navLabels.contact}>
-        <SectionHead label={navLabels.contact} numeral={hayDestacados ? "04" : "03"} />
+        <SectionHead label={navLabels.contact} numeral={numeral("contact")} />
         <ContactContent contact={contact} labels={ui.contactLabels} variant="page" />
       </section>
     </div>
