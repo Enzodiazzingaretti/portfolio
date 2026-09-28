@@ -21,6 +21,25 @@ ninguno coincide, inglés. El portfolio apunta a trabajo remoto.
 **`repoUrl`** en un proyecto web dibuja el botón «Código» en la tarjeta y en el
 modal. Los repos enlazados son públicos y tienen README bilingüe.
 
+**Overlays y Lenis.** Con un overlay abierto Lenis cancela la rueda y el touch
+(y el modal de obra ni siquiera lo detiene). Todo contenedor que tenga que
+scrollear adentro de un overlay lleva `data-lenis-prevent`: `.info-panel`, la
+raíz de `DetailModal` y `.konsole-body`. Un overlay nuevo, también.
+
+**CV.** `public/cv/Enzo-Diaz-Zingaretti-CV-{ES,EN,PT}.pdf` (el de Creative
+Technologist). Cada idioma apunta al suyo con `contact.cv` en el bundle, y lo
+usan el hero y Contacto. `vercel.json` excluye `cv/` del rewrite: sin eso el PDF
+se servía como `index.html`.
+
+**`about.facts`** (experiencia, idiomas, zona horaria, disponibilidad,
+herramientas) vive solo en el bundle: `content.json` no lo define y el merge
+profundo lo conserva también en español.
+
+**Ocultos con `enabled: false`** (en el bundle y en `content.json`): Aurora /
+Cecilia Hospedajes, hasta que esté online, y Screaming Head, cuya portada sale
+casi negra. Golden Faces y Faces Alternative son una sola ficha, igual que NCY I
+y II.
+
 ---
 
 ## 1. Cómo levantarlo

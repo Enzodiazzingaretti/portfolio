@@ -67,6 +67,23 @@ export default function Home() {
                 <span key={role}>{role}</span>
               ))}
             </div>
+            {/* Antes el hero no tenía ningún llamado, solo "scroll". El CV sale
+                del idioma activo (contact.cv) y Contacto baja a la sección. */}
+            <div className="home-hero-ctas">
+              {contact.cv ? (
+                <a
+                  href={contact.cv}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="premium-button premium-button-accent home-hero-cta font-mono"
+                >
+                  {ui.cvCta} ↗
+                </a>
+              ) : null}
+              <a href="#contact" className="premium-button home-hero-cta font-mono">
+                {navLabels.contact} ↓
+              </a>
+            </div>
           </div>
         </div>
 

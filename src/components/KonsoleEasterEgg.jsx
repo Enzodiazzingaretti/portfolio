@@ -88,11 +88,11 @@ const CREDITS_LINES = [
   "——————————————————————————",
   "KEXXY.OBJ // BUILD CREDITS",
   "——————————————————————————",
-  "FRONTEND         : React 18 + Vite 6",
+  "FRONTEND         : React 19 + Vite 6",
   "STYLING          : TailwindCSS 3",
   "3D ENGINE        : Blender 4.2 Cycles X",
   "MOTION SYSTEM    : TouchDesigner 2023",
-  "FONTS            : JetBrains Mono + Geist",
+  "FONTS            : Barlow Condensed + Inter + JetBrains Mono",
   "DEPLOY           : Vercel",
   "ANALYTICS        : Vercel Web Analytics",
   "CURSOR           : Custom WebGL-free CSS",
@@ -108,7 +108,7 @@ const CREDITS_LINES = [
   "——————————————————————————",
 ];
 
-export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
+export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }) {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState([]);
   const [input, setInput] = useState("");
@@ -221,12 +221,17 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
     }
 
     if (cmd === "links") {
+      // Salen del mismo contacto que el resto del sitio. Antes estaban escritos
+      // a mano y apuntaban a un dominio y a un mail que ya no se usan.
+      const handle = (url) => url.replace(/\/+$/, "").split("/").pop();
       push([
         "EXTERNAL LINKS:",
-        "  Instagram → @kexxy",
-        "  Press Kit → presskit.kexxy.com.ar",
-        "  Email     → enzo@kexxy.com.ar",
-      ]); return;
+        contact.email && `  Email     → ${contact.email}`,
+        contact.linkedin && `  LinkedIn  → linkedin.com/in/${handle(contact.linkedin)}`,
+        contact.github && `  GitHub    → github.com/${handle(contact.github)}`,
+        contact.instagram && `  Instagram → @${handle(contact.instagram)}`,
+        contact.cv && `  CV        → ${contact.cv}`,
+      ].filter(Boolean)); return;
     }
 
     if (cmd === "stack") {
@@ -309,7 +314,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
     }
 
     push([`COMMAND NOT FOUND: "${raw}" — type "help"`]);
-  }, [handleClose, isPlaying, onGlitch, labels.commands]);
+  }, [handleClose, isPlaying, onGlitch, labels.commands, contact]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

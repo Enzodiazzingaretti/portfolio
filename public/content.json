@@ -23,8 +23,8 @@
     }
   },
   "about": {
-    "headline": "Piezas y experiencias digitales de alto impacto — de la dirección de arte al producto final.",
-    "paragraph": "Trabajo en la intersección del diseño visual, el movimiento y la tecnología interactiva. Llevo cada proyecto de punta a punta: entiendo el objetivo comercial, defino la dirección de arte, itero sobre el feedback y entrego una pieza pulida y lista para publicar. Combino producción visual (3D y motion en Blender y After Effects) con tecnología en tiempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, y construyo la web que sostiene esas piezas.",
+    "headline": "Diseñador 3D y motion que también programa.",
+    "paragraph": "Modelo, ilumino y animo en Blender y After Effects, armo visuales audio-reactivos en TouchDesigner y desarrollo sitios con React y Three.js. Trabajo freelance desde 2022 para marcas, artistas y eventos: renders de producto, flyers animados, visualización de espacios y sitios con panel de administración propio.",
     "specializations": [
       "Motion Design / TouchDesigner",
       "Visualización 3D / Blender",
@@ -211,7 +211,8 @@
         "Trilingüe",
         "Scroll suave"
       ],
-      "scrollPreview": false
+      "scrollPreview": false,
+      "enabled": false
     }
   ],
   "touchDesignerLoops": [
@@ -308,10 +309,14 @@
       "slides": [
         "/images/blender/golden-faces/golden-1.png",
         "/images/blender/golden-faces/golden-2.png",
-        "/images/blender/golden-faces/golden-3.png"
+        "/images/blender/golden-faces/golden-3.png",
+        "/images/blender/faces_alternative/faces-alternative-1.png",
+        "/images/blender/faces_alternative/faces-alternative-2.png",
+        "/images/blender/faces_alternative/faces-alternative-3.png",
+        "/images/blender/faces_alternative/faces-alternative-4.png"
       ],
       "title": "Golden Faces",
-      "description": "Cabezas derretidas en metal dorado sobre fondo azul. Estudio de material especular.",
+      "description": "Cabezas derretidas en dos tratamientos: metal dorado especular sobre azul y blanco plano sobre negro.",
       "square": true
     },
     {
@@ -361,17 +366,6 @@
       "square": true
     },
     {
-      "slides": [
-        "/images/blender/faces_alternative/faces-alternative-1.png",
-        "/images/blender/faces_alternative/faces-alternative-2.png",
-        "/images/blender/faces_alternative/faces-alternative-3.png",
-        "/images/blender/faces_alternative/faces-alternative-4.png"
-      ],
-      "title": "Faces Alternative",
-      "description": "Misma serie que Golden Faces, con otro tratamiento: blanco plano sobre negro.",
-      "square": true
-    },
-    {
       "portrait": true,
       "slides": [
         "/images/blender/240KM-H/semaforo-preview.mp4",
@@ -389,8 +383,8 @@
         "/images/blender/patrullero/patrullero-2.mp4",
         "/images/blender/patrullero/patrullero-1.mp4"
       ],
-      "title": "1312",
-      "description": "Patrullero cubierto de grafiti en un callejón de noche. Modelado y animación en Blender."
+      "title": "Patrullero",
+      "description": "Un patrullero cubierto de grafiti en un callejón, de noche. Modelado y animación en Blender."
     },
     {
       "portrait": true,
@@ -419,7 +413,8 @@
         "/images/blender/Screaming_head/screaming-head-remake-2.png"
       ],
       "title": "Screaming Head",
-      "description": "Un rostro que grita bajo una tela negra brillante."
+      "description": "Un rostro que grita bajo una tela negra brillante.",
+      "enabled": false
     },
     {
       "portrait": true,
@@ -427,18 +422,11 @@
         "/images/blender/noclueyet/cabezas-locas-1.png",
         "/images/blender/noclueyet/cabezas-locas-2.png",
         "/images/blender/noclueyet/cabezas-locas-3.png",
-        "/images/blender/noclueyet/cabezas-locas-4.png"
-      ],
-      "title": "NCY — I",
-      "description": "Cabezas cromadas apiladas, gritando, con dientes de oro."
-    },
-    {
-      "square": true,
-      "slides": [
+        "/images/blender/noclueyet/cabezas-locas-4.png",
         "/images/blender/noclueyet_1/carasdeformes.png"
       ],
-      "title": "NCY — II",
-      "description": "Caras deformes en negro brillante sobre gris claro."
+      "title": "NCY",
+      "description": "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro."
     },
     {
       "portrait": true,

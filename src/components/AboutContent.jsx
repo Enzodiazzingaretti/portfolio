@@ -5,7 +5,12 @@
  *
  * Deliberadamente sin retrato: el sitio ya es visualmente denso (shader
  * ASCII, piezas generativas) y una foto de perfil no aportaba nada que el
- * trabajo no dijera mejor. La cara ya vive en LinkedIn.
+ * trabajo no dijera mejor. La cara ya vive en LinkedIn y en el CV.
+ *
+ * `facts` son los datos duros que un reclutador busca en 30 segundos
+ * (experiencia, idiomas, zona horaria, disponibilidad, herramientas). En la
+ * página van en la columna derecha, que antes quedaba vacía; en el panel,
+ * debajo del texto.
  *
  * @param {"panel"|"page"} variant - el panel es angosto y va en una columna;
  *   la sección del home tiene el ancho de la página.
@@ -14,7 +19,7 @@ export default function AboutContent({ about, variant = "panel" }) {
   const enPagina = variant === "page";
 
   const texto = (
-    <>
+    <div>
       <p
         className={
           enPagina
@@ -25,9 +30,7 @@ export default function AboutContent({ about, variant = "panel" }) {
         {about.headline}
       </p>
 
-      <p className={`max-w-prose text-[0.92rem] leading-[1.75] text-dim ${enPagina ? "mt-7" : "mt-7"}`}>
-        {about.paragraph}
-      </p>
+      <p className="mt-7 max-w-prose text-[0.92rem] leading-[1.75] text-dim">{about.paragraph}</p>
 
       {about.specializations?.length ? (
         <ul className="info-spec-list">
@@ -39,10 +42,33 @@ export default function AboutContent({ about, variant = "panel" }) {
           ))}
         </ul>
       ) : null}
-    </>
+    </div>
   );
 
-  if (!enPagina) return texto;
+  const datos = about.facts?.length ? (
+    <dl className="about-facts">
+      {about.facts.map(({ label, value }) => (
+        <div key={label} className="about-fact">
+          <dt className="about-fact-label font-mono">{label}</dt>
+          <dd className="about-fact-value">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  ) : null;
 
-  return <div className="about-page">{texto}</div>;
+  if (!enPagina) {
+    return (
+      <>
+        {texto}
+        {datos}
+      </>
+    );
+  }
+
+  return (
+    <div className="about-page">
+      {texto}
+      {datos}
+    </div>
+  );
 }

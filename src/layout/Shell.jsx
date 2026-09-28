@@ -107,7 +107,7 @@ export default function Shell() {
       <GrainOverlay />
       <CustomCursor />
       <Suspense fallback={null}>
-        <KonsoleEasterEgg onGlitch={handleGlitch} labels={konsole} />
+        <KonsoleEasterEgg onGlitch={handleGlitch} labels={konsole} contact={content.contact} />
       </Suspense>
 
       <header className={`shell-bar${isHome && !scrolled ? " shell-bar--home" : ""}`}>

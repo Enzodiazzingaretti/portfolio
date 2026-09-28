@@ -1268,8 +1268,57 @@ section.home-lead {
   background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
 }
 
+/* Dos columnas en desktop: el texto a la izquierda (con el ancho de lectura de
+   antes) y los datos duros a la derecha, donde antes quedaba media página
+   vacía. En pantallas angostas los datos van debajo. */
 .about-page {
-  max-width: 46rem;
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .about-page {
+    grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
+    column-gap: clamp(3rem, 7vw, 8rem);
+    align-items: start;
+  }
+}
+
+.about-facts {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+/* En el panel lateral los datos siguen al texto, con el mismo aire que la
+   lista de especialidades. */
+.info-panel-body .about-facts { margin-top: 2.5rem; }
+
+.about-fact {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 640px) {
+  .about-fact {
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: baseline;
+  }
+}
+
+.about-fact-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: theme(colors.raveRedBright);
+}
+
+.about-fact-value {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(234,234,234,0.82);
 }
 
 /* ─────────────────────────────────────────
@@ -2197,19 +2246,35 @@ section.home-lead {
 }
 
 /* Scrim local bajo el bloque de texto del hero: con el campo ASCII detras,
-   el parrafo perdia contraste justo donde vive la escena. */
+   el parrafo perdia contraste justo donde vive la escena. Mas denso y mas
+   ancho que antes: los roles y los botones quedaban sobre caracteres. */
 .home-hero-side { position: relative; }
 
 .home-hero-side::before {
   content: "";
   position: absolute;
-  inset: -1.75rem -2rem -1.75rem -2.5rem;
+  inset: -2.5rem -3rem -2.5rem -3.5rem;
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(
-    ellipse at 55% 50%,
-    rgba(5, 5, 5, 0.94) 0%,
-    rgba(5, 5, 5, 0.78) 48%,
-    rgba(5, 5, 5, 0) 82%
+    ellipse at 50% 50%,
+    rgba(5, 5, 5, 0.96) 0%,
+    rgba(5, 5, 5, 0.9) 50%,
+    rgba(5, 5, 5, 0) 86%
   );
+}
+
+/* Llamados del hero: el CV es lo que busca un reclutador; Contacto baja a la
+   sección del home. */
+.home-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.home-hero-cta {
+  padding: 0.85rem 1.25rem;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }

@@ -47,6 +47,9 @@ const webProjectAssets = {
     previewUrl: "",
     previewImage: "/images/previews/screenshot_auroraretreat.jpeg",
     slides: [],
+    // Oculto hasta que el sitio esté online. Para mostrarlo: enabled: true
+    // acá y en public/content.json (español).
+    enabled: false,
   },
 };
 
@@ -250,12 +253,19 @@ const logosAssets = {
 };
 
 const blenderAssets = {
+  // Golden Faces y Faces Alternative eran dos fichas del mismo modelo con
+  // otro material: van juntas. El showcase la busca por "golden-faces" en la
+  // portada, así que la primera slide tiene que seguir siendo una dorada.
   goldenFaces: {
     square: true,
     slides: [
       "/images/blender/golden-faces/golden-1.png",
       "/images/blender/golden-faces/golden-2.png",
       "/images/blender/golden-faces/golden-3.png",
+      "/images/blender/faces_alternative/faces-alternative-1.png",
+      "/images/blender/faces_alternative/faces-alternative-2.png",
+      "/images/blender/faces_alternative/faces-alternative-3.png",
+      "/images/blender/faces_alternative/faces-alternative-4.png",
     ],
   },
   // Sin la slide que tenía "Mañana render final :p" quemado en la imagen ni la
@@ -313,13 +323,18 @@ const blenderAssets = {
       "/images/blender/glass_skullz/glass-skullz-3.png",
     ],
   },
+  // Oculta: la portada sale casi negra en la grilla y repetía el tema de las
+  // cabezas. Queda cargada; se vuelve a mostrar con enabled: true (y en
+  // public/content.json para español).
   screamingHead: {
     square: true,
+    enabled: false,
     slides: [
       "/images/blender/Screaming_head/screaming-head-remake-1.png",
       "/images/blender/Screaming_head/screaming-head-remake-2.png",
     ],
   },
+  // NCY I y II eran la misma serie en dos fichas: ahora una sola.
   noclueyet: {
     portrait: true,
     slides: [
@@ -327,11 +342,6 @@ const blenderAssets = {
       "/images/blender/noclueyet/cabezas-locas-2.png",
       "/images/blender/noclueyet/cabezas-locas-3.png",
       "/images/blender/noclueyet/cabezas-locas-4.png",
-    ],
-  },
-  noclueyetB: {
-    square: true,
-    slides: [
       "/images/blender/noclueyet_1/carasdeformes.png",
     ],
   },
@@ -339,15 +349,6 @@ const blenderAssets = {
     square: true,
     slides: [
       "/images/blender/Overkill/overkill_prueba.png",
-    ],
-  },
-  facesAlternative: {
-    square: true,
-    slides: [
-      "/images/blender/faces_alternative/faces-alternative-1.png",
-      "/images/blender/faces_alternative/faces-alternative-2.png",
-      "/images/blender/faces_alternative/faces-alternative-3.png",
-      "/images/blender/faces_alternative/faces-alternative-4.png",
     ],
   },
   km240: {
@@ -488,19 +489,17 @@ export const siteContent = {
         { ...touchDesignerAssets.kineticSand, name: "Kinetic Sand", notes: "Arena cinética simulada con respuesta al audio." },
       ],
       blenderWorks: [
-        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Cabezas derretidas en metal dorado sobre fondo azul. Estudio de material especular." },
+        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Cabezas derretidas en dos tratamientos: metal dorado especular sobre azul y blanco plano sobre negro." },
         { ...blenderAssets.ratherModular, title: "Rather Modular", description: "Composición orgánica de pétalos, fibras, burbujas de vidrio y humo. Variaciones de color y fondo." },
         { ...blenderAssets.calvariaGlass, title: "Calvaria Glass", description: "Formas neo-tribales en vidrio violeta y un corazón de cristal que gira. Estudio de refracción y brillo." },
         { ...blenderAssets.metallicSwarm, title: "Metallic Swarm", description: "Columnas vertebrales de metal con púas, enroscadas como serpientes. Estudio de material cromado." },
         { ...blenderAssets.plasticStudies, title: "Plastic Studies", description: "Una cabeza gritando y una bandeja de vinilo en paleta de cámara térmica, con stickers “Hello, my name is”." },
-        { ...blenderAssets.facesAlternative, title: "Faces Alternative", description: "Misma serie que Golden Faces, con otro tratamiento: blanco plano sobre negro." },
         { ...blenderAssets.km240, title: "240 KM/H", description: "Semáforo bajo la lluvia, de noche: pasa a verde y se enciende un cartel con el logo de 240 KM/H. Pieza propia, vertical para Reels." },
-        { ...blenderAssets.patrullero, title: "1312", description: "Patrullero cubierto de grafiti en un callejón de noche. Modelado y animación en Blender." },
+        { ...blenderAssets.patrullero, title: "Patrullero", description: "Un patrullero cubierto de grafiti en un callejón, de noche. Modelado y animación en Blender." },
         { ...blenderAssets.cristales, title: "Cristales", description: "Geometría cristalina con refracción en Blender Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgánicas y fluidos abstractos en Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Un rostro que grita bajo una tela negra brillante." },
-        { ...blenderAssets.noclueyet, title: "NCY — I", description: "Cabezas cromadas apiladas, gritando, con dientes de oro." },
-        { ...blenderAssets.noclueyetB, title: "NCY — II", description: "Caras deformes en negro brillante sobre gris claro." },
+        { ...blenderAssets.noclueyet, title: "NCY", description: "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Cráneos en vidrio. Exploración de refracción y render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Dos manos que se buscan a través de portales de luz roja. Render para la sesión Overkill." },
       ],
@@ -522,8 +521,17 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "Club underground estilo Berlín: cabina, barandas de metal y haces de luz. Renders y video.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "Piezas y experiencias digitales de alto impacto — de la dirección de arte al producto final.",
-        paragraph: "Trabajo en la intersección del diseño visual, el movimiento y la tecnología interactiva. Llevo cada proyecto de punta a punta: entiendo el objetivo comercial, defino la dirección de arte, itero sobre el feedback y entrego una pieza pulida y lista para publicar. Combino producción visual (3D y motion en Blender y After Effects) con tecnología en tiempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, y construyo la web que sostiene esas piezas.",
+        headline: "Diseñador 3D y motion que también programa.",
+        paragraph: "Modelo, ilumino y animo en Blender y After Effects, armo visuales audio-reactivos en TouchDesigner y desarrollo sitios con React y Three.js. Trabajo freelance desde 2022 para marcas, artistas y eventos: renders de producto, flyers animados, visualización de espacios y sitios con panel de administración propio.",
+        // Datos duros para quien evalúa en 30 segundos. Solo viven acá:
+        // content.json no los define, así que en español también salen de acá.
+        facts: [
+          { label: "Experiencia", value: "3D y motion desde 2022 · Desarrollo web desde 2023" },
+          { label: "Idiomas", value: "Español nativo · Inglés avanzado (título de traductor) · Portugués intermedio" },
+          { label: "Base", value: "Mendoza, Argentina · UTC−3, a 1–2 h de la costa este de EE. UU." },
+          { label: "Disponibilidad", value: "Full-time remoto · Freelance" },
+          { label: "Herramientas", value: "Blender · After Effects · TouchDesigner · Figma · React · Three.js" },
+        ],
         specializations: ["Motion Design / TouchDesigner", "Visualización 3D / Blender", "Desarrollo Web / React", "Dirección de Arte", "Branding e Identidad", "Objetos & Piezas Físicas"],
       },
       contact: {
@@ -532,6 +540,7 @@ export const siteContent = {
         availableFor: ["Full-time remoto", "Freelance", "Motion Design", "3D", "Desarrollo web", "Dirección de arte", "Branding"],
         cta: "Escribime",
         note: "Respondo en menos de 24 horas",
+        cv: "/cv/Enzo-Diaz-Zingaretti-CV-ES.pdf",
       },
       ui: {
         nav: { back: "Volver", home: "Inicio", index: "Índice", about: "Sobre mí", showcase: "Destacados", contact: "Contacto", enter: "Entrar", close: "Cerrar" },
@@ -549,7 +558,7 @@ export const siteContent = {
         touchDesignerLoop: "Loop TouchDesigner",
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
-        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", presskit: "Press Kit" },
+        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Descargar CV (PDF)" },
         modal: { close: "Cerrar", previous: "Anterior", next: "Siguiente", navigateHint: "← → para navegar · ", closeHint: "ESC para cerrar", year: "Año", role: "Rol", status: "Estado", visitSite: "Abrir sitio", viewCode: "Ver código", features: "Incluye", infoShow: "Ver info", infoClose: "Cerrar", slide: "Slide" },
         skipToContent: "Saltar al contenido",
         backToTop: "Inicio",
@@ -571,6 +580,7 @@ export const siteContent = {
         pageTitle: "Portfolio",
         notFound: { title: "Esta página no existe", text: "El enlace es viejo o está mal escrito. Probá con una categoría." },
         aboutCta: "Hablemos",
+        cvCta: "Descargar CV",
         // Rotulos que solo escucha un lector de pantalla. Estaban en español
         // fijo: alguien navegando el sitio en inglés los oia igual en español.
         a11y: { openConsole: "Abrir la consola oculta", adminPanel: "Panel de administración" },
@@ -699,19 +709,17 @@ export const siteContent = {
         { ...touchDesignerAssets.kineticSand, name: "Kinetic Sand", notes: "Kinetic sand simulation with audio response." },
       ],
       blenderWorks: [
-        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Melted heads in gold metal on a blue background. Specular material study." },
+        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Melted heads in two treatments: specular gold metal on blue, and flat white on black." },
         { ...blenderAssets.ratherModular, title: "Rather Modular", description: "An organic composition of petals, fibres, glass bubbles and smoke. Colour and background variations." },
         { ...blenderAssets.calvariaGlass, title: "Calvaria Glass", description: "Neo-tribal shapes in violet glass and a spinning crystal heart. Refraction and glow study." },
         { ...blenderAssets.metallicSwarm, title: "Metallic Swarm", description: "Spiked metal spines coiling like snakes. Chrome material study." },
         { ...blenderAssets.plasticStudies, title: "Plastic Studies", description: "A screaming head and a turntable in a thermal-camera palette, with “Hello, my name is” stickers." },
-        { ...blenderAssets.facesAlternative, title: "Faces Alternative", description: "Same series as Golden Faces, with a different treatment: flat white on black." },
         { ...blenderAssets.km240, title: "240 KM/H", description: "A traffic light in the rain at night: it turns green and a sign with the 240 KM/H logo lights up. Self-initiated vertical piece for Reels." },
-        { ...blenderAssets.patrullero, title: "1312", description: "A graffiti-covered police car in an alley at night. Modelling and animation in Blender." },
+        { ...blenderAssets.patrullero, title: "Patrullero", description: "A police car covered in graffiti, in an alley at night. Modelling and animation in Blender." },
         { ...blenderAssets.cristales, title: "Cristales", description: "Crystal geometry with light refraction in Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Organic shapes and fluid abstractions in Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "A screaming face pressing through a glossy black sheet." },
-        { ...blenderAssets.noclueyet, title: "NCY — I", description: "Stacked chrome heads, screaming, with gold teeth." },
-        { ...blenderAssets.noclueyetB, title: "NCY — II", description: "Deformed faces in glossy black on light grey." },
+        { ...blenderAssets.noclueyet, title: "NCY", description: "Stacked chrome heads, screaming, with gold teeth, plus a variation in glossy black on light grey." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Glass skulls. Refraction and render study." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Two hands reaching for each other through portals of red light. Render for the Overkill session." },
       ],
@@ -733,8 +741,17 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "A Berlin-style underground club: DJ booth, metal railings and light beams. Renders and video.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "High-impact digital pieces and experiences — from art direction to shipped product.",
-        paragraph: "I work at the intersection of visual design, motion and interactive technology. I take each project end to end: I understand the commercial goal, set the art direction, iterate on feedback and deliver a polished, publish-ready piece. I combine visual production (3D and motion in Blender and After Effects) with real-time tech (TouchDesigner, WebGL, Three.js) and applied AI, and I build the web that carries those pieces.",
+        headline: "A 3D and motion designer who also codes.",
+        paragraph: "I model, light and animate in Blender and After Effects, build audio-reactive visuals in TouchDesigner and develop websites with React and Three.js. Freelancing since 2022 for brands, artists and events: product renders, animated flyers, venue visualization and sites with custom admin panels.",
+        // Datos duros para quien evalúa en 30 segundos. Solo viven acá:
+        // content.json no los define, así que en español también salen de acá.
+        facts: [
+          { label: "Experience", value: "3D & motion since 2022 · Web development since 2023" },
+          { label: "Languages", value: "Spanish (native) · English (advanced, translation degree) · Portuguese (intermediate)" },
+          { label: "Based in", value: "Mendoza, Argentina · UTC−3, 1–2 h ahead of US Eastern" },
+          { label: "Availability", value: "Full-time remote · Freelance" },
+          { label: "Tools", value: "Blender · After Effects · TouchDesigner · Figma · React · Three.js" },
+        ],
         specializations: ["Motion Design / TouchDesigner", "3D Visualization / Blender", "Web Development / React", "Art Direction", "Branding & Identity", "Physical Objects & Craft"],
       },
       contact: {
@@ -743,6 +760,7 @@ export const siteContent = {
         availableFor: ["Full-time remote", "Freelance", "Motion Design", "3D", "Web Development", "Art Direction", "Branding"],
         cta: "Get in touch",
         note: "I reply within 24 hours",
+        cv: "/cv/Enzo-Diaz-Zingaretti-CV-EN.pdf",
       },
       ui: {
         nav: { back: "Back", home: "Home", index: "Index", about: "About", showcase: "Selected work", contact: "Contact", enter: "Enter", close: "Close" },
@@ -760,7 +778,7 @@ export const siteContent = {
         touchDesignerLoop: "TouchDesigner Loop",
         blenderRender: "Blender Render",
         renderTags: ["blender", "3d", "render"],
-        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Profile", presskit: "Press Kit" },
+        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Profile", cv: "Download CV (PDF)" },
         modal: { close: "Close", previous: "Previous", next: "Next", navigateHint: "← → to navigate · ", closeHint: "ESC to close", year: "Year", role: "Role", status: "Status", visitSite: "Visit Site", viewCode: "View code", features: "Includes", infoShow: "View info", infoClose: "Close", slide: "Slide" },
         skipToContent: "Skip to content",
         backToTop: "Top",
@@ -782,6 +800,7 @@ export const siteContent = {
         pageTitle: "Portfolio",
         notFound: { title: "This page doesn't exist", text: "The link is old or mistyped. Try one of the categories." },
         aboutCta: "Let's Talk",
+        cvCta: "Download CV",
         a11y: { openConsole: "Open the hidden console", adminPanel: "Admin panel" },
         konsole: {
           hintLong: 'type "kexxy"',
@@ -904,19 +923,17 @@ export const siteContent = {
         { ...touchDesignerAssets.kineticSand, name: "Kinetic Sand", notes: "Simulação de areia cinética com resposta ao áudio." },
       ],
       blenderWorks: [
-        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Cabeças derretidas em metal dourado sobre fundo azul. Estudo de material especular." },
+        { ...blenderAssets.goldenFaces, title: "Golden Faces", description: "Cabeças derretidas em dois tratamentos: metal dourado especular sobre azul e branco chapado sobre preto." },
         { ...blenderAssets.ratherModular, title: "Rather Modular", description: "Composição orgânica de pétalas, fibras, bolhas de vidro e fumaça. Variações de cor e fundo." },
         { ...blenderAssets.calvariaGlass, title: "Calvaria Glass", description: "Formas neotribais em vidro violeta e um coração de cristal girando. Estudo de refração e brilho." },
         { ...blenderAssets.metallicSwarm, title: "Metallic Swarm", description: "Colunas vertebrais de metal com espinhos, enroladas como serpentes. Estudo de material cromado." },
         { ...blenderAssets.plasticStudies, title: "Plastic Studies", description: "Uma cabeça gritando e um toca-discos em paleta de câmera térmica, com adesivos “Hello, my name is”." },
-        { ...blenderAssets.facesAlternative, title: "Faces Alternative", description: "Mesma série de Golden Faces, com outro tratamento: branco chapado sobre preto." },
         { ...blenderAssets.km240, title: "240 KM/H", description: "Semáforo na chuva, à noite: fica verde e acende um letreiro com o logo da 240 KM/H. Peça própria, vertical para Reels." },
-        { ...blenderAssets.patrullero, title: "1312", description: "Viatura policial coberta de grafite num beco à noite. Modelagem e animação em Blender." },
+        { ...blenderAssets.patrullero, title: "Patrullero", description: "Uma viatura policial coberta de grafite num beco, à noite. Modelagem e animação em Blender." },
         { ...blenderAssets.cristales, title: "Cristales", description: "Geometria cristalina com refração em Blender Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgânicas e abstrações fluidas em Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Um rosto gritando sob um tecido preto brilhante." },
-        { ...blenderAssets.noclueyet, title: "NCY — I", description: "Cabeças cromadas empilhadas, gritando, com dentes de ouro." },
-        { ...blenderAssets.noclueyetB, title: "NCY — II", description: "Rostos deformados em preto brilhante sobre cinza claro." },
+        { ...blenderAssets.noclueyet, title: "NCY", description: "Cabeças cromadas empilhadas, gritando, com dentes de ouro, e uma variação em preto brilhante sobre cinza claro." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Crânios em vidro. Estudo de refração e render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Duas mãos que se buscam através de portais de luz vermelha. Render para a sessão Overkill." },
       ],
@@ -938,8 +955,17 @@ export const siteContent = {
         { ...espaciosAssets.underberlin, title: "Underberlin", type: "3D / Motion", description: "Clube underground estilo Berlim: cabine, grades de metal e fachos de luz. Renders e vídeo.", tags: ["Blender", "Motion", "3D"] },
       ],
       about: {
-        headline: "Peças e experiências digitais de alto impacto — da direção de arte ao produto final.",
-        paragraph: "Trabalho na interseção entre design visual, movimento e tecnologia interativa. Levo cada projeto de ponta a ponta: entendo o objetivo comercial, defino a direção de arte, itero sobre o feedback e entrego uma peça polida e pronta para publicar. Combino produção visual (3D e motion em Blender e After Effects) com tecnologia em tempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, e construo a web que sustenta essas peças.",
+        headline: "Designer 3D e motion que também programa.",
+        paragraph: "Modelo, ilumino e animo no Blender e no After Effects, crio visuais audiorreativos no TouchDesigner e desenvolvo sites com React e Three.js. Freelancer desde 2022 para marcas, artistas e eventos: renders de produto, flyers animados, visualização de espaços e sites com painel de administração próprio.",
+        // Datos duros para quien evalúa en 30 segundos. Solo viven acá:
+        // content.json no los define, así que en español también salen de acá.
+        facts: [
+          { label: "Experiência", value: "3D e motion desde 2022 · Desenvolvimento web desde 2023" },
+          { label: "Idiomas", value: "Espanhol nativo · Inglês avançado (formação em tradução) · Português intermediário" },
+          { label: "Base", value: "Mendoza, Argentina · UTC−3, 1–2 h à frente da costa leste dos EUA" },
+          { label: "Disponibilidade", value: "Full-time remoto · Freelance" },
+          { label: "Ferramentas", value: "Blender · After Effects · TouchDesigner · Figma · React · Three.js" },
+        ],
         specializations: ["Motion Design / TouchDesigner", "Visualização 3D / Blender", "Desenvolvimento Web / React", "Direção de Arte", "Branding & Identidade", "Objetos & Artesanato"],
       },
       contact: {
@@ -948,6 +974,7 @@ export const siteContent = {
         availableFor: ["Full-time remoto", "Freelance", "Motion Design", "3D", "Desenvolvimento Web", "Direção de Arte", "Branding"],
         cta: "Me escreve",
         note: "Respondo em menos de 24 horas",
+        cv: "/cv/Enzo-Diaz-Zingaretti-CV-PT.pdf",
       },
       ui: {
         nav: { back: "Voltar", home: "Início", index: "Índice", about: "Sobre mim", showcase: "Destaques", contact: "Contato", enter: "Entrar", close: "Fechar" },
@@ -965,7 +992,7 @@ export const siteContent = {
         touchDesignerLoop: "Loop TouchDesigner",
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
-        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", presskit: "Press Kit" },
+        contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Baixar CV (PDF)" },
         modal: { close: "Fechar", previous: "Anterior", next: "Próximo", navigateHint: "← → para navegar · ", closeHint: "ESC para fechar", year: "Ano", role: "Papel", status: "Status", visitSite: "Abrir site", viewCode: "Ver código", features: "Inclui", infoShow: "Ver info", infoClose: "Fechar", slide: "Slide" },
         skipToContent: "Pular para o conteúdo",
         backToTop: "Início",
@@ -987,6 +1014,7 @@ export const siteContent = {
         pageTitle: "Portfólio",
         notFound: { title: "Esta página não existe", text: "O link é antigo ou está mal escrito. Tente uma das categorias." },
         aboutCta: "Vamos Conversar",
+        cvCta: "Baixar CV",
         a11y: { openConsole: "Abrir o console oculto", adminPanel: "Painel de administração" },
         konsole: {
           hintLong: 'digite "kexxy"',

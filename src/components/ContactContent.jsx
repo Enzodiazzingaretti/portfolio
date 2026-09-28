@@ -1,6 +1,9 @@
 import { Mail, Instagram, Linkedin, Github, FileText } from "lucide-react";
 
-const CONTACT_ORDER = ["email", "instagram", "linkedin", "github", "presskit"];
+// Orden pensado para quien evalúa un perfil: mail y CV primero, después las
+// redes profesionales. El press kit de DJ salió de acá (sigue como proyecto
+// en /web): a un reclutador no le decía qué era y ataba el perfil a la música.
+const CONTACT_ORDER = ["email", "cv", "linkedin", "github", "instagram"];
 
 // lucide ya viaja en el bundle por el ícono del footer, así que estos cinco
 // no agregan dependencia; el tree-shaking los trae de a uno.
@@ -9,7 +12,7 @@ const CONTACT_ICON = {
   instagram: Instagram,
   linkedin: Linkedin,
   github: Github,
-  presskit: FileText,
+  cv: FileText,
 };
 
 function contactHref(key, value) {
@@ -19,9 +22,8 @@ function contactHref(key, value) {
 
 /**
  * Lo que se muestra no es la URL. Una red social se identifica por el handle
- * —`instagram.com/kexxy.obj` es ruido alrededor de `@kexxy.obj`— y el press
- * kit por lo que es, no por dónde está alojado: que diga "vercel.app" cuenta
- * un detalle de infraestructura que al visitante no le importa.
+ * —`instagram.com/kexxy.obj` es ruido alrededor de `@kexxy.obj`— y el CV
+ * por lo que hace ("Descargar CV (PDF)"), no por la ruta del archivo.
  */
 function valorVisible(key, value, labels) {
   if (key === "email") {
@@ -44,9 +46,9 @@ function valorVisible(key, value, labels) {
   return labels?.[key] ?? value;
 }
 
-// El press kit muestra su nombre como valor, así que el rótulo chico de
-// arriba diría exactamente lo mismo dos veces.
-const SIN_ROTULO = new Set(["presskit"]);
+// El CV muestra la acción como valor ("Descargar CV (PDF)"), así que el
+// rótulo chico de arriba diría lo mismo dos veces.
+const SIN_ROTULO = new Set(["cv"]);
 
 /**
  * El cuerpo de Contacto, compartido por la sección del home y el panel
