@@ -8,7 +8,7 @@ function isObject(v) {
   return v && typeof v === "object" && !Array.isArray(v);
 }
 
-function mergeContent(defaults, incoming) {
+export function mergeContent(defaults, incoming) {
   if (incoming == null) return defaults;
   if (!isObject(defaults) || !isObject(incoming)) return incoming;
   const out = { ...defaults };
@@ -22,7 +22,7 @@ function mergeContent(defaults, incoming) {
  * español y buscar el selector. Si ninguna preferencia del navegador es un
  * idioma del sitio, inglés.
  */
-function idiomaDelNavegador(locales) {
+export function idiomaDelNavegador(locales) {
   try {
     const preferencias = navigator.languages?.length ? navigator.languages : [navigator.language];
     for (const etiqueta of preferencias) {

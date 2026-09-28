@@ -1,7 +1,8 @@
 // pickQuality es puro y testeable; compressImage usa canvas (verificación en browser).
 export function pickQuality(sizeFor, maxBytes, start = 0.82, floor = 0.4, step = 0.1) {
   let q = start;
-  while (q > floor && sizeFor(q) > maxBytes) q = Math.round((q - step) * 100) / 100;
+  // El paso puede pasarse del piso (0,42 − 0,1 = 0,32): se recorta a floor.
+  while (q > floor && sizeFor(q) > maxBytes) q = Math.max(floor, Math.round((q - step) * 100) / 100);
   return q;
 }
 

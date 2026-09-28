@@ -58,7 +58,15 @@ abrir-local.bat          # limpia locks de git, instala si falta, arranca Vite y
 npm run dev              # equivalente manual, http://localhost:5173
 npm run build
 npm run lint             # limpio salvo 2 warnings preexistentes en src/admin/ReorderableList.jsx
+npm test                 # vitest: tests/ (contenido en 3 idiomas, auth del admin, categorías)
 ```
+
+`tests/content.test.js` falla si `content.json` y el bundle se desincronizan
+(listas, archivos, hero y Sobre mí en español) o si una pieza apunta a un
+archivo que no está en `public/`. Si agregás una obra desde `/admin`, el test
+te va a pedir sumarla también en EN y PT del bundle: es a propósito. El CI
+(`.github/workflows/ci.yml`) corre lint, tests y build en cada push; no frena
+el deploy de Vercel, solo marca el commit.
 
 ---
 

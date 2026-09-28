@@ -1,130 +1,67 @@
-# Kexxy Portfolio
+# Enzo Diaz Zingaretti — Portfolio
 
-**Personal portfolio of Enzo Diaz Zingaretti (Kexxy)** — 3D, motion, generative work and web development, behind a hero rendered as ASCII in real time.
+![Hero: name, positioning and the ASCII-rendered Three.js scene](public/images/portadas/og-card.jpg)
 
-🔗 **[portfolio-kexxy.vercel.app](https://portfolio-kexxy.vercel.app)**
+Portfolio of a creative technologist: 3D and motion work, real-time generative pieces, and the web that shows them. React + Three.js, deployed on Vercel, in Spanish, English and Portuguese.
 
-<!-- Poné acá un GIF de 8s del hero. Es lo mejor que tenés y no se ve sin abrir el sitio.
-     ![Hero](docs/hero.gif) -->
+**Live:** [portfolio-kexxy.vercel.app](https://portfolio-kexxy.vercel.app)
 
----
+<!-- Pendiente: un GIF de 8 s del hero acá arriba se ve mejor que la captura. -->
 
-## Highlights
+## What to look at
 
-### Real-time ASCII post-processing
-
-The hero scene renders to a Three.js render target, then a full-screen quad rewrites it as a grid of characters. Each cell **averages the luminance of the region it covers** and picks a glyph from an atlas generated at runtime on a 2D canvas.
-
-Two decisions worth the detail:
-
-- **Per-cell averaging instead of a single centre tap.** With one sample, a 3px swarm particle inside a 10px cell appears and disappears depending on where the centre lands — the whole swarm flickers. Averaging kills it.
-- **A 14-level density ramp** (`" .,:;~=+*xX#%8@"`). With 10 levels the sculpture's gradients banded into flat patches.
-
-### Generative pieces with a reduced-motion path
-
-`GenerativeCanvas` owns the lifecycle: RAF with a clamped delta, paused when off-viewport and when the tab is hidden, and a **static mode for `prefers-reduced-motion`** that runs the warmup once and leaves a single composed frame — so the piece is still a finished image, not a blank canvas. Seeded PRNG: same seed, same artwork.
-
-### Performance and accessibility as features
-
-- `/motion` grid covers went from **20 MB to 3.6 MB**
-- AA contrast across the palette
-- Mobile category navigation, SEO metadata, scroll restoration between routes
-
-### Git-backed admin panel
-
-A private `/admin` route edits site content without touching code. Content lives in the repository — the serverless API commits it back through the GitHub API and Vercel redeploys on its own. No database. Session auth with an in-memory per-IP rate limiter.
-
----
+| If you care about… | Start here |
+|---|---|
+| **Real-time graphics** | [`src/components/AsciiPass.js`](src/components/AsciiPass.js): a hand-written post-processing pass that rewrites the Three.js hero as a grid of characters, with per-scene black and white points measured from the render target. [`HeroThreeBackground.jsx`](src/components/HeroThreeBackground.jsx): a 16,000-particle swarm moved entirely in the vertex shader, and the pointer projected through the real camera. |
+| **Generative systems** | [`src/lab/pieces/`](src/lab/pieces): eight canvas pieces, each a different algorithm family (Gray-Scott reaction-diffusion, De Jong attractor, Chladni figures, Verlet cloth, harmonograph…), with live parameters and seeded randomness: same seed, same artwork. |
+| **Product engineering** | [`api/`](api): a git-backed admin. Serverless functions commit content to this repository through the GitHub API and Vercel redeploys. scrypt password hash, HMAC-signed session cookies, a write allowlist. No database. |
+| **Performance** | three.js loads only once the home page is visited; the preloader runs once per session; grid covers are 8-second, ~600 KB cuts instead of the full videos; images are capped at 1600 px; hashed assets are cached as immutable. |
+| **Testing** | [`tests/`](tests): content integrity across the three languages, the admin's auth and path checks, category building. CI runs lint, tests and a production build on every push. |
 
 ## Stack
 
-| | |
-|---|---|
-| **Framework** | React + Vite |
-| **Routing** | React Router |
-| **Styling** | Tailwind CSS |
-| **3D / shaders** | Three.js (custom post-processing pass) |
-| **Generative** | Canvas 2D, `d3-delaunay`, seeded PRNG |
-| **Scroll** | Lenis |
-| **Backend** | Vercel serverless functions |
-| **Analytics** | Vercel Analytics |
+React 19 · Vite 6 · React Router 7 · Tailwind CSS 3 · Three.js · Lenis · Vercel Functions (Node) · Vitest
+
+## Architecture notes
+
+- **Four routes, one per discipline** (`/motion`, `/3d`, `/grafica`, `/web`) inside a persistent shell. The WebGL background lives in the shell, so moving between routes pauses and dims it instead of recreating the context.
+- **Content has two sources.** [`src/siteContent.i18n.js`](src/siteContent.i18n.js) holds every string in the three languages. [`public/content.json`](public/content.json) is what the admin edits, and it overrides the Spanish copy at runtime. [`tests/content.test.js`](tests/content.test.js) fails if the two drift apart, or if a piece points at a file that is not in `public/`.
+- **The initial language comes from the browser**, falling back to English.
+- **Overlays and smooth scroll:** Lenis cancels wheel and touch events while an overlay is open, so every scrollable container inside one carries `data-lenis-prevent`.
 
 ## Running locally
 
 ```bash
 npm install
-npm run dev
+npm run dev      # http://localhost:5173
+npm test         # vitest
+npm run build
 ```
 
-## Project structure
+Admin setup (environment variables, password hash): [`ADMIN_SETUP.md`](ADMIN_SETUP.md).
 
-```
-src/
-├── components/
-│   ├── AsciiPass.js          # Three.js ASCII post-processing pass
-│   ├── HeroThreeBackground.jsx
-│   ├── GenerativeCanvas.jsx  # RAF lifecycle + reduced-motion static mode
-│   ├── DetailModal.jsx · CustomCursor.jsx · Preloader.jsx
-│   └── …
-├── lab/
-│   ├── pieces/               # generative artworks
-│   ├── prng.js               # seeded random
-│   └── MANIFIESTO.md
-├── routes/                   # Home · CategoryPage · NotFound
-├── siteContent.i18n.js       # all copy, all languages
-└── admin/
-api/                          # serverless: login · session · content · upload
-```
-
-## Content
-
-Every string lives in `src/siteContent.i18n.js`. Changing copy never means touching a component.
+`CLAUDE.md` is the engineering log used in AI-assisted sessions, in Spanish: decisions, measurements and traps that were already solved.
 
 ---
 
 <details>
-<summary><b>🇦🇷 Español</b></summary>
+<summary><b>Español</b></summary>
 
 <br>
 
-**Portfolio personal de Enzo Diaz Zingaretti (Kexxy)** — 3D, motion, obra generativa y desarrollo web, detrás de un hero renderizado como ASCII en tiempo real.
+Portfolio de un creative technologist: piezas 3D y motion, obra generativa en tiempo real y la web que las muestra. React + Three.js, en Vercel, en español, inglés y portugués.
 
-🔗 **[portfolio-kexxy.vercel.app](https://portfolio-kexxy.vercel.app)**
+**Qué mirar:**
 
-## Lo destacado
+- **Gráficos en tiempo real:** `src/components/AsciiPass.js`, un post-proceso escrito a mano que reescribe el hero de Three.js como grilla de caracteres, y `HeroThreeBackground.jsx`, con un enjambre de 16.000 partículas movido entero en el vertex shader.
+- **Sistemas generativos:** `src/lab/pieces/`, ocho piezas en canvas, cada una de una familia de algoritmo distinta, con parámetros en vivo y azar con semilla.
+- **Producto:** `api/`, un panel de administración sobre git: las funciones serverless commitean el contenido en este repo por la API de GitHub. Hash scrypt, cookies de sesión firmadas con HMAC, lista blanca de escritura, sin base de datos.
+- **Tests:** `tests/`, integridad del contenido en los tres idiomas, la autenticación del panel y la construcción de categorías. El CI corre lint, tests y build en cada push.
 
-### Post-procesado ASCII en tiempo real
-
-La escena del hero se dibuja a un render target de Three.js y después un quad de pantalla completa la reescribe como una grilla de caracteres. Cada celda **promedia la luminancia de la región que cubre** y elige un glifo de un atlas generado en runtime sobre un canvas 2D.
-
-Dos decisiones que valen el detalle:
-
-- **Promedio por celda en vez de un solo tap en el centro.** Con un único muestreo, una partícula de 3px dentro de una celda de 10px aparece y desaparece según dónde caiga el centro — el enjambre entero parpadea. El promedio lo elimina.
-- **Rampa de densidad de 14 niveles** (`" .,:;~=+*xX#%8@"`). Con 10, los degradés de la escultura se cortaban en parches planos.
-
-### Piezas generativas con camino para reduced motion
-
-`GenerativeCanvas` maneja el ciclo de vida: RAF con dt clampeado, pausa fuera del viewport y con la pestaña oculta, y **modo estático para `prefers-reduced-motion`** que corre el warmup una sola vez y deja un frame compuesto — así la pieza sigue siendo una imagen terminada y no un canvas en blanco. PRNG con semilla: misma semilla, misma obra.
-
-### Performance y accesibilidad como features
-
-- Las portadas de la grilla de `/motion` bajaron de **20 MB a 3,6 MB**
-- Contraste AA en toda la paleta
-- Navegación de categorías en mobile, metadata de SEO, restauración del scroll entre rutas
-
-### Panel de administración sobre git
-
-Una ruta privada `/admin` edita el contenido del sitio sin tocar código. El contenido vive en el repositorio — la API serverless lo commitea de vuelta por la API de GitHub y Vercel redeploya solo. Sin base de datos. Sesión con autenticación y rate limiter en memoria por IP.
-
-## Correr en local
+**Contenido:** los textos viven en `src/siteContent.i18n.js` (tres idiomas) y `public/content.json`, que edita el panel y pisa el español. Un test falla si se desincronizan.
 
 ```bash
-npm install
-npm run dev
+npm install && npm run dev
 ```
-
-## Contenido
-
-Todos los textos viven en `src/siteContent.i18n.js`. Cambiar una palabra nunca implica tocar un componente.
 
 </details>
