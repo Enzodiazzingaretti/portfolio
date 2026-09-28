@@ -24,7 +24,19 @@ function contactHref(key, value) {
  * un detalle de infraestructura que al visitante no le importa.
  */
 function valorVisible(key, value, labels) {
-  if (key === "email") return value;
+  if (key === "email") {
+    // El único corte permitido es después de la @: en un teléfono el mail se
+    // partía en "…@gmail.co" / "m", que parece un error de tipeo.
+    const [usuario, dominio] = value.split("@");
+    return dominio ? (
+      <>
+        {usuario}@<wbr />
+        {dominio}
+      </>
+    ) : (
+      value
+    );
+  }
   if (key === "instagram" || key === "linkedin" || key === "github") {
     const handle = value.replace(/\/+$/, "").split("/").pop();
     return handle ? `@${handle}` : value;

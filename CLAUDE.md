@@ -3,9 +3,23 @@
 Portfolio de Enzo Diaz Zingaretti (Kexxy). React 19 + Vite + Tailwind + three.js.
 Deploy en Vercel. Panel de administración propio en `/admin` con API serverless.
 
-**Rama activa: `redesign-minimal`.** `main` tiene la versión vieja (scroll largo de
-9 secciones). El hero ya está calibrado en GPU real (2026-08-10) y no queda nada
-bloqueando el merge, pero **todavía no se verificó en producción**.
+**Todo vive en `main`** (el rediseño de `redesign-minimal` ya está mergeado y en
+producción). Las ramas remotas que quedan están todas mergeadas.
+
+> [!warning] En español manda `public/content.json`, no `siteContent.i18n.js`
+> `useSiteContent` superpone `content.json` (lo que edita `/admin`) sobre los
+> defaults del bundle, **solo en español**: `hero`, `about` y `contact` con merge
+> profundo (los arrays como `roles` se reemplazan enteros) y las listas de obra
+> reemplazadas completas. Un cambio de texto hecho solo en `siteContent.i18n.js`
+> no se ve en ES. Pasó el 2026-09-24: el posicionamiento nuevo se veía en EN/PT y
+> en español seguía el viejo hasta el 2026-09-27. Todo texto en español se toca
+> en los dos archivos.
+
+**Idioma inicial:** sin elección guardada, sale del navegador (`es`/`en`/`pt`); si
+ninguno coincide, inglés. El portfolio apunta a trabajo remoto.
+
+**`repoUrl`** en un proyecto web dibuja el botón «Código» en la tarjeta y en el
+modal. Los repos enlazados son públicos y tienen README bilingüe.
 
 ---
 

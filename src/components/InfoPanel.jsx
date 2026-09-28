@@ -40,7 +40,11 @@ export default function InfoPanel({ open, kind, content, labels, onClose }) {
     <div className="info-panel-root" role="dialog" aria-modal="true" aria-label={isAbout ? labels.about : labels.contact}>
       <button type="button" className="info-panel-scrim" onClick={onClose} aria-label={labels.close} />
 
-      <div ref={panelRef} tabIndex={-1} className="info-panel">
+      {/* data-lenis-prevent: con el panel abierto Lenis está detenido y
+          cancela toda rueda y todo gesto táctil. Sin este atributo el panel
+          no scrolleaba: en un teléfono lo que quedaba debajo del pliegue de
+          Contacto era inalcanzable. */}
+      <div ref={panelRef} tabIndex={-1} className="info-panel" data-lenis-prevent>
         <header className="info-panel-head">
           <span className="font-mono text-label uppercase tracking-[0.36em] text-raveRedBright">
             {isAbout ? labels.about : labels.contact}

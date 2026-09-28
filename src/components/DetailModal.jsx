@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useMemo, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import MediaAsset from "./MediaAsset";
+import { isVideoAsset } from "../utils/helpers";
 
 /**
  * El modal tiene dos layouts muy distintos y antes los renderizaba a los dos,
@@ -87,6 +88,8 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     role: "Role",
     status: "Status",
     visitSite: "Visit Site",
+    viewCode: "View code",
+    features: "Includes",
     ...labels,
   }), [labels]);
 
@@ -127,6 +130,28 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   }, [handleNext, handlePrev]);
 
   if (!viewer || !item) return null;
+
+  // Un previewUrl que empieza con "#" (el del propio portfolio) no lleva a
+  // ningún lado desde el modal: la tarjeta ya lo filtraba, el modal no.
+  const sitio = item.previewUrl && !item.previewUrl.startsWith("#") ? item.previewUrl : null;
+
+  // "Incluye": lo que resuelve cada proyecto web. Va en una sola línea
+  // corrida y no en lista: el panel lateral mide 90vh y una lista empujaba
+  // los botones de sitio y código fuera de la vista.
+  const listaIncluye = (className) =>
+    item.features?.length ? (
+      <div className={className}>
+        <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.features}</p>
+        <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[0.78rem] leading-snug text-white/60">
+          {item.features.map((feature) => (
+            <li key={feature} className="flex items-center gap-1.5">
+              <span className="h-1 w-1 shrink-0 rounded-full bg-raveRed" aria-hidden="true" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null;
 
   const slideIndicators = total > 1 && (
     <div className="flex gap-[5px]">
@@ -171,8 +196,11 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
       )}
 
       {/* Zonas de tap invisibles: fuera del tab order y del árbol de accesibilidad;
-          teclado ya navega con ← → y en desktop hay flechas visibles */}
-      {total > 1 && (
+          teclado ya navega con ← → y en desktop hay flechas visibles.
+          No van sobre un video: cada una tapa un tercio del reproductor, así
+          que play, silencio o pantalla completa cambiaban de slide. Ahí se
+          navega con el swipe, las flechas o los indicadores. */}
+      {total > 1 && !isVideoAsset(currentSlide) && (
         <>
           <button type="button" onClick={handlePrev} tabIndex={-1} aria-hidden="true"
             className="absolute left-0 top-0 h-full w-1/3 opacity-0"
@@ -201,6 +229,11 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
       aria-label={item.title}
       tabIndex={-1}
       onKeyDown={handleTrapKeyDown}
+      // Lenis no se detiene con el modal abierto: sin esto, la rueda sobre la
+      // columna de info movía la página de atrás y la columna no scrolleaba.
+      // Con el atributo, adentro del modal manda el scroll nativo (y el body
+      // ya está en overflow: hidden, así que la página no se mueve).
+      data-lenis-prevent
       className="modal-scrim fixed inset-0 z-[120] outline-none"
       onClick={onClose}
     >
@@ -293,6 +326,8 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               </div>
             ) : null}
 
+            {listaIncluye("mt-6")}
+
             {(item.year || item.role || item.status) && (
               <div className="mt-6 flex gap-8 border-t border-white/[0.06] pt-5">
                 {item.year && (
@@ -310,20 +345,30 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 {item.status && (
                   <div>
                     <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
-                    <p className="mt-1.5 font-mono text-meta text-raveRed/70">{item.status}</p>
+                    <p className="mt-1.5 font-mono text-meta text-raveRedBright">{item.status}</p>
                   </div>
                 )}
               </div>
             )}
 
-            {item.previewUrl && (
+            {sitio && (
               <a
-                href={item.previewUrl}
-                target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
-                rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
+                href={sitio}
+                target="_blank"
+                rel="noreferrer"
                 className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
               >
                 {modalLabels.visitSite} ↗
+              </a>
+            )}
+            {item.repoUrl && (
+              <a
+                href={item.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={`${sitio ? "mt-3" : "mt-6"} flex items-center justify-center gap-2 border border-white/15 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/70 transition-colors active:bg-white/5`}
+              >
+                {modalLabels.viewCode} ↗
               </a>
             )}
           </div>
@@ -411,8 +456,10 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 </div>
               ) : null}
 
+              {listaIncluye("")}
+
               {(item.year || item.role || item.status) && (
-                <div className="grid gap-4 border-t border-white/[0.06] pt-5">
+                <div className="grid grid-cols-3 gap-3 border-t border-white/[0.06] pt-5">
                   {item.year && (
                     <div>
                       <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.year}</p>
@@ -428,7 +475,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                   {item.status && (
                     <div>
                       <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
-                      <p className="mt-1 font-mono text-caption text-raveRed/70">{item.status}</p>
+                      <p className="mt-1 font-mono text-caption text-raveRedBright">{item.status}</p>
                     </div>
                   )}
                 </div>
@@ -436,14 +483,24 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             </div>
 
             <div className="mt-6 flex flex-col gap-3 border-t border-white/[0.06] pt-5">
-              {item.previewUrl && (
+              {sitio && (
                 <a
-                  href={item.previewUrl}
-                  target={item.previewUrl.startsWith("#") ? undefined : "_blank"}
-                  rel={item.previewUrl.startsWith("#") ? undefined : "noreferrer"}
+                  href={sitio}
+                  target="_blank"
+                  rel="noreferrer"
                   className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]"
                 >
                   {modalLabels.visitSite} ↗
+                </a>
+              )}
+              {item.repoUrl && (
+                <a
+                  href={item.repoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="premium-button flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]"
+                >
+                  {modalLabels.viewCode} ↗
                 </a>
               )}
               <div className="flex items-center justify-between">

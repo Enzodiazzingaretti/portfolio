@@ -1,14 +1,13 @@
 {
   "hero": {
     "title": "ENZO DIAZ ZINGARETTI",
-    "description": "Vengo del motion y el 3D. Hoy diseño y programo los sitios que entrego. Basado en Argentina, disponible internacionalmente.",
-    "location": "Argentina",
+    "description": "Diseño y produzco piezas 3D y motion, visuales en tiempo real y sitios web con React y Three.js. Desde Mendoza, Argentina, en remoto.",
+    "location": "Mendoza, AR · UTC−3",
     "availability": "Disponible",
     "meta": "Portfolio / 2026",
     "roles": [
-      "Artista 3D",
-      "Motion Designer",
-      "Creador Visual",
+      "Creative Technologist",
+      "Diseñador 3D & Motion",
       "Desarrollador Creativo"
     ],
     "cta": "Ver proyectos ↓",
@@ -24,8 +23,8 @@
     }
   },
   "about": {
-    "headline": "Motion, 3D, branding, web y objetos físicos.",
-    "paragraph": "Trabajo en Blender, TouchDesigner, After Effects y React. También hago encendedores artesanales, piezas esculpidas a mano y dirección de arte para eventos. Ahora estoy armando un estudio creativo propio en Argentina.",
+    "headline": "Piezas y experiencias digitales de alto impacto — de la dirección de arte al producto final.",
+    "paragraph": "Trabajo en la intersección del diseño visual, el movimiento y la tecnología interactiva. Llevo cada proyecto de punta a punta: entiendo el objetivo comercial, defino la dirección de arte, itero sobre el feedback y entrego una pieza pulida y lista para publicar. Combino producción visual (3D y motion en Blender y After Effects) con tecnología en tiempo real (TouchDesigner, WebGL, Three.js) e IA aplicada, y construyo la web que sostiene esas piezas.",
     "specializations": [
       "Motion Design / TouchDesigner",
       "Visualización 3D / Blender",
@@ -39,11 +38,12 @@
     "headline": "HABLEMOS",
     "availableForLabel": "Disponible para",
     "availableFor": [
-      "Proyectos Freelance",
-      "Desarrollo Web",
+      "Full-time remoto",
+      "Freelance",
       "Motion Design",
       "3D",
-      "Dirección de Arte",
+      "Desarrollo web",
+      "Dirección de arte",
       "Branding"
     ],
     "cta": "Escribime",
@@ -60,65 +60,18 @@
     {
       "year": "2025",
       "imageUrl": null,
-      "previewUrl": "https://presskit-digital.vercel.app/",
-      "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
-      "slides": [],
-      "title": "Presskit para DJ",
-      "type": "Web / Diseño",
-      "status": "Online",
-      "role": "Diseño y desarrollo",
-      "description": "Press kit digital para DJ. HTML estático, i18n en 3 idiomas, formulario de contacto con EmailJS, embeds de SoundCloud y sección de fechas.",
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "EmailJS",
-        "i18n"
-      ],
-      "features": [
-        "Multiidioma",
-        "Formulario de contacto",
-        "Embeds de SoundCloud",
-        "Sección de fechas"
-      ],
-      "scrollPreview": true
-    },
-    {
-      "year": "2026",
-      "imageUrl": null,
-      "previewUrl": "https://ctrlz-presskit.vercel.app/",
-      "previewImage": "/images/previews/screenshot_ctrlzpresskit.jpeg",
-      "slides": [],
-      "title": "CTRL.Z — Press Kit",
-      "type": "Web / Diseño y desarrollo",
-      "status": "Online",
-      "role": "Diseño y desarrollo",
-      "description": "Press kit digital para Brenda Hetcer (CTRL.Z), DJ de música urbana de Mendoza. HTML, CSS y JavaScript a mano, sobre el contenido del press kit original en PDF de la artista.",
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "features": [
-        "Rider técnico",
-        "Fotos de prensa",
-        "Contacto de booking"
-      ],
-      "scrollPreview": true
-    },
-    {
-      "year": "2025",
-      "imageUrl": null,
       "previewUrl": "#hero",
       "previewImage": "/images/previews/screenshot_portfolio.jpeg",
       "slides": [],
       "title": "Portfolio Personal",
-      "type": "Web / Desarrollo",
-      "status": "En progreso",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Este portfolio. React + Vite + Tailwind, con el hero en Three.js y un filtro ASCII escrito a mano. Adentro hay un lab generativo, panel de administración propio y contenido en tres idiomas.",
+      "description": "Este sitio. React + Vite + Tailwind, con el hero en Three.js pasado por un filtro ASCII escrito a mano (shader propio). Adentro: un lab de ocho piezas generativas con parámetros en vivo, un panel de administración que guarda el contenido en el repo vía la API de GitHub, y todo en tres idiomas.",
       "tags": [
         "React",
+        "Three.js",
+        "GLSL",
         "Vite",
         "Tailwind CSS"
       ],
@@ -128,7 +81,8 @@
         "Panel de administración",
         "Trilingüe"
       ],
-      "scrollPreview": true
+      "scrollPreview": true,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/portfolio"
     },
     {
       "year": "2026",
@@ -140,19 +94,22 @@
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Portfolio de artista visual — tatuajes, ilustración y pintura. React + Vite + Tailwind CSS, panel de administración propio, galería de trabajos por categoría.",
+      "description": "Portfolio de una artista visual (tatuajes, ilustración y pintura). React + Vite + Tailwind CSS y Framer Motion, con panel de administración propio sobre funciones serverless para que ella actualice su galería. La API y el panel tienen tests con Vitest.",
       "tags": [
         "React",
         "Vite",
         "Tailwind CSS",
-        "Framer Motion"
+        "Framer Motion",
+        "Vitest"
       ],
       "features": [
         "Panel de administración",
+        "Tests con Vitest",
         "Galería por categoría",
         "Contacto por WhatsApp"
       ],
-      "scrollPreview": false
+      "scrollPreview": false,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/tamara-portfolio"
     },
     {
       "year": "2026",
@@ -164,7 +121,7 @@
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Sitio para un taller de fabricación y soldadura metálica. React + Vite + Tailwind CSS, panel de administración propio, contacto directo por WhatsApp.",
+      "description": "Sitio para un taller de fabricación y soldadura metálica de Tupungato, Mendoza. React + Vite + Tailwind CSS y Framer Motion: hero animado con una chispa sobre negro, catálogo de trabajos editable desde un panel propio y contacto directo por WhatsApp.",
       "tags": [
         "React",
         "Vite",
@@ -176,7 +133,61 @@
         "Catálogo de trabajos",
         "Contacto por WhatsApp"
       ],
-      "scrollPreview": false
+      "scrollPreview": false,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/newmetals-portfolio"
+    },
+    {
+      "year": "2026",
+      "imageUrl": null,
+      "previewUrl": "https://ctrlz-presskit.vercel.app/",
+      "previewImage": "/images/previews/screenshot_ctrlzpresskit.jpeg",
+      "slides": [],
+      "title": "CTRL.Z — Press Kit",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Press kit para CTRL.Z (Brenda Hetcer), DJ de música urbana de Mendoza. JavaScript sin framework sobre la base de mi plantilla de press kit, con la estética del PDF original de la artista y panel de administración propio con funciones serverless en Vercel.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Vercel Functions"
+      ],
+      "features": [
+        "Rider técnico",
+        "Fotos de prensa",
+        "Contacto de booking",
+        "Panel de administración"
+      ],
+      "scrollPreview": true,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/ctrlz-presskit"
+    },
+    {
+      "year": "2025",
+      "imageUrl": null,
+      "previewUrl": "https://presskit-digital.vercel.app/",
+      "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
+      "slides": [],
+      "title": "KEXXY — Press Kit",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Mi press kit como DJ y la plantilla de la que salió el de CTRL.Z. JavaScript sin framework, trilingüe, con service worker, formulario de contacto con EmailJS y un panel de dos niveles (simple y avanzado) que guarda los cambios en el repo vía la API de GitHub.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Vercel Functions",
+        "GitHub API"
+      ],
+      "features": [
+        "Trilingüe",
+        "Panel de administración",
+        "Embeds de SoundCloud",
+        "Sección de fechas"
+      ],
+      "scrollPreview": true,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/presskit_digital"
     },
     {
       "year": "2026",
@@ -223,7 +234,7 @@
         "/images/touchdesigner/pulse-vandal/visuales1.mp4"
       ],
       "name": "Pulse Vandal",
-      "notes": "Geometrías con bloom, estrobos y ruido procedural."
+      "notes": "Humo en blanco y negro que envuelve un vacío en el centro."
     },
     {
       "thumbnail": "/images/loops/ghost-tunnel.mp4",
@@ -231,7 +242,7 @@
         "/images/touchdesigner/ghost-tunnel/c4-animacion-1.mp4"
       ],
       "name": "Ghost Tunnel",
-      "notes": "Túnel de texturas industriales con deformación en tiempo real.",
+      "notes": "Caleidoscopio de partículas verdes en simetría radial.",
       "audio": "/images/loops/ghost-tunnel.m4a"
     },
     {
@@ -241,7 +252,7 @@
         "/images/touchdesigner/static-veil/humo-mod.mp4"
       ],
       "name": "Static Veil",
-      "notes": "Ruido y feedback reactivos al volumen."
+      "notes": "Un rostro que aparece y se pierde entre humo, ruido y líneas de barrido."
     },
     {
       "thumbnail": "/images/loops/iron-lattice.mp4",
@@ -249,7 +260,7 @@
         "/images/touchdesigner/iron-lattice/visuales4.mp4"
       ],
       "name": "Iron Lattice",
-      "notes": "Estructuras modulares generadas por audio mid-side.",
+      "notes": "Caleidoscopio en blanco y negro de formas óseas, como una radiografía.",
       "audio": "/images/loops/iron-lattice.m4a"
     },
     {
@@ -258,7 +269,7 @@
         "/images/touchdesigner/Eyes/ojos-visuales.mp4"
       ],
       "name": "Eyes",
-      "notes": "Loop de ojos. Movimiento procedural en tiempo real."
+      "notes": "Grilla de ojos que giran, en rojo y blanco."
     },
     {
       "thumbnail": "/images/loops/biology.mp4",
@@ -277,7 +288,7 @@
         "/images/touchdesigner/biology/biology14.mp4"
       ],
       "name": "Biology",
-      "notes": "Serie de loops orgánicos. Fluidos y sistemas celulares."
+      "notes": "Serie de loops orgánicos: filamentos y cilios en rosa y turquesa."
     },
     {
       "thumbnail": "/images/touchdesigner/kinetic-sand/kinetic-sand-1.jpg",
@@ -300,13 +311,13 @@
         "/images/blender/golden-faces/golden-3.png"
       ],
       "title": "Golden Faces",
-      "description": "Retratos 3D con material dorado y especular."
+      "description": "Cabezas derretidas en metal dorado sobre fondo azul. Estudio de material especular.",
+      "square": true
     },
     {
       "slides": [
-        "/images/blender/rather-modular/rathermodular-1.png",
+        "/images/blender/rather-modular/rathermodular-orange.webp",
         "/images/blender/rather-modular/rathermodular-2.png",
-        "/images/blender/rather-modular/rathermodular-3.png",
         "/images/blender/rather-modular/rathermodular-4.png",
         "/images/blender/rather-modular/rathermodular-5.png",
         "/images/blender/rather-modular/rathermodular-6.png",
@@ -314,7 +325,8 @@
         "/images/blender/rather-modular/rathermodular-2.mp4"
       ],
       "title": "Rather Modular",
-      "description": "Estructuras modulares industriales en Blender."
+      "description": "Composición orgánica de pétalos, fibras, burbujas de vidrio y humo. Variaciones de color y fondo.",
+      "portrait": true
     },
     {
       "portrait": true,
@@ -326,7 +338,7 @@
         "/images/blender/calvaria-glass/calvarian_glass4.webp"
       ],
       "title": "Calvaria Glass",
-      "description": "Cráneo en vidrio. Estudio de refracción y render.",
+      "description": "Formas neo-tribales en vidrio violeta y un corazón de cristal que gira. Estudio de refracción y brillo.",
       "thumbnail": "/images/loops/calvaria-glass.mp4"
     },
     {
@@ -335,7 +347,8 @@
         "/images/blender/metallic-swarm/METALLIC_SWARM2.png"
       ],
       "title": "Metallic Swarm",
-      "description": "Superficies metálicas densas. Exploración de textura y luz."
+      "description": "Columnas vertebrales de metal con púas, enroscadas como serpientes. Estudio de material cromado.",
+      "portrait": true
     },
     {
       "slides": [
@@ -344,7 +357,8 @@
         "/images/blender/plastic-studies/plastic-2.png"
       ],
       "title": "Plastic Studies",
-      "description": "Estudio de materiales plásticos, color y transparencia."
+      "description": "Una cabeza gritando y una bandeja de vinilo en paleta de cámara térmica, con stickers “Hello, my name is”.",
+      "square": true
     },
     {
       "slides": [
@@ -354,7 +368,8 @@
         "/images/blender/faces_alternative/faces-alternative-4.png"
       ],
       "title": "Faces Alternative",
-      "description": "Rostros alterados con geometría y distorsión."
+      "description": "Misma serie que Golden Faces, con otro tratamiento: blanco plano sobre negro.",
+      "square": true
     },
     {
       "portrait": true,
@@ -365,7 +380,7 @@
         "/images/blender/240KM-H/semaforo-3.png"
       ],
       "title": "240 KM/H",
-      "description": "Render de semáforo. Pieza para evento de hardgroove.",
+      "description": "Semáforo bajo la lluvia, de noche: pasa a verde y se enciende un cartel con el logo de 240 KM/H. Pieza propia, vertical para Reels.",
       "thumbnail": "/images/loops/240kmh.mp4"
     },
     {
@@ -375,7 +390,7 @@
         "/images/blender/patrullero/patrullero-1.mp4"
       ],
       "title": "1312",
-      "description": "Modelo y animación de patrullero en Blender."
+      "description": "Patrullero cubierto de grafiti en un callejón de noche. Modelado y animación en Blender."
     },
     {
       "portrait": true,
@@ -404,7 +419,7 @@
         "/images/blender/Screaming_head/screaming-head-remake-2.png"
       ],
       "title": "Screaming Head",
-      "description": "Cabeza con deformación extrema. Estudio de malla y expresión."
+      "description": "Un rostro que grita bajo una tela negra brillante."
     },
     {
       "portrait": true,
@@ -415,7 +430,7 @@
         "/images/blender/noclueyet/cabezas-locas-4.png"
       ],
       "title": "NCY — I",
-      "description": "Cabezas distorsionadas. Serie sin nombre."
+      "description": "Cabezas cromadas apiladas, gritando, con dientes de oro."
     },
     {
       "square": true,
@@ -423,7 +438,7 @@
         "/images/blender/noclueyet_1/carasdeformes.png"
       ],
       "title": "NCY — II",
-      "description": "Caras deformes. Estudio de geometría facial."
+      "description": "Caras deformes en negro brillante sobre gris claro."
     },
     {
       "portrait": true,
@@ -440,7 +455,7 @@
         "/images/blender/Overkill/overkill_prueba.png"
       ],
       "title": "Overkill 3D",
-      "description": "Render 3D para la sesión Overkill."
+      "description": "Dos manos que se buscan a través de portales de luz roja. Render para la sesión Overkill."
     }
   ],
   "flyers": [
@@ -454,10 +469,12 @@
       ],
       "title": "Aguantadero Bass",
       "type": "Flyer",
-      "description": "",
+      "description": "Flyers 3D para el ciclo Aguantadero Bass (dubstep y drum & bass, Buenos Aires): la cabina de DJ en gran angular y el line-up en pantalla. Dos fechas, con versión animada.",
       "tags": [
         "Diseño",
-        "Flyer"
+        "Flyer",
+        "3D",
+        "Motion"
       ]
     },
     {
@@ -470,10 +487,11 @@
       ],
       "title": "Blastkick",
       "type": "Flyer",
-      "description": "Incluye reel animado.",
+      "description": "Flyer 3D del Blastkick Festival (Club Sportivo Italiano): un monolito de piedra con raíces rojas y el line-up grabado. Incluye reel animado.",
       "tags": [
         "Diseño",
         "Flyer",
+        "3D",
         "Motion"
       ]
     },
@@ -486,10 +504,11 @@
       ],
       "title": "Blastkick — Año Nuevo",
       "type": "Flyer",
-      "description": "",
+      "description": "Edición del 31 de diciembre: composición 3D en violeta y dorado.",
       "tags": [
         "Diseño",
-        "Flyer"
+        "Flyer",
+        "3D"
       ]
     },
     {
@@ -500,25 +519,28 @@
       ],
       "title": "Dist. Raptis. Kexxy.",
       "type": "Flyer",
-      "description": "",
+      "description": "Cadenas y tipografía gótica sobre rojo, para DIST b2b RAPTIS y Kexxy.",
       "tags": [
         "Diseño",
-        "Flyer"
+        "Flyer",
+        "3D"
       ]
     },
     {
       "portrait": true,
-      "imageUrl": "/images/flyers/maccari/maccari-1.png",
+      "imageUrl": "/images/flyers/maccari/maccari-cover.webp",
       "slides": [
-        "/images/flyers/maccari/maccari-1.png",
-        "/images/flyers/maccari/maccari1-2.mp4"
+        "/images/flyers/maccari/maccari1-2.mp4",
+        "/images/flyers/maccari/maccari-1.png"
       ],
       "title": "Maccari",
       "type": "Flyer",
-      "description": "",
+      "description": "Flyer animado en 3D para Maccari: una sala de cables con pantallas que muestran al artista y los logos de la fecha.",
       "tags": [
         "Diseño",
-        "Flyer"
+        "Flyer",
+        "3D",
+        "Motion"
       ]
     },
     {
@@ -530,10 +552,11 @@
       ],
       "title": "Overkill",
       "type": "Flyer",
-      "description": "",
+      "description": "Placa de piedra colgada de cadenas con el line-up grabado, para la sesión Overkill.",
       "tags": [
         "Diseño",
-        "Flyer"
+        "Flyer",
+        "3D"
       ]
     }
   ],
@@ -548,7 +571,7 @@
       ],
       "title": "Grandgroove Records",
       "type": "Logo",
-      "description": "Incluye versión animada.",
+      "description": "Logo para el sello Grandgroove Records: una G de trazo fino entre dos órbitas. Versión 3D cromada que gira.",
       "tags": [
         "Logo",
         "Branding",
@@ -563,7 +586,7 @@
       ],
       "title": "Chica Lunar",
       "type": "Logo",
-      "description": "",
+      "description": "Logo cromado estilo Y2K, con estrellas y una órbita.",
       "tags": [
         "Logo",
         "Branding"
@@ -587,7 +610,7 @@
       ],
       "title": "Plug",
       "type": "3D / Arquitectura",
-      "description": "Visualización 3D de espacio para eventos.",
+      "description": "Cabina de DJ y pista de un espacio para eventos, con luz roja y mural. Incluye vistas de trabajo sin texturas.",
       "tags": [
         "Blender",
         "Arquitectura",
@@ -604,14 +627,11 @@
         "/images/espacios/rec-underclub/rec-underclub-ojodepez.png",
         "/images/espacios/rec-underclub/underclub-rec-videos-1.mp4",
         "/images/espacios/rec-underclub/underclub-rec-videos-2.mp4",
-        "/images/espacios/rec-underclub/underclubprueba1.mp4",
-        "/images/espacios/underclub/underclub-1.mp4",
-        "/images/espacios/underclub/underclub-2.mp4",
-        "/images/espacios/underclub/underclub-3.mp4"
+        "/images/espacios/rec-underclub/underclubprueba1.mp4"
       ],
       "title": "REC Underclub",
       "type": "3D / Arquitectura",
-      "description": "Renders y video del espacio.",
+      "description": "Club en luz roja con overlay de cámara REC: renders y recorridos en video.",
       "tags": [
         "Blender",
         "Arquitectura",
@@ -629,7 +649,7 @@
       ],
       "title": "Underberlin",
       "type": "3D / Motion",
-      "description": "Visualización de club underground estilo Berlin.",
+      "description": "Club underground estilo Berlín: cabina, barandas de metal y haces de luz. Renders y video.",
       "tags": [
         "Blender",
         "Motion",

@@ -83,8 +83,9 @@ button { cursor: pointer; font: inherit; background: none; border: none; padding
 
 a:focus-visible,
 button:focus-visible {
-  /* 2px y variante brillante: 1px de rojo oscuro era casi invisible sobre negro */
-  outline: 2px solid var(--accent-hover);
+  /* 2px y rojo brillante: #B11212 sobre negro da 2,9:1, debajo del 3:1 que
+     pide WCAG para un indicador de foco. #FF3B3B da 5,8:1. */
+  outline: 2px solid theme(colors.raveRedBright);
   outline-offset: 3px;
 }
 
@@ -159,12 +160,16 @@ button:focus-visible {
   100% { object-position: bottom; }
 }
 
+/* Las capturas de los proyectos web son de 1440×900, no páginas completas:
+   el paneo al 180 % de alto mostraba un recorte ampliado (en mobile, la nav
+   del sitio en letras gigantes y nada más). En el modal se ve la captura
+   entera. */
 .preview-scroll-modal {
-  object-fit: cover;
-  object-position: top;
-  height: 180% !important;
-  width: 100% !important;
-  animation: previewScrollSlow 20s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   transition: filter 800ms ease;
 }
 
@@ -381,7 +386,7 @@ button:focus-visible {
 }
 
 .lab-slider:focus-visible {
-  outline: 2px solid var(--accent-hover);
+  outline: 2px solid theme(colors.raveRedBright);
   outline-offset: 4px;
 }
 
@@ -1193,14 +1198,17 @@ button:focus-visible {
   gap: 1.75rem;
 }
 
+/* Es el posicionamiento: lo primero que un reclutador necesita leer. A 10 px,
+   alfa 0.5 y encima del campo ASCII no se leía; sube de tamaño y de tinta. */
 .home-roles {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  font-size: 10px;
-  letter-spacing: 0.3em;
+  gap: 0.55rem 1.4rem;
+  font-size: 11px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.74);
+  text-shadow: 0 0 6px rgba(5,5,5,0.9);
 }
 
 .home-scroll {
@@ -2157,7 +2165,10 @@ section.home-lead {
   font-size: 1.3rem;
   letter-spacing: -0.01em;
   color: rgba(234,234,234,0.85);
-  word-break: break-all;
+  /* `break-all` cortaba en cualquier letra ("gmail.co" / "m"). `anywhere`
+     solo corta a la fuerza si no hay otro punto: el mail trae un <wbr>
+     después de la @ y los handles no llegan a desbordar. */
+  overflow-wrap: anywhere;
   transition: color var(--base) var(--ease-out);
 }
 

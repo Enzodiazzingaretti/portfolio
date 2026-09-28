@@ -344,7 +344,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {} }) {
         </div>
 
         {/* Body */}
-        <div className="konsole-body flex-1 overflow-y-auto overflow-x-auto p-5 font-mono text-meta leading-relaxed scrollbar-hide">
+        <div className="konsole-body flex-1 overflow-y-auto overflow-x-auto p-5 font-mono text-meta leading-relaxed scrollbar-hide" data-lenis-prevent>
           <pre className="text-raveRed/70 mb-3" style={{ fontSize: "7px", lineHeight: 1.18, letterSpacing: 0, whiteSpace: "pre" }}>{ASCII_ART}</pre>
           {lines.filter(Boolean).map((line, i) => {
             return (

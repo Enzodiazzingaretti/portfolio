@@ -17,14 +17,33 @@ function mergeContent(defaults, incoming) {
 }
 
 /**
+ * Sin una elección guardada, el idioma sale del navegador. El portfolio apunta
+ * a trabajo remoto: un reclutador de afuera no tiene por qué aterrizar en
+ * español y buscar el selector. Si ninguna preferencia del navegador es un
+ * idioma del sitio, inglés.
+ */
+function idiomaDelNavegador(locales) {
+  try {
+    const preferencias = navigator.languages?.length ? navigator.languages : [navigator.language];
+    for (const etiqueta of preferencias) {
+      const base = String(etiqueta || "").slice(0, 2).toLowerCase();
+      if (locales[base]) return base;
+    }
+  } catch {
+    /* sin navigator: se usa el default */
+  }
+  return locales.en ? "en" : null;
+}
+
+/**
  * Idioma + contenido editable resueltos en un solo lugar.
  * Antes vivía dentro de App.jsx; ahora lo consume el Shell y baja por contexto.
  */
 export function useSiteContent() {
   const [language, setLanguage] = useState(() => {
-    const fallback = siteContent.defaultLanguage;
     const saved = getStoredLanguage();
-    return siteContent.locales[saved] ? saved : fallback;
+    if (siteContent.locales[saved]) return saved;
+    return idiomaDelNavegador(siteContent.locales) ?? siteContent.defaultLanguage;
   });
 
   const [override, setOverride] = useState(null);

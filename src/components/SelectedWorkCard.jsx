@@ -51,6 +51,16 @@ export default function SelectedWorkCard({ project, index, onOpen, labels }) {
               {labels.visitSite} ↗
             </a>
           ) : null}
+          {project.repoUrl ? (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="premium-button px-5 py-3 font-mono text-caption uppercase tracking-[0.24em]"
+            >
+              {labels.viewCode ?? "Code"} ↗
+            </a>
+          ) : null}
           <button
             type="button"
             onClick={onOpen}

@@ -121,6 +121,9 @@ const NORMALIZERS = {
     year: project.year,
     role: project.role,
     previewUrl: project.previewUrl,
+    // Repo público en GitHub: quien evalúa un perfil técnico quiere ver el
+    // código, no solo la captura.
+    repoUrl: project.repoUrl || null,
     thumbnail: asset(project.imageUrl) ?? asset(project.previewImage),
     previewImage: asset(project.previewImage),
     slides: slides(project.slides),
