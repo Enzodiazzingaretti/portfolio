@@ -536,7 +536,10 @@ export default function HeroThreeBackground({
     let heroScroll = 0;
     let heroScrollTarget = 0;
     let heroVisible = true;
-    const frameInterval = compact ? 1000 / 30 : 0;
+    // Tope de cuadros: 30 fps en compact y 60 en desktop (en monitores de
+    // 120/144 Hz el pase ASCII corría al doble sin que se note). Los 2 ms de
+    // margen evitan que el jitter de rAF saltee cuadros que sí tocan.
+    const frameInterval = (compact ? 1000 / 30 : 1000 / 60) - 2;
     const REVEAL_MS = 1700;
     const BEAT_HZ = 145 / 60 / 4; // pulso a un cuarto de 145 BPM
 
@@ -649,22 +652,27 @@ export default function HeroThreeBackground({
       pointerAmpTarget = 0;
     };
 
-    const onScroll = () => {
-      heroScrollTarget = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+    /**
+     * Pausa el render cuando el hero sale de la pantalla. Antes lo decidía un
+     * IntersectionObserver sobre el propio lienzo, que es `position: fixed`:
+     * siempre "visible", así que la escena y el pase ASCII seguían a pleno
+     * debajo de Destacados, Sobre mí y Contacto, que lo tapan al 95 %.
+     */
+    const syncVisible = () => {
+      heroVisible = window.scrollY < window.innerHeight * 1.1;
     };
 
-    // Pausa el render cuando el hero sale del viewport
-    const visibilityObserver = new IntersectionObserver(
-      (entries) => { heroVisible = entries.some((entry) => entry.isIntersecting); },
-      { threshold: 0 },
-    );
+    const onScroll = () => {
+      heroScrollTarget = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+      syncVisible();
+    };
 
     resize();
     if (staticMode) {
       render(STATIC_FRAME_TIME, 1);
     } else {
       rafId = requestAnimationFrame(tick);
-      visibilityObserver.observe(mount);
+      syncVisible();
       window.addEventListener("scroll", onScroll, { passive: true });
       if (compact) {
         window.addEventListener("touchstart", onTouch, { passive: true });
@@ -680,7 +688,6 @@ export default function HeroThreeBackground({
     return () => {
       destroyed = true;
       cancelAnimationFrame(rafId);
-      visibilityObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointerMove);

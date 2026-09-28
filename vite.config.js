@@ -8,7 +8,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ["react", "react-dom", "react-router-dom"],
+          // react-dom/client es otra entrada del paquete: sin nombrarla, el
+          // renderer entero terminaba en el chunk principal.
+          react: ["react", "react-dom", "react-dom/client", "react-router-dom"],
           three: ["three"],
         },
       },

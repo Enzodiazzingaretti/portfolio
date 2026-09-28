@@ -35,6 +35,15 @@ se servía como `index.html`.
 herramientas) vive solo en el bundle: `content.json` no lo define y el merge
 profundo lo conserva también en español.
 
+**Carga (2026-09-28).** El preloader sale una vez por sesión y nunca en un
+link directo a una categoría (`sessionStorage`, flag `kexxy-preloaded`).
+three.js se monta recién la primera vez que se pisa el home. Las miniaturas de
+avance del índice se montan al primer hover. El hero se pausa al salir de la
+pantalla (por scroll, no por IntersectionObserver: el lienzo es `fixed`) y va a
+60 fps en desktop. Las imágenes de obra tienen como máximo 1600 px de lado, el
+mismo tope que aplica `/admin` al subir: si agregás una a mano, que no lo pase.
+`vercel.json` pone caché inmutable a `/assets` y un día a `/images`.
+
 **Ocultos con `enabled: false`** (en el bundle y en `content.json`): Aurora /
 Cecilia Hospedajes, hasta que esté online, y Screaming Head, cuya portada sale
 casi negra. Golden Faces y Faces Alternative son una sola ficha, igual que NCY I

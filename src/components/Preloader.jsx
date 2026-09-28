@@ -5,7 +5,9 @@ import { useEffect, useState, useRef } from "react";
 const FALLBACK_LINES = ["INITIALIZING PORTFOLIO_SYS v1.0", "BOOT SEQUENCE COMPLETE"];
 
 const MIN_DURATION = 1200;
-const MAX_WAIT = 8000;
+// Tope si las miniaturas tardan: en una conexión lenta 8 s era un visitante
+// mirando un contador. Pasado el tope entra igual; las imágenes siguen bajando.
+const MAX_WAIT = 3500;
 
 export default function Preloader({ onDone, criticalAssets = [], lines }) {
   const LINES = lines?.length ? lines : FALLBACK_LINES;

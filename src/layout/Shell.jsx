@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, Suspense, lazy } from "react";
+import { useCallback, useEffect, useMemo, useState, Suspense, lazy } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { Terminal } from "lucide-react";
@@ -12,6 +12,7 @@ import InfoPanel from "../components/InfoPanel";
 import Preloader from "../components/Preloader";
 
 const KonsoleEasterEgg = lazy(() => import("../components/KonsoleEasterEgg"));
+const PRELOADER_FLAG = "kexxy-preloaded";
 // three.js fuera del bundle inicial: entra recién cuando el preloader terminó
 const HeroBackdrop = lazy(() => import("../components/HeroBackdrop"));
 
@@ -25,7 +26,30 @@ export default function Shell() {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  const [preloaded, setPreloaded] = useState(false);
+  /**
+   * El preloader es la presentación del home: una vez por sesión. Quien entra
+   * directo a una categoría (un link desde LinkedIn o un mail) va al grano, y
+   * quien recarga o vuelve al home no vuelve a esperar la secuencia.
+   */
+  const [preloaded, setPreloaded] = useState(() => {
+    try {
+      if (window.location.pathname !== "/") return true;
+      return window.sessionStorage.getItem(PRELOADER_FLAG) === "1";
+    } catch {
+      return false;
+    }
+  });
+
+  // Estable a propósito: el Preloader la tiene en las dependencias de su
+  // efecto, y una función nueva en cada render reiniciaba la cuenta.
+  const terminarPreloader = useCallback(() => {
+    setPreloaded(true);
+    try {
+      window.sessionStorage.setItem(PRELOADER_FLAG, "1");
+    } catch {
+      /* sin storage: se vuelve a ver en la próxima visita, nada más */
+    }
+  }, []);
   const [panel, setPanel] = useState(null);
   const [glitching, setGlitching] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,6 +65,16 @@ export default function Shell() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /**
+   * three.js entra recién la primera vez que se pisa el home. En un link
+   * directo a una categoría el fondo arranca en pausa y no llega a dibujar ni
+   * un cuadro, así que bajarlo era gastar ~130 KB y un contexto WebGL en nada.
+   */
+  const [heroMontado, setHeroMontado] = useState(isHome);
+  useEffect(() => {
+    if (isHome) setHeroMontado(true);
+  }, [isHome]);
 
   const categories = useMemo(() => buildCategories(content), [content]);
   const navLabels = content.ui.nav;
@@ -98,12 +132,14 @@ export default function Shell() {
       <Analytics />
 
       {!preloaded && (
-        <Preloader onDone={() => setPreloaded(true)} criticalAssets={criticalAssets} lines={content.ui.boot} />
+        <Preloader onDone={terminarPreloader} criticalAssets={criticalAssets} lines={content.ui.boot} />
       )}
 
-      <Suspense fallback={null}>
-        <HeroBackdrop active={isHome} revealActive={preloaded} />
-      </Suspense>
+      {heroMontado ? (
+        <Suspense fallback={null}>
+          <HeroBackdrop active={isHome} revealActive={preloaded} />
+        </Suspense>
+      ) : null}
       <GrainOverlay />
       <CustomCursor />
       <Suspense fallback={null}>

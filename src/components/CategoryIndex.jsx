@@ -9,6 +9,17 @@ import MediaAsset from "./MediaAsset";
  */
 export default function CategoryIndex({ categories, labels }) {
   const [hovered, setHovered] = useState(null);
+  /**
+   * Las miniaturas de avance están en opacity 0 hasta el hover, pero montadas
+   * igual bajaban (y los videos se reproducían): ~2,3 MB en cada visita al
+   * home, se pasara o no el mouse. Se montan la primera vez que se apunta a
+   * la fila y quedan montadas, así el fundido funciona las veces siguientes.
+   */
+  const [vistas, setVistas] = useState(() => new Set());
+  const apuntar = (id) => {
+    setHovered(id);
+    setVistas((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+  };
 
   return (
     <nav className="cat-index" aria-label={labels?.index ?? "Índice"}>
@@ -25,9 +36,9 @@ export default function CategoryIndex({ categories, labels }) {
             key={category.id}
             to={`/${category.slug}`}
             className={`cat-row${isHovered ? " is-hovered" : ""}`}
-            onMouseEnter={() => setHovered(category.id)}
+            onMouseEnter={() => apuntar(category.id)}
             onMouseLeave={() => setHovered(null)}
-            onFocus={() => setHovered(category.id)}
+            onFocus={() => apuntar(category.id)}
             onBlur={() => setHovered(null)}
           >
             <span className="cat-row-rule" aria-hidden="true" />
@@ -42,7 +53,9 @@ export default function CategoryIndex({ categories, labels }) {
             <span className="cat-row-peek" aria-hidden="true">
               {peek.map((src, i) => (
                 <span key={src} className="cat-peek-tile" style={{ "--i": i }}>
-                  <MediaAsset src={src} alt="" className="h-full w-full object-cover" />
+                  {vistas.has(category.id) ? (
+                    <MediaAsset src={src} alt="" className="h-full w-full object-cover" />
+                  ) : null}
                 </span>
               ))}
             </span>
