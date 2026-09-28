@@ -49,6 +49,13 @@ Cecilia Hospedajes, hasta que esté online, y Screaming Head, cuya portada sale
 casi negra. Golden Faces y Faces Alternative son una sola ficha, igual que NCY I
 y II.
 
+**El lienzo del hero en pantallas HiDPI (2026-09-28).** `resize()` llama a
+`renderer.setSize(w, h, false)`, que no toca el estilo: el canvas se mostraba a
+su tamaño en píxeles de dispositivo, así que con dpr 2 (Retina) medía el doble
+del viewport y el hero salía ampliado y recortado. Ahora lleva `width` y
+`height` al 100 %. Con dpr 1, donde se calibró, no se notaba; apareció
+capturando a 2x.
+
 ---
 
 ## 1. Cómo levantarlo

@@ -456,6 +456,15 @@ export default function HeroThreeBackground({
     renderer.setClearColor(0x050505, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1 : 2));
     rendererRef.current = renderer;
+    /**
+     * `resize()` llama a setSize(..., false), que no toca el estilo. Sin un
+     * tamaño en CSS el lienzo se mostraba a su tamaño en píxeles de
+     * dispositivo: en una pantalla Retina (dpr 2) medía el doble del viewport
+     * y el hero salía ampliado y recortado desde la esquina de arriba a la
+     * izquierda, con la escultura corrida fuera de cuadro. Con dpr 1 no se
+     * notaba, que es donde se calibró.
+     */
+    Object.assign(renderer.domElement.style, { display: "block", width: "100%", height: "100%" });
     mount.appendChild(renderer.domElement);
 
     // Caida radial y no un rectangulo de color plano. Con el material basico
