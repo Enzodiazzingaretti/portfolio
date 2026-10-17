@@ -45,9 +45,10 @@ mismo tope que aplica `/admin` al subir: si agregás una a mano, que no lo pase.
 `vercel.json` pone caché inmutable a `/assets` y un día a `/images`.
 
 **Ocultos con `enabled: false`** (en el bundle y en `content.json`): Aurora /
-Cecilia Hospedajes, hasta que esté online, y Screaming Head, cuya portada sale
-casi negra. Golden Faces y Faces Alternative son una sola ficha, igual que NCY I
-y II.
+Cecilia Hospedajes, hasta que esté online; New Metals, mientras tenga datos de
+muestra y noindex; y Screaming Head, cuya portada sale casi negra. Golden Faces
+y Faces Alternative son una sola ficha, igual que NCY I y II (que desde el
+2026-10-17 se llama Chrome Grotesque, como figura en Contra).
 
 **Casos de estudio (2026-09-28).** `/web/<slug>`: `src/routes/CasePage.jsx`, que
 entra lazy con sus textos. Título, bajada y orden en `siteContent.i18n.js` →
@@ -63,6 +64,16 @@ bóveda o en el repo; ninguna cifra que no se haya medido. Para sumar un caso:
 teaser en `cases` (tres idiomas), cuerpo en los tres archivos, assets,
 `caseSlug` en el proyecto (bundle y `content.json`), capturas en
 `public/images/casos/<slug>/` (máx. 1600 px) y la URL en `sitemap.xml`.
+
+**Casos desde el 2026-10-17:** `portfolio`, `andino-seguros`, `tamara-gonzalez`
+y `press-kits`. El de CTRL.Z pasó a ser un capítulo de `press-kits` (Kexxy,
+CTRL.Z, Gabi Raíz y Martina Høbelar en una sola tarjeta) y `/web/ctrl-z`
+redirige con un 308 desde `vercel.json`, por si ese link quedó compartido.
+Una serie declara `sites` en `CASE_ASSETS` en vez de `site`: un botón por sitio.
+El repo de Andino es privado, así que su tarjeta y su caso van sin «Código»
+(`repoUrl` y `repo` en `null`). Las capturas del panel de Andino son con datos
+de prueba: se levantó el sitio en local contra una base simulada; los datos
+reales de clientes no salen del panel.
 
 **El lienzo del hero en pantallas HiDPI (2026-09-28).** `resize()` llama a
 `renderer.setSize(w, h, false)`, que no toca el estilo: el canvas se mostraba a

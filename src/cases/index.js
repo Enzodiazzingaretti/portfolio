@@ -43,17 +43,43 @@ export const CASE_ASSETS = {
       mobile: { src: "/images/casos/tamara-gonzalez/mobile.webp", w: 739, h: 1600 },
     },
   },
-  "ctrl-z": {
+  "andino-seguros": {
     category: "web",
     year: "2026",
-    stack: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"],
-    site: "https://ctrlz-presskit.vercel.app/",
-    repo: "https://github.com/Enzodiazzingaretti/ctrlz-presskit",
+    stack: ["Next.js 16", "TypeScript", "Tailwind CSS 4", "Zod", "Sanity", "Supabase", "Vercel"],
+    site: "https://andino-seguros.vercel.app/",
+    // El repo es de un cliente y es privado: sin botón de código.
+    repo: null,
     figures: {
-      cover: { src: "/images/casos/ctrl-z/portada.webp", w: 1600, h: 1000 },
-      rider: { src: "/images/casos/ctrl-z/rider.webp", w: 1200, h: 935 },
-      mobile: { src: "/images/casos/ctrl-z/mobile.webp", w: 739, h: 1600 },
-      photos: { src: "/images/casos/ctrl-z/fotos.webp", w: 1600, h: 780 },
+      home: { src: "/images/casos/andino-seguros/home.webp", w: 1600, h: 1000 },
+      formulario: { src: "/images/casos/andino-seguros/formulario.webp", w: 739, h: 1600 },
+      consulta: { src: "/images/casos/andino-seguros/consulta.webp", w: 739, h: 1600 },
+      panel: { src: "/images/casos/andino-seguros/panel.webp", w: 1600, h: 1000 },
+    },
+  },
+  // Una serie: cuatro sitios en vez de uno. `sites` dibuja un botón por sitio y
+  // `repo` apunta a la plantilla. Reemplaza al caso de CTRL.Z, que pasó a ser
+  // un capítulo de este; /web/ctrl-z redirige acá desde vercel.json, por si
+  // ese link quedó compartido.
+  "press-kits": {
+    category: "web",
+    year: "2025–2026",
+    stack: ["HTML", "CSS", "JavaScript", "Vercel"],
+    site: null,
+    sites: [
+      { label: "Kexxy", url: "https://presskit-digital.vercel.app/" },
+      { label: "CTRL.Z", url: "https://ctrlz-presskit.vercel.app/" },
+      { label: "Gabi Raíz", url: "https://gabiraiz-presskit.vercel.app/" },
+      { label: "Martina Høbelar", url: "https://martinahobelar-presskit.vercel.app/" },
+    ],
+    repo: "https://github.com/Enzodiazzingaretti/presskit_digital",
+    figures: {
+      portadas: { src: "/images/casos/press-kits/portadas.webp", w: 1600, h: 1000 },
+      gabiMobile: { src: "/images/casos/press-kits/gabi-mobile.webp", w: 739, h: 1600 },
+      martinaMobile: { src: "/images/casos/press-kits/martina-mobile.webp", w: 739, h: 1600 },
+      gabiBooking: { src: "/images/casos/press-kits/gabi-booking.webp", w: 714, h: 835 },
+      martinaBooking: { src: "/images/casos/press-kits/martina-booking.webp", w: 1000, h: 760 },
+      martinaSets: { src: "/images/casos/press-kits/martina-sets.webp", w: 1600, h: 1000 },
     },
   },
 };

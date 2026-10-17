@@ -211,87 +211,191 @@ export default {
     ],
   },
 
-  "ctrl-z": {
+  "andino-seguros": {
     role: "Design and development",
     blocks: [
       {
         type: "text",
         title: "Where it started",
         paragraphs: [
-          "CTRL.Z is Brenda Hetcer, an urban music DJ from Mendoza. All her material was in a single-page PDF, 1290\u00a0×\u00a05230\u00a0px, almost entirely images and outlined text: extracting the text returned 467 bytes, just the links.",
-          "I rendered it in slices to read it and pulled out the 18 images embedded in it, at their original resolution. Those are the site's photos, and the rider diagram came from the same PDF rendered at three times the scale.",
+          "Federico Andino is an insurance broker in Mendoza, and he works over WhatsApp. The site didn't need to explain insurance: it needed someone arriving from Instagram or a search to end up writing to him, with the risk details already in the message instead of opening with “hi, what car do you have?”.",
+          "That set the two rules for everything else: no lead gets lost, whether the visitor closes the tab or a service fails; and mobile first for real, because the traffic comes from Instagram, out on the street, on mobile data.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "cover", alt: "CTRL.Z press kit cover: the chrome logo over an olive-toned photo." }],
-        caption: "The cover: olive and moss green, chrome titles, and photos with the same color grade as her PDF.",
+        figures: [{ key: "home", alt: "Home of the Andino Seguros site: a white and orange headline on navy, with buttons to get a quote and to chat on WhatsApp." }],
+        caption: "Blue carries the weight; orange is kept for what you're meant to tap: getting a quote and writing on WhatsApp.",
       },
       {
         type: "decisions",
         title: "Decisions",
         items: [
           {
-            title: "Redesign instead of clone",
-            text: "My press kit template assumes techno, three languages, SoundCloud sets, YouTube videos and a personal section. Brenda plays reggaeton, RKT, cumbia and trap and performs in Argentina; her SoundCloud doesn't expose track IDs, and the PDF says nothing personal. Cloned, the page was half empty or padded with made-up text. I built the structure around the material that did exist: cover, genres, bio, artists she's shared a stage with, venues, press photos, rider, hospitality and booking, in one language.",
-            discarded: "Cloning and switching off the sections that didn't apply: it left a short page with another artist's look.",
+            title: "The lead is saved before WhatsApp opens",
+            text: "The form sends the data to the server, which validates it again, saves the lead and only then returns the WhatsApp link with the message composed. If the message were built in the browser, anyone who opened WhatsApp and never hit send would vanish without a trace, and that's exactly the person Federico would want to follow up. If the database fails, WhatsApp still opens: the record is lost, not the conversation.",
+            discarded: "Building the message in the browser and opening WhatsApp directly: simpler, and it loses everyone who never hits send.",
           },
           {
-            title: "Not one made-up fact",
-            text: "A promoter uses a press kit to decide whether to book her. The rider and hospitality are taken word for word from the PDF. Of the four highlighted figures, 2017 comes from the PDF; the 9+ years, 8+ cities and 18+ venues I counted from her bio. There's no number of shows, because there was nowhere to get it from.",
+            title: "One file per insurance type, one form",
+            text: "Each insurance type is a file that declares its fields, its Zod schema and how it reads in the message. A single component renders them all without knowing anything about insurance. It started with five and now there are ten: adding one is a new file and a line in the registry, and if the line is missing, TypeScript won't compile.",
+            discarded: "Four hand-written forms: easier to read at first, but the predictable growth of this project was exactly adding more insurance types.",
           },
           {
-            title: "A panel that exists but isn't visible",
-            text: "I built it in full and tested it, but delivered it switched off, in case it's needed later: adding it afterwards costs more than leaving it ready, and this way the content was editable from day one. Two independent barriers keep it from the public: no link anywhere on the site, and without the environment variables the password login doesn't exist: the only way in left asks for a GitHub token, which only I have. Plus noindex and robots.txt.",
-            discarded: "Leaving it live with a password: she wasn't going to use it, and a live panel is attack surface and one more password to lose.",
+            title: "Two credentials that never mix",
+            text: "The public site writes to the database with a key that can only insert: with RLS on, it can't read, edit or delete. I tested it against the real API: reading and deleting return 401, inserting returns 201. The panel uses the only credential that can read client data, locked inside a server-only module that is used only after the session is validated.",
+          },
+          {
+            title: "A panel built for the person using it",
+            text: "Federico isn't a programmer. Instead of giving him access to the database table, I built him a panel: he sees each lead with its details already translated, writes to them on WhatsApp, marks who he has contacted and takes notes. His client portfolio is imported from his spreadsheet and grouped by person, not by policy, because when a client calls he wants to see everything that person has with him.",
+            discarded: "Inviting him to Supabase: zero work, but he would have faced a raw table with access to the whole project.",
           },
         ],
       },
       {
         type: "figure",
         figures: [
-          { key: "rider", alt: "Technical rider section: two booth options and a diagram of the gear." },
-          { key: "mobile", alt: "The press kit cover on a phone." },
+          { key: "formulario", alt: "Car insurance quote form on a phone: ID number, make, model, year and plate." },
+          { key: "consulta", alt: "The same lead in the panel, with test data: the vehicle, the coverage wanted and the button to write on WhatsApp." },
         ],
-        caption: "The rider, with both booth options as they appear in her PDF, and the cover on a phone.",
+        caption: "The car form on a phone, and the lead as it reaches Federico. The panel shows test data.",
       },
       {
         type: "text",
         title: "How it works",
         paragraphs: [
-          "No framework: HTML, CSS and JavaScript, plus Vercel serverless functions for the panel. The content exists twice on purpose: written into the HTML, for search engines and for anyone without JavaScript, and repeated in a `content.json` the panel can rewrite.",
-          "In the text, `*this*` renders as bold and HTML isn't accepted: everything goes in as plain text, so nothing typed into the panel can inject tags. The Content Security Policy only allows the site's own scripts (`script-src 'self'`), no inline code.",
+          "Next.js 16 with the App Router and TypeScript, Tailwind CSS 4, and Zod validating in the browser and again on the server. The insurance cards and the FAQ are edited in Sanity, with the Studio embedded in the same site; what never changes, like his license number or the legal pages, lives in the code. If Sanity doesn't respond, the site serves fallback content instead of going down.",
+          "The panel is password-protected: the session is an HMAC-signed `httpOnly` cookie, and login allows five attempts every ten minutes per IP. Google Analytics and the Meta Pixel don't exist on the page until the visitor accepts cookies.",
         ],
       },
       {
         type: "list",
         title: "What testing turned up",
         items: [
-          "While checking the site, the entrance animations weren't firing. The cause was the test environment, but it exposed a real problem: `.reveal { opacity: 0 }` left the page blank if JavaScript didn't run, on HTML written precisely to work without it. The fix is `boot.js`, a single statement in the head that flags JavaScript before the first paint; the CSS only hides content under `.js`. It's a separate file because the CSP doesn't allow inline scripts.",
-          "The project carried a `.htaccess` inherited from the template. It's for Apache, Vercel ignores it, and its CSP still listed SoundCloud, EmailJS and jsdelivr, none of which this site uses. I deleted it: the real configuration lives in `vercel.json`.",
-          "I tested the panel end to end against a mock API with the same HTTP contract: login with a right and a wrong password, all five tabs, editing, reordering and deleting, image uploads, publishing, and a 401 on all three routes without a session.",
+          "The main button failed contrast: white on the brand orange is 3.0:1 and WCAG AA asks for 4.5:1. Darkening the orange only reached 4.02. Navy text on the same orange did it: 5.89:1, without touching the brand color.",
+          "The floating WhatsApp button sat 2 px from the cookie notice: they didn't overlap by luck. Now both live in a column container and the spacing comes from the `gap`. I tested it by doubling the notice text: it grew from 162 to 231 px tall and the spacing stayed at 12 px.",
+          "The honeypot didn't work: the schema rejected the field before the check, returned a 400 and told the bot it had been caught. Now it answers normally and drops the submission silently.",
+          "The site kept serving fallback content after Sanity was loaded. It wasn't Sanity: it was Next's fetch cache, which lives on disk and survives a server restart.",
         ],
       },
       {
         type: "stats",
         title: "By the numbers",
         items: [
-          { value: "1290\u00a0×\u00a05230", label: "pixels in the source PDF, on a single page" },
-          { value: "18", label: "images recovered from the PDF at original resolution" },
-          { value: "5", label: "panel tabs: artist, text, lists, images and sections" },
-          { value: "2", label: "barriers between the panel and the public" },
+          { value: "10", label: "insurance forms, all rendered by a single component" },
+          { value: "5.89:1", label: "contrast on the main button, up from 3.0:1" },
+          { value: "9", label: "bugs in the first version found by verification, not during development" },
+          { value: "401", label: "what the database returns when the public key tries to read or delete; inserting returns 201" },
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "photos", alt: "Strip of CTRL.Z press photos, performing." }],
-        caption: "Press photos open in a viewer, and the full pack is right below for download.",
+        figures: [{ key: "panel", alt: "Panel home with test data: unanswered leads, unpaid commission, clients and policies expiring within 30 days." }],
+        caption: "The panel home answers “what do I do today?”. Test data: real client data never leaves the panel.",
       },
       {
         type: "text",
         title: "What I took from it",
         paragraphs: [
-          "The template works as an architectural base, not as a turnkey site. With the next artist, the question won't be what to change in the clone, but what material they have and what structure that material calls for.",
+          "On a conversion site, the technical decision that matters isn't the framework: it's the order of things. Save before redirecting, redirect even if saving fails, and don't animate the button everything depends on. None of the three is visible, and all three decide whether the lead arrives.",
+        ],
+      },
+    ],
+  },
+
+  "press-kits": {
+    role: "Design and development",
+    blocks: [
+      {
+        type: "text",
+        title: "Where it started",
+        paragraphs: [
+          "I started with my own: a web press kit to show my DJ sets, in three languages and with a panel to edit it without touching code. Then three artists followed: CTRL.Z, an urban music DJ from Mendoza; Gabi Raíz, a DJ and producer from Mendoza who goes from downtempo to psychedelic trance; and Martina Høbelar, a hard techno and schranz DJ and producer from Buenos Aires.",
+          "A promoter opens a press kit to decide whether to book: who the artist is, what they play, what gear they need and where to write. All four answer exactly that, and none of them looks like another.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [{ key: "portadas", alt: "The home screens of the four press kits: Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar." }],
+        caption: "Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar: the same base, four looks.",
+      },
+      {
+        type: "decisions",
+        title: "Decisions",
+        items: [
+          {
+            title: "An architecture base, not a site to clone",
+            text: "My template assumes techno, three languages, SoundCloud sets and a personal section. CTRL.Z plays reggaeton, RKT, cumbia and trap, and all her material was a single-page PDF. Cloned, the page came out half empty or padded with made-up copy, so I rebuilt the structure around the material she actually had. Since then, every press kit starts with the same question: what does the artist have, and what structure does that material call for.",
+            discarded: "Cloning and switching off the sections that didn't fit: what was left was a short page with another artist's look.",
+          },
+          {
+            title: "The look comes from the material",
+            text: "For CTRL.Z, the olive green and chrome titles of her PDF. For Gabi Raíz, the petrol blue of his studio photos, a red that shows up only once, and the stripes of his logo, which keep going and draw the mountain range behind him; at the end of the page it comes back upside down, as roots. For Martina Høbelar, a dark room, a single condensed typeface and her red kept for an LED that marks what's active.",
+          },
+          {
+            title: "Not one made-up fact",
+            text: "A promoter uses the press kit to decide. On CTRL.Z's, the rider and hospitality are verbatim from the PDF, and the figures I worked out from her bio were left for her to confirm. With Gabi Raíz the rule was explicit: whatever he didn't confirm comes out, even if it's on a public profile.",
+          },
+          {
+            title: "A panel only if someone will use it",
+            text: "Mine has a two-level panel that commits changes to the repo through the GitHub API. CTRL.Z's I built, tested and delivered switched off. Gabi Raíz and Martina Høbelar are a single static page, with no panel and no serverless functions.",
+            discarded: "A panel on every site, just in case: an active panel is attack surface and one more password to lose.",
+          },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "gabiMobile", alt: "Gabi Raíz's press kit on a phone: his logo, the mountain lines and buttons to ask for a date and listen to a set." },
+          { key: "martinaMobile", alt: "Martina Høbelar's press kit on a phone: her name in a condensed typeface and the Sets and Booking buttons." },
+        ],
+        caption: "On a phone, every home screen leads to the same two things: listen, and ask for a date.",
+      },
+      {
+        type: "text",
+        title: "How they work",
+        paragraphs: [
+          "No framework and no build step: hand-written HTML, CSS and JavaScript on Vercel. The content lives in the HTML, which is what Google and WhatsApp read and what's left if the JavaScript fails. On the three client sites, the content security policy only lets the site's own scripts load.",
+          "On the last two, booking goes through no server: from what's filled in, the page composes the inquiry and opens it in the sender's WhatsApp or email. On Martina's, the subject line carries the date and venue, so the booking inbox can be sorted.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "gabiBooking", alt: "Gabi Raíz's booking form: name, promoter, date, city, format and message, with buttons to send by WhatsApp or email." },
+          { key: "martinaBooking", alt: "Martina Høbelar's booking form: name, date and venue, message, and a single button to send by email." },
+        ],
+        caption: "Two server-free booking forms: Gabi's opens WhatsApp or email; Martina's, only email, with a subject line that sorts.",
+      },
+      {
+        type: "list",
+        title: "What testing turned up",
+        items: [
+          "On CTRL.Z, the entrance animations left the page blank if the JavaScript didn't run: `.reveal { opacity: 0 }` in HTML written to work without it. The fix was `boot.js`, a single line in the head that flags JavaScript before the first paint; the CSS only hides under `.js`.",
+          "On Gabi Raíz, the bio photo never showed up: with `clip-path` clipping the whole element, the browser treated it as invisible, so the lazy image never loaded and the entrance never fired. Now a curtain reveals it: a pseudo-element in the background color that slides away.",
+          "On Martina Høbelar, with a phone connection dropping in and out, thumbnails that failed stayed broken: the browser doesn't request them again on its own. Each image now retries up to four times, and all of them again when the connection comes back.",
+        ],
+      },
+      {
+        type: "stats",
+        title: "By the numbers",
+        items: [
+          { value: "4", label: "live press kits from the same base" },
+          { value: "18", label: "images recovered at full resolution from CTRL.Z's PDF" },
+          { value: "8", label: "flashes of Martina's LED, at the BPM of the chosen set" },
+          { value: "44 px", label: "minimum height for buttons and links on Martina's" },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [{ key: "martinaSets", alt: "Martina Høbelar's sets section: the player and the list of sets with their BPM; a red LED marks the chosen one." }],
+        caption: "Martina's sets with their BPM. Pick one and the LED flashes eight times at that tempo.",
+      },
+      {
+        type: "text",
+        title: "What I took from it",
+        paragraphs: [
+          "The template works as an architecture base, not a turnkey site. With every artist the question isn't what to change in the clone, but what material they have and what structure that material calls for.",
         ],
       },
     ],

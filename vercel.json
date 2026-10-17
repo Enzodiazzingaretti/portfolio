@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/web/ctrl-z",
+      "destination": "/web/press-kits",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/|images/|cv/|content.json|assets/|favicon|robots.txt|sitemap.xml).*)",

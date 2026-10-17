@@ -12,7 +12,7 @@ Portfolio of a creative technologist: 3D and motion work, real-time generative p
 
 | If you care about… | Start here |
 |---|---|
-| **How the work was done** | Three case studies on the live site: [this portfolio](https://portfolio-kexxy.vercel.app/web/portfolio), [Tamara González](https://portfolio-kexxy.vercel.app/web/tamara-gonzalez) and [CTRL.Z](https://portfolio-kexxy.vercel.app/web/ctrl-z). The brief, the decisions and what was ruled out, and what testing turned up. Source in [`src/cases/`](src/cases). |
+| **How the work was done** | Four case studies on the live site: [this portfolio](https://portfolio-kexxy.vercel.app/web/portfolio), [Andino Seguros](https://portfolio-kexxy.vercel.app/web/andino-seguros) (Next.js, Supabase and a custom panel for an insurance broker), [Tamara González](https://portfolio-kexxy.vercel.app/web/tamara-gonzalez) and [four artist press kits](https://portfolio-kexxy.vercel.app/web/press-kits). The brief, the decisions and what was ruled out, and what testing turned up. Source in [`src/cases/`](src/cases). |
 | **Real-time graphics** | [`src/components/AsciiPass.js`](src/components/AsciiPass.js): a hand-written post-processing pass that rewrites the Three.js hero as a grid of characters, with per-scene black and white points measured from the render target. [`HeroThreeBackground.jsx`](src/components/HeroThreeBackground.jsx): a 16,000-particle swarm moved entirely in the vertex shader, and the pointer projected through the real camera. |
 | **Generative systems** | [`src/lab/pieces/`](src/lab/pieces): eight canvas pieces, each a different algorithm family (Gray-Scott reaction-diffusion, De Jong attractor, Chladni figures, Verlet cloth, harmonograph…), with live parameters and seeded randomness: same seed, same artwork. |
 | **Product engineering** | [`api/`](api): a git-backed admin. Serverless functions commit content to this repository through the GitHub API and Vercel redeploys. scrypt password hash, HMAC-signed session cookies, a write allowlist. No database. |
@@ -57,7 +57,7 @@ Portfolio de un creative technologist: piezas 3D y motion, obra generativa en ti
 - **Gráficos en tiempo real:** `src/components/AsciiPass.js`, un post-proceso escrito a mano que reescribe el hero de Three.js como grilla de caracteres, y `HeroThreeBackground.jsx`, con un enjambre de 16.000 partículas movido entero en el vertex shader.
 - **Sistemas generativos:** `src/lab/pieces/`, ocho piezas en canvas, cada una de una familia de algoritmo distinta, con parámetros en vivo y azar con semilla.
 - **Producto:** `api/`, un panel de administración sobre git: las funciones serverless commitean el contenido en este repo por la API de GitHub. Hash scrypt, cookies de sesión firmadas con HMAC, lista blanca de escritura, sin base de datos.
-- **Casos de estudio:** `/web/portfolio`, `/web/tamara-gonzalez` y `/web/ctrl-z` en el sitio: el pedido, las decisiones y lo descartado, y lo que apareció probando. El texto vive en `src/cases/`.
+- **Casos de estudio:** `/web/portfolio`, `/web/andino-seguros`, `/web/tamara-gonzalez` y `/web/press-kits` en el sitio: el pedido, las decisiones y lo descartado, y lo que apareció probando. El texto vive en `src/cases/`.
 - **Tests:** `tests/`, integridad del contenido en los tres idiomas, la autenticación del panel y la construcción de categorías. El CI corre lint, tests y build en cada push.
 
 **Contenido:** los textos viven en `src/siteContent.i18n.js` (tres idiomas) y `public/content.json`, que edita el panel y pisa el español. Un test falla si se desincronizan.

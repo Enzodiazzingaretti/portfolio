@@ -96,6 +96,20 @@ describe("case studies", () => {
     }
   });
 
+  it("link a series site by site: a label and an https URL each, never next to a single site", () => {
+    for (const slug of slugsOf("es")) {
+      const { site, sites } = CASE_ASSETS[slug];
+      if (!sites) continue;
+      expect(site, slug).toBeFalsy();
+      expect(sites.length, slug).toBeGreaterThan(1);
+      for (const s of sites) {
+        expect(s.label?.length, `${slug}/${s.url}`).toBeGreaterThan(0);
+        expect(s.url, `${slug}/${s.label}`).toMatch(/^https:\/\/[^\s]+$/);
+      }
+      expect(new Set(sites.map((s) => s.url)).size, slug).toBe(sites.length);
+    }
+  });
+
   it("give every figure an alt text", () => {
     for (const locale of LOCALES) {
       for (const slug of slugsOf(locale)) {

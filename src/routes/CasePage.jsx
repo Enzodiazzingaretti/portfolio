@@ -219,6 +219,18 @@ export default function CasePage() {
                 {ui.site} ↗
               </a>
             ) : null}
+            {/* Una serie (los press kits) no tiene un sitio sino varios: un botón por cada uno. */}
+            {assets.sites?.map((s) => (
+              <a
+                key={s.url}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                className="premium-button case-link font-mono"
+              >
+                {s.label} ↗
+              </a>
+            ))}
             {assets.repo ? (
               <a href={assets.repo} target="_blank" rel="noreferrer" className="premium-button case-link font-mono">
                 {ui.code} ↗

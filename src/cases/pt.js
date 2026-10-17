@@ -211,87 +211,191 @@ export default {
     ],
   },
 
-  "ctrl-z": {
+  "andino-seguros": {
     role: "Design e desenvolvimento",
     blocks: [
       {
         type: "text",
         title: "O ponto de partida",
         paragraphs: [
-          "CTRL.Z é a Brenda Hetcer, DJ de música urbana de Mendoza. Todo o material dela estava num PDF de uma página só, de 1290\u00a0×\u00a05230\u00a0px, quase todo imagem e texto vetorizado: extrair o texto devolvia 467 bytes, só os links.",
-          "Renderizei o PDF em fatias para conseguir lê-lo e tirei as 18 imagens que ele tinha dentro, na resolução original. Essas imagens são as fotos do site, e o diagrama do rider saiu do mesmo PDF renderizado no triplo da escala.",
+          "Federico Andino é corretor de seguros em Mendoza e trabalha pelo WhatsApp. O site não precisava explicar seguros: precisava fazer com que alguém que chega pelo Instagram ou por uma busca termine escrevendo para ele, e que a mensagem chegue com os dados do risco, em vez de começar com «oi, qual é o seu carro?».",
+          "Daí saíram os dois critérios que ordenam todo o resto: nenhuma consulta se perde, nem porque alguém fecha a aba nem porque um serviço falha; e mobile primeiro de verdade, porque o tráfego vem do Instagram, na rua e com dados móveis.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "cover", alt: "Capa do press kit de CTRL.Z: o logo cromado sobre uma foto em verde-oliva." }],
-        caption: "A capa: verde-oliva e musgo, títulos cromados e as fotos com a mesma cor do PDF dela.",
+        figures: [{ key: "home", alt: "Início do site da Andino Seguros: título em branco e laranja sobre azul-marinho, com os botões para cotar e para falar pelo WhatsApp." }],
+        caption: "O azul carrega o peso; o laranja fica para o que é para tocar: cotar e escrever pelo WhatsApp.",
       },
       {
         type: "decisions",
         title: "Decisões",
         items: [
           {
-            title: "Redesenhar em vez de clonar",
-            text: "Meu modelo de press kit pressupõe techno, três idiomas, sets do SoundCloud, vídeos do YouTube e uma seção pessoal. A Brenda toca reggaeton, RKT, cumbia e trap e se apresenta na Argentina; o SoundCloud dela não expõe os IDs das faixas e o PDF não conta nada pessoal. Clonada, a página ficava meio vazia ou cheia de texto inventado. Montei a estrutura para o material que existia: capa, gêneros, bio, com quem ela dividiu palco, palcos, fotos de imprensa, rider, hospitalidade e booking, num idioma só.",
-            discarded: "Clonar e desligar as seções que sobravam: ficava uma página curta com a estética de outro artista.",
+            title: "A consulta é salva antes de abrir o WhatsApp",
+            text: "O formulário envia os dados ao servidor, que valida de novo, salva a consulta e só então devolve o link do WhatsApp com a mensagem pronta. Se a mensagem fosse montada no navegador, quem abre o WhatsApp e não toca em enviar sumiria sem deixar rastro, e é justamente a pessoa a quem Federico gostaria de voltar a escrever. Se o banco falha, o WhatsApp abre do mesmo jeito: perde-se o registro, não a conversa.",
+            discarded: "Montar a mensagem no navegador e abrir o WhatsApp direto: mais simples, e perde todos que não chegam a tocar em enviar.",
           },
           {
-            title: "Nenhum dado inventado",
-            text: "Um produtor usa o press kit para decidir se vai contratá-la. O rider e a hospitalidade são literais do PDF. Dos quatro números em destaque, 2017 vem do PDF; os 9+ anos, 8+ cidades e 18+ palcos eu contei a partir da bio dela. A quantidade de shows não aparece porque não havia de onde tirá-la.",
+            title: "Um arquivo por seguro, um só formulário",
+            text: "Cada seguro é um arquivo que declara seus campos, seu esquema Zod e como ele aparece na mensagem. Um único componente desenha todos sem saber nada de seguros. Começou com cinco e hoje são dez: somar um é um arquivo novo e uma linha no registro, e se faltar a linha, o TypeScript não compila.",
+            discarded: "Quatro formulários escritos à mão: mais fáceis de ler no começo, mas o crescimento previsível do projeto era justamente somar seguros.",
           },
           {
-            title: "Um painel que existe, mas não aparece",
-            text: "Construí o painel inteiro e testei, mas entreguei desligado, caso seja usado mais adiante: adicionar depois custa mais do que deixar pronto, e assim o conteúdo já nasceu editável. Duas barreiras independentes o separam do público: nenhum link no site, e sem as variáveis de ambiente o login com senha não existe: o único caminho que sobra pede um token do GitHub, e esse token só eu tenho. Além disso, noindex e robots.txt.",
-            discarded: "Deixá-lo ativo com senha: ela não ia usar, e um painel ativo é superfície de ataque e mais uma senha para perder.",
+            title: "Duas credenciais que não se misturam",
+            text: "O site público escreve no banco com uma chave que só pode inserir: com RLS ativo, não lê, não edita e não apaga. Testei contra a API real: ler e apagar dão 401, inserir dá 201. O painel usa a única credencial que pode ler dados de clientes, fechada num módulo de servidor que só é usado depois de validar a sessão.",
+          },
+          {
+            title: "Um painel na medida de quem usa",
+            text: "Federico não é programador. Em vez de dar acesso à tabela do banco, montei um painel para ele: vê as consultas com os dados já traduzidos, escreve para cada pessoa pelo WhatsApp, marca quem já contatou e anota. A carteira é importada da planilha dele e agrupada por pessoa, não por apólice, porque quando um cliente liga ele quer ver tudo o que essa pessoa tem com ele.",
+            discarded: "Convidá-lo para o Supabase: zero trabalho, mas ele veria uma tabela crua com acesso ao projeto inteiro.",
           },
         ],
       },
       {
         type: "figure",
         figures: [
-          { key: "rider", alt: "Seção de rider técnico: duas opções de cabine e o diagrama com os equipamentos." },
-          { key: "mobile", alt: "A capa do press kit num celular." },
+          { key: "formulario", alt: "Formulário de seguro de carro no celular: documento, marca, modelo, ano e placa." },
+          { key: "consulta", alt: "A mesma consulta no painel, com dados de teste: o veículo, a cobertura desejada e o botão para escrever pelo WhatsApp." },
         ],
-        caption: "O rider, com as duas opções de cabine como aparecem no PDF dela, e a capa no celular.",
+        caption: "O formulário de carro no celular e a consulta como chega para Federico. No painel, dados de teste.",
       },
       {
         type: "text",
         title: "Como funciona",
         paragraphs: [
-          "Sem framework: HTML, CSS e JavaScript, mais funções serverless da Vercel para o painel. O conteúdo existe duas vezes de propósito: escrito no HTML, para buscadores e para quem está sem JavaScript, e repetido num `content.json` que o painel pode reescrever.",
-          "Nos textos, `*assim*` vira negrito e HTML não é aceito: tudo entra como texto puro, então nada do que se escreve no painel consegue injetar tags. A política de segurança de conteúdo só permite os scripts do próprio site (`script-src 'self'`), sem código inline.",
+          "Next.js 16 com App Router e TypeScript, Tailwind CSS 4 e Zod, que valida no navegador e de novo no servidor. Os cards de seguros e as perguntas frequentes são editados no Sanity, com o Studio embutido no próprio site; o que nunca muda, como o registro profissional ou os textos legais, fica no código. Se o Sanity não responde, o site serve um conteúdo de reserva e não cai.",
+          "O painel entra com senha: a sessão é um cookie assinado com HMAC e `httpOnly`, e o login aceita cinco tentativas a cada dez minutos por IP. Google Analytics e Meta Pixel não existem na página até a pessoa aceitar os cookies.",
         ],
       },
       {
         type: "list",
         title: "O que apareceu nos testes",
         items: [
-          "Verificando o site, as animações de entrada não disparavam. A causa era o ambiente de teste, mas revelou um problema real: `.reveal { opacity: 0 }` deixava a página em branco se o JavaScript não rodasse, justo num HTML escrito para funcionar sem ele. A solução foi o `boot.js`, uma única instrução no head que marca que há JavaScript antes da primeira renderização; o CSS só esconde sob `.js`. Fica num arquivo separado porque a CSP não aceita scripts inline.",
-          "O projeto trazia um `.htaccess` herdado do modelo. É do Apache, a Vercel ignora, e a CSP dele ainda citava SoundCloud, EmailJS e jsdelivr, que este site não usa. Apaguei: a configuração real fica no `vercel.json`.",
-          "Testei o painel de ponta a ponta contra uma API simulada com o mesmo contrato HTTP: login com senha certa e errada, as cinco abas, editar, reordenar e apagar, upload de imagens, publicar, e 401 nas três rotas sem sessão.",
+          "O botão principal não passava no contraste: branco sobre o laranja da marca dá 3,0:1 e a WCAG AA pede 4,5:1. Escurecer o laranja chegava a 4,02. Resolveu o texto azul-marinho sobre o mesmo laranja: 5,89:1, sem mexer na cor da marca.",
+          "O botão flutuante do WhatsApp ficava a 2 px do aviso de cookies: não se sobrepunham por sorte. Agora os dois ficam num contêiner em coluna e o espaçamento sai do `gap`. Testei duplicando o texto do aviso: passou de 162 para 231 px de altura e o espaçamento continuou em 12 px.",
+          "O honeypot não funcionava: o esquema rejeitava o campo antes da checagem, devolvia 400 e avisava ao bot que ele tinha sido detectado. Agora responde normalmente e descarta o envio em silêncio.",
+          "O site continuava mostrando o conteúdo de reserva com o Sanity já carregado. Não era o Sanity: era o cache de fetch do Next, que fica em disco e sobrevive ao reinício do servidor.",
         ],
       },
       {
         type: "stats",
         title: "Em números",
         items: [
-          { value: "1290\u00a0×\u00a05230", label: "pixels do PDF de origem, numa página só" },
-          { value: "18", label: "imagens recuperadas do PDF na resolução original" },
-          { value: "5", label: "abas do painel: artista, textos, listas, imagens e seções" },
-          { value: "2", label: "barreiras entre o painel e o público" },
+          { value: "10", label: "formulários de seguro, desenhados por um único componente" },
+          { value: "5,89:1", label: "de contraste no botão principal, que tinha 3,0:1" },
+          { value: "9", label: "erros da primeira versão encontrados na verificação, não no desenvolvimento" },
+          { value: "401", label: "o que o banco responde quando a chave pública tenta ler ou apagar; inserir dá 201" },
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "photos", alt: "Faixa de fotos de imprensa de CTRL.Z tocando." }],
-        caption: "As fotos de imprensa abrem num visualizador, e logo abaixo está o pacote completo para baixar.",
+        figures: [{ key: "panel", alt: "Início do painel com dados de teste: consultas sem resposta, comissão a receber, clientes e apólices que vencem em 30 dias." }],
+        caption: "O início do painel responde a «o que eu faço hoje?». Dados de teste: os reais não saem do painel.",
       },
       {
         type: "text",
         title: "O que levo disso",
         paragraphs: [
-          "O modelo serve como base de arquitetura, não como site pronto para entregar. Com o próximo artista, a pergunta não vai ser o que mudar no clone, e sim que material ele tem e que estrutura esse material pede.",
+          "Num site de conversão, a decisão técnica que importa não é o framework: é a ordem das coisas. Salvar antes de redirecionar, redirecionar mesmo que o salvamento falhe e não animar o botão do qual tudo depende. Nenhuma das três aparece, e as três decidem se a consulta chega.",
+        ],
+      },
+    ],
+  },
+
+  "press-kits": {
+    role: "Design e desenvolvimento",
+    blocks: [
+      {
+        type: "text",
+        title: "O ponto de partida",
+        paragraphs: [
+          "Comecei pelo meu: um press kit web para mostrar meus sets como DJ, em três idiomas e com um painel para editar sem mexer no código. Depois vieram três artistas: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ e produtor de Mendoza que vai do downtempo ao psychedelic trance; e Martina Høbelar, DJ e produtora de hard techno e schranz de Buenos Aires.",
+          "Um produtor abre o press kit para decidir se contrata: quem é, o que toca, que equipamento pede e para onde escrever. Os quatro respondem exatamente isso, e nenhum se parece com outro.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [{ key: "portadas", alt: "As capas dos quatro press kits: Kexxy, CTRL.Z, Gabi Raíz e Martina Høbelar." }],
+        caption: "Kexxy, CTRL.Z, Gabi Raíz e Martina Høbelar: a mesma base, quatro estéticas.",
+      },
+      {
+        type: "decisions",
+        title: "Decisões",
+        items: [
+          {
+            title: "Uma base de arquitetura, não um site para clonar",
+            text: "Meu template pressupõe techno, três idiomas, sets do SoundCloud e uma seção pessoal. CTRL.Z toca reggaeton, RKT, cumbia e trap, e todo o material dela era um PDF de uma página só. Clonada, a página ficava meio vazia ou cheia de texto inventado, então refiz a estrutura para o material que existia. Desde então, cada press kit começa pela mesma pergunta: o que o artista tem e que estrutura esse material pede.",
+            discarded: "Clonar e desligar as seções que sobravam: ficava uma página curta com a estética de outro artista.",
+          },
+          {
+            title: "A estética sai do material",
+            text: "Em CTRL.Z, o verde-oliva e os títulos cromados do PDF dela. Em Gabi Raíz, o azul-petróleo das fotos de estúdio, um vermelho que aparece uma vez só e as listras do logo, que seguem adiante e desenham a cordilheira atrás dele; no fim da página ela volta invertida, como raiz. Em Martina Høbelar, a sala no escuro, uma única tipografia condensada e o vermelho dela reservado para um led que marca o que está ativo.",
+          },
+          {
+            title: "Nenhum dado inventado",
+            text: "Um produtor usa o press kit para decidir. No de CTRL.Z, o rider e a hospitalidade são literais do PDF, e os números que calculei a partir da bio ficaram para ela confirmar. Com Gabi Raíz a regra foi explícita: o que ele não confirmou sai, mesmo que esteja num perfil público.",
+          },
+          {
+            title: "Painel só se alguém for usar",
+            text: "O meu tem um painel de dois níveis que salva as alterações no repositório pela API do GitHub. O de CTRL.Z eu construí, testei e entreguei desligado. Gabi Raíz e Martina Høbelar são uma página estática só, sem painel nem funções serverless.",
+            discarded: "Um painel em todos, por via das dúvidas: um painel ativo é superfície de ataque e mais uma senha para perder.",
+          },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "gabiMobile", alt: "O press kit de Gabi Raíz no celular: o logo, a cordilheira de linhas e os botões para consultar uma data e ouvir um set." },
+          { key: "martinaMobile", alt: "O press kit de Martina Høbelar no celular: o nome em tipografia condensada e os botões Ver sets e Booking." },
+        ],
+        caption: "No celular, cada capa leva ao mesmo: ouvir e consultar uma data.",
+      },
+      {
+        type: "text",
+        title: "Como funcionam",
+        paragraphs: [
+          "Sem framework nem etapa de build: HTML, CSS e JavaScript escritos à mão, na Vercel. O conteúdo fica no HTML, que é o que o Google e o WhatsApp leem e o que sobra se o JavaScript falhar. Nos três de clientes, a política de segurança de conteúdo só deixa carregar scripts próprios.",
+          "Nos dois últimos, o booking não passa por nenhum servidor: com o que é preenchido, a página monta a consulta e abre no WhatsApp ou no e-mail de quem escreve. No da Martina, o assunto leva a data e o local, para que a caixa de bookings possa ser ordenada.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "gabiBooking", alt: "Formulário de booking de Gabi Raíz: nome, produtora, data, cidade, formato e mensagem, com botões para enviar pelo WhatsApp ou por e-mail." },
+          { key: "martinaBooking", alt: "Formulário de booking de Martina Høbelar: nome, data e local, mensagem e um único botão para enviar por e-mail." },
+        ],
+        caption: "Dois bookings sem servidor: o de Gabi abre o WhatsApp ou o e-mail; o de Martina, só o e-mail, com um assunto que dá para ordenar.",
+      },
+      {
+        type: "list",
+        title: "O que apareceu nos testes",
+        items: [
+          "Em CTRL.Z, as animações de entrada deixavam a página em branco se o JavaScript não rodasse: `.reveal { opacity: 0 }` num HTML escrito para funcionar sem ele. Resolveu o `boot.js`, uma única instrução no head que marca que há JavaScript antes da primeira pintura; o CSS só esconde sob `.js`.",
+          "Em Gabi Raíz, a foto da bio não aparecia: com `clip-path` recortando o elemento inteiro, o navegador o considerava invisível, a imagem diferida nunca carregava e a entrada não disparava. Agora uma cortina a revela: um pseudo-elemento da cor do fundo que se desloca.",
+          "Em Martina Høbelar, com a conexão do celular caindo, as miniaturas que falhavam ficavam quebradas: o navegador não as pede de novo sozinho. Cada imagem é tentada de novo até quatro vezes, e todas outra vez quando a conexão volta.",
+        ],
+      },
+      {
+        type: "stats",
+        title: "Em números",
+        items: [
+          { value: "4", label: "press kits no ar, da mesma base" },
+          { value: "18", label: "imagens recuperadas em resolução original do PDF de CTRL.Z" },
+          { value: "8", label: "piscadas do led de Martina, no BPM do set escolhido" },
+          { value: "44 px", label: "de altura mínima para botões e links no da Martina" },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [{ key: "martinaSets", alt: "Seção de sets de Martina Høbelar: o player e a lista de sets com os BPM; um led vermelho marca o escolhido." }],
+        caption: "Os sets de Martina com os BPM. Ao escolher um, o led pisca oito vezes nesse andamento.",
+      },
+      {
+        type: "text",
+        title: "O que levo disso",
+        paragraphs: [
+          "O template serve como base de arquitetura, não como site pronto. Com cada artista a pergunta não é o que mudar no clone, e sim que material ele tem e que estrutura esse material pede.",
         ],
       },
     ],

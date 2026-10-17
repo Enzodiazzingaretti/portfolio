@@ -88,6 +88,34 @@
     {
       "year": "2026",
       "imageUrl": null,
+      "previewUrl": "https://andino-seguros.vercel.app/",
+      "previewImage": "/images/previews/screenshot_andinoseguros.webp",
+      "slides": [],
+      "title": "Andino Seguros",
+      "type": "Web / Diseño y desarrollo",
+      "status": "Online",
+      "role": "Diseño y desarrollo",
+      "description": "Sitio de un productor de seguros de Mendoza: diez formularios de cotización que terminan en un WhatsApp con los datos ya cargados, y un panel propio para seguir las consultas y la cartera de clientes. Next.js y TypeScript, con Sanity y Supabase.",
+      "tags": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Sanity",
+        "Tailwind CSS"
+      ],
+      "features": [
+        "Cotizador de 10 seguros",
+        "Panel de consultas y clientes",
+        "Contenido editable",
+        "Una URL por seguro"
+      ],
+      "scrollPreview": false,
+      "repoUrl": null,
+      "caseSlug": "andino-seguros"
+    },
+    {
+      "year": "2026",
+      "imageUrl": null,
       "previewUrl": "https://tamara-portfolio-xi.vercel.app/",
       "previewImage": "/images/previews/screenshot_tamaraportfolio.jpeg",
       "slides": [],
@@ -136,61 +164,35 @@
         "Contacto por WhatsApp"
       ],
       "scrollPreview": false,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/newmetals-portfolio"
+      "repoUrl": "https://github.com/Enzodiazzingaretti/newmetals-portfolio",
+      "enabled": false
     },
     {
-      "year": "2026",
+      "year": "2025–2026",
       "imageUrl": null,
-      "previewUrl": "https://ctrlz-presskit.vercel.app/",
-      "previewImage": "/images/previews/screenshot_ctrlzpresskit.jpeg",
+      "previewUrl": "",
+      "previewImage": "/images/previews/screenshot_presskits.webp",
       "slides": [],
-      "title": "CTRL.Z — Press Kit",
+      "title": "Press kits para artistas",
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Press kit para CTRL.Z (Brenda Hetcer), DJ de música urbana de Mendoza. JavaScript sin framework sobre la base de mi plantilla de press kit, con la estética del PDF original de la artista y panel de administración propio con funciones serverless en Vercel.",
+      "description": "Cuatro press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz y Martina Høbelar. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
       "tags": [
         "HTML",
         "CSS",
         "JavaScript",
-        "Vercel Functions"
+        "Vercel"
       ],
       "features": [
-        "Rider técnico",
-        "Fotos de prensa",
-        "Contacto de booking",
-        "Panel de administración"
+        "4 sitios en vivo",
+        "Una estética por artista",
+        "Booking sin servidor",
+        "Sin framework"
       ],
-      "scrollPreview": true,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/ctrlz-presskit",
-      "caseSlug": "ctrl-z"
-    },
-    {
-      "year": "2025",
-      "imageUrl": null,
-      "previewUrl": "https://presskit-digital.vercel.app/",
-      "previewImage": "/images/previews/screenshot_kexxypresskit.jpeg",
-      "slides": [],
-      "title": "KEXXY — Press Kit",
-      "type": "Web / Diseño y desarrollo",
-      "status": "Online",
-      "role": "Diseño y desarrollo",
-      "description": "Mi press kit como DJ y la plantilla de la que salió el de CTRL.Z. JavaScript sin framework, trilingüe, con service worker, formulario de contacto con EmailJS y un panel de dos niveles (simple y avanzado) que guarda los cambios en el repo vía la API de GitHub.",
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Vercel Functions",
-        "GitHub API"
-      ],
-      "features": [
-        "Trilingüe",
-        "Panel de administración",
-        "Embeds de SoundCloud",
-        "Sección de fechas"
-      ],
-      "scrollPreview": true,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/presskit_digital"
+      "scrollPreview": false,
+      "repoUrl": "https://github.com/Enzodiazzingaretti/presskit_digital",
+      "caseSlug": "press-kits"
     },
     {
       "year": "2026",
@@ -428,7 +430,7 @@
         "/images/blender/noclueyet/cabezas-locas-4.png",
         "/images/blender/noclueyet_1/carasdeformes.png"
       ],
-      "title": "NCY",
+      "title": "Chrome Grotesque",
       "description": "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro."
     },
     {
@@ -450,6 +452,21 @@
     }
   ],
   "flyers": [
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/innusual/innusual-va002innu.webp",
+      "slides": [
+        "/images/flyers/innusual/innusual-va002innu.webp"
+      ],
+      "title": "Innusual — V/A002INNU",
+      "type": "Portada",
+      "description": "Portada del compilado [V/A002INNU] del sello Innusual, de Buenos Aires (2025). El render es mío; la ilustración, de @shifo.__. Un disco partido desde el centro dentro de un marco técnico, casi sin color, para que se lea igual en miniatura que en grande.",
+      "tags": [
+        "Portada",
+        "3D",
+        "Dirección de arte"
+      ]
+    },
     {
       "portrait": true,
       "imageUrl": "/images/flyers/aguantadero_bass/aguantaderobass-1.png",

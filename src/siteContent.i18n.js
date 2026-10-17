@@ -1,10 +1,24 @@
 const webProjectAssets = {
-  pressKit: {
-    year: "2025",
+  // Serie: el mío (Kexxy), CTRL.Z, Gabi Raíz y Martina Høbelar. Sin
+  // previewUrl porque son cuatro sitios: el caso los enlaza uno por uno. El
+  // código que se muestra es el de la plantilla, presskit_digital.
+  pressKits: {
+    year: "2025–2026",
     imageUrl: null,
-    previewUrl: "https://presskit-digital.vercel.app/",
-    previewImage: "/images/previews/screenshot_kexxypresskit.jpeg",
+    previewUrl: "",
+    previewImage: "/images/previews/screenshot_presskits.webp",
     repoUrl: "https://github.com/Enzodiazzingaretti/presskit_digital",
+    caseSlug: "press-kits",
+    slides: [],
+  },
+  // Repo privado (es de un cliente): sin botón de código.
+  andino: {
+    year: "2026",
+    imageUrl: null,
+    previewUrl: "https://andino-seguros.vercel.app/",
+    previewImage: "/images/previews/screenshot_andinoseguros.webp",
+    repoUrl: null,
+    caseSlug: "andino-seguros",
     slides: [],
   },
   portfolio: {
@@ -32,15 +46,9 @@ const webProjectAssets = {
     previewImage: "/images/previews/screenshot_newmetalsportfolio.jpeg",
     repoUrl: "https://github.com/Enzodiazzingaretti/newmetals-portfolio",
     slides: [],
-  },
-  ctrlzPresskit: {
-    year: "2026",
-    imageUrl: null,
-    previewUrl: "https://ctrlz-presskit.vercel.app/",
-    previewImage: "/images/previews/screenshot_ctrlzpresskit.jpeg",
-    repoUrl: "https://github.com/Enzodiazzingaretti/ctrlz-presskit",
-    caseSlug: "ctrl-z",
-    slides: [],
+    // Oculto mientras el sitio tenga datos de muestra (teléfono e Instagram del
+    // mockup) y noindex. Para mostrarlo: enabled: true acá y en content.json.
+    enabled: false,
   },
   // Sin deploy propio: previewUrl vacio, asi SelectedWorkCard no dibuja el
   // boton "Visitar sitio" para un link que no existe.
@@ -142,6 +150,15 @@ const touchDesignerAssets = {
 };
 
 const flyerAssets = {
+  // Portada del compilado [V/A002INNU] del sello Innusual (Buenos Aires, 2025).
+  // En el estreno del tema de IF, el crédito dice «Render: kexxy.obj» y
+  // «cartoonist: shifo.__». Fecha y cantidad de temas no se nombran: no están
+  // verificadas.
+  innusual: {
+    square: true,
+    imageUrl: "/images/flyers/innusual/innusual-va002innu.webp",
+    slides: ["/images/flyers/innusual/innusual-va002innu.webp"],
+  },
   aguantaderobass: {
     portrait: true,
     imageUrl: "/images/flyers/aguantadero_bass/aguantaderobass-1.png",
@@ -431,7 +448,7 @@ export const siteContent = {
           kicker: "Flyers / Identidad",
           subtitle: "Piezas para eventos de electrónica e identidades para artistas y sellos.",
           groups: {
-            flyers: { title: "Flyers", note: "Piezas gráficas para eventos" },
+            flyers: { title: "Flyers y portadas", note: "Piezas para eventos y lanzamientos" },
             logos: { title: "Logos & branding", note: "Identidades para artistas y proyectos" },
           },
         },
@@ -475,18 +492,19 @@ export const siteContent = {
       },
       webProjects: [
         { ...webProjectAssets.portfolio, scrollPreview: true, title: "Portfolio Personal", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Este sitio. React + Vite + Tailwind, con el hero en Three.js pasado por un filtro ASCII escrito a mano (shader propio). Adentro: un lab de ocho piezas generativas con parámetros en vivo, un panel de administración que guarda el contenido en el repo vía la API de GitHub, y todo en tres idiomas.", tags: ["React", "Three.js", "GLSL", "Vite", "Tailwind CSS"], features: ["Filtro ASCII en Three.js", "Lab generativo", "Panel de administración", "Trilingüe"] },
+        { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Sitio de un productor de seguros de Mendoza: diez formularios de cotización que terminan en un WhatsApp con los datos ya cargados, y un panel propio para seguir las consultas y la cartera de clientes. Next.js y TypeScript, con Sanity y Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Cotizador de 10 seguros", "Panel de consultas y clientes", "Contenido editable", "Una URL por seguro"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Portfolio de una artista visual (tatuajes, ilustración y pintura). React + Vite + Tailwind CSS y Framer Motion, con panel de administración propio sobre funciones serverless para que ella actualice su galería. La API y el panel tienen tests con Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Panel de administración", "Tests con Vitest", "Galería por categoría", "Contacto por WhatsApp"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Sitio para un taller de fabricación y soldadura metálica de Tupungato, Mendoza. React + Vite + Tailwind CSS y Framer Motion: hero animado con una chispa sobre negro, catálogo de trabajos editable desde un panel propio y contacto directo por WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Panel de administración", "Catálogo de trabajos", "Contacto por WhatsApp"] },
-        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Press kit para CTRL.Z (Brenda Hetcer), DJ de música urbana de Mendoza. JavaScript sin framework sobre la base de mi plantilla de press kit, con la estética del PDF original de la artista y panel de administración propio con funciones serverless en Vercel.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions"], features: ["Rider técnico", "Fotos de prensa", "Contacto de booking", "Panel de administración"] },
-        { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Mi press kit como DJ y la plantilla de la que salió el de CTRL.Z. JavaScript sin framework, trilingüe, con service worker, formulario de contacto con EmailJS y un panel de dos niveles (simple y avanzado) que guarda los cambios en el repo vía la API de GitHub.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilingüe", "Panel de administración", "Embeds de SoundCloud", "Sección de fechas"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Cuatro press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz y Martina Høbelar. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 sitios en vivo", "Una estética por artista", "Booking sin servidor", "Sin framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedajes", type: "Web / Diseño y desarrollo", status: "En desarrollo", role: "Diseño y desarrollo", description: "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propiedad", "Trilingüe", "Scroll suave"] },
       ],
       // Casos de estudio: título, bajada y orden. El cuerpo vive en src/cases/
       // y entra solo con la página del caso (/web/<slug>). No los edita /admin.
       cases: [
         { slug: "portfolio", title: "Portfolio Personal", tags: "React · Three.js · GLSL", summary: "Rehice la estructura de mi sitio y escribí a mano el filtro ASCII del hero. Los niveles del filtro, el peso de las páginas y el contraste los fijé midiendo." },
+        { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Un sitio para que cada visita termine en un WhatsApp con los datos del seguro ya cargados. Guarda la consulta antes de abrir el chat, y Federico la sigue desde un panel propio junto con su cartera de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
-        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "El pedido era clonar mi press kit para otra DJ. Terminé rehaciéndolo: la plantilla daba por hecho un material que ella no tenía, y en un press kit inventar datos es falsificar a la artista." },
+        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cuatro press kits a partir de mi plantilla. Clonarla no funcionó: cada estructura sale del material del artista, y en un press kit no se inventa ningún dato." },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
@@ -509,11 +527,12 @@ export const siteContent = {
         { ...blenderAssets.cristales, title: "Cristales", description: "Geometría cristalina con refracción en Blender Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgánicas y fluidos abstractos en Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Un rostro que grita bajo una tela negra brillante." },
-        { ...blenderAssets.noclueyet, title: "NCY", description: "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro." },
+        { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Cráneos en vidrio. Exploración de refracción y render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Dos manos que se buscan a través de portales de luz roja. Render para la sesión Overkill." },
       ],
       flyers: [
+        { ...flyerAssets.innusual, title: "Innusual — V/A002INNU", type: "Portada", description: "Portada del compilado [V/A002INNU] del sello Innusual, de Buenos Aires (2025). El render es mío; la ilustración, de @shifo.__. Un disco partido desde el centro dentro de un marco técnico, casi sin color, para que se lea igual en miniatura que en grande.", tags: ["Portada", "3D", "Dirección de arte"] },
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "Flyers 3D para el ciclo Aguantadero Bass (dubstep y drum & bass, Buenos Aires): la cabina de DJ en gran angular y el line-up en pantalla. Dos fechas, con versión animada.", tags: ["Diseño", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "Flyer 3D del Blastkick Festival (Club Sportivo Italiano): un monolito de piedra con raíces rojas y el line-up grabado. Incluye reel animado.", tags: ["Diseño", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — Año Nuevo", type: "Flyer", description: "Edición del 31 de diciembre: composición 3D en violeta y dorado.", tags: ["Diseño", "Flyer", "3D"] },
@@ -659,7 +678,7 @@ export const siteContent = {
           kicker: "Flyers / Identity",
           subtitle: "Pieces for electronic music events and identities for artists and labels.",
           groups: {
-            flyers: { title: "Flyers", note: "Graphic pieces for events" },
+            flyers: { title: "Flyers & covers", note: "Pieces for events and releases" },
             logos: { title: "Logos & branding", note: "Identities for artists and projects" },
           },
         },
@@ -703,16 +722,17 @@ export const siteContent = {
       },
       webProjects: [
         { ...webProjectAssets.portfolio, scrollPreview: true, title: "Personal Portfolio", type: "Web / Design and development", status: "Live", role: "Design and development", description: "This site. React + Vite + Tailwind, with a Three.js hero run through a hand-written ASCII shader. Inside: a lab of eight generative pieces with live parameters, an admin panel that saves content to the repo through the GitHub API, and everything in three languages.", tags: ["React", "Three.js", "GLSL", "Vite", "Tailwind CSS"], features: ["Three.js ASCII pass", "Generative lab", "Admin panel", "Trilingual"] },
+        { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Site for an insurance broker in Mendoza: ten quote forms that end in a WhatsApp chat with the details already filled in, and a custom panel to follow up leads and the client portfolio. Next.js and TypeScript, with Sanity and Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Quotes for 10 insurance types", "Leads and clients panel", "Editable content", "One URL per insurance type"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Portfolio for a visual artist (tattoos, illustration and painting). React + Vite + Tailwind CSS and Framer Motion, with a custom admin panel on serverless functions so she can update her gallery herself. The API and the panel are tested with Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Admin panel", "Vitest tests", "Gallery by category", "WhatsApp contact"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Site for a metal fabrication and welding workshop in Tupungato, Mendoza. React + Vite + Tailwind CSS and Framer Motion: an animated hero with a spark on black, a work catalogue editable from a custom admin panel, and direct WhatsApp contact.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Admin panel", "Work catalogue", "WhatsApp contact"] },
-        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Press kit for CTRL.Z (Brenda Hetcer), an urban music DJ from Mendoza. Framework-free JavaScript built on my own press kit template, following the look of the artist's original PDF, with a custom admin panel on Vercel serverless functions.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions"], features: ["Technical rider", "Press photos", "Booking contact", "Admin panel"] },
-        { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Design and development", status: "Live", role: "Design and development", description: "My own DJ press kit, and the template the CTRL.Z one was built from. Framework-free JavaScript, trilingual, with a service worker, an EmailJS contact form and a two-level admin panel (simple and advanced) that commits changes to the repo through the GitHub API.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilingual", "Admin panel", "SoundCloud embeds", "Dates section"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Artist press kits", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Four web press kits for DJs built from my own template: mine (Kexxy), CTRL.Z, Gabi Raíz and Martina Høbelar. The same architecture underneath, a look of its own for each artist, and no fact the artist didn't give. Framework-free HTML, CSS and JavaScript.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 live sites", "A look per artist", "Server-free booking", "No framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Stays", type: "Web / Design and development", status: "In development", role: "Design and development", description: "Site for two rental houses in Mendoza. Next.js + TypeScript + Tailwind CSS, cinematic landing per property, trilingual.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing per property", "Trilingual", "Smooth scroll"] },
       ],
       cases: [
         { slug: "portfolio", title: "Personal Portfolio", tags: "React · Three.js · GLSL", summary: "I rebuilt my site's structure and hand-wrote the ASCII filter on the hero. The filter levels, page weight and contrast were all set by measuring." },
+        { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "A site built so every visit ends in a WhatsApp chat with the insurance details already filled in. It saves the lead before opening the chat, and the broker follows it up from a custom panel along with his client portfolio." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
-        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "The brief was to clone my press kit for another DJ. I ended up rebuilding it: the template assumed material she didn't have, and in a press kit, making up data means misrepresenting the artist." },
+        { slug: "press-kits", title: "Artist press kits", tags: "HTML · CSS · JavaScript", summary: "Four press kits built from my own template. Cloning it didn't work: each structure comes from the artist's material, and a press kit never invents a fact." },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
@@ -735,11 +755,12 @@ export const siteContent = {
         { ...blenderAssets.cristales, title: "Cristales", description: "Crystal geometry with light refraction in Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Organic shapes and fluid abstractions in Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "A screaming face pressing through a glossy black sheet." },
-        { ...blenderAssets.noclueyet, title: "NCY", description: "Stacked chrome heads, screaming, with gold teeth, plus a variation in glossy black on light grey." },
+        { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Stacked chrome heads, screaming, with gold teeth, plus a variation in glossy black on light grey." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Glass skulls. Refraction and render study." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Two hands reaching for each other through portals of red light. Render for the Overkill session." },
       ],
       flyers: [
+        { ...flyerAssets.innusual, title: "Innusual — V/A002INNU", type: "Cover art", description: "Cover for the [V/A002INNU] compilation on Innusual, a Buenos Aires label (2025). The render is mine; the illustration is by @shifo.__. A disc fractured from the center inside a technical frame, almost colorless, so it reads the same as a thumbnail and at full size.", tags: ["Cover art", "3D", "Art direction"] },
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "3D flyers for the Aguantadero Bass night (dubstep and drum & bass, Buenos Aires): the DJ booth in wide angle with the line-up on screen. Two dates, with an animated version.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "3D flyer for Blastkick Festival (Club Sportivo Italiano): a stone monolith with red roots and the line-up carved in. Includes an animated reel.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — New Year", type: "Flyer", description: "New Year's Eve edition: a 3D composition in violet and gold.", tags: ["Design", "Flyer", "3D"] },
@@ -879,7 +900,7 @@ export const siteContent = {
           kicker: "Flyers / Identidade",
           subtitle: "Peças para eventos de eletrônica e identidades para artistas e selos.",
           groups: {
-            flyers: { title: "Flyers", note: "Peças gráficas para eventos" },
+            flyers: { title: "Flyers e capas", note: "Peças para eventos e lançamentos" },
             logos: { title: "Logos & branding", note: "Identidades para artistas e projetos" },
           },
         },
@@ -923,16 +944,17 @@ export const siteContent = {
       },
       webProjects: [
         { ...webProjectAssets.portfolio, scrollPreview: true, title: "Portfólio Pessoal", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Este site. React + Vite + Tailwind, com o hero em Three.js passado por um filtro ASCII escrito à mão (shader próprio). Dentro: um lab de oito peças generativas com parâmetros ao vivo, um painel de administração que salva o conteúdo no repositório pela API do GitHub, e tudo em três idiomas.", tags: ["React", "Three.js", "GLSL", "Vite", "Tailwind CSS"], features: ["Filtro ASCII em Three.js", "Lab generativo", "Painel de administração", "Trilíngue"] },
+        { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Site de um corretor de seguros de Mendoza: dez formulários de cotação que terminam numa conversa de WhatsApp com os dados já preenchidos, e um painel próprio para acompanhar as consultas e a carteira de clientes. Next.js e TypeScript, com Sanity e Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Cotação de 10 seguros", "Painel de consultas e clientes", "Conteúdo editável", "Uma URL por seguro"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Portfólio de uma artista visual (tatuagens, ilustração e pintura). React + Vite + Tailwind CSS e Framer Motion, com painel de administração próprio sobre funções serverless para ela atualizar a galeria. A API e o painel têm testes com Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Painel de administração", "Testes com Vitest", "Galeria por categoria", "Contato via WhatsApp"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Site para uma oficina de fabricação e solda metálica em Tupungato, Mendoza. React + Vite + Tailwind CSS e Framer Motion: hero animado com uma faísca sobre preto, catálogo de trabalhos editável por um painel próprio e contato direto via WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Painel de administração", "Catálogo de trabalhos", "Contato via WhatsApp"] },
-        { ...webProjectAssets.ctrlzPresskit, title: "CTRL.Z — Press Kit", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Press kit para CTRL.Z (Brenda Hetcer), DJ de música urbana de Mendoza. JavaScript sem framework sobre o meu template de press kit, com a estética do PDF original da artista e painel de administração próprio com funções serverless na Vercel.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions"], features: ["Rider técnico", "Fotos de imprensa", "Contato de booking", "Painel de administração"] },
-        { ...webProjectAssets.pressKit, scrollPreview: true, title: "KEXXY — Press Kit", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Meu press kit como DJ e o template de onde saiu o do CTRL.Z. JavaScript sem framework, trilíngue, com service worker, formulário de contato com EmailJS e um painel de dois níveis (simples e avançado) que salva as alterações no repositório pela API do GitHub.", tags: ["HTML", "CSS", "JavaScript", "Vercel Functions", "GitHub API"], features: ["Trilíngue", "Painel de administração", "Embeds do SoundCloud", "Seção de datas"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Quatro press kits web para DJs a partir do meu template: o meu (Kexxy), CTRL.Z, Gabi Raíz e Martina Høbelar. A mesma base de arquitetura, uma estética própria para cada artista e nenhum dado que o artista não tenha dado. HTML, CSS e JavaScript sem framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 sites no ar", "Uma estética por artista", "Booking sem servidor", "Sem framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedagens", type: "Web / Design e desenvolvimento", status: "Em desenvolvimento", role: "Design e desenvolvimento", description: "Site para duas casas de aluguel em Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinematográfica por propriedade, trilíngue.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propriedade", "Trilíngue", "Rolagem suave"] },
       ],
       cases: [
         { slug: "portfolio", title: "Portfólio Pessoal", tags: "React · Three.js · GLSL", summary: "Refiz a estrutura do meu site e escrevi à mão o filtro ASCII do hero. Os níveis do filtro, o peso das páginas e o contraste foram definidos medindo." },
+        { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Um site para que cada visita termine numa conversa de WhatsApp com os dados do seguro já preenchidos. Ele salva a consulta antes de abrir o chat, e o corretor acompanha tudo num painel próprio, junto com a carteira de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
-        { slug: "ctrl-z", title: "CTRL.Z — Press Kit", tags: "HTML · CSS · JavaScript", summary: "O pedido era clonar meu press kit para outra DJ. Acabei refazendo: o modelo pressupunha um material que ela não tinha, e num press kit inventar dados é falsificar a artista." },
+        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Quatro press kits a partir do meu template. Cloná-lo não funcionou: cada estrutura sai do material do artista, e num press kit nenhum dado é inventado." },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },
@@ -955,11 +977,12 @@ export const siteContent = {
         { ...blenderAssets.cristales, title: "Cristales", description: "Geometria cristalina com refração em Blender Cycles." },
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgânicas e abstrações fluidas em Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Um rosto gritando sob um tecido preto brilhante." },
-        { ...blenderAssets.noclueyet, title: "NCY", description: "Cabeças cromadas empilhadas, gritando, com dentes de ouro, e uma variação em preto brilhante sobre cinza claro." },
+        { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Cabeças cromadas empilhadas, gritando, com dentes de ouro, e uma variação em preto brilhante sobre cinza claro." },
         { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Crânios em vidro. Estudo de refração e render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Duas mãos que se buscam através de portais de luz vermelha. Render para a sessão Overkill." },
       ],
       flyers: [
+        { ...flyerAssets.innusual, title: "Innusual — V/A002INNU", type: "Capa", description: "Capa da coletânea [V/A002INNU] do selo Innusual, de Buenos Aires (2025). O render é meu; a ilustração, de @shifo.__. Um disco rachado a partir do centro, dentro de uma moldura técnica, quase sem cor, para ser lida igual em miniatura e em tamanho grande.", tags: ["Capa", "3D", "Direção de arte"] },
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "Flyers 3D para o ciclo Aguantadero Bass (dubstep e drum & bass, Buenos Aires): a cabine de DJ em grande-angular e o line-up na tela. Duas datas, com versão animada.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "Flyer 3D do Blastkick Festival (Club Sportivo Italiano): um monólito de pedra com raízes vermelhas e o line-up gravado. Inclui reel animado.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — Ano Novo", type: "Flyer", description: "Edição de 31 de dezembro: composição 3D em violeta e dourado.", tags: ["Design", "Flyer", "3D"] },
