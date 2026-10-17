@@ -29,7 +29,11 @@ raíz de `DetailModal` y `.konsole-body`. Un overlay nuevo, también.
 **CV.** `public/cv/Enzo-Diaz-Zingaretti-CV-{ES,EN,PT}.pdf` (el de Creative
 Technologist). Cada idioma apunta al suyo con `contact.cv` en el bundle, y lo
 usan el hero y Contacto. `vercel.json` excluye `cv/` del rewrite: sin eso el PDF
-se servía como `index.html`.
+se servía como `index.html`. Salen de los .docx del Drive
+(`CV_Enzo_Diaz_Zingaretti_{Diseno_ES,Design_EN,Design_PT}.docx`), exportados con
+LibreOffice 26.2. El LibreOffice 24.2 de las sesiones en la nube arma la página
+distinto (más interlineado, la columna gris no llega al pie), así que para
+cambiar una línea se edita el PDF y, aparte, el .docx.
 
 **`about.facts`** (experiencia, idiomas, zona horaria, disponibilidad,
 herramientas) vive solo en el bundle: `content.json` no lo define y el merge
