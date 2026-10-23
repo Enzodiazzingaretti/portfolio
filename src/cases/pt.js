@@ -316,7 +316,7 @@ export default {
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "As capas de quatro dos press kits: Kexxy, CTRL.Z, Gabi Raíz e Martina Høbelar." }],
+        figures: [{ key: "portadas", alt: "As capas de quatro dos press kits: Kexxy (o fanzine), CTRL.Z, Gabi Raíz e Martina Høbelar." }],
         caption: "Kexxy, CTRL.Z, Gabi Raíz e Martina Høbelar: a mesma base, uma estética para cada um.",
       },
       {
@@ -330,7 +330,7 @@ export default {
           },
           {
             title: "A estética sai do material",
-            text: "Em CTRL.Z, o verde-oliva e os títulos cromados do PDF dela. Em Gabi Raíz, o azul-petróleo das fotos de estúdio, um vermelho que aparece uma vez só e as listras do logo, que seguem adiante e desenham a cordilheira atrás dele; no fim da página ela volta invertida, como raiz. Em Martina Høbelar, a sala no escuro, uma única tipografia condensada e o vermelho dela reservado para um led que marca o que está ativo. Em Shodnan Ref, que pediu algo carregado: as fotos reveladas em preto e branco por um mesmo script, o logo dele em vermelho, textura de parede e grão, traços que tremem e textos que se decodificam ao aparecer.",
+            text: "No meu, um fanzine punk em papel: xerox, fita, adesivos e títulos de bilhete de resgate; a capa com meu retrato em pontilhismo, o logo de espinhos em cromo como adesivo recortado e uma tinta viva em WebGL que respira a 150 BPM e se abre com o cursor. Em CTRL.Z, o verde-oliva e os títulos cromados do PDF dela. Em Gabi Raíz, o azul-petróleo das fotos de estúdio, um vermelho que aparece uma vez só e as listras do logo, que seguem adiante e desenham a cordilheira atrás dele; no fim da página ela volta invertida, como raiz. Em Martina Høbelar, a sala no escuro, uma única tipografia condensada e o vermelho dela reservado para um led que marca o que está ativo. Em Shodnan Ref, que pediu algo carregado: as fotos reveladas em preto e branco por um mesmo script, o logo dele em vermelho, textura de parede e grão, traços que tremem e textos que se decodificam ao aparecer.",
           },
           {
             title: "Nenhum dado inventado",
@@ -338,7 +338,7 @@ export default {
           },
           {
             title: "Painel só se alguém for usar",
-            text: "O meu tem um painel de dois níveis que salva as alterações no repositório pela API do GitHub. O de CTRL.Z eu construí, testei e entreguei desligado. Gabi Raíz e Martina Høbelar são uma página estática só, sem painel nem funções serverless. Shodnan Ref tem um, com uma só função: cadastrar as datas pelo celular. Elas ficam no Vercel Blob e aparecem no site em menos de um minuto, sem publicar o site de novo.",
+            text: "O meu tem um painel de dois níveis que salva as alterações no repositório pela API do GitHub; o site as lê de lá ao vivo, então aparecem em cerca de um minuto sem publicar de novo. O de CTRL.Z eu construí, testei e entreguei desligado. Gabi Raíz e Martina Høbelar são uma página estática só, sem painel nem funções serverless. Shodnan Ref tem um, com uma só função: cadastrar as datas pelo celular. Elas ficam no Vercel Blob e aparecem no site em menos de um minuto, sem publicar o site de novo.",
             discarded: "Um painel em todos, por via das dúvidas: um painel ativo é superfície de ataque e mais uma senha para perder.",
           },
         ],
@@ -346,6 +346,7 @@ export default {
       {
         type: "figure",
         figures: [
+          { key: "kexxyMobile", alt: "O press kit de Kexxy no celular: a capa do fanzine, com o logo de espinhos em cromo, o retrato em pontilhismo e os botões Ouvir e Booking." },
           { key: "gabiMobile", alt: "O press kit de Gabi Raíz no celular: o logo, a cordilheira de linhas e os botões para consultar uma data e ouvir um set." },
           { key: "martinaMobile", alt: "O press kit de Martina Høbelar no celular: o nome em tipografia condensada e os botões Ver sets e Booking." },
           { key: "shodnanMobile", alt: "O press kit de Shodnan Ref no celular: a foto em preto e branco, o logo vermelho atrás e o nome em tipografia condensada." },

@@ -76,6 +76,7 @@ export const CASE_ASSETS = {
     repo: "https://github.com/Enzodiazzingaretti/presskit_digital",
     figures: {
       portadas: { src: "/images/casos/press-kits/portadas.webp", w: 1600, h: 1000 },
+      kexxyMobile: { src: "/images/casos/press-kits/kexxy-mobile.webp", w: 739, h: 1600 },
       gabiMobile: { src: "/images/casos/press-kits/gabi-mobile.webp", w: 739, h: 1600 },
       martinaMobile: { src: "/images/casos/press-kits/martina-mobile.webp", w: 739, h: 1600 },
       gabiBooking: { src: "/images/casos/press-kits/gabi-booking.webp", w: 714, h: 835 },

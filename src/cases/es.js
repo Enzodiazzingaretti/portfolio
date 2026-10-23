@@ -319,7 +319,7 @@ export default {
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "Las portadas de cuatro de los press kits: Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar." }],
+        figures: [{ key: "portadas", alt: "Las portadas de cuatro de los press kits: Kexxy (el fanzine), CTRL.Z, Gabi Raíz y Martina Høbelar." }],
         caption: "Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar: la misma base, una estética para cada uno.",
       },
       {
@@ -333,7 +333,7 @@ export default {
           },
           {
             title: "La estética sale del material",
-            text: "En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo. En Shodnan Ref, que pidió algo cargado: las fotos reveladas en blanco y negro con un mismo script, su logo en rojo, textura de pared y grano, trazos que tiemblan y textos que se decodifican al aparecer.",
+            text: "En el mío, un fanzine punk en papel: xerox, cinta, stickers y títulos de nota de rescate; la tapa con mi retrato en puntillismo, el logo de espinas en cromo como sticker troquelado y una tinta viva en WebGL que respira a 150 BPM y se abre con el cursor. En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo. En Shodnan Ref, que pidió algo cargado: las fotos reveladas en blanco y negro con un mismo script, su logo en rojo, textura de pared y grano, trazos que tiemblan y textos que se decodifican al aparecer.",
           },
           {
             title: "Ni un dato inventado",
@@ -341,7 +341,7 @@ export default {
           },
           {
             title: "Panel solo si alguien lo va a usar",
-            text: "El mío tiene un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless. Shodnan Ref sí tiene uno, con un solo fin: cargar sus fechas desde el celular. Se guardan en Vercel Blob y aparecen en la web en menos de un minuto, sin volver a publicar el sitio.",
+            text: "El mío tiene un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub; el sitio los lee de ahí en vivo, así que aparecen en alrededor de un minuto sin volver a publicar. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless. Shodnan Ref sí tiene uno, con un solo fin: cargar sus fechas desde el celular. Se guardan en Vercel Blob y aparecen en la web en menos de un minuto, sin volver a publicar el sitio.",
             discarded: "Un panel en todos, por las dudas: un panel activo es superficie de ataque y una contraseña más para perder.",
           },
         ],
@@ -349,6 +349,7 @@ export default {
       {
         type: "figure",
         figures: [
+          { key: "kexxyMobile", alt: "El press kit de Kexxy en el teléfono: la tapa del fanzine, con el logo de espinas en cromo, el retrato en puntillismo y los botones Escuchar y Booking." },
           { key: "gabiMobile", alt: "El press kit de Gabi Raíz en el teléfono: su logo, la cordillera de líneas y los botones para consultar una fecha y escuchar un set." },
           { key: "martinaMobile", alt: "El press kit de Martina Høbelar en el teléfono: su nombre en tipografía condensada y los botones Ver sets y Booking." },
           { key: "shodnanMobile", alt: "El press kit de Shodnan Ref en el teléfono: su foto en blanco y negro, su logo en rojo detrás y el nombre en tipografía condensada." },
