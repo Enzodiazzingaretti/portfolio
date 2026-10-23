@@ -57,7 +57,7 @@ export const CASE_ASSETS = {
       panel: { src: "/images/casos/andino-seguros/panel.webp", w: 1600, h: 1000 },
     },
   },
-  // Una serie: cuatro sitios en vez de uno. `sites` dibuja un botón por sitio y
+  // Una serie: cinco sitios en vez de uno. `sites` dibuja un botón por sitio y
   // `repo` apunta a la plantilla. Reemplaza al caso de CTRL.Z, que pasó a ser
   // un capítulo de este; /web/ctrl-z redirige acá desde vercel.json, por si
   // ese link quedó compartido.
@@ -71,6 +71,7 @@ export const CASE_ASSETS = {
       { label: "CTRL.Z", url: "https://ctrlz-presskit.vercel.app/" },
       { label: "Gabi Raíz", url: "https://gabiraiz-presskit.vercel.app/" },
       { label: "Martina Høbelar", url: "https://martinahobelar-presskit.vercel.app/" },
+      { label: "Shodnan Ref", url: "https://shodnan-presskit.vercel.app/" },
     ],
     repo: "https://github.com/Enzodiazzingaretti/presskit_digital",
     figures: {
@@ -80,6 +81,8 @@ export const CASE_ASSETS = {
       gabiBooking: { src: "/images/casos/press-kits/gabi-booking.webp", w: 714, h: 835 },
       martinaBooking: { src: "/images/casos/press-kits/martina-booking.webp", w: 1000, h: 760 },
       martinaSets: { src: "/images/casos/press-kits/martina-sets.webp", w: 1600, h: 1000 },
+      shodnanMobile: { src: "/images/casos/press-kits/shodnan-mobile.webp", w: 739, h: 1600 },
+      shodnanFechas: { src: "/images/casos/press-kits/shodnan-fechas.webp", w: 1600, h: 1000 },
     },
   },
 };

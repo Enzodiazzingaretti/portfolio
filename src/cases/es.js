@@ -313,14 +313,14 @@ export default {
         type: "text",
         title: "El punto de partida",
         paragraphs: [
-          "Empecé por el mío: un press kit web para mostrar mis sets como DJ, en tres idiomas y con un panel para editarlo sin tocar código. Después vinieron tres artistas: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ y productor de Mendoza que va del downtempo al psychedelic trance; y Martina Høbelar, DJ y productora de hard techno y schranz de Buenos Aires.",
-          "Un productor abre el press kit para decidir si contrata: quién es, qué toca, qué equipo pide y adónde escribir. Los cuatro responden eso mismo, y ninguno se parece a otro.",
+          "Empecé por el mío: un press kit web para mostrar mis sets como DJ, en tres idiomas y con un panel para editarlo sin tocar código. Después vinieron cuatro artistas: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ y productor de Mendoza que va del downtempo al psychedelic trance; Martina Høbelar, DJ y productora de hard techno y schranz de Buenos Aires; y Shodnan Ref, DJ de hard techno y hard groove de Tupungato, Mendoza.",
+          "Un productor abre el press kit para decidir si contrata: quién es, qué toca, qué equipo pide y adónde escribir. Los cinco responden eso mismo, y ninguno se parece a otro.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "Las portadas de los cuatro press kits: Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar." }],
-        caption: "Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar: la misma base, cuatro estéticas.",
+        figures: [{ key: "portadas", alt: "Las portadas de cuatro de los press kits: Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar." }],
+        caption: "Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar: la misma base, una estética para cada uno.",
       },
       {
         type: "decisions",
@@ -333,7 +333,7 @@ export default {
           },
           {
             title: "La estética sale del material",
-            text: "En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo.",
+            text: "En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo. En Shodnan Ref, que pidió algo cargado: las fotos reveladas en blanco y negro con un mismo script, su logo en rojo, textura de pared y grano, trazos que tiemblan y textos que se decodifican al aparecer.",
           },
           {
             title: "Ni un dato inventado",
@@ -341,7 +341,7 @@ export default {
           },
           {
             title: "Panel solo si alguien lo va a usar",
-            text: "El mío tiene un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless.",
+            text: "El mío tiene un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless. Shodnan Ref sí tiene uno, con un solo fin: cargar sus fechas desde el celular. Se guardan en Vercel Blob y aparecen en la web en menos de un minuto, sin volver a publicar el sitio.",
             discarded: "Un panel en todos, por las dudas: un panel activo es superficie de ataque y una contraseña más para perder.",
           },
         ],
@@ -351,6 +351,7 @@ export default {
         figures: [
           { key: "gabiMobile", alt: "El press kit de Gabi Raíz en el teléfono: su logo, la cordillera de líneas y los botones para consultar una fecha y escuchar un set." },
           { key: "martinaMobile", alt: "El press kit de Martina Høbelar en el teléfono: su nombre en tipografía condensada y los botones Ver sets y Booking." },
+          { key: "shodnanMobile", alt: "El press kit de Shodnan Ref en el teléfono: su foto en blanco y negro, su logo en rojo detrás y el nombre en tipografía condensada." },
         ],
         caption: "En el teléfono, cada portada lleva a lo mismo: escuchar y consultar una fecha.",
       },
@@ -358,7 +359,7 @@ export default {
         type: "text",
         title: "Cómo funcionan",
         paragraphs: [
-          "Sin framework ni paso de build: HTML, CSS y JavaScript escritos a mano, en Vercel. El contenido está en el HTML, que es lo que leen Google y WhatsApp y lo que queda si falla el JavaScript. En los tres de clientes, la política de seguridad de contenido solo deja cargar scripts propios.",
+          "Sin framework ni paso de build: HTML, CSS y JavaScript escritos a mano, en Vercel. El contenido está en el HTML, que es lo que leen Google y WhatsApp y lo que queda si falla el JavaScript. En CTRL.Z, Gabi Raíz y Martina Høbelar, la política de seguridad de contenido solo deja cargar scripts propios.",
           "En los dos últimos, el booking no pasa por ningún servidor: con lo que se completa, la página arma la consulta y la abre en el WhatsApp o el mail de quien escribe. En el de Martina, el asunto lleva la fecha y el lugar, para que la casilla de bookings se pueda ordenar.",
         ],
       },
@@ -369,6 +370,11 @@ export default {
           { key: "martinaBooking", alt: "Formulario de booking de Martina Høbelar: nombre, fecha y lugar, mensaje y un solo botón para enviar por mail." },
         ],
         caption: "Dos bookings sin servidor: el de Gabi abre WhatsApp o el mail; el de Martina, solo el mail, con un asunto que se puede ordenar.",
+      },
+      {
+        type: "figure",
+        figures: [{ key: "shodnanFechas", alt: "Las fechas de Shodnan Ref: las próximas salen como ticket y las pasadas se tachan. Si no hay próximas, la web muestra la agenda abierta con el botón de booking." }],
+        caption: "Las fechas de Shodnan Ref. Las carga él desde el panel; las pasadas se tachan y quedan las últimas cinco.",
       },
       {
         type: "list",
@@ -383,7 +389,7 @@ export default {
         type: "stats",
         title: "En números",
         items: [
-          { value: "4", label: "press kits en vivo, de la misma base" },
+          { value: "5", label: "press kits en vivo, de la misma base" },
           { value: "18", label: "imágenes recuperadas en su resolución original del PDF de CTRL.Z" },
           { value: "8", label: "destellos del led de Martina, a los BPM del set que se elige" },
           { value: "44 px", label: "de alto mínimo para botones y enlaces en el de Martina" },

@@ -310,14 +310,14 @@ export default {
         type: "text",
         title: "Where it started",
         paragraphs: [
-          "I started with my own: a web press kit to show my DJ sets, in three languages and with a panel to edit it without touching code. Then three artists followed: CTRL.Z, an urban music DJ from Mendoza; Gabi Raíz, a DJ and producer from Mendoza who goes from downtempo to psychedelic trance; and Martina Høbelar, a hard techno and schranz DJ and producer from Buenos Aires.",
-          "A promoter opens a press kit to decide whether to book: who the artist is, what they play, what gear they need and where to write. All four answer exactly that, and none of them looks like another.",
+          "I started with my own: a web press kit to show my DJ sets, in three languages and with a panel to edit it without touching code. Then four artists followed: CTRL.Z, an urban music DJ from Mendoza; Gabi Raíz, a DJ and producer from Mendoza who goes from downtempo to psychedelic trance; Martina Høbelar, a hard techno and schranz DJ and producer from Buenos Aires; and Shodnan Ref, a hard techno and hard groove DJ from Tupungato, Mendoza.",
+          "A promoter opens a press kit to decide whether to book: who the artist is, what they play, what gear they need and where to write. All five answer exactly that, and none of them looks like another.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "The home screens of the four press kits: Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar." }],
-        caption: "Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar: the same base, four looks.",
+        figures: [{ key: "portadas", alt: "The home screens of four of the press kits: Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar." }],
+        caption: "Kexxy, CTRL.Z, Gabi Raíz and Martina Høbelar: the same base, a look for each.",
       },
       {
         type: "decisions",
@@ -330,7 +330,7 @@ export default {
           },
           {
             title: "The look comes from the material",
-            text: "For CTRL.Z, the olive green and chrome titles of her PDF. For Gabi Raíz, the petrol blue of his studio photos, a red that shows up only once, and the stripes of his logo, which keep going and draw the mountain range behind him; at the end of the page it comes back upside down, as roots. For Martina Høbelar, a dark room, a single condensed typeface and her red kept for an LED that marks what's active.",
+            text: "For CTRL.Z, the olive green and chrome titles of her PDF. For Gabi Raíz, the petrol blue of his studio photos, a red that shows up only once, and the stripes of his logo, which keep going and draw the mountain range behind him; at the end of the page it comes back upside down, as roots. For Martina Høbelar, a dark room, a single condensed typeface and her red kept for an LED that marks what's active. For Shodnan Ref, who asked for something loaded: photos developed in black and white by a single script, his logo in red, wall texture and grain, line art that boils and text that decodes as it appears.",
           },
           {
             title: "Not one made-up fact",
@@ -338,7 +338,7 @@ export default {
           },
           {
             title: "A panel only if someone will use it",
-            text: "Mine has a two-level panel that commits changes to the repo through the GitHub API. CTRL.Z's I built, tested and delivered switched off. Gabi Raíz and Martina Høbelar are a single static page, with no panel and no serverless functions.",
+            text: "Mine has a two-level panel that commits changes to the repo through the GitHub API. CTRL.Z's I built, tested and delivered switched off. Gabi Raíz and Martina Høbelar are a single static page, with no panel and no serverless functions. Shodnan Ref does have one, for a single job: adding his dates from his phone. They're stored in Vercel Blob and show up on the site in under a minute, with no redeploy.",
             discarded: "A panel on every site, just in case: an active panel is attack surface and one more password to lose.",
           },
         ],
@@ -348,6 +348,7 @@ export default {
         figures: [
           { key: "gabiMobile", alt: "Gabi Raíz's press kit on a phone: his logo, the mountain lines and buttons to ask for a date and listen to a set." },
           { key: "martinaMobile", alt: "Martina Høbelar's press kit on a phone: her name in a condensed typeface and the Sets and Booking buttons." },
+          { key: "shodnanMobile", alt: "Shodnan Ref's press kit on a phone: his black-and-white photo, his red logo behind him and his name in a condensed typeface." },
         ],
         caption: "On a phone, every home screen leads to the same two things: listen, and ask for a date.",
       },
@@ -355,7 +356,7 @@ export default {
         type: "text",
         title: "How they work",
         paragraphs: [
-          "No framework and no build step: hand-written HTML, CSS and JavaScript on Vercel. The content lives in the HTML, which is what Google and WhatsApp read and what's left if the JavaScript fails. On the three client sites, the content security policy only lets the site's own scripts load.",
+          "No framework and no build step: hand-written HTML, CSS and JavaScript on Vercel. The content lives in the HTML, which is what Google and WhatsApp read and what's left if the JavaScript fails. On CTRL.Z, Gabi Raíz and Martina Høbelar, the content security policy only lets the site's own scripts load.",
           "On the last two, booking goes through no server: from what's filled in, the page composes the inquiry and opens it in the sender's WhatsApp or email. On Martina's, the subject line carries the date and venue, so the booking inbox can be sorted.",
         ],
       },
@@ -366,6 +367,11 @@ export default {
           { key: "martinaBooking", alt: "Martina Høbelar's booking form: name, date and venue, message, and a single button to send by email." },
         ],
         caption: "Two server-free booking forms: Gabi's opens WhatsApp or email; Martina's, only email, with a subject line that sorts.",
+      },
+      {
+        type: "figure",
+        figures: [{ key: "shodnanFechas", alt: "Shodnan Ref's dates: upcoming ones show as tickets and past ones get crossed out. With nothing upcoming, the site shows open bookings with the booking button." }],
+        caption: "Shodnan Ref's dates. He adds them from the panel; past ones get crossed out and the last five stay up.",
       },
       {
         type: "list",
@@ -380,7 +386,7 @@ export default {
         type: "stats",
         title: "By the numbers",
         items: [
-          { value: "4", label: "live press kits from the same base" },
+          { value: "5", label: "live press kits from the same base" },
           { value: "18", label: "images recovered at full resolution from CTRL.Z's PDF" },
           { value: "8", label: "flashes of Martina's LED, at the BPM of the chosen set" },
           { value: "44 px", label: "minimum height for buttons and links on Martina's" },

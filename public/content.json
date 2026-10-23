@@ -177,7 +177,7 @@
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Cuatro press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz y Martina Høbelar. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
+      "description": "Cinco press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
       "tags": [
         "HTML",
         "CSS",
@@ -185,7 +185,7 @@
         "Vercel"
       ],
       "features": [
-        "4 sitios en vivo",
+        "5 sitios en vivo",
         "Una estética por artista",
         "Booking sin servidor",
         "Sin framework"
