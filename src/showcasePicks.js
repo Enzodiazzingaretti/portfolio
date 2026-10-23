@@ -25,10 +25,10 @@ export const SHOWCASE_PICKS = [
     find: (item) => /golden-faces/.test(item.thumbnail ?? ""),
   },
   {
-    id: "blastkick",
+    id: "sonar",
     slug: "grafica",
-    group: "flyers",
-    find: (item) => /blastkick\/blastkick_preview/.test(item.thumbnail ?? ""),
+    group: "campanas",
+    find: (item) => /campanas\/sonar\/key-visual/.test(item.thumbnail ?? ""),
   },
   {
     id: "tamara",

@@ -51,6 +51,19 @@ const CATEGORIES = [
     newItem: () => ({ id: "3d-" + Date.now(), title: "", description: "", slides: [], portrait: false, square: false, enabled: true }),
   },
   {
+    key: "campaigns", slot: "campana", title: "Campañas", subtitle: "Piezas de una campaña", titleKey: "title", addLabel: "Agregar pieza",
+    fields: [
+      { key: "title", label: "Título" },
+      { key: "type", label: "Tipo", placeholder: "Key visual" },
+      { key: "description", label: "Descripción", type: "textarea", rows: 2 },
+      { key: "tags", label: "Tags", type: "tags" },
+      { key: "imageUrl", label: "Imagen de portada", type: "image" },
+      { key: "portrait", label: "Formato vertical", type: "toggle" },
+      { key: "slides", label: "Galería / video", type: "slides" },
+    ],
+    newItem: () => ({ id: "ca-" + Date.now(), title: "", type: "", description: "", tags: [], imageUrl: "", portrait: true, slides: [], enabled: true }),
+  },
+  {
     key: "flyers", slot: "flyer", title: "Flyers", subtitle: "Piezas para eventos", titleKey: "title", addLabel: "Agregar flyer",
     fields: [
       { key: "title", label: "Título" },

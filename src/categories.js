@@ -6,7 +6,7 @@ import { resolvePublicAsset } from "./utils/helpers";
  *
  * MOTION    → TouchDesigner + Lab generativo
  * 3D        → Blender + Arquitectura
- * GRÁFICA   → Flyers + Logos
+ * GRÁFICA   → Campañas + Flyers + Logos
  * WEB       → Proyectos web
  *
  * `source` nombra el array de siteContent del que sale cada grupo, así el
@@ -39,6 +39,10 @@ export const CATEGORIES = [
     num: "03",
     accent: "grafica",
     groups: [
+      // Una campaña es un cliente con varias piezas (key visual, motion,
+      // placas, manual): va primero y aparte para que no se diluya entre
+      // flyers sueltos.
+      { id: "campanas", source: "campaigns", kind: "graphic", layout: "gallery" },
       { id: "flyers", source: "flyers", kind: "graphic", layout: "gallery" },
       { id: "logos", source: "logos", kind: "graphic", layout: "gallery" },
     ],

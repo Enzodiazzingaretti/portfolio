@@ -86,6 +86,18 @@ del viewport y el hero salía ampliado y recortado. Ahora lleva `width` y
 `height` al 100 %. Con dpr 1, donde se calibró, no se notaba; apareció
 capturando a 2x.
 
+**Campañas (2026-10-23).** Gráfica tiene un grupo nuevo, `campanas`, antes de
+flyers: un cliente con varias piezas (key visual, motion, placas, manual) va
+ahí para que no se diluya entre flyers sueltos. El array es `campaigns`, en el
+bundle (tres idiomas, assets en `campaignAssets`) **y** en `content.json`, con
+su lista en `/admin`. Hoy tiene Sonar Produce (SONAR 001): las imágenes salen
+de `PROYECTOS/Sonar-Produce/compartido-con-cliente` en el Drive (las versiones
+aprobadas) a `public/images/campanas/sonar/`, y el logo a
+`images/visual/Logos/sonar/`. La cuenta regresiva queda con `enabled: false`
+hasta que Sonar la publique (del 27 al 30/10): prenderla en el bundle y en
+`content.json` a la vez. El showcase del home toma el key visual de Sonar como
+pieza de Gráfica (antes Blastkick).
+
 **Canonical por ruta.** `index.html` declara el home como canonical; el `Shell`
 lo reescribe con la ruta actual, si no cada categoría y cada caso le decían a
 Google que eran el home.
@@ -125,7 +137,7 @@ Ahora: **hero + índice de 4 filas**, y una ruta por disciplina.
 | `/`        | Home      | Hero three.js + índice          |
 | `/motion`  | MOTION    | TouchDesigner + Lab generativo  |
 | `/3d`      | 3D        | Blender + Arquitectura          |
-| `/grafica` | GRÁFICA   | Flyers + Logos                  |
+| `/grafica` | GRÁFICA   | Campañas + Flyers + Logos       |
 | `/web`     | WEB       | Proyectos web                   |
 | `/admin`   | —         | Panel (lazy, chunk aparte)      |
 
