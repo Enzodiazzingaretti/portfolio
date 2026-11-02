@@ -71,8 +71,12 @@ teaser en `cases` (tres idiomas), cuerpo en los tres archivos, assets,
 
 **Casos desde el 2026-10-17:** `portfolio`, `andino-seguros`, `tamara-gonzalez`
 y `press-kits`. El de CTRL.Z pasó a ser un capítulo de `press-kits` (Kexxy,
-CTRL.Z, Gabi Raíz y Martina Høbelar en una sola tarjeta) y `/web/ctrl-z`
-redirige con un 308 desde `vercel.json`, por si ese link quedó compartido.
+CTRL.Z, Gabi Raíz, Martina Høbelar y, desde el 2026-11-02, Shodnan Ref en una
+sola tarjeta) y `/web/ctrl-z` redirige con un 308 desde `vercel.json`, por si
+ese link quedó compartido. Las capturas de Kexxy (`portadas`, `kexxy-mobile` y
+`previews/screenshot_presskits`) se rehicieron el 2026-11-02 desde el sitio
+publicado: las del 23/10 eran de una versión previa (logo en cromo, «zine» y
+sellos de shows que ya no están). Si un press kit cambia, se vuelve a capturar.
 Una serie declara `sites` en `CASE_ASSETS` en vez de `site`: un botón por sitio.
 El repo de Andino es privado, así que su tarjeta y su caso van sin «Código»
 (`repoUrl` y `repo` en `null`). Las capturas del panel de Andino son con datos
