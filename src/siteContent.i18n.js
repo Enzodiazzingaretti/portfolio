@@ -479,7 +479,7 @@ export const siteContent = {
     { code: "pt", label: "PT", name: "Português" },
   ],
   contactLinks: {
-    email: "enzodiazzingaretti27@gmail.com",
+    email: "k3xxy.art@gmail.com",
     instagram: "https://www.instagram.com/kexxy.obj",
     linkedin: "https://www.linkedin.com/in/enzo-diaz-zingaretti",
     github: "https://github.com/Enzodiazzingaretti",
