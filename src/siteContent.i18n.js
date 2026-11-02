@@ -256,8 +256,8 @@ const espaciosAssets = {
 // Sonar Produce (Mendoza, 2026): sistema visual y campaña de SONAR 001, su
 // primera fecha (Stella Bossi, 30.10.2026). Salen de la carpeta que ve el
 // cliente (compartido-con-cliente), así que son las versiones aprobadas.
-// La cuenta regresiva se publica del 27 al 30/10: queda con `enabled: false`
-// hasta que Sonar la haya posteado.
+// La cuenta regresiva la publicó Sonar del 27 al 30/10; está a la vista desde
+// el 02/11.
 const campaignAssets = {
   sonarKeyVisual: {
     portrait: true,
@@ -309,7 +309,6 @@ const campaignAssets = {
   },
   sonarCuentaRegresiva: {
     portrait: true,
-    enabled: false,
     imageUrl: "/images/campanas/sonar/cuenta-regresiva-portada.webp",
     slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
   },

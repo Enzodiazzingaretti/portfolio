@@ -97,9 +97,9 @@ bundle (tres idiomas, assets en `campaignAssets`) **y** en `content.json`, con
 su lista en `/admin`. Hoy tiene Sonar Produce (SONAR 001): las imágenes salen
 de `PROYECTOS/Sonar-Produce/compartido-con-cliente` en el Drive (las versiones
 aprobadas) a `public/images/campanas/sonar/`, y el logo a
-`images/visual/Logos/sonar/`. La cuenta regresiva queda con `enabled: false`
-hasta que Sonar la publique (del 27 al 30/10): prenderla en el bundle y en
-`content.json` a la vez. El showcase del home toma el key visual de Sonar como
+`images/visual/Logos/sonar/`. La cuenta regresiva estuvo con `enabled: false`
+hasta que Sonar la publicó (del 27 al 30/10); desde el 2026-11-02 está a la
+vista, en el bundle y en `content.json` a la vez. El showcase del home toma el key visual de Sonar como
 pieza de Gráfica (antes Blastkick).
 
 **Canonical por ruta.** `index.html` declara el home como canonical; el `Shell`
