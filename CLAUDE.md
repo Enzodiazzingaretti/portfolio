@@ -21,6 +21,10 @@ producción). Las ramas remotas que quedan están todas mergeadas.
   idiomas) y las disciplinas en `hero.roles`. Pasa a «Creative AI & Motion
   Designer» recién cuando haya piezas de IA publicadas, y a la par en LinkedIn
   y en los CV. La sección de comerciales con IA no se publica vacía.
+- **Nombre visible: «Enzo Zingaretti»** (desde el 2026-11-05, a pedido): el
+  `hero.title` (bundle y `content.json`) y `brand` de la barra. Los
+  metadatos, el JSON-LD (con `alternateName`), el dominio, los CV y LinkedIn
+  siguen con el nombre completo, que es como lo buscan.
 - **KEXXY es el alias musical.** Las piezas que lo mencionan se quedan (su
   press kit, su reel, el flyer de DIST b2b RAPTIS), contadas en tercera persona
   como una pieza más; lo que no entra es el vínculo: nada de «mi press kit» ni
@@ -31,6 +35,16 @@ producción). Las ramas remotas que quedan están todas mergeadas.
 - **Trabajo seleccionado** (`showcasePicks.js`): campaña de Sonar, reel del caso
   Sonar, Golden Faces, 240 KM/H y Feedback Ritual. Los sitios y el lab quedan
   en sus categorías, como diferencial.
+- **Comerciales con IA:** grupo `ia` de MOTION, primero, con la lista
+  `aiCommercials` (bundle en tres idiomas, `content.json` y `/admin`). Vacía:
+  el grupo no se dibuja. Con las primeras piezas publicadas cambian a la par
+  el título, LinkedIn, los CV y el trabajo seleccionado.
+- **Ficha del visor:** cliente, año, duración, rol, herramientas y estado, solo
+  lo que la pieza tiene cargado. Las herramientas salen de los `tags` que
+  figuran en `HERRAMIENTAS` (`categories.js`: Blender, Photoshop, After
+  Effects, Runway, Kling…) o del grupo (un render es de Blender); el resto de
+  los tags queda como disciplinas y formatos. Una pieza con `caseSlug` suma
+  «Leer el caso».
 
 ## Rediseño «vidrio ahumado» (2026-11)
 
@@ -47,8 +61,12 @@ regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
   retícula; también escribe `--scroll-k` en `<html>` y maneja la inclinación
   de todo lo que tenga `data-tilt` (un listener delegado; `data-tilt="0.35"`
   baja la intensidad). Sin mouse fino o con movimiento reducido no inclina.
-- **Hero** (`src/components/HeroGlass.jsx`, montado por `HeroBackdrop`): ver
-  la sección 3. El hero ASCII anterior queda en el repo sin montar.
+  Desde que el fondo WebGL va en todas las rutas, el lienzo la tapa: queda
+  como respaldo si WebGL falla (el lienzo dibuja la misma atmósfera).
+- **Fondo y hero** (`src/components/HeroGlass.jsx`, montado por
+  `HeroBackdrop` en todas las rutas): las animaciones ASCII en todo el fondo
+  y, en el home, el nombre y la escultura de vidrio que las refracta. Ver la
+  sección 3.0.
 - **Reels** (grupo `reels` de Motion, array `motionReels`): bundle en tres
   idiomas, `content.json` y su lista en `/admin`. Cada reel tiene un loop
   liviano en `/images/loops/reel-<slug>.mp4` (+ `-poster.jpg`, 8 s, 360 px) y
@@ -63,8 +81,9 @@ regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
 - **Transición entre rutas:** `src/fx/SignalCut.jsx` (paneles de vidrio y una
   línea roja, ~0,75 s; no corre en la primera carga ni con movimiento reducido).
 - **Capturas sin GPU:** `?sinfondo` (solo dev) no monta el WebGL; para filmar el
-  hero existe `window.__glass.anim.film = { t, px, py }` (solo dev), que fija
-  tiempo y puntero cuadro por cuadro. El render por software da ~1 fps.
+  fondo existe `window.__glass.anim.film = { t, px, py, escena }` (solo dev),
+  que fija tiempo, puntero y escena ASCII (`sculpture`, `particles` u
+  `organic`) cuadro por cuadro. El render por software da ~1 fps.
 
 **Idioma inicial:** sin elección guardada, sale del navegador (`es`/`en`/`pt`); si
 ninguno coincide, inglés. El portfolio apunta a trabajo remoto.
@@ -105,26 +124,33 @@ muestra y noindex; y Screaming Head, cuya portada sale casi negra. Golden Faces
 y Faces Alternative son una sola ficha, igual que NCY I y II (que desde el
 2026-10-17 se llama Chrome Grotesque, como figura en Contra).
 
-**Casos de estudio (2026-09-28).** `/web/<slug>`: `src/routes/CasePage.jsx`, que
+**Casos de estudio (2026-09-28).** `/<categoría>/<slug>` (los sitios en `/tech`,
+la campaña de Sonar en `/grafica`): `src/routes/CasePage.jsx`, que
 entra lazy con sus textos. Título, bajada y orden en `siteContent.i18n.js` →
-`cases` (tres idiomas; el home los lista en «Casos» y las tarjetas de `/web`
-llevan a cada uno). El cuerpo en `src/cases/{es,en,pt}.js`, con bloques `text`,
+`cases` (tres idiomas; el home los lista en «Casos» y las tarjetas de `/tech`
+llevan a cada uno). La categoría de cada caso va en `CASE_ASSETS` y, para el
+home, en `CASE_COVERS` (`caseHref()` arma la ruta; un test compara las dos). El cuerpo en `src/cases/{es,en,pt}.js`, con bloques `text`,
 `decisions`, `list`, `stats` y `figure`; imágenes, año y stack en
 `src/cases/index.js` (`CASE_ASSETS`, con el ancho y alto reales de cada
-imagen). Un proyecto se enlaza con `caseSlug` en `webProjectAssets` **y** en
-`content.json` (el admin conserva el campo al editar). `tests/cases.test.js`
+imagen). Un proyecto web se enlaza con `caseSlug` en `webProjectAssets` **y** en
+`content.json` (el admin conserva el campo al editar); un caso de otra
+categoría, con `caseSlug` en sus piezas (las de Sonar: campaña, logo y
+reels), y el visor suma «Leer el caso». `tests/cases.test.js`
 falla si un idioma cuenta un caso con otra estructura, si falta una imagen o
 si no mide lo declarado. Regla del contenido: solo hechos registrados en la
 bóveda o en el repo; ninguna cifra que no se haya medido. Para sumar un caso:
 teaser en `cases` (tres idiomas), cuerpo en los tres archivos, assets,
-`caseSlug` en el proyecto (bundle y `content.json`), capturas en
-`public/images/casos/<slug>/` (máx. 1600 px) y la URL en `sitemap.xml`.
+`caseSlug` en el proyecto o las piezas (bundle y `content.json`), la
+categoría en `CASE_COVERS`, capturas en `public/images/casos/<slug>/` (máx.
+1600 px; un caso puede usar las imágenes que ya tienen sus piezas) y la URL en
+`sitemap.xml`.
 
-**Casos desde el 2026-10-17:** `portfolio`, `andino-seguros`, `tamara-gonzalez`
-y `press-kits`. El de CTRL.Z pasó a ser un capítulo de `press-kits` (Kexxy,
+**Casos:** `sonar-produce` (desde el 2026-11-05, primero de la lista; solo con
+lo registrado en las descripciones de las piezas y en el manual de marca),
+`portfolio`, `andino-seguros`, `tamara-gonzalez` y `press-kits`. El de CTRL.Z pasó a ser un capítulo de `press-kits` (Kexxy,
 CTRL.Z, Gabi Raíz, Martina Høbelar y, desde el 2026-11-02, Shodnan Ref en una
 sola tarjeta) y `/web/ctrl-z` redirige con un 308 desde `vercel.json`, por si
-ese link quedó compartido. Las capturas de Kexxy (`portadas`, `kexxy-mobile` y
+ese link quedó compartido (desde 2026-11 va directo a `/tech/press-kits`). Las capturas de Kexxy (`portadas`, `kexxy-mobile` y
 `previews/screenshot_presskits`) se rehicieron el 2026-11-02 desde el sitio
 publicado: las del 23/10 eran de una versión previa (logo en cromo, «zine» y
 sellos de shows que ya no están). Si un press kit cambia, se vuelve a capturar.
@@ -189,11 +215,16 @@ Ahora: **hero + índice de 4 filas**, y una ruta por disciplina.
 | Ruta       | Categoría | Agrupa                          |
 |------------|-----------|---------------------------------|
 | `/`        | Home      | Hero three.js + índice          |
-| `/motion`  | MOTION    | Reels + TouchDesigner + Lab     |
+| `/motion`  | MOTION    | Comerciales con IA (oculto vacío) + Reels |
 | `/3d`      | 3D        | Blender + Arquitectura          |
 | `/grafica` | GRÁFICA   | Campañas + Flyers + Logos       |
-| `/web`     | WEB       | Proyectos web                   |
+| `/tech`    | TECH      | TouchDesigner + Lab + Sitios web |
 | `/admin`   | —         | Panel (lazy, chunk aparte)      |
+
+Desde el 2026-11-05 lo técnico va junto en TECH, como diferencial, y MOTION
+queda para el motion de clientes: la categoría «WEB» presentaba el portfolio
+como el de un desarrollador. `/web` y `/web/<caso>` redirigen con un 308 a
+`/tech` desde `vercel.json` (y en la app, `CasoEnTech`, para links viejos).
 
 About y Contacto dejaron de ser secciones numeradas: son un panel lateral
 (`InfoPanel`) que se abre desde cualquier ruta.
@@ -248,11 +279,37 @@ igual. Traducciones completas en es / en / pt.
 
 ## 3. El hero
 
-### 3.0 Escultura de vidrio (desde 2026-11)
+### 3.0 Fondo ASCII y escultura de vidrio (desde 2026-11)
 
-`HeroGlass.jsx`. Un solo contexto WebGL en el Shell, como antes: se apaga fuera
-del home, cuando el hero sale de pantalla (el canvas se funde con el scroll) y
-con la pestaña oculta.
+`HeroGlass.jsx`. Un solo contexto WebGL en el Shell, en **todas las rutas**
+(desde el 2026-11-05): las animaciones con filtro ASCII ocupan todo el fondo y,
+en el home, el nombre y la escultura de vidrio van encima y las refractan.
+
+- **Las escenas son las del hero de 2026-08** (`src/fx/asciiScenes.js`:
+  escultura, enjambre y hebras, al mismo tamaño), turnándose cada 14 s; cada
+  una entra y sale por negro, así el cambio de niveles no se nota. En el hero
+  se centran detrás del vidrio; más abajo y en las otras rutas, un poco a la
+  derecha.
+- **El ASCII va en dos pasos.** La escena se dibuja a px CSS (dpr 1, donde se
+  midieron los niveles), un pase chico promedia cada celda con diez muestras
+  en una textura de una celda por píxel, y el fondo solo elige el glifo. El
+  pase viejo hacía diez muestras por píxel a resolución completa (3.6).
+- **Niveles remedidos el 2026-11-05** (en `asciiScenes.js`): el enjambre ya no
+  reproduce los de 3.2 (p50 0,05 y no 0,33; con piso 0,30 no salía ni un
+  caracter): pasó a ganancia 12 y piso 0,03 (en celular, 16 y 0,02).
+- **Máscara de legibilidad** (`src/fx/legibilidad.js`): donde hay texto,
+  botones, imágenes o tarjetas (`#main`), los caracteres bajan al 14 % de
+  tinta; en los huecos se ven enteros. Se dibuja a 1/8 en coordenadas de
+  página, con margen y desenfoque, y se rehace solo cuando cambia el layout
+  (`ResizeObserver`, `MutationObserver` de `#main`, ruta, fuentes); el shader
+  la corre con el scroll. La barra fija se protege aparte, en coordenadas de
+  pantalla. Lo `aria-hidden` no cuenta (el ancla del vidrio y las marcas del
+  hero cubren zonas enteras), salvo los renglones del nombre.
+- **Costo:** fuera del hero (y en celular) va a 30 cuadros; con un panel o el
+  visor abiertos (`body` con `overflow: hidden`) o la pestaña oculta no dibuja;
+  con movimiento reducido, un cuadro quieto. Un canvas que cambia de tamaño
+  (nombre, máscara) se descarta en la GPU antes de volver a subirlo: encima del
+  anterior daba `GL_INVALID_VALUE`.
 
 - **El nombre que se ve a través del vidrio es el `<h1>` real.** Cada renglón
   (`[data-glass-type]`) lleva una sonda de línea base (`[data-glass-baseline]`)
@@ -262,7 +319,15 @@ con la pestaña oculta.
   texto del DOM. `useFitLines` ajusta el cuerpo de cada renglón al ancho y avisa
   con el evento `hero-layout` para que la escena vuelva a medir.
 - **El lugar y el tamaño de la escultura los decide el CSS** (`.vx-orb`, ancla
-  `[data-glass-anchor]`): cambiar la composición no toca el JS.
+  `[data-glass-anchor]`): cambiar la composición no toca el JS. Mide contra el
+  alto del bloque del nombre (`--name-h`, que pone `useFitLines` junto a
+  `--name-w`) y apenas roza el final del renglón más largo: el nombre se lee
+  entero. Los dos renglones van al mismo cuerpo, el que hace entrar al más
+  largo.
+- **Lente de gota:** aumenta en el centro y llega intacta al canto, así lo que
+  queda debajo del borde se sigue leyendo, curvado (con la lupa pareja, las
+  letras debajo del canto desaparecían). Superficie lisa, filo de luz y un
+  contraluz humo detrás del vidrio.
 - **La refracción es un shader propio, no `transmission`.** Con
   `MeshPhysicalMaterial` el vidrio muestreaba un mip borroso del fondo y se veía
   lechoso, sin las letras de atrás (con `thickness` alto, además, el rayo se
@@ -278,7 +343,8 @@ con la pestaña oculta.
 ### 3.1 a 3.6: el hero ASCII anterior (archivado)
 
 Lo que sigue documenta `HeroThreeBackground` + `AsciiPass`, que siguen en el
-repo pero ya no se montan.
+repo pero ya no se montan. Sus escenas y el atlas de glifos los usa el fondo
+nuevo (3.0); los niveles del enjambre de 3.2 ya no valen.
 
 ## 3.x El hero ASCII: filtro + enjambre
 
