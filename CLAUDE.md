@@ -309,7 +309,20 @@ en el home, el nombre y la escultura de vidrio van encima y las refractan.
   hero cubren zonas enteras), salvo los renglones del nombre.
 - **Costo:** fuera del hero (y en celular) va a 30 cuadros; con un panel o el
   visor abiertos (`body` con `overflow: hidden`) o la pestaña oculta no dibuja;
-  con movimiento reducido, un cuadro quieto. Un canvas que cambia de tamaño
+  con movimiento reducido, un cuadro quieto.
+- **Celular (2026-11-05, «se siente trabado»):** el lienzo mide 100lvh y solo
+  se reasigna si cambia esa caja: la barra del navegador entra y sale al
+  scrollear y antes rehacía lienzo, render targets, nombre y máscara en medio
+  del scroll (`useFitLines` también ignora esos `resize`). En táctil va sin
+  MSAA, a 1,25 px por px CSS y con el vidrio de menos vértices. **Sin
+  `backdrop-filter` en pantallas táctiles** (regla al final de `vidrio.css`):
+  cada capa de vidrio esmerilado se volvía a desenfocar en cada cuadro del
+  lienzo; ahí el vidrio es un tinte denso. Un vidrio nuevo tiene que verse
+  bien sin desenfoque. `--scroll-k` va en `.atmo`, no en `<html>` (en la raíz
+  invalidaba el estilo de toda la página por cuadro), y con el lienzo dibujado
+  la atmósfera se apaga (`html.fondo-vivo`). La máscara se mide con la página
+  quieta, en `requestIdleCallback`. Medido con un scroll de prueba en 390×844:
+  hilo principal de 7,6 s a 5,1 s, estilos de 1,1 s a 0,2 s. Un canvas que cambia de tamaño
   (nombre, máscara) se descarta en la GPU antes de volver a subirlo: encima del
   anterior daba `GL_INVALID_VALUE`.
 
