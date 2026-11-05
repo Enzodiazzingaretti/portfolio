@@ -53,7 +53,9 @@ La capa visual del sitio público es `src/styles/vidrio.css` (va después de
 (nunca negro puro), gunmetal `#292C32`, humo `#85858C`, off-white `#E5E3E0` y
 rojo `#E52436` solo de acento; para texto chico en rojo, `#FF5A66` (el otro no
 llega a AA a 10 px). Titulares en **Anton** (`font-poster`), texto en Inter,
-datos en JetBrains Mono. Vidrio en tres niveles (fino: barra, chips, botones;
+datos en JetBrains Mono. Las letras van en tinta plana, sin cromado (desde el
+2026-11-05, a pedido: nombre, títulos de categoría, de caso y de contacto).
+Vidrio en tres niveles (fino: barra, chips, botones;
 panel: visor, leyendas, marcos; líquido: solo la escultura del hero) y una
 regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
 
@@ -324,11 +326,15 @@ en el home, el nombre y la escultura de vidrio van encima y las refractan.
   quedaba dibujado con la tipografía de reemplazo (pasó en producción el
   2026-11-05; se prueba demorando `fonts.gstatic.com` en Playwright).
 - **El lugar y el tamaño de la escultura los decide el CSS** (`.vx-orb`, ancla
-  `[data-glass-anchor]`): cambiar la composición no toca el JS. Mide contra el
-  alto del bloque del nombre (`--name-h`, que pone `useFitLines` junto a
-  `--name-w`) y apenas roza el final del renglón más largo: el nombre se lee
-  entero. Los dos renglones van al mismo cuerpo, el que hace entrar al más
-  largo.
+  `[data-glass-anchor]`): cambiar la composición no toca el JS. Desde el
+  2026-11-05 (a pedido) es grande y va a la derecha: hasta 60vh (540 px en
+  1440×900), limitada por el lugar que deja el nombre (`--name-w`, que pone
+  `useFitLines` junto a `--name-h`), montada un 2 % sobre la última letra y
+  corrida hacia la derecha si sobra lugar; en celular y tablet vertical, más
+  grande y pasada del borde derecho (el hero recorta en x). `useFitLines`
+  esconde el ancla mientras mide si el hero entra en la pantalla: contada,
+  crecía cuando el nombre se achicaba y lo seguía achicando. Los dos renglones
+  van al mismo cuerpo, el que hace entrar al más largo.
 - **Lente de gota:** aumenta en el centro y llega intacta al canto, así lo que
   queda debajo del borde se sigue leyendo, curvado (con la lupa pareja, las
   letras debajo del canto desaparecían). Superficie lisa, filo de luz y un
