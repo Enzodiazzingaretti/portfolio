@@ -206,7 +206,7 @@ export default function Shell() {
 
       <footer className="shell-footer">
         <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/60">
-          © {new Date().getFullYear()} Enzo Diaz Zingaretti
+          © {new Date().getFullYear()} Enzo Zingaretti
         </p>
         <p className="hidden font-mono text-caption uppercase tracking-[0.25em] text-white/52 sm:block">
           {content.ui.footerLocation}

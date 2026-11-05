@@ -81,7 +81,7 @@ function helpLines(commands = {}) {
 
 const CREDITS_LINES = [
   "——————————————————————————",
-  "ENZO DIAZ ZINGARETTI // BUILD CREDITS",
+  "ENZO ZINGARETTI // BUILD CREDITS",
   "——————————————————————————",
   "FRONTEND         : React 19 + Vite 6",
   "STYLING          : TailwindCSS 3",
@@ -91,7 +91,7 @@ const CREDITS_LINES = [
   "DEPLOY           : Vercel",
   "ANALYTICS        : Vercel Web Analytics",
   "CURSOR           : Custom WebGL-free CSS",
-  "EASTER EGG       : Designed & coded by Enzo Diaz Zingaretti",
+  "EASTER EGG       : Designed & coded by Enzo Zingaretti",
   "——————————————————————————",
   "// si llegáste hasta acá, sabés lo que hacés.",
   "// o sos muy curioso. los dos están bien.",
@@ -200,7 +200,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
 
     if (cmd === "about") {
       push([
-        "ENZO DIAZ ZINGARETTI // MANIFESTO",
+        "ENZO ZINGARETTI // MANIFESTO",
         "——————————————————————————",
         "Exploraciones visuales entre lo analógico y lo digital.",
         "3D cinematográfico, sistemas de motion y experiencias",
