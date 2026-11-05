@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isVideoAsset } from "../utils/helpers";
+import { isConvertible, isVideoAsset, toWebpSrc } from "../utils/helpers";
 
 /**
  * Las portadas livianas de grilla viven en /images/loops/ y cada una tiene su
@@ -75,16 +75,6 @@ function LazyVideo({ src, className, controls }) {
       controls={controls}
     />
   );
-}
-
-function toWebpSrc(src) {
-  // encodeURI: srcset trata el espacio como separador URL/descriptor,
-  // sin escapar rompe rutas como "logo_chica_lunar (3).webp"
-  return encodeURI(src.replace(/\.(png|jpe?g)(\?.*)?$/i, ".webp"));
-}
-
-function isConvertible(src) {
-  return /\.(png|jpe?g)(\?.*)?$/i.test(src ?? "");
 }
 
 export default function MediaAsset({ src, alt, className = "h-full w-full object-cover", controls = false, eager = false }) {
