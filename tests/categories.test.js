@@ -45,6 +45,8 @@ describe("buildShowcase", () => {
     const withoutRenders = buildCategories({ ...english, blenderWorks: [] });
     const ids = buildShowcase(withoutRenders).map((p) => p.id);
     expect(ids).not.toContain("golden-faces");
-    expect(ids).toHaveLength(SHOWCASE_PICKS.length - 1);
+    expect(ids).not.toContain("240-kmh");
+    const renders = SHOWCASE_PICKS.filter((p) => p.group === "blender").length;
+    expect(ids).toHaveLength(SHOWCASE_PICKS.length - renders);
   });
 });

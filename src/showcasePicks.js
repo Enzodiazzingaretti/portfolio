@@ -1,6 +1,7 @@
 /**
- * La selección del showcase del home: cinco piezas, una por categoría más el
- * lab generativo.
+ * «Trabajo seleccionado» del home: las cinco piezas que más le dicen a quien
+ * contrata (campaña, reel de caso, 3D, spec publicitario y tiempo real). Los
+ * sitios web y el lab siguen en sus categorías, como diferencial.
  *
  * No repite ni un título ni una descripción. Cada entrada apunta a una pieza
  * que ya existe en `buildCategories()`, así que el texto sale del mismo lugar
@@ -13,10 +14,16 @@
  */
 export const SHOWCASE_PICKS = [
   {
-    id: "feedback-ritual",
+    id: "sonar-key-visual",
+    slug: "grafica",
+    group: "campanas",
+    find: (item) => /campanas\/sonar\/key-visual/.test(item.thumbnail ?? ""),
+  },
+  {
+    id: "sonar-caso",
     slug: "motion",
-    group: "touchdesigner",
-    find: (item) => /feedback-ritual/.test(item.thumbnail ?? ""),
+    group: "reels",
+    find: (item) => /reel-sonar-caso/.test(item.thumbnail ?? ""),
   },
   {
     id: "golden-faces",
@@ -25,23 +32,16 @@ export const SHOWCASE_PICKS = [
     find: (item) => /golden-faces/.test(item.thumbnail ?? ""),
   },
   {
-    id: "sonar",
-    slug: "grafica",
-    group: "campanas",
-    find: (item) => /campanas\/sonar\/key-visual/.test(item.thumbnail ?? ""),
+    id: "240-kmh",
+    slug: "3d",
+    group: "blender",
+    find: (item) => /240kmh/.test(item.thumbnail ?? ""),
   },
   {
-    id: "tamara",
-    slug: "web",
-    group: "proyectos",
-    find: (item) => /tamaraportfolio/.test(item.thumbnail ?? ""),
-  },
-  {
-    id: "enjambre",
+    id: "feedback-ritual",
     slug: "motion",
-    group: "lab",
-    find: (item) => item.id === "enjambre",
-    generative: true,
+    group: "touchdesigner",
+    find: (item) => /feedback-ritual/.test(item.thumbnail ?? ""),
   },
 ];
 

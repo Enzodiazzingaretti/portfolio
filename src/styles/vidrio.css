@@ -321,12 +321,14 @@ section.home-lead {
   position: relative;
   flex: 1 1 auto;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-height: 0;
 }
 
 .vx-name {
   position: relative;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -387,47 +389,37 @@ html.glass-type .vx-name-line {
 
 .vx-rule-row span:first-child { color: var(--red-hi); }
 
-/* El hueco central: ahí flota la escultura (el WebGL lee esta caja) */
+/* La escultura se monta sobre el borde derecho del bloque del nombre (el
+   WebGL lee esta caja): refracta las dos líneas a la vez. */
 .vx-orb {
+  --orb: min(27vw, 46vh);
   position: absolute;
-  left: 50%;
-  top: var(--gap-mid, 52%);
-  width: min(36vw, 58vh);
+  /* Apenas monta la última letra: el nombre se tiene que leer entero. */
+  left: min(calc(var(--name-w, 60vw) - var(--orb) * 0.2), calc(100% - var(--orb)));
+  top: 50%;
+  width: var(--orb);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   pointer-events: none;
 }
 
-/* Diagonal: el primer renglón a la izquierda, el segundo contra el margen derecho */
-.vx-name-row--bottom { display: flex; justify-content: flex-end; margin-top: auto; }
-
-/* Los renglones en el flujo del h1; la fila editorial va debajo del primero.
-   En desktop la fila se saca del h1 y se ubica pegada al primer renglón. */
-.vx-stage > .vx-rule-row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--rule-top, 31%);
-  margin-top: 0.7rem;
-}
+/* Los dos renglones pegados, como un bloque */
+.vx-name-row + .vx-name-row { margin-top: -0.01em; }
 
 .vx-band {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--gap-mid, 50%);
+  position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr) minmax(0, 1fr);
-  align-items: center;
-  transform: translateY(-42%);
-  pointer-events: none;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 2rem clamp(2rem, 6vw, 7rem);
+  margin-top: clamp(1.4rem, 4.5vh, 3.4rem);
 }
 
 .vx-band > * { pointer-events: auto; }
 
 .vx-band-left { display: flex; flex-direction: column; align-items: flex-start; gap: 1.1rem; }
-.vx-band-right { grid-column: 3; display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem; padding-left: clamp(0rem, 3vw, 3rem); }
+.vx-band-right { display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem; justify-self: end; }
 
 .vx-chip {
   display: inline-flex;
@@ -465,15 +457,28 @@ html.glass-type .vx-name-line {
   display: flex;
   flex-direction: column;
   margin: 0;
-  font-size: clamp(1.45rem, 2.35vw, 2.45rem);
-  line-height: 0.98;
+  font-size: clamp(1.9rem, 3.3vw, 3.4rem);
+  line-height: 0.92;
   text-transform: uppercase;
   color: var(--paper);
   text-shadow: 0 2px 24px rgba(14, 15, 18, 0.65);
 }
 
-.vx-roles span:nth-child(2) { color: var(--smoke-2); }
+.vx-roles span { display: block; }
 .vx-roles .is-red { color: var(--red); }
+
+.vx-disciplines {
+  max-width: 34ch;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.9;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-shadow: 0 1px 14px rgba(14, 15, 18, 0.9);
+}
+
+.vx-disciplines-sep { color: var(--red-hi); }
 
 .vx-desc {
   max-width: 34ch;
@@ -577,7 +582,7 @@ html.glass-type .vx-name-line {
   animation: vxRise 1100ms var(--ease) both;
 }
 
-.vx-name-row--bottom .vx-name-line { animation-delay: 120ms; }
+.vx-name-row + .vx-name-row .vx-name-line { animation-delay: 120ms; }
 .vx-rule-row { animation-delay: 260ms; }
 .vx-band-left > * { animation-delay: 380ms; }
 .vx-band-right > * { animation-delay: 460ms; }
@@ -589,7 +594,7 @@ html.glass-type .vx-name-line {
 }
 
 @media (max-width: 1023px) {
-  .vx-band { grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 1fr); }
+  .vx-band { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 /* Celular y tablet vertical: todo apilado (en una tablet parada la banda
@@ -601,14 +606,14 @@ html.glass-type .vx-name-line {
   .vx-orb {
     position: relative;
     left: auto;
+    right: auto;
     top: auto;
     display: block;
     width: 68vw;
     margin: -3vw auto -5vw;
     transform: none;
   }
-  .vx-name-row--bottom { margin-top: 0; }
-  .vx-stage > .vx-rule-row { position: static; margin-top: 1.2rem; letter-spacing: 0.14em; }
+  .vx-rule-row { margin-top: 1.2rem; letter-spacing: 0.14em; }
   .vx-rule-row-mid { display: none; }
   .vx-band {
     position: static;

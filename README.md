@@ -4,7 +4,7 @@
 
 Portfolio of a creative technologist: 3D and motion work, real-time generative pieces, and the web that shows them. React + Three.js, deployed on Vercel, in Spanish, English and Portuguese.
 
-**Live:** [portfolio-kexxy.vercel.app](https://portfolio-kexxy.vercel.app)
+**Live:** [enzo-diaz-zingaretti.vercel.app](https://enzo-diaz-zingaretti.vercel.app)
 
 <!-- Pendiente: un GIF de 8 s del hero acá arriba se ve mejor que la captura. -->
 
@@ -12,7 +12,7 @@ Portfolio of a creative technologist: 3D and motion work, real-time generative p
 
 | If you care about… | Start here |
 |---|---|
-| **How the work was done** | Four case studies on the live site: [this portfolio](https://portfolio-kexxy.vercel.app/web/portfolio), [Andino Seguros](https://portfolio-kexxy.vercel.app/web/andino-seguros) (Next.js, Supabase and a custom panel for an insurance broker), [Tamara González](https://portfolio-kexxy.vercel.app/web/tamara-gonzalez) and [four artist press kits](https://portfolio-kexxy.vercel.app/web/press-kits). The brief, the decisions and what was ruled out, and what testing turned up. Source in [`src/cases/`](src/cases). |
+| **How the work was done** | Four case studies on the live site: [this portfolio](https://enzo-diaz-zingaretti.vercel.app/web/portfolio), [Andino Seguros](https://enzo-diaz-zingaretti.vercel.app/web/andino-seguros) (Next.js, Supabase and a custom panel for an insurance broker), [Tamara González](https://enzo-diaz-zingaretti.vercel.app/web/tamara-gonzalez) and [four artist press kits](https://enzo-diaz-zingaretti.vercel.app/web/press-kits). The brief, the decisions and what was ruled out, and what testing turned up. Source in [`src/cases/`](src/cases). |
 | **Real-time graphics** | [`src/components/AsciiPass.js`](src/components/AsciiPass.js): a hand-written post-processing pass that rewrites the Three.js hero as a grid of characters, with per-scene black and white points measured from the render target. [`HeroThreeBackground.jsx`](src/components/HeroThreeBackground.jsx): a 16,000-particle swarm moved entirely in the vertex shader, and the pointer projected through the real camera. |
 | **Generative systems** | [`src/lab/pieces/`](src/lab/pieces): eight canvas pieces, each a different algorithm family (Gray-Scott reaction-diffusion, De Jong attractor, Chladni figures, Verlet cloth, harmonograph…), with live parameters and seeded randomness: same seed, same artwork. |
 | **Product engineering** | [`api/`](api): a git-backed admin. Serverless functions commit content to this repository through the GitHub API and Vercel redeploys. scrypt password hash, HMAC-signed session cookies, a write allowlist. No database. |

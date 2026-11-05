@@ -15,7 +15,7 @@ import Atmosphere from "../fx/Atmosphere";
 
 const KonsoleEasterEgg = lazy(() => import("../components/KonsoleEasterEgg"));
 const PRELOADER_FLAG = "kexxy-preloaded";
-const SITE_URL = "https://portfolio-kexxy.vercel.app";
+const SITE_URL = "https://enzo-diaz-zingaretti.vercel.app";
 // three.js fuera del bundle inicial: entra recién cuando el preloader terminó
 const HeroBackdrop = lazy(() => import("../components/HeroBackdrop"));
 

@@ -14,42 +14,37 @@ export function useFitLines(ref, deps = []) {
 
     const fit = () => {
       raf = 0;
-      root.querySelectorAll("[data-fit]").forEach((el) => {
+      const lines = Array.from(root.querySelectorAll("[data-fit]"));
+      // 1) Cada renglón al ancho de su caja.
+      const sizes = lines.map((el) => {
         const box = el.parentElement?.getBoundingClientRect().width ?? 0;
-        if (!box) return;
         el.style.fontSize = "100px";
         const w = el.getBoundingClientRect().width;
-        if (!w) return;
-        const maxVh = Number(el.dataset.fitMax || 0);
-        let size = (100 * box) / w;
-        if (maxVh) size = Math.min(size, (window.innerHeight * maxVh) / 100);
-        el.style.fontSize = `${Math.floor(size * 100) / 100}px`;
+        return box && w ? (100 * box) / w : 0;
       });
-      // Composición del hero: la fila editorial va pegada al primer renglón y
-      // la banda y la escultura se centran en el hueco entre los dos. En
-      // pantallas bajas (1280×720, 1024×768) los renglones a todo el ancho
-      // dejan un hueco más chico que la banda: se achican hasta que entre.
-      const stage = root.querySelector(".vx-stage");
-      const top = root.querySelector(".vx-name-row--top");
-      const bottom = root.querySelector(".vx-name-row--bottom");
-      const band = root.querySelector(".vx-band");
-      if (stage && top && bottom && band && getComputedStyle(band).position === "absolute") {
-        const lines = root.querySelectorAll("[data-fit]");
-        for (let i = 0; i < 8; i++) {
-          const hueco = bottom.getBoundingClientRect().top - top.getBoundingClientRect().bottom;
-          if (hueco >= band.offsetHeight + 72) break;
-          lines.forEach((el) => {
-            el.style.fontSize = `${Math.floor(parseFloat(el.style.fontSize) * 0.9 * 100) / 100}px`;
-          });
+      // 2) Un mismo factor para todos si alguno pasa su alto máximo (vh): así
+      //    los renglones siguen justificados al mismo ancho, como un bloque.
+      let k = 1;
+      lines.forEach((el, i) => {
+        const maxVh = Number(el.dataset.fitMax || 0);
+        if (maxVh && sizes[i]) k = Math.min(k, (window.innerHeight * maxVh) / 100 / sizes[i]);
+      });
+      const aplicar = () =>
+        lines.forEach((el, i) => {
+          if (sizes[i]) el.style.fontSize = `${Math.floor(sizes[i] * k * 100) / 100}px`;
+        });
+      aplicar();
+      // 3) En desktop el hero entra en una pantalla: si no entra (1280×720,
+      //    1024×768), el bloque del nombre se achica hasta que entre.
+      if (window.matchMedia("(min-width: 768px) and (orientation: landscape)").matches) {
+        for (let i = 0; i < 8 && root.scrollHeight > window.innerHeight + 2; i++) {
+          k *= 0.92;
+          aplicar();
         }
       }
-      if (stage && top) {
-        const s = stage.getBoundingClientRect();
-        const a = top.getBoundingClientRect().bottom - s.top;
-        const b = bottom ? bottom.getBoundingClientRect().top - s.top : s.height;
-        stage.style.setProperty("--rule-top", `${Math.round(a)}px`);
-        stage.style.setProperty("--gap-mid", `${Math.round((a + b) / 2)}px`);
-      }
+      // Ancho real del bloque: la escultura se monta sobre su borde derecho.
+      const ancho = Math.max(0, ...lines.map((el) => el.getBoundingClientRect().width));
+      root.style.setProperty("--name-w", `${Math.round(ancho)}px`);
       window.dispatchEvent(new Event("hero-layout"));
     };
 

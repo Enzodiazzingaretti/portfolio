@@ -313,14 +313,14 @@ export default {
         type: "text",
         title: "El punto de partida",
         paragraphs: [
-          "Cuatro press kits web para artistas, a partir de una plantilla propia en tres idiomas y con un panel para editarla sin tocar código: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ y productor de Mendoza que va del downtempo al psychedelic trance; Martina Høbelar, DJ y productora de hard techno y schranz de Buenos Aires; y Shodnan Ref, DJ de hard techno y hard groove de Tupungato, Mendoza.",
-          "Un productor abre el press kit para decidir si contrata: quién es, qué toca, qué equipo pide y adónde escribir. Los cuatro responden eso mismo, y ninguno se parece a otro.",
+          "Cinco press kits web para artistas, a partir de una plantilla propia en tres idiomas y con un panel para editarla sin tocar código: Kexxy, DJ de techno y hard groove de Mendoza; CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ y productor de Mendoza que va del downtempo al psychedelic trance; Martina Høbelar, DJ y productora de hard techno y schranz de Buenos Aires; y Shodnan Ref, DJ de hard techno y hard groove de Tupungato, Mendoza.",
+          "Un productor abre el press kit para decidir si contrata: quién es, qué toca, qué equipo pide y adónde escribir. Los cinco responden eso mismo, y ninguno se parece a otro.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "Las portadas de los cuatro press kits: CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref." }],
-        caption: "CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref: la misma base, una estética para cada uno.",
+        figures: [{ key: "portadas", alt: "Las portadas de cuatro de los press kits: Kexxy (el fanzine), CTRL.Z, Gabi Raíz y Martina Høbelar." }],
+        caption: "Kexxy, CTRL.Z, Gabi Raíz y Martina Høbelar: la misma base, una estética para cada uno.",
       },
       {
         type: "decisions",
@@ -333,7 +333,7 @@ export default {
           },
           {
             title: "La estética sale del material",
-            text: "En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo. En Shodnan Ref, que pidió algo cargado: las fotos reveladas en blanco y negro con un mismo script, su logo en rojo, textura de pared y grano, trazos que tiemblan y textos que se decodifican al aparecer.",
+            text: "En Kexxy, un fanzine punk en papel: xerox, cinta, stickers y títulos de nota de rescate; la tapa con el retrato en puntillismo, el logo de espinas en tinta negra sobre un sticker troquelado y una tinta viva en WebGL que respira a 150 BPM y se abre con el cursor. En CTRL.Z, el verde oliva y los títulos cromados de su PDF. En Gabi Raíz, el azul petróleo de sus fotos de estudio, un rojo que aparece una sola vez y las rayas de su logo, que siguen de largo y dibujan la cordillera detrás de él; al final de la página vuelve dada vuelta, como raíz. En Martina Høbelar, la sala a oscuras, una sola tipografía condensada y su rojo reservado para un led que marca lo activo. En Shodnan Ref, que pidió algo cargado: las fotos reveladas en blanco y negro con un mismo script, su logo en rojo, textura de pared y grano, trazos que tiemblan y textos que se decodifican al aparecer.",
           },
           {
             title: "Ni un dato inventado",
@@ -341,7 +341,7 @@ export default {
           },
           {
             title: "Panel solo si alguien lo va a usar",
-            text: "La plantilla trae un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub; el sitio los lee de ahí en vivo, así que aparecen en alrededor de un minuto sin volver a publicar. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless. Shodnan Ref sí tiene uno, con un solo fin: cargar sus fechas desde el celular. Se guardan en Vercel Blob y aparecen en la web en menos de un minuto, sin volver a publicar el sitio.",
+            text: "El de Kexxy tiene un panel de dos niveles que guarda los cambios en el repo vía la API de GitHub; el sitio los lee de ahí en vivo, así que aparecen en alrededor de un minuto sin volver a publicar. El de CTRL.Z lo construí, lo probé y lo entregué apagado. Gabi Raíz y Martina Høbelar son una sola página estática, sin panel ni funciones serverless. Shodnan Ref sí tiene uno, con un solo fin: cargar sus fechas desde el celular. Se guardan en Vercel Blob y aparecen en la web en menos de un minuto, sin volver a publicar el sitio.",
             discarded: "Un panel en todos, por las dudas: un panel activo es superficie de ataque y una contraseña más para perder.",
           },
         ],
@@ -349,6 +349,7 @@ export default {
       {
         type: "figure",
         figures: [
+          { key: "kexxyMobile", alt: "El press kit de Kexxy en el teléfono: la tapa del fanzine, con el logo de espinas en negro, el retrato en puntillismo y los botones Escuchar y Booking." },
           { key: "gabiMobile", alt: "El press kit de Gabi Raíz en el teléfono: su logo, la cordillera de líneas y los botones para consultar una fecha y escuchar un set." },
           { key: "martinaMobile", alt: "El press kit de Martina Høbelar en el teléfono: su nombre en tipografía condensada y los botones Ver sets y Booking." },
           { key: "shodnanMobile", alt: "El press kit de Shodnan Ref en el teléfono: su foto en blanco y negro, su logo en rojo detrás y el nombre en tipografía condensada." },
@@ -389,7 +390,7 @@ export default {
         type: "stats",
         title: "En números",
         items: [
-          { value: "4", label: "press kits de artistas en vivo, de la misma base" },
+          { value: "5", label: "press kits en vivo, de la misma base" },
           { value: "18", label: "imágenes recuperadas en su resolución original del PDF de CTRL.Z" },
           { value: "8", label: "destellos del led de Martina, a los BPM del set que se elige" },
           { value: "44 px", label: "de alto mínimo para botones y enlaces en el de Martina" },

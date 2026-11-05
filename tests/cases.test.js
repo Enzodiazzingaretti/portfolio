@@ -140,12 +140,17 @@ describe("case studies", () => {
     }
   });
 
-  it("reach the web cards and the home showcase through the normalizer", () => {
+  it("reach the web cards through the normalizer", () => {
     const categories = buildCategories(siteContent.locales.en);
     const web = categories.find((c) => c.slug === "web");
     expect(web.groups[0].items.filter((i) => i.caseSlug).map((i) => i.caseSlug).sort()).toEqual([...slugsOf("en")].sort());
+  });
 
-    const tamara = buildShowcase(categories).find((item) => item.id === "tamara");
-    expect(tamara.href).toBe("/web/tamara-gonzalez");
+  it("keeps every selected-work piece pointing at its category", () => {
+    // Desde el 2026-11 el trabajo seleccionado no lleva sitios web: son las
+    // piezas para quien contrata (campaña, reel, 3D, spec, tiempo real).
+    const picks = buildShowcase(buildCategories(siteContent.locales.en));
+    expect(picks.map((p) => p.id)).toEqual(["sonar-key-visual", "sonar-caso", "golden-faces", "240-kmh", "feedback-ritual"]);
+    picks.forEach((p) => expect(p.href).toMatch(/^\/(motion|3d|grafica|web)(\/|$)/));
   });
 });

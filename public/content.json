@@ -1,16 +1,18 @@
 {
   "hero": {
     "title": "ENZO DIAZ ZINGARETTI",
-    "description": "Diseño y produzco piezas 3D y motion, visuales en tiempo real y sitios web con React y Three.js. Desde Mendoza, Argentina, en remoto.",
+    "headline": "Motion & 3D Designer",
+    "description": "Motion, 3D y dirección de arte para marcas, campañas y artistas, con herramientas de IA y TouchDesigner en el proceso. Desde Mendoza, Argentina, en remoto.",
     "location": "Mendoza, AR · UTC−3",
     "availability": "Disponible",
     "meta": "Portfolio / 2026",
     "roles": [
-      "Creative Technologist",
-      "Diseñador 3D & Motion",
-      "Desarrollador Creativo"
+      "Motion graphics",
+      "3D y animación",
+      "Campañas y dirección de arte",
+      "Tecnología creativa"
     ],
-    "cta": "Ver proyectos ↓",
+    "cta": "Ver trabajo",
     "scrollLabel": "scroll",
     "shaderSelector": {
       "ariaLabel": "Elegir fondo del hero",
@@ -23,14 +25,15 @@
     }
   },
   "about": {
-    "headline": "Diseñador 3D y motion que también programa.",
-    "paragraph": "Modelo, ilumino y animo en Blender y After Effects, armo visuales audio-reactivos en TouchDesigner y desarrollo sitios con React y Three.js. Trabajo freelance desde 2022 para marcas, artistas y eventos: renders de producto, flyers animados, visualización de espacios y sitios con panel de administración propio.",
+    "headline": "Motion, 3D y dirección de arte para marcas, campañas y artistas.",
+    "paragraph": "Diseño y animo key visuals, reels, renders 3D y piezas para redes. Trabajo en Blender, After Effects y Photoshop, uso herramientas de IA en el proceso y sumo TouchDesigner y código cuando la pieza lo pide. Freelance desde 2022 para marcas, artistas y eventos.",
     "specializations": [
-      "Motion Design / TouchDesigner",
-      "Visualización 3D / Blender",
-      "Desarrollo Web / React",
-      "Dirección de Arte",
-      "Branding e Identidad"
+      "Motion graphics / After Effects",
+      "3D y animación / Blender",
+      "Campañas y dirección de arte",
+      "Branding e identidad",
+      "Tecnología creativa / TouchDesigner",
+      "Desarrollo web"
     ]
   },
   "contact": {
@@ -39,10 +42,10 @@
     "availableFor": [
       "Full-time remoto",
       "Freelance",
-      "Motion Design",
+      "Motion design",
       "3D",
-      "Desarrollo web",
       "Dirección de arte",
+      "Campañas",
       "Branding"
     ],
     "cta": "Escribime",
@@ -174,7 +177,7 @@
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Cuatro press kits web para DJs a partir de una plantilla propia: CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
+      "description": "Cinco press kits web para DJs a partir de una plantilla propia: Kexxy, CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
       "tags": [
         "HTML",
         "CSS",
@@ -182,7 +185,7 @@
         "Vercel"
       ],
       "features": [
-        "4 sitios en vivo",
+        "5 sitios en vivo",
         "Una estética por artista",
         "Booking sin servidor",
         "Sin framework"
@@ -235,6 +238,24 @@
         "Python",
         "ffmpeg",
         "150 BPM"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-kexxy.mp4",
+      "slides": [
+        "/images/reels/kexxy.mp4"
+      ],
+      "title": "KEXXY — Reel del press kit",
+      "client": "Kexxy",
+      "type": "Reel · Press kit",
+      "year": "2026",
+      "duration": "25 s",
+      "description": "El reel del press kit de Kexxy en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.",
+      "tags": [
+        "Motion",
+        "Playwright",
+        "ffmpeg",
+        "Press kit"
       ]
     },
     {
@@ -788,6 +809,21 @@
       "title": "Blastkick — Año Nuevo",
       "type": "Flyer",
       "description": "Edición del 31 de diciembre: composición 3D en violeta y dorado.",
+      "tags": [
+        "Diseño",
+        "Flyer",
+        "3D"
+      ]
+    },
+    {
+      "square": true,
+      "imageUrl": "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png",
+      "slides": [
+        "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png"
+      ],
+      "title": "Dist. Raptis. Kexxy.",
+      "type": "Flyer",
+      "description": "Cadenas y tipografía gótica sobre rojo, para DIST b2b RAPTIS y Kexxy.",
       "tags": [
         "Diseño",
         "Flyer",

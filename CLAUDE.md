@@ -1,6 +1,6 @@
 # kexxy-portfolio — contexto para Claude Code
 
-Portfolio de Enzo Diaz Zingaretti (Kexxy). React 19 + Vite + Tailwind + three.js.
+Portfolio profesional de Enzo Diaz Zingaretti. React 19 + Vite + Tailwind + three.js.
 Deploy en Vercel. Panel de administración propio en `/admin` con API serverless.
 
 **Todo vive en `main`** (el rediseño de `redesign-minimal` ya está mergeado y en
@@ -14,6 +14,23 @@ producción). Las ramas remotas que quedan están todas mergeadas.
 > no se ve en ES. Pasó el 2026-09-24: el posicionamiento nuevo se veía en EN/PT y
 > en español seguía el viejo hasta el 2026-09-27. Todo texto en español se toca
 > en los dos archivos.
+
+## Posicionamiento y alias (2026-11)
+
+- **Título: «Motion & 3D Designer»** (`hero.headline`, en inglés en los tres
+  idiomas) y las disciplinas en `hero.roles`. Pasa a «Creative AI & Motion
+  Designer» recién cuando haya piezas de IA publicadas, y a la par en LinkedIn
+  y en los CV. La sección de comerciales con IA no se publica vacía.
+- **KEXXY es el alias musical.** Las piezas que lo mencionan se quedan (su
+  press kit, su reel, el flyer de DIST b2b RAPTIS), contadas en tercera persona
+  como una pieza más; lo que no entra es el vínculo: nada de «mi press kit» ni
+  «mis sets», ni el Instagram del alias, ni la consola firmada por KEXXY.
+- **Dominio: `enzo-diaz-zingaretti.vercel.app`.** `portfolio-kexxy.vercel.app`
+  sigue asignado y redirige con un 308 por host desde `vercel.json`, así los
+  links viejos de CV y LinkedIn siguen andando.
+- **Trabajo seleccionado** (`showcasePicks.js`): campaña de Sonar, reel del caso
+  Sonar, Golden Faces, 240 KM/H y Feedback Ritual. Los sitios y el lab quedan
+  en sus categorías, como diferencial.
 
 ## Rediseño «vidrio ahumado» (2026-11)
 
@@ -133,8 +150,7 @@ de `PROYECTOS/Sonar-Produce/compartido-con-cliente` en el Drive (las versiones
 aprobadas) a `public/images/campanas/sonar/`, y el logo a
 `images/visual/Logos/sonar/`. La cuenta regresiva estuvo con `enabled: false`
 hasta que Sonar la publicó (del 27 al 30/10); desde el 2026-11-02 está a la
-vista, en el bundle y en `content.json` a la vez. El showcase del home toma el key visual de Sonar como
-pieza de Gráfica (antes Blastkick).
+vista, en el bundle y en `content.json` a la vez.
 
 **Canonical por ruta.** `index.html` declara el home como canonical; el `Shell`
 lo reescribe con la ruta actual, si no cada categoría y cada caso le decían a

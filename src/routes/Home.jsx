@@ -41,6 +41,7 @@ export default function Home() {
   const [viewer, setViewer] = useState(null);
   const heroRef = useRef(null);
   const [arriba, abajo] = partirNombre(hero.title);
+  const titular = (hero.headline || hero.roles?.[0] || "").trim().split(/\s+/);
   useFitLines(heroRef, [hero.title]);
 
   const hayDestacados = destacados.length > 0;
@@ -60,22 +61,26 @@ export default function Home() {
     <div className="home-root">
       <section ref={heroRef} className="vx-hero" aria-labelledby="hero-title">
         <div className="vx-stage">
+          {/* El nombre como un solo bloque: dos renglones justos al mismo
+              ancho, pegados, y la escultura de vidrio montada sobre el borde
+              derecho. Antes iban separados por toda la banda del medio y se
+              leían como dos palabras sueltas. */}
           <h1 id="hero-title" className="vx-name font-poster" aria-label={hero.title}>
-            <span className="vx-name-row vx-name-row--top" aria-hidden="true">
-              <span className="vx-name-line vx-name-line--metal" data-fit data-fit-max="31" data-glass-type="metal">
+            <span className="vx-name-row" aria-hidden="true">
+              <span className="vx-name-line vx-name-line--metal" data-fit data-fit-max="23" data-glass-type="metal">
                 <i className="vx-baseline" data-glass-baseline />
                 {arriba}
               </span>
             </span>
-            <span className="vx-orb" data-glass-anchor aria-hidden="true" />
             {abajo ? (
-              <span className="vx-name-row vx-name-row--bottom" aria-hidden="true">
-                <span className="vx-name-line vx-name-line--red" data-fit data-fit-max="27" data-glass-type="red">
+              <span className="vx-name-row" aria-hidden="true">
+                <span className="vx-name-line vx-name-line--red" data-fit data-fit-max="23" data-glass-type="red">
                   <i className="vx-baseline" data-glass-baseline />
                   {abajo}
                 </span>
               </span>
             ) : null}
+            <span className="vx-orb" data-glass-anchor aria-hidden="true" />
           </h1>
 
           {/* Fila editorial entre los dos renglones: dónde, coordenadas y año. */}
@@ -90,9 +95,16 @@ export default function Home() {
               <span className="vx-chip font-mono" aria-hidden="true">
                 <span className="vx-live-dot" /> SIG.01 · {ink.live}
               </span>
+              {/* El puesto, en grande (la última palabra en rojo), y debajo las
+                  disciplinas: lo primero que tiene que leer quien contrata. */}
               <p className="vx-roles font-poster">
+                <span>{titular.slice(0, -1).join(" ")}</span>
+                <span className="is-red">{titular[titular.length - 1]}</span>
+              </p>
+              <p className="vx-disciplines font-mono">
                 {hero.roles.map((role, i) => (
-                  <span key={role} className={i === hero.roles.length - 1 ? "is-red" : undefined}>
+                  <span key={role}>
+                    {i ? <span className="vx-disciplines-sep" aria-hidden="true"> · </span> : null}
                     {role}
                   </span>
                 ))}
@@ -102,14 +114,14 @@ export default function Home() {
             <div className="vx-band-right">
               <p className="vx-desc">{hero.description}</p>
               <div className="vx-ctas">
+                <a href={`#${primera.id}`} className="vx-btn vx-btn--red font-mono">
+                  <span>{hero.cta}</span> <span aria-hidden="true">↓</span>
+                </a>
                 {contact.cv ? (
-                  <a href={contact.cv} target="_blank" rel="noreferrer" className="vx-btn vx-btn--red font-mono" data-cursor="PDF">
+                  <a href={contact.cv} target="_blank" rel="noreferrer" className="vx-btn font-mono" data-cursor="PDF">
                     <span>{ui.cvCta}</span> <span aria-hidden="true">↗</span>
                   </a>
                 ) : null}
-                <a href="#contact" className="vx-btn font-mono">
-                  <span>{navLabels.contact}</span> <span aria-hidden="true">↓</span>
-                </a>
               </div>
             </div>
           </div>
