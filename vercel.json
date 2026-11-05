@@ -14,7 +14,22 @@
     },
     {
       "source": "/web/ctrl-z",
-      "destination": "/web/press-kits",
+      "destination": "/tech/press-kits",
+      "permanent": true
+    },
+    {
+      "source": "/tech/ctrl-z",
+      "destination": "/tech/press-kits",
+      "permanent": true
+    },
+    {
+      "source": "/web",
+      "destination": "/tech",
+      "permanent": true
+    },
+    {
+      "source": "/web/:caso",
+      "destination": "/tech/:caso",
       "permanent": true
     }
   ],

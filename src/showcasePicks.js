@@ -39,7 +39,7 @@ export const SHOWCASE_PICKS = [
   },
   {
     id: "feedback-ritual",
-    slug: "motion",
+    slug: "tech",
     group: "touchdesigner",
     find: (item) => /feedback-ritual/.test(item.thumbnail ?? ""),
   },

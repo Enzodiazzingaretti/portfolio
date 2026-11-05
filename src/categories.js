@@ -4,10 +4,14 @@ import { resolvePublicAsset } from "./utils/helpers";
  * Las 9 secciones del scroll viejo colapsadas en 4 categorías por disciplina.
  * Cada categoría es una ruta propia; adentro puede tener varios grupos.
  *
- * MOTION    → Reels + TouchDesigner + Lab generativo
+ * MOTION    → Reels
  * 3D        → Blender + Arquitectura
  * GRÁFICA   → Campañas + Flyers + Logos
- * WEB       → Proyectos web
+ * TECH      → TouchDesigner + Lab generativo + Sitios web
+ *
+ * Desde 2026-11 lo técnico va junto en TECH, como diferencial: MOTION queda
+ * para el motion de clientes y la categoría «WEB» ya no presenta al
+ * portfolio como el de un desarrollador. /web y /web/<caso> redirigen.
  *
  * `source` nombra el array de siteContent del que sale cada grupo, así el
  * panel de admin sigue editando exactamente las mismas claves de siempre.
@@ -19,11 +23,8 @@ export const CATEGORIES = [
     num: "01",
     accent: "motion",
     groups: [
-      // Los reels van primero: son las piezas de motion para clientes (press
-      // kits, campañas, marcas). Los loops y el lab vienen después.
+      // El motion para clientes: press kits, campañas y marcas
       { id: "reels", source: "motionReels", kind: "reel", layout: "reels" },
-      { id: "touchdesigner", source: "touchDesignerLoops", kind: "loop", layout: "video" },
-      { id: "lab", source: "labPieces", kind: "lab", layout: "lab" },
     ],
   },
   {
@@ -51,11 +52,17 @@ export const CATEGORIES = [
     ],
   },
   {
-    id: "web",
-    slug: "web",
+    id: "tech",
+    slug: "tech",
     num: "04",
-    accent: "web",
-    groups: [{ id: "proyectos", source: "webProjects", kind: "web", layout: "wide" }],
+    accent: "tech",
+    groups: [
+      // De lo más visual a lo más técnico: visuales en tiempo real, sistemas
+      // generativos y, al final, los sitios con sus casos de estudio
+      { id: "touchdesigner", source: "touchDesignerLoops", kind: "loop", layout: "video" },
+      { id: "lab", source: "labPieces", kind: "lab", layout: "lab" },
+      { id: "proyectos", source: "webProjects", kind: "web", layout: "wide" },
+    ],
   },
 ];
 
@@ -178,7 +185,7 @@ const NORMALIZERS = {
     // Repo público en GitHub: quien evalúa un perfil técnico quiere ver el
     // código, no solo la captura.
     repoUrl: project.repoUrl || null,
-    // Slug del caso de estudio (/web/<slug>), si el proyecto tiene uno escrito
+    // Slug del caso de estudio (/tech/<slug>), si el proyecto tiene uno escrito
     caseSlug: project.caseSlug || null,
     thumbnail: asset(project.imageUrl) ?? asset(project.previewImage),
     previewImage: asset(project.previewImage),

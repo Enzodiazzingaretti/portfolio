@@ -1,10 +1,11 @@
 import { StrictMode, lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Shell from "./layout/Shell.jsx";
 import Home from "./routes/Home.jsx";
 import CategoryPage from "./routes/CategoryPage.jsx";
 import NotFound from "./routes/NotFound.jsx";
+import CasoEnTech from "./routes/CasoEnTech.jsx";
 import "./index.css";
 // La capa «vidrio ahumado» va después: pisa lo que haga falta de index.css.
 import "./styles/vidrio.css";
@@ -30,6 +31,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             vez de escupir al visitante al home sin explicacion. */}
         <Route element={<Shell />}>
           <Route index element={<Home />} />
+          <Route path="/web" element={<Navigate to="/tech" replace />} />
+          <Route path="/web/:caso" element={<CasoEnTech />} />
           <Route path="/:slug" element={<CategoryPage />} />
           <Route
             path="/:slug/:caso"

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useInView } from "../fx/useInView";
-import { CASE_COVERS } from "../cases/covers";
+import { CASE_COVERS, caseHref } from "../cases/covers";
 
 function pad(n) {
   return String(n).padStart(2, "0");
@@ -18,7 +18,7 @@ function CaseCard({ item, index, labels }) {
 
   return (
     <li ref={ref} className={`cc${inView ? " is-in" : ""}`} style={{ "--k": index }}>
-      <Link to={`/web/${item.slug}`} className="cc-link" data-cursor={labels.read} data-tilt>
+      <Link to={caseHref(item.slug)} className="cc-link" data-cursor={labels.read} data-tilt>
         <span className="cc-num font-poster" aria-hidden="true">
           {pad(index + 1)}
         </span>
@@ -45,7 +45,7 @@ function CaseCard({ item, index, labels }) {
   );
 }
 
-/** Los casos de estudio en el home. Cada uno lleva a /web/<slug>. */
+/** Los casos de estudio en el home. Cada uno lleva a su página (/tech/<slug>). */
 export default function CasePosters({ cases, labels }) {
   if (!cases?.length) return null;
   return (

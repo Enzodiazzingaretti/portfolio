@@ -555,17 +555,15 @@ export const siteContent = {
         { label: "Motion", href: "/motion" },
         { label: "3D", href: "/3d" },
         { label: "Gráfica", href: "/grafica" },
-        { label: "Web", href: "/web" },
+        { label: "Tech", href: "/tech" },
       ],
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "Reels / TouchDesigner / Tiempo real",
-          subtitle: "Reels para redes, loops audio-reactivos, visuales en vivo y sistemas generativos.",
+          kicker: "Reels / Campañas / Marcas",
+          subtitle: "Reels y piezas de motion para marcas, campañas y artistas.",
           groups: {
             reels: { title: "Reels", note: "Motion para redes: press kits, campañas y marcas" },
-            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reactivos y visuales en tiempo real" },
-            lab: { title: "Lab generativo", note: "Sistemas algorítmicos dibujándose en vivo a 145 BPM" },
           },
         },
         tresd: {
@@ -587,12 +585,14 @@ export const siteContent = {
             logos: { title: "Logos & branding", note: "Identidades para artistas y proyectos" },
           },
         },
-        web: {
-          title: "WEB",
-          kicker: "React / Diseño y desarrollo",
-          subtitle: "Diseño, desarrollo y deploy de proyectos web propios y por encargo.",
+        tech: {
+          title: "TECH",
+          kicker: "TouchDesigner / Código / Web",
+          subtitle: "Visuales en tiempo real, sistemas generativos y sitios web: la parte técnica que sostiene el trabajo visual.",
           groups: {
-            proyectos: { title: "Proyectos", note: "Diseño, desarrollo y deploy" },
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reactivos y visuales en tiempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos dibujándose en vivo a 145 BPM" },
+            proyectos: { title: "Sitios web", note: "Diseño, desarrollo y deploy" },
           },
         },
       },
@@ -638,7 +638,7 @@ export const siteContent = {
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedajes", type: "Web / Diseño y desarrollo", status: "En desarrollo", role: "Diseño y desarrollo", description: "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propiedad", "Trilingüe", "Scroll suave"] },
       ],
       // Casos de estudio: título, bajada y orden. El cuerpo vive en src/cases/
-      // y entra solo con la página del caso (/web/<slug>). No los edita /admin.
+      // y entra solo con la página del caso (/tech/<slug>). No los edita /admin.
       cases: [
         { slug: "portfolio", title: "Portfolio Personal", tags: "React · Three.js · GLSL", summary: "Rehice la estructura de mi sitio y escribí a mano el filtro ASCII del hero. Los niveles del filtro, el peso de las páginas y el contraste los fijé midiendo." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Un sitio para que cada visita termine en un WhatsApp con los datos del seguro ya cargados. Guarda la consulta antes de abrir el chat, y Federico la sigue desde un panel propio junto con su cartera de clientes." },
@@ -823,17 +823,15 @@ export const siteContent = {
         { label: "Motion", href: "/motion" },
         { label: "3D", href: "/3d" },
         { label: "Graphics", href: "/grafica" },
-        { label: "Web", href: "/web" },
+        { label: "Tech", href: "/tech" },
       ],
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "Reels / TouchDesigner / Real-time",
-          subtitle: "Reels for social, audio-reactive loops, live visuals and generative systems.",
+          kicker: "Reels / Campaigns / Brands",
+          subtitle: "Reels and motion pieces for brands, campaigns and artists.",
           groups: {
             reels: { title: "Reels", note: "Motion for social: press kits, campaigns and brands" },
-            touchdesigner: { title: "TouchDesigner", note: "Audio-reactive loops and real-time visuals" },
-            lab: { title: "Generative lab", note: "Algorithmic systems drawing live at 145 BPM" },
           },
         },
         tresd: {
@@ -855,12 +853,14 @@ export const siteContent = {
             logos: { title: "Logos & branding", note: "Identities for artists and projects" },
           },
         },
-        web: {
-          title: "WEB",
-          kicker: "React / Design and development",
-          subtitle: "Design, development and deployment of web projects.",
+        tech: {
+          title: "TECH",
+          kicker: "TouchDesigner / Code / Web",
+          subtitle: "Real-time visuals, generative systems and websites: the technical side behind the visual work.",
           groups: {
-            proyectos: { title: "Projects", note: "Design, development and deploy" },
+            touchdesigner: { title: "TouchDesigner", note: "Audio-reactive loops and real-time visuals" },
+            lab: { title: "Generative lab", note: "Algorithmic systems drawing live at 145 BPM" },
+            proyectos: { title: "Websites", note: "Design, development and deploy" },
           },
         },
       },
@@ -1078,17 +1078,15 @@ export const siteContent = {
         { label: "Motion", href: "/motion" },
         { label: "3D", href: "/3d" },
         { label: "Gráfica", href: "/grafica" },
-        { label: "Web", href: "/web" },
+        { label: "Tech", href: "/tech" },
       ],
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "Reels / TouchDesigner / Tempo real",
-          subtitle: "Reels para redes, loops audio-reativos, visuais ao vivo e sistemas generativos.",
+          kicker: "Reels / Campanhas / Marcas",
+          subtitle: "Reels e peças de motion para marcas, campanhas e artistas.",
           groups: {
             reels: { title: "Reels", note: "Motion para redes: press kits, campanhas e marcas" },
-            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reativos e visuais em tempo real" },
-            lab: { title: "Lab generativo", note: "Sistemas algorítmicos desenhando ao vivo a 145 BPM" },
           },
         },
         tresd: {
@@ -1110,12 +1108,14 @@ export const siteContent = {
             logos: { title: "Logos & branding", note: "Identidades para artistas e projetos" },
           },
         },
-        web: {
-          title: "WEB",
-          kicker: "React / Design e desenvolvimento",
-          subtitle: "Design, desenvolvimento e deploy de projetos web.",
+        tech: {
+          title: "TECH",
+          kicker: "TouchDesigner / Código / Web",
+          subtitle: "Visuais em tempo real, sistemas generativos e sites: o lado técnico por trás do trabalho visual.",
           groups: {
-            proyectos: { title: "Projetos", note: "Design, desenvolvimento e deploy" },
+            touchdesigner: { title: "TouchDesigner", note: "Loops audio-reativos e visuais em tempo real" },
+            lab: { title: "Lab generativo", note: "Sistemas algorítmicos desenhando ao vivo a 145 BPM" },
+            proyectos: { title: "Sites", note: "Design, desenvolvimento e deploy" },
           },
         },
       },

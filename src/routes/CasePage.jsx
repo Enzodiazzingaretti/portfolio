@@ -4,7 +4,7 @@ import NotFound from "./NotFound";
 import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../cases";
 
 /**
- * Caso de estudio de un proyecto web: /web/<slug>.
+ * Caso de estudio: /<categoría>/<slug> (los sitios, en /tech).
  *
  * Título, bajada y orden salen de `content.cases` (el bundle, así el home y las
  * tarjetas muestran lo mismo). El cuerpo sale de src/cases/, que entra con esta

@@ -33,7 +33,7 @@ export default {
         items: [
           {
             title: "Cuatro rutas en lugar de nueve secciones",
-            text: "El home quedó en un hero más un índice de cuatro filas, y cada disciplina tiene su URL: `/motion`, `/3d`, `/grafica` y `/web`. Sobre mí y Contacto se abren en un panel lateral desde cualquier categoría.",
+            text: "El home quedó en un hero más un índice de cuatro filas, y cada disciplina tiene su URL: `/motion`, `/3d`, `/grafica` y `/tech`. Sobre mí y Contacto se abren en un panel lateral desde cualquier categoría.",
             discarded:
               "Un overlay a pantalla completa: más fluido, pero sin links propios, y en un portfolio importa poder mandar a alguien directo a `/3d`. También agrupar la obra en tres «mundos» conceptuales: quien busca flyers no sabría dónde mirar.",
           },

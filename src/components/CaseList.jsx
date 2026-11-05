@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { caseHref } from "../cases/covers";
 
 /**
  * Los casos de estudio en el home: una fila por caso, con la misma lógica que
  * el índice de categorías (número, título, bajada y flecha). Cada fila lleva a
- * /web/<slug>. Sin miniaturas a propósito: el home ya tiene el showcase, y
+ * /tech/<slug>. Sin miniaturas a propósito: el home ya tiene el showcase, y
  * acá lo que se ofrece es leer.
  */
 export default function CaseList({ cases, label }) {
@@ -13,7 +14,7 @@ export default function CaseList({ cases, label }) {
     <ol className="case-rows" aria-label={label}>
       {cases.map((item, i) => (
         <li key={item.slug}>
-          <Link to={`/web/${item.slug}`} className="case-row">
+          <Link to={caseHref(item.slug)} className="case-row">
             <span className="case-row-rule" aria-hidden="true" />
             <span className="case-row-num font-mono">{String(i + 1).padStart(2, "0")}</span>
             <span className="case-row-main">

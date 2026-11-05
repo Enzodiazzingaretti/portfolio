@@ -7,7 +7,7 @@ const english = siteContent.locales.en;
 
 describe("buildCategories", () => {
   it("returns the four disciplines in route order", () => {
-    expect(buildCategories(english).map((c) => c.slug)).toEqual(["motion", "3d", "grafica", "web"]);
+    expect(buildCategories(english).map((c) => c.slug)).toEqual(["motion", "3d", "grafica", "tech"]);
   });
 
   it("drops a group whose list is empty and counts only what is left", () => {
@@ -18,13 +18,22 @@ describe("buildCategories", () => {
   });
 
   it("drops a category with nothing in it", () => {
-    const withoutWeb = buildCategories({ ...english, webProjects: [] });
-    expect(withoutWeb.map((c) => c.slug)).not.toContain("web");
+    // MOTION es solo reels desde 2026-11: sin reels, no hay categoría
+    const withoutReels = buildCategories({ ...english, motionReels: [] });
+    expect(withoutReels.map((c) => c.slug)).not.toContain("motion");
+  });
+
+  it("groups real-time, generative and web work under TECH, sites last", () => {
+    const tech = buildCategories(english).find((c) => c.slug === "tech");
+    expect(tech.groups.map((g) => g.id)).toEqual(["touchdesigner", "lab", "proyectos"]);
+    const sinSitios = buildCategories({ ...english, webProjects: [] }).find((c) => c.slug === "tech");
+    expect(sinSitios.groups.map((g) => g.id)).toEqual(["touchdesigner", "lab"]);
   });
 
   it("passes the repository link of web projects through to the card", () => {
-    const web = buildCategories(english).find((c) => c.slug === "web");
-    const portfolio = web.groups[0].items.find((item) => item.repoUrl?.endsWith("/portfolio"));
+    const tech = buildCategories(english).find((c) => c.slug === "tech");
+    const sitios = tech.groups.find((g) => g.id === "proyectos");
+    const portfolio = sitios.items.find((item) => item.repoUrl?.endsWith("/portfolio"));
     expect(portfolio).toBeTruthy();
   });
 

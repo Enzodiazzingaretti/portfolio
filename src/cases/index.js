@@ -3,11 +3,12 @@ import en from "./en.js";
 import pt from "./pt.js";
 
 /**
- * Casos de estudio de /web. Este módulo entra solo con la página de caso
+ * Casos de estudio (/<categoría>/<slug>; los sitios van en /tech). Este
+ * módulo entra solo con la página de caso
  * (lazy): el home y las categorías no cargan estos textos.
  *
  * El título, la bajada y el orden de cada caso viven en `siteContent.i18n.js`
- * (`cases`), porque el home y las tarjetas de /web también los muestran. Acá va
+ * (`cases`), porque el home y las tarjetas de /tech también los muestran. Acá va
  * el cuerpo. Los textos no se editan desde /admin: son código, como
  * `about.facts`.
  *
@@ -17,7 +18,7 @@ import pt from "./pt.js";
  */
 export const CASE_ASSETS = {
   portfolio: {
-    category: "web",
+    category: "tech",
     year: "2025–2026",
     stack: ["React 19", "Vite", "Three.js", "GLSL", "Tailwind CSS", "Vercel Functions", "Vitest"],
     site: null, // es este sitio
@@ -31,7 +32,7 @@ export const CASE_ASSETS = {
     },
   },
   "tamara-gonzalez": {
-    category: "web",
+    category: "tech",
     year: "2026",
     stack: ["React 19", "Vite", "Tailwind CSS", "Framer Motion", "Vercel Functions", "GitHub API", "Vitest"],
     site: "https://tamara-portfolio-xi.vercel.app/",
@@ -44,7 +45,7 @@ export const CASE_ASSETS = {
     },
   },
   "andino-seguros": {
-    category: "web",
+    category: "tech",
     year: "2026",
     stack: ["Next.js 16", "TypeScript", "Tailwind CSS 4", "Zod", "Sanity", "Supabase", "Vercel"],
     site: "https://andino-seguros.vercel.app/",
@@ -62,7 +63,7 @@ export const CASE_ASSETS = {
   // un capítulo de este; /web/ctrl-z redirige acá desde vercel.json, por si
   // ese link quedó compartido.
   "press-kits": {
-    category: "web",
+    category: "tech",
     year: "2025–2026",
     stack: ["HTML", "CSS", "JavaScript", "Vercel"],
     site: null,

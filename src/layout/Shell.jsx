@@ -109,7 +109,7 @@ export default function Shell() {
   }, [language]);
 
   useEffect(() => {
-    // Las rutas de dos niveles (un caso de /web) ponen su propio título: este
+    // Las rutas de dos niveles (un caso de /tech) ponen su propio título: este
     // efecto corre después que el de la página y lo pisaría.
     if (location.pathname.split("/").filter(Boolean).length > 1) return;
     const active = categories.find((c) => location.pathname === `/${c.slug}`);

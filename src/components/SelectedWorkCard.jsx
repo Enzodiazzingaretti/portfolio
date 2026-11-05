@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import BrowserFrame from "./BrowserFrame";
+import { caseHref as rutaDelCaso } from "../cases/covers";
 
 /**
  * SelectedWorkCard - Tarjeta de proyecto web con preview
  *
  * Un proyecto con `caseSlug` tiene caso de estudio escrito: la captura y el
- * título llevan a /web/<slug> y el botón principal es «Leer el caso». Los que
+ * título llevan a /tech/<slug> y el botón principal es «Leer el caso». Los que
  * no tienen caso siguen abriendo el modal con la ficha.
  *
  * @param {Object} props
@@ -17,7 +18,7 @@ import BrowserFrame from "./BrowserFrame";
 export default function SelectedWorkCard({ project, index, onOpen, labels }) {
   const imageOrder = index % 2 === 0 ? "" : "md:order-2";
   const textOrder = index % 2 === 0 ? "" : "md:order-1";
-  const caseHref = project.caseSlug ? `/web/${project.caseSlug}` : null;
+  const caseHref = project.caseSlug ? rutaDelCaso(project.caseSlug) : null;
   const buttonClass = "premium-button px-5 py-3 font-mono text-caption uppercase tracking-[0.24em]";
 
   const frame = (

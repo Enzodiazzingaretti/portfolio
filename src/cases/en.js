@@ -30,7 +30,7 @@ export default {
         items: [
           {
             title: "Four routes instead of nine sections",
-            text: "The home page became a hero plus a four-row index, and each discipline got its own URL: `/motion`, `/3d`, `/grafica` and `/web`. About and Contact open in a side panel from any category.",
+            text: "The home page became a hero plus a four-row index, and each discipline got its own URL: `/motion`, `/3d`, `/grafica` and `/tech`. About and Contact open in a side panel from any category.",
             discarded:
               "A full-screen overlay: smoother, but with no links of its own, and in a portfolio you want to be able to send someone straight to `/3d`. Also grouping the work into three conceptual “worlds”: someone looking for flyers wouldn't know where to look.",
           },

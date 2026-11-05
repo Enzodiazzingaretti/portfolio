@@ -4,9 +4,10 @@ import { siteContent } from "../src/siteContent.i18n.js";
 import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../src/cases/index.js";
 import { buildCategories } from "../src/categories.js";
 import { buildShowcase } from "../src/showcasePicks.js";
+import { CASE_COVERS, caseHref } from "../src/cases/covers.js";
 
 /**
- * Casos de estudio (/web/<slug>). El título y la bajada viven en el bundle,
+ * Casos de estudio (/tech/<slug> los sitios). El título y la bajada viven en el bundle,
  * el cuerpo en src/cases/, las imágenes en public/images/casos/. Estos tests
  * fallan si alguna de las tres partes se desalinea, o si un idioma cuenta un
  * caso con otra estructura que los demás.
@@ -142,8 +143,16 @@ describe("case studies", () => {
 
   it("reach the web cards through the normalizer", () => {
     const categories = buildCategories(siteContent.locales.en);
-    const web = categories.find((c) => c.slug === "web");
-    expect(web.groups[0].items.filter((i) => i.caseSlug).map((i) => i.caseSlug).sort()).toEqual([...slugsOf("en")].sort());
+    const sitios = categories.find((c) => c.slug === "tech").groups.find((g) => g.id === "proyectos");
+    expect(sitios.items.filter((i) => i.caseSlug).map((i) => i.caseSlug).sort()).toEqual([...slugsOf("en")].sort());
+  });
+
+  it("link to the route of their category, from the home too", () => {
+    for (const [slug, assets] of Object.entries(CASE_ASSETS)) {
+      expect(CASE_COVERS[slug]?.category, slug).toBe(assets.category);
+      expect(caseHref(slug)).toBe(`/${assets.category}/${slug}`);
+      expect(buildCategories(siteContent.locales.es).map((c) => c.slug)).toContain(assets.category);
+    }
   });
 
   it("keeps every selected-work piece pointing at its category", () => {
@@ -151,6 +160,6 @@ describe("case studies", () => {
     // piezas para quien contrata (campaña, reel, 3D, spec, tiempo real).
     const picks = buildShowcase(buildCategories(siteContent.locales.en));
     expect(picks.map((p) => p.id)).toEqual(["sonar-key-visual", "sonar-caso", "golden-faces", "240-kmh", "feedback-ritual"]);
-    picks.forEach((p) => expect(p.href).toMatch(/^\/(motion|3d|grafica|web)(\/|$)/));
+    picks.forEach((p) => expect(p.href).toMatch(/^\/(motion|3d|grafica|tech)(\/|$)/));
   });
 });
