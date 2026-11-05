@@ -863,7 +863,7 @@ export const siteContent = {
         },
         grafica: {
           title: "GRAPHICS",
-          kicker: "Flyers / Identity",
+          kicker: "Campaigns / Flyers / Identity",
           subtitle: "Pieces for electronic music events and identities for artists and labels.",
           groups: {
             campanas: { title: "Campaigns & art direction", note: "Sonar Produce: visual system and launch campaign for its first night" },
@@ -1123,7 +1123,7 @@ export const siteContent = {
         },
         grafica: {
           title: "GRÁFICA",
-          kicker: "Flyers / Identidade",
+          kicker: "Campanhas / Flyers / Identidade",
           subtitle: "Peças para eventos de eletrônica e identidades para artistas e selos.",
           groups: {
             campanas: { title: "Campanhas e direção de arte", note: "Sonar Produce: sistema visual e campanha da primeira data" },
