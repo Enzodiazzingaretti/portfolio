@@ -455,22 +455,25 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       magFilter: THREE.NearestFilter,
     });
     const atlas = createGlyphAtlas();
-    // La fuente puede no estar lista al armar el atlas: se redibuja una vez
-    document.fonts?.ready
-      ?.then(() => {
-        const ctx = atlas.canvas.getContext("2d");
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, atlas.canvas.width, atlas.canvas.height);
-        ctx.fillStyle = "#fff";
-        ctx.font = `700 ${Math.round(atlas.size * 0.82)}px "JetBrains Mono", ui-monospace, "Courier New", monospace`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        for (let i = 0; i < RAMP.length; i += 1) {
-          ctx.fillText(RAMP[i], i * atlas.size + atlas.size / 2, atlas.size / 2 + atlas.size * 0.03);
-        }
-        atlas.texture.needsUpdate = true;
-      })
-      .catch(() => {});
+    // La fuente puede no estar lista al armar el atlas: se redibuja cuando
+    // termina de cargar. `fonts.ready` solo no alcanza: la hoja de Google
+    // Fonts entra asíncrona y puede resolverse antes de registrar la fuente.
+    const redibujarAtlas = () => {
+      const ctx = atlas.canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, atlas.canvas.width, atlas.canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.font = `700 ${Math.round(atlas.size * 0.82)}px "JetBrains Mono", ui-monospace, "Courier New", monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      for (let i = 0; i < RAMP.length; i += 1) {
+        ctx.fillText(RAMP[i], i * atlas.size + atlas.size / 2, atlas.size / 2 + atlas.size * 0.03);
+      }
+      atlas.texture.needsUpdate = true;
+    };
+    document.fonts?.ready?.then(redibujarAtlas);
+    document.fonts?.addEventListener?.("loadingdone", redibujarAtlas);
 
     const cellUniforms = {
       tScene: { value: sceneTarget.texture },
@@ -926,6 +929,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
 
     return () => {
       cancelAnimationFrame(anim.raf);
+      document.fonts?.removeEventListener?.("loadingdone", redibujarAtlas);
       window.clearInterval(reloj);
       window.clearTimeout(tMascara);
       ro.disconnect();

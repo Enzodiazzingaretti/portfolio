@@ -62,6 +62,12 @@ export function useFitLines(ref, deps = []) {
 
     pedir();
     document.fonts?.ready?.then(pedir);
+    // La hoja de Google Fonts entra asíncrona (media="print" → "all"): cuando
+    // `fonts.ready` se resuelve, Anton todavía no está registrada y el nombre
+    // quedaba medido —y dibujado detrás del vidrio— con la fuente de
+    // reemplazo. Cada tanda de fuentes que termina de cargar vuelve a ajustar
+    // (y el `hero-layout` del final hace que la escena lo redibuje).
+    document.fonts?.addEventListener?.("loadingdone", pedir);
     const ro = new ResizeObserver(pedir);
     ro.observe(root);
     window.addEventListener("resize", pedir);
@@ -69,6 +75,7 @@ export function useFitLines(ref, deps = []) {
       cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("resize", pedir);
+      document.fonts?.removeEventListener?.("loadingdone", pedir);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
