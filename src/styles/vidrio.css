@@ -592,7 +592,9 @@ html.glass-type .vx-name-line {
   .vx-band { grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 1fr); }
 }
 
-@media (max-width: 767px) {
+/* Celular y tablet vertical: todo apilado (en una tablet parada la banda
+   centrada quedaba chica entre dos renglones enormes y mucho vacío). */
+@media (max-width: 767px), (max-width: 1180px) and (orientation: portrait) {
   .vx-hero { padding-top: 5rem; min-height: auto; }
   .vx-stage { flex-direction: column; }
   .vx-name { flex: 0 0 auto; }

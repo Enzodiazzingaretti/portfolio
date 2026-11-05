@@ -26,10 +26,23 @@ export function useFitLines(ref, deps = []) {
         el.style.fontSize = `${Math.floor(size * 100) / 100}px`;
       });
       // Composición del hero: la fila editorial va pegada al primer renglón y
-      // la banda y la escultura se centran en el hueco entre los dos.
+      // la banda y la escultura se centran en el hueco entre los dos. En
+      // pantallas bajas (1280×720, 1024×768) los renglones a todo el ancho
+      // dejan un hueco más chico que la banda: se achican hasta que entre.
       const stage = root.querySelector(".vx-stage");
       const top = root.querySelector(".vx-name-row--top");
       const bottom = root.querySelector(".vx-name-row--bottom");
+      const band = root.querySelector(".vx-band");
+      if (stage && top && bottom && band && getComputedStyle(band).position === "absolute") {
+        const lines = root.querySelectorAll("[data-fit]");
+        for (let i = 0; i < 8; i++) {
+          const hueco = bottom.getBoundingClientRect().top - top.getBoundingClientRect().bottom;
+          if (hueco >= band.offsetHeight + 72) break;
+          lines.forEach((el) => {
+            el.style.fontSize = `${Math.floor(parseFloat(el.style.fontSize) * 0.9 * 100) / 100}px`;
+          });
+        }
+      }
       if (stage && top) {
         const s = stage.getBoundingClientRect();
         const a = top.getBoundingClientRect().bottom - s.top;
