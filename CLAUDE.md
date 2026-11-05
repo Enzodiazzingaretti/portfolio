@@ -31,7 +31,8 @@ producción). Las ramas remotas que quedan están todas mergeadas.
   «mis sets», ni el Instagram del alias, ni la consola firmada por KEXXY.
 - **Dominio: `enzo-diaz-zingaretti.vercel.app`.** `portfolio-kexxy.vercel.app`
   sigue asignado y redirige con un 308 por host desde `vercel.json`, así los
-  links viejos de CV y LinkedIn siguen andando.
+  links viejos de CV y LinkedIn siguen andando. La raíz tiene su propia regla
+  (`"source": "/"`): `/:path*` no la agarraba y el home viejo daba 200.
 - **Trabajo seleccionado** (`showcasePicks.js`): campaña de Sonar, reel del caso
   Sonar, Golden Faces, 240 KM/H y Feedback Ritual. Los sitios y el lab quedan
   en sus categorías, como diferencial.
@@ -76,10 +77,25 @@ regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
   originales están en el Drive, carpeta «reels portfolio». Un reel de cliente
   entra recién cuando el cliente lo publicó.
 - **Componentes del home:** `Showreel`, `ReelsRail` (celulares de vidrio),
-  `CategoryIndex` (contorno que se llena + tarjetas que siguen al cursor; en
-  táctil, tira de fotogramas), `CasePosters` (tarjetas en capas) y
+  `CategoryIndex` (contorno que se llena + tarjetas que siguen al cursor; sin
+  hover, ver «El índice sin hover» más abajo), `CasePosters` (tarjetas en capas) y
   `SectionHead` en `src/fx/Hud.jsx` (título con máscara y el mismo título en
   contorno detrás, con parallax por `animation-timeline: view()` donde existe).
+- **El índice sin hover** (celular y tablet; 2026-11-05, a pedido: «más
+  grande, dinámico, bello»). Cada fila: número, cuenta y flecha arriba, el
+  título a todo el ancho y una tira de fotogramas grandes de borde a borde
+  (76vw de alto, tope 380 px), cada uno en su formato (los posters de loops,
+  9:16; el resto, el de la sala) y con su rótulo, como una hoja de contactos.
+  La fila que cruza el medio de la pantalla (una franja del 2 %) hace de
+  hover: se llena el título, el visor se pone rojo y su tira corre; las otras
+  quedan quietas bajo un velo (no con opacity: se veía el ASCII a través de la
+  obra). La pista tiene tres tandas y corre de un tercio a dos tercios de su
+  largo, con margen y no gap para que el loop no salte; la duración sale del
+  largo de la tanda (`--ix-dur`), así todas van a ~33 px/s. Las filas alternan
+  el sentido y el scroll las empuja (`view()`). Los fotogramas se montan 700 px
+  antes de que llegue la fila y sin `lazy`: con lazy bajaban recién al entrar
+  a la tira y aparecían en blanco. Los posters de loops miden 360 px de ancho:
+  por eso la tira no pasa de ~190 px por fotograma vertical.
 - **Transición entre rutas:** `src/fx/SignalCut.jsx` (paneles de vidrio y una
   línea roja, ~0,75 s; no corre en la primera carga ni con movimiento reducido).
 - **Capturas sin GPU:** `?sinfondo` (solo dev) no monta el WebGL; para filmar el
@@ -275,6 +291,15 @@ MotionCard, AboutSection, ContactSection, hooks de scroll, voronoi).
 No está borrado por si hace falta recuperar algo.
 
 ### 2.3 Decisiones no obvias
+
+> [!warning] La raíz del Shell recorta con `overflow-x: clip`, no `hidden`
+> `overflow-x: hidden` con `overflow-y: visible` hace que el `y` compute a
+> `auto`: la raíz (`.shell-root`) quedaba como contenedor de scroll que nunca
+> scrollea, y todo lo que mide el scroll estaba congelado sin que se notara:
+> los `view()` de `SectionHead`, de la sala y del índice, y los títulos sticky
+> de los casos. Se arregló el 2026-11-05. Vale para cualquier ancestro de algo
+> con `view()` o `sticky` (`.sala-marco` y `.ix-strip` también van con clip);
+> `hidden` queda antes como respaldo para navegadores sin clip.
 
 **El fondo WebGL vive en el Shell, fuera de `<Routes>`.** Al navegar entre
 categorías no se recrea el contexto: se pausa el `requestAnimationFrame`
