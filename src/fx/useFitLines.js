@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
 /**
- * Ajusta el cuerpo de cada renglón `[data-fit]` para que ocupe justo el ancho
- * de su contenedor, como un titular de afiche compuesto a mano. El alto lo
- * limita `data-fit-max` (en vh). Al terminar avisa con `hero-layout`: la
+ * Compone los renglones `[data-fit]` a un mismo cuerpo, el que hace que el
+ * más largo ocupe justo el ancho de su contenedor, como un titular de afiche.
+ * El alto lo limita `data-fit-max` (en vh). Al terminar avisa con `hero-layout`: la
  * escena de vidrio vuelve a medir el nombre para dibujarlo detrás del vidrio.
  */
 export function useFitLines(ref, deps = []) {
@@ -22,16 +22,19 @@ export function useFitLines(ref, deps = []) {
         const w = el.getBoundingClientRect().width;
         return box && w ? (100 * box) / w : 0;
       });
-      // 2) Un mismo factor para todos si alguno pasa su alto máximo (vh): así
-      //    los renglones siguen justificados al mismo ancho, como un bloque.
+      // 2) Todos los renglones al cuerpo del más largo (el que pide la letra
+      //    más chica): comparten tamaño y el nombre se lee como un bloque
+      //    aunque un renglón sea corto («ENZO» sobre «ZINGARETTI»). El alto
+      //    lo topa `data-fit-max`, en vh.
+      const comun = Math.min(...sizes.filter(Boolean), Infinity);
       let k = 1;
-      lines.forEach((el, i) => {
+      lines.forEach((el) => {
         const maxVh = Number(el.dataset.fitMax || 0);
-        if (maxVh && sizes[i]) k = Math.min(k, (window.innerHeight * maxVh) / 100 / sizes[i]);
+        if (maxVh && Number.isFinite(comun)) k = Math.min(k, (window.innerHeight * maxVh) / 100 / comun);
       });
       const aplicar = () =>
         lines.forEach((el, i) => {
-          if (sizes[i]) el.style.fontSize = `${Math.floor(sizes[i] * k * 100) / 100}px`;
+          if (sizes[i] && Number.isFinite(comun)) el.style.fontSize = `${Math.floor(comun * k * 100) / 100}px`;
         });
       aplicar();
       // 3) En desktop el hero entra en una pantalla: si no entra (1280×720,

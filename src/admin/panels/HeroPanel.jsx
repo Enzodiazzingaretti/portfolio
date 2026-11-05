@@ -7,7 +7,7 @@ export default function HeroPanel({ draft, update }) {
   const set = (k) => (v) => update(["hero", k], v);
   return (
     <div>
-      <TextField label="Título" value={h.title} onChange={set("title")} placeholder="ENZO DIAZ ZINGARETTI" />
+      <TextField label="Título" value={h.title} onChange={set("title")} placeholder="ENZO ZINGARETTI" />
       <TextArea label="Descripción" value={h.description} onChange={set("description")} rows={3} />
       <TextField label="Ubicación" value={h.location} onChange={set("location")} />
       <TextField label="Disponibilidad" value={h.availability} onChange={set("availability")} />

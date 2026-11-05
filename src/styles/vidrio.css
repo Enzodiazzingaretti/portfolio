@@ -144,7 +144,7 @@ body {
   transition: opacity 500ms var(--ease), visibility 0s linear 500ms;
 }
 
-.hero-glass { position: absolute; inset: 0; }
+.hero-glass { position: absolute; inset: 0; transition: opacity 700ms var(--ease); }
 .hero-backdrop-wash { display: none; }
 
 #main { position: relative; z-index: 10; }

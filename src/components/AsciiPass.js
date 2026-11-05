@@ -16,7 +16,7 @@ import * as THREE from "three";
 
 // Rampa de densidad, del vacio al lleno. Catorce niveles: con diez, los
 // degrades de la escultura se cortaban en parches planos.
-const RAMP = " .,:;~=+*xX#%8@";
+export const RAMP = " .,:;~=+*xX#%8@";
 
 const INK = new THREE.Color("#E8E4DC"); // blanco hueso
 const ACCENT = new THREE.Color("#FF3B3B"); // acento rojo en las zonas calientes
@@ -25,7 +25,7 @@ const ACCENT = new THREE.Color("#FF3B3B"); // acento rojo en las zonas calientes
  * Dibuja la rampa en un canvas horizontal, un glifo por celda cuadrada.
  * @param {number} size - lado en px de cada celda del atlas
  */
-function createGlyphAtlas(size = 64) {
+export function createGlyphAtlas(size = 64) {
   const canvas = document.createElement("canvas");
   canvas.width = size * RAMP.length;
   canvas.height = size;

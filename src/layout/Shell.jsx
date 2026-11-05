@@ -69,19 +69,12 @@ export default function Shell() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /**
-   * three.js entra recién la primera vez que se pisa el home. En un link
-   * directo a una categoría el fondo arranca en pausa y no llega a dibujar ni
-   * un cuadro, así que bajarlo era gastar ~130 KB y un contexto WebGL en nada.
-   */
-  const [heroMontado, setHeroMontado] = useState(isHome);
+  // El fondo WebGL (las animaciones ASCII y, en el home, el vidrio) va en
+  // todas las rutas: entra en su propio chunk, después del primer pintado.
   // Solo en dev: `?sinfondo` no monta el WebGL del hero. Sirve para grabar o
   // capturar en máquinas sin GPU, donde el render por software deja la
   // página a 1 cuadro cada pocos segundos. No viaja al build.
   const sinFondo = import.meta.env.DEV && new URLSearchParams(location.search).has("sinfondo");
-  useEffect(() => {
-    if (isHome) setHeroMontado(true);
-  }, [isHome]);
 
   const categories = useMemo(() => buildCategories(content), [content]);
   const navLabels = content.ui.nav;
@@ -156,9 +149,9 @@ export default function Shell() {
       )}
 
       <Atmosphere />
-      {heroMontado && !sinFondo ? (
+      {!sinFondo ? (
         <Suspense fallback={null}>
-          <HeroBackdrop active={isHome} revealActive={preloaded} />
+          <HeroBackdrop home={isHome} revealActive={preloaded} />
         </Suspense>
       ) : null}
       <GrainOverlay />

@@ -1,23 +1,37 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { RAMP, createGlyphAtlas } from "./AsciiPass";
+import { ASCII_FLOOR, ASCII_GAIN, ASCII_LEVELS_COMPACT, createSceneObject, disposeObject } from "../fx/asciiScenes";
+import { createLegibilityMask } from "../fx/legibilidad";
 
 /**
- * Hero «vidrio ahumado»: una escultura de vidrio líquido en el centro, que
- * refracta el nombre de verdad. El nombre que se ve a través del vidrio no es
- * una imagen aparte: se dibuja en una textura con las posiciones exactas del
- * <h1> del DOM (se miden sus renglones), y esa textura es el fondo de la
- * escena WebGL. Así el vidrio deforma letras reales y el <h1> sigue siendo
- * texto para lectores de pantalla y buscadores; se vuelve transparente recién
- * cuando la textura ya está dibujada (clase `glass-type` en <html>). Si WebGL
- * falla, el <h1> se ve como siempre.
+ * El fondo de todo el sitio, en un solo contexto WebGL montado en el Shell.
  *
- * Un solo contexto WebGL, montado en el Shell como el fondo de antes: se
- * pausa fuera del home, cuando el hero sale de pantalla y con la pestaña
- * oculta. Con movimiento reducido dibuja un cuadro quieto.
+ * Tres capas, de atrás hacia adelante:
+ * 1. Atmósfera grafito (la misma del CSS: luces, viñeta, retícula y grano).
+ * 2. Las animaciones con filtro ASCII (escultura, enjambre y hebras, que se
+ *    turnan cada 14 s). Ocupan todo el fondo, en todas las rutas; donde hay
+ *    texto, botones o tarjetas bajan la tinta (máscara de legibilidad), así
+ *    se ven en los huecos sin tapar lo que hay que leer.
+ * 3. En el home, el nombre y la escultura de vidrio, que refracta todo lo de
+ *    atrás: las letras y los caracteres. El nombre que se ve a través del
+ *    vidrio no es una imagen aparte: se dibuja en una textura con las
+ *    posiciones exactas del <h1> del DOM, que sigue siendo texto para
+ *    lectores de pantalla y buscadores (se vuelve transparente recién cuando
+ *    la textura está lista, con la clase `glass-type` en <html>).
  *
- * El lugar y el tamaño de la escultura los decide el CSS: un ancla vacía en el
- * hero (`[data-glass-anchor]`) que la escena lee y convierte a coordenadas del
- * mundo. Cambiar la composición por breakpoint no toca este archivo.
+ * El ASCII se calcula en dos pasos: la escena 3D se dibuja a media
+ * resolución, un pase chico promedia cada celda (una textura de una celda por
+ * píxel) y el fondo solo lee esa celda y el glifo. El pase viejo hacía diez
+ * muestras por píxel a resolución completa (CLAUDE.md, 3.6).
+ *
+ * Fuera del hero el fondo va a 30 cuadros; con la pestaña oculta o un panel
+ * abierto no dibuja. Con movimiento reducido dibuja un cuadro quieto. Si
+ * WebGL falla, queda la atmósfera del CSS y el <h1> del DOM.
+ *
+ * El lugar y el tamaño de la escultura de vidrio los decide el CSS: un ancla
+ * vacía en el hero (`[data-glass-anchor]`) que la escena lee y convierte a
+ * coordenadas del mundo.
  */
 
 const NOISE = /* glsl */ `
@@ -66,23 +80,83 @@ float snoise(vec3 v){
 }
 `;
 
-/** Fondo de la escena: la atmósfera grafito (igual a la del CSS) y el nombre. */
-const BG_VERT = /* glsl */ `
+const QUAD_VERT = /* glsl */ `
 varying vec2 vUv;
 void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
 `;
 
+const SRGB = /* glsl */ `
+vec3 toSRGB(vec3 c){
+  c = max(c, vec3(0.0));
+  return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c));
+}
+`;
+
+/**
+ * Promedio por celda. Se dibuja en una textura de una celda por píxel: cada
+ * píxel promedia, con diez muestras en cruz, la región de la escena que cubre
+ * su celda, y la pasa por los niveles de la escena (punto de negro, punto de
+ * blanco y curva). Los taps se abren un poco más que la celda: así cada
+ * partícula del enjambre mancha las vecinas y el campo lee continuo.
+ */
+const CELL_FRAG = /* glsl */ `
+uniform sampler2D tScene;
+uniform vec2 uCells;
+uniform vec2 uCellUv;
+uniform float uGain;
+uniform float uFloor;
+varying vec2 vUv;
+${SRGB}
+void main(){
+  vec2 cell = floor(vUv * uCells);
+  vec2 c = (cell + 0.5) * uCellUv;
+  vec2 s = uCellUv * 0.85;
+  vec3 acc = texture2D(tScene, c).rgb * 2.0;
+  acc += texture2D(tScene, c + vec2( s.x,  s.y)).rgb;
+  acc += texture2D(tScene, c + vec2(-s.x,  s.y)).rgb;
+  acc += texture2D(tScene, c + vec2( s.x, -s.y)).rgb;
+  acc += texture2D(tScene, c + vec2(-s.x, -s.y)).rgb;
+  acc += texture2D(tScene, c + vec2( s.x,  0.0)).rgb;
+  acc += texture2D(tScene, c + vec2(-s.x,  0.0)).rgb;
+  acc += texture2D(tScene, c + vec2( 0.0,  s.y)).rgb;
+  acc += texture2D(tScene, c + vec2( 0.0, -s.y)).rgb;
+  float lum = dot(toSRGB(acc / 10.0), vec3(0.2126, 0.7152, 0.0722));
+  // Niveles antes de la curva (ver CLAUDE.md, 3.2)
+  float lifted = max(lum - uFloor, 0.0) / max(1.0 - uFloor, 0.001);
+  gl_FragColor = vec4(pow(clamp(lifted * uGain, 0.0, 1.0), 0.62), 0.0, 0.0, 1.0);
+}
+`;
+
+/** El fondo: atmósfera, caracteres, retícula, nombre y grano. */
 const BG_FRAG = /* glsl */ `
-uniform sampler2D uType;
-uniform float uScroll;
 uniform float uTime;
 uniform float uAspect;
 uniform vec2 uGlow;
+uniform float uGlowK;
 uniform float uCore;
 uniform float uCoreR;
 uniform vec3 uCoreCol;
 uniform vec4 uGrid;
+uniform sampler2D tCells;
+uniform sampler2D tScene;
+uniform sampler2D tGlyphs;
+uniform vec2 uCells;
+uniform vec2 uRes;
+uniform float uCellPx;
+uniform float uGlyphs;
+uniform vec3 uInkCol;
+uniform vec3 uAccent;
+uniform float uInk;
+uniform float uKeep;
+uniform sampler2D tLegible;
+uniform vec3 uPage;
+uniform float uProtect;
+uniform float uBar;
+uniform sampler2D uType;
+uniform float uTypeOn;
+uniform float uScroll;
 varying vec2 vUv;
+${SRGB}
 float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
 void main(){
   vec2 p = vUv; p.x *= uAspect;
@@ -90,30 +164,53 @@ void main(){
   vec3 deep = vec3(0.055, 0.059, 0.071);             // #0E0F12 en los bordes
   float vig = smoothstep(0.25, 1.15, length((vUv - 0.5) * vec2(1.15, 1.0)));
   vec3 col = mix(base, deep, vig);
-  // Luz roja cálida detrás de la escultura y humo frío abajo a la izquierda
+  // Luz roja cálida donde está la pieza y humo frío abajo a la izquierda
   vec2 g = uGlow; g.x *= uAspect;
   float red = exp(-pow(length(p - g) * 1.55, 2.0));
-  col += vec3(0.898, 0.141, 0.212) * red * 0.30;
-  // Contraluz: un núcleo rojo más chico justo detrás de la escultura, para
-  // que el vidrio tenga algo que doblar aunque no tenga letras atrás
+  col += vec3(0.898, 0.141, 0.212) * red * uGlowK;
+  vec2 sm = vec2(0.08 * uAspect, 0.06);
+  float smoke = exp(-pow(length(p - sm) * 1.25, 2.0));
+  col += vec3(0.52, 0.53, 0.57) * smoke * 0.10;
+  // Contraluz chico detrás del vidrio (solo en el hero)
   float core = exp(-pow(length(p - g) / max(uCoreR, 0.001), 2.0));
   col += uCoreCol * core * uCore;
-  // La retícula de 12 columnas de la atmósfera del CSS (que el lienzo tapa):
-  // sigue de largo por el hero y el vidrio la dobla
-  float gx = (vUv.x - uGrid.x) / max(uGrid.y, 0.0001) * 12.0;
-  if (gx > -0.02 && gx < 11.98) {
-    float dpx = abs(fract(gx + 0.5) - 0.5) * uGrid.y / 12.0 * uGrid.z;
+
+  // Máscara de legibilidad, en coordenadas de página: corre con el scroll
+  float pageY = uPage.x + (1.0 - vUv.y) * uPage.z;
+  float legible = texture2D(tLegible, vec2(vUv.x, 1.0 - pageY / max(uPage.y, 1.0))).r;
+  // La barra es fija: su franja se protege en coordenadas de pantalla
+  float yTop = (1.0 - vUv.y) * uPage.z;
+  legible = max(legible, 1.0 - smoothstep(uBar, uBar + 28.0, yTop));
+  float ink = uInk * (1.0 - uProtect * legible);
+
+  // Caracteres: la celda ya viene promediada; acá solo se elige el glifo.
+  // La escena queda atenuada debajo, si no el campo pierde el volumen.
+  vec2 px = vUv * uRes;
+  vec2 cell = floor(px / uCellPx);
+  float shaped = texture2D(tCells, (cell + 0.5) / uCells).r;
+  vec2 inCell = fract(px / uCellPx);
+  float gi = floor(shaped * (uGlyphs - 0.001));
+  float gx = (gi + clamp(inCell.x, 0.03, 0.97)) / uGlyphs;
+  float glyph = texture2D(tGlyphs, vec2(gx, clamp(inCell.y, 0.02, 0.98))).r;
+  vec3 tint = mix(uInkCol, uAccent, smoothstep(0.80, 0.99, shaped));
+  col += toSRGB(texture2D(tScene, vUv).rgb) * uKeep * ink;
+  col += tint * glyph * (0.40 + shaped * 1.05) * ink;
+
+  // La retícula de 12 columnas de la atmósfera del CSS
+  float gx2 = (vUv.x - uGrid.x) / max(uGrid.y, 0.0001) * 12.0;
+  if (gx2 > -0.02 && gx2 < 11.98) {
+    float dpx = abs(fract(gx2 + 0.5) - 0.5) * uGrid.y / 12.0 * uGrid.z;
     float fade = smoothstep(0.0, 0.14, vUv.y) * smoothstep(0.0, 0.14, 1.0 - vUv.y);
     col = mix(col, vec3(0.898, 0.890, 0.878), (1.0 - smoothstep(0.5, 1.5, dpx)) * fade * uGrid.w);
   }
-  vec2 s = vec2(0.08 * uAspect, 0.06);
-  float smoke = exp(-pow(length(p - s) * 1.25, 2.0));
-  col += vec3(0.52, 0.53, 0.57) * smoke * 0.10;
-  // El nombre, en coordenadas de página: sube con el scroll
-  vec2 tuv = vec2(vUv.x, vUv.y - uScroll);
-  if (tuv.y >= 0.0 && tuv.y <= 1.0) {
-    vec4 t = texture2D(uType, tuv);
-    col = mix(col, t.rgb, t.a);
+
+  // El nombre (solo en el home), en coordenadas de página: sube con el scroll
+  if (uTypeOn > 0.5) {
+    vec2 tuv = vec2(vUv.x, vUv.y - uScroll);
+    if (tuv.y >= 0.0 && tuv.y <= 1.0) {
+      vec4 t = texture2D(uType, tuv);
+      col = mix(col, t.rgb, t.a);
+    }
   }
   // Grano fino, el mismo del resto del sitio
   col += (hash(vUv * 900.0 + fract(uTime) * 37.0) - 0.5) * 0.028;
@@ -121,11 +218,32 @@ void main(){
 }
 `;
 
+/** Copia del fondo a la pantalla, cuando el vidrio va encima. */
+const COPY_FRAG = /* glsl */ `
+uniform sampler2D uBg;
+varying vec2 vUv;
+void main(){ gl_FragColor = texture2D(uBg, vUv); }
+`;
+
 const RED = "#E52436";
+
+// Celdas de caracteres en px CSS: más grandes en celular, menos pero legibles
+const CELDA = { desktop: 11, compact: 9 };
+// La escena del ASCII se dibuja a px CSS (dpr 1), que es donde se midieron
+// sus niveles. Lo caro era el pase de diez muestras por píxel, no esto.
+const ESCENA = 1;
+// Turnos de las escenas: cada una dura CICLO s; entra y sale por negro
+const ESCENAS = ["sculpture", "particles", "organic"];
+const CICLO = 14;
+const ENTRA = 1.4;
+const SALE = 0.9;
 
 function esCompacto() {
   return window.matchMedia("(max-width: 767px)").matches;
 }
+
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
+const lerp = (a, b, k) => a + (b - a) * k;
 
 /**
  * Ambiente propio para los reflejos: caja oscura con un softbox, una franja
@@ -280,10 +398,17 @@ function dibujarNombre(ctx, w, h, dpr) {
   return true;
 }
 
-export default function HeroGlass({ active = true, revealActive = true, reduced = false }) {
+export default function HeroGlass({ home = true, revealActive = true, reduced = false }) {
   const mount = useRef(null);
-  const estado = useRef({ active, revealActive, reduced });
-  estado.current = { active, revealActive, reduced };
+  const estado = useRef({ home, revealActive, reduced });
+  estado.current = { home, revealActive, reduced };
+  const api = useRef(null);
+
+  // Al entrar o salir del home el nombre aparece o se borra, la escultura se
+  // vuelve a anclar y la máscara de legibilidad se rehace.
+  useEffect(() => {
+    api.current?.alCambiarRuta();
+  }, [home]);
 
   useEffect(() => {
     const host = mount.current;
@@ -293,27 +418,27 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
     } catch {
-      return undefined; // sin WebGL: queda el <h1> del DOM
+      return undefined; // sin WebGL: queda la atmósfera del CSS y el <h1> del DOM
     }
 
     const compact = esCompacto();
-    const dprMax = compact ? 1.5 : 1.75;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprMax));
-    // Los dos shaders son propios y ya entregan color sRGB: nada de tone
-    // mapping ni conversión de espacio de color de three.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    // Los shaders son propios y ya entregan color sRGB: nada de tone mapping
+    // ni conversión de espacio de color de three.
     renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setClearColor(0x000000, 1);
     const canvas = renderer.domElement;
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.display = "block";
+    Object.assign(canvas.style, { width: "100%", height: "100%", display: "block" });
     host.appendChild(canvas);
+    host.style.opacity = "0";
 
-    const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     camera.position.set(0, 0, 8);
     const FONDO_Z = -5;
+    const quad = new THREE.PlaneGeometry(1, 1);
+    const DEG = Math.PI / 180;
 
-    // Fondo: atmósfera + nombre
+    // ── El nombre: una textura con los renglones del <h1>
     const typeCanvas = document.createElement("canvas");
     const typeCtx = typeCanvas.getContext("2d");
     const typeTex = new THREE.CanvasTexture(typeCanvas);
@@ -321,32 +446,127 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
     typeTex.colorSpace = THREE.NoColorSpace;
     typeTex.minFilter = THREE.LinearFilter;
     typeTex.generateMipmaps = false;
+
+    // ── ASCII: escena 3D (media resolución) → celdas → glifos
+    const sceneTarget = new THREE.WebGLRenderTarget(2, 2, { depthBuffer: true });
+    const cellTarget = new THREE.WebGLRenderTarget(2, 2, {
+      depthBuffer: false,
+      minFilter: THREE.NearestFilter,
+      magFilter: THREE.NearestFilter,
+    });
+    const atlas = createGlyphAtlas();
+    // La fuente puede no estar lista al armar el atlas: se redibuja una vez
+    document.fonts?.ready
+      ?.then(() => {
+        const ctx = atlas.canvas.getContext("2d");
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, atlas.canvas.width, atlas.canvas.height);
+        ctx.fillStyle = "#fff";
+        ctx.font = `700 ${Math.round(atlas.size * 0.82)}px "JetBrains Mono", ui-monospace, "Courier New", monospace`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        for (let i = 0; i < RAMP.length; i += 1) {
+          ctx.fillText(RAMP[i], i * atlas.size + atlas.size / 2, atlas.size / 2 + atlas.size * 0.03);
+        }
+        atlas.texture.needsUpdate = true;
+      })
+      .catch(() => {});
+
+    const cellUniforms = {
+      tScene: { value: sceneTarget.texture },
+      uCells: { value: new THREE.Vector2(1, 1) },
+      uCellUv: { value: new THREE.Vector2(1, 1) },
+      uGain: { value: ASCII_GAIN.sculpture },
+      uFloor: { value: ASCII_FLOOR.sculpture },
+    };
+    const cellCam = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0, 1);
+    cellCam.position.z = 0.5;
+    const cellScene = new THREE.Scene();
+    cellScene.add(
+      new THREE.Mesh(
+        quad,
+        new THREE.ShaderMaterial({
+          uniforms: cellUniforms,
+          vertexShader: QUAD_VERT,
+          fragmentShader: CELL_FRAG,
+          depthTest: false,
+          depthWrite: false,
+        }),
+      ),
+    );
+
+    // Las tres escenas en una sola escena 3D; se ve una por vez
+    const a3 = new THREE.Scene();
+    a3.fog = new THREE.FogExp2(0x050505, 0.12);
+    const a3cam = new THREE.PerspectiveCamera(45, 1, 0.1, 42);
+    a3cam.position.set(0, 0.18, 4.4);
+    const piezas = ESCENAS.map((kind) => {
+      const pieza = createSceneObject(kind, compact);
+      pieza.kind = kind;
+      pieza.object.visible = false;
+      // El enjambre mide sus puntos en px del render target, que va a px CSS
+      const pr = pieza.object.material?.uniforms?.uPixelRatio;
+      if (pr) pr.value = ESCENA;
+      a3.add(pieza.object);
+      return pieza;
+    });
+
+    // ── Máscara de legibilidad (coordenadas de página)
+    const mascara = createLegibilityMask();
+
+    // ── El fondo
     const bgUniforms = {
-      uType: { value: typeTex },
-      uScroll: { value: 0 },
       uTime: { value: 0 },
       uAspect: { value: 1 },
-      uGlow: { value: new THREE.Vector2(0.58, 0.55) },
-      uCore: { value: 0.5 },
+      uGlow: { value: new THREE.Vector2(0.66, 0.6) },
+      uGlowK: { value: 0.2 },
+      uCore: { value: 0 },
       uCoreR: { value: 0.12 },
       uCoreCol: { value: new THREE.Vector3(0.84, 0.68, 0.7) },
       uGrid: { value: new THREE.Vector4(0, 1, 1, 0) },
+      tCells: { value: cellTarget.texture },
+      tScene: { value: sceneTarget.texture },
+      tGlyphs: { value: atlas.texture },
+      uCells: { value: new THREE.Vector2(1, 1) },
+      uRes: { value: new THREE.Vector2(1, 1) },
+      uCellPx: { value: 11 },
+      uGlyphs: { value: RAMP.length },
+      uInkCol: { value: new THREE.Color("#E8E4DC") },
+      uAccent: { value: new THREE.Color("#FF3B3B") },
+      uInk: { value: 0 },
+      uKeep: { value: 0.36 },
+      tLegible: { value: mascara.texture },
+      uPage: { value: new THREE.Vector3(0, 1, 1) },
+      uProtect: { value: 0.86 },
+      uBar: { value: 0 },
+      uType: { value: typeTex },
+      uTypeOn: { value: 0 },
+      uScroll: { value: 0 },
     };
     const bg = new THREE.Mesh(
-      new THREE.PlaneGeometry(1, 1),
-      new THREE.ShaderMaterial({ uniforms: bgUniforms, vertexShader: BG_VERT, fragmentShader: BG_FRAG, depthWrite: false }),
+      quad,
+      new THREE.ShaderMaterial({ uniforms: bgUniforms, vertexShader: QUAD_VERT, fragmentShader: BG_FRAG, depthWrite: false }),
     );
     bg.position.z = FONDO_Z;
-    scene.add(bg);
-
-    // El fondo se dibuja primero en un render target: es lo que el vidrio
-    // refracta. Sin MSAA ni mipmaps, así se ve igual en cualquier GPU.
-    const bgTarget = new THREE.WebGLRenderTarget(2, 2, { depthBuffer: false });
     const bgScene = new THREE.Scene();
-    const bgCopy = new THREE.Mesh(bg.geometry, bg.material);
-    bgScene.add(bgCopy);
+    bgScene.add(bg);
+    // Con el vidrio a la vista, el fondo va primero a una textura: es lo que
+    // el vidrio refracta. Sin MSAA ni mipmaps, así se ve igual en cualquier GPU.
+    const bgTarget = new THREE.WebGLRenderTarget(2, 2, { depthBuffer: false });
+    const scene = new THREE.Scene();
+    const copia = new THREE.Mesh(
+      quad,
+      new THREE.ShaderMaterial({
+        uniforms: { uBg: { value: bgTarget.texture } },
+        vertexShader: QUAD_VERT,
+        fragmentShader: COPY_FRAG,
+        depthWrite: false,
+      }),
+    );
+    copia.position.z = FONDO_Z;
+    scene.add(copia);
 
-    // La escultura
+    // ── La escultura de vidrio
     const envTarget = crearAmbiente(renderer, compact ? 128 : 256);
     const geo = new THREE.IcosahedronGeometry(1, compact ? 40 : 72);
     const glassUniforms = {
@@ -374,28 +594,32 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       halfW: 1,
       target: new THREE.Vector3(),
       radius: 1,
+      anclaOk: false,
       pointer: new THREE.Vector2(),
       pointerS: new THREE.Vector2(),
+      mouse: { x: 0, y: 0, tx: 0, ty: 0 },
+      pointerAmp: 0,
+      pointerAmpTarget: 0,
       speed: 0,
       reveal: 0,
       scroll: 0,
-      visible: true,
       typeReady: false,
       raf: 0,
       last: performance.now(),
       t: 0,
-      lastMove: 0,
+      dibujado: false,
+      ciclo: { i: 0, t: 0, fase: "entra", k: 0 },
     };
 
     const medirAncla = () => {
-      const a = document.querySelector("[data-glass-anchor]");
+      const a = estado.current.home ? document.querySelector("[data-glass-anchor]") : null;
+      anim.anclaOk = Boolean(a);
       if (!a) return false;
       const r = a.getBoundingClientRect();
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2 + window.scrollY; // en coordenadas de página
       anim.target.set((cx / anim.w) * 2 - 1, -((cy / anim.h) * 2 - 1), 0);
       anim.radius = (r.width / 2 / anim.w) * 2 * anim.halfW;
-      bgUniforms.uGlow.value.set(cx / anim.w, 1 - cy / anim.h);
       const grid = document.querySelector(".atmo-grid")?.getBoundingClientRect();
       if (grid?.width) bgUniforms.uGrid.value.set(grid.left / anim.w, grid.width / anim.w, anim.w, 0.04);
       return true;
@@ -408,11 +632,22 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       if (typeCanvas.width !== W || typeCanvas.height !== H) {
         typeCanvas.width = W;
         typeCanvas.height = H;
+        typeTex.dispose(); // otro tamaño: textura nueva en la GPU
       }
-      const ok = dibujarNombre(typeCtx, anim.w, anim.h, dpr);
+      const ok = estado.current.home ? dibujarNombre(typeCtx, anim.w, anim.h, dpr) : false;
+      if (!ok) typeCtx.clearRect(0, 0, typeCanvas.width, typeCanvas.height);
       typeTex.needsUpdate = true;
       anim.typeReady = ok;
       document.documentElement.classList.toggle("glass-type", ok);
+    };
+
+    let tMascara = 0;
+    const programarMascara = () => {
+      window.clearTimeout(tMascara);
+      tMascara = window.setTimeout(() => {
+        mascara.update();
+        despertar();
+      }, 250);
     };
 
     const resize = () => {
@@ -421,133 +656,306 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       renderer.setSize(anim.w, anim.h, false);
       camera.aspect = anim.w / anim.h;
       camera.updateProjectionMatrix();
-      anim.halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+      a3cam.aspect = camera.aspect;
+      a3cam.updateProjectionMatrix();
+      anim.halfH = Math.tan((camera.fov / 2) * DEG) * camera.position.z;
       anim.halfW = anim.halfH * camera.aspect;
-      const dist = camera.position.z - FONDO_Z;
-      const bh = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * dist;
+      const bh = 2 * Math.tan((camera.fov / 2) * DEG) * (camera.position.z - FONDO_Z);
       bg.scale.set(bh * camera.aspect, bh, 1);
-      bgCopy.position.copy(bg.position);
-      bgCopy.scale.copy(bg.scale);
+      copia.scale.copy(bg.scale);
       const pr = renderer.getPixelRatio();
-      bgTarget.setSize(Math.round(anim.w * pr), Math.round(anim.h * pr));
+      const W = Math.max(2, Math.round(anim.w * pr));
+      const H = Math.max(2, Math.round(anim.h * pr));
+      bgTarget.setSize(W, H);
+      sceneTarget.setSize(Math.max(2, Math.round(anim.w * ESCENA)), Math.max(2, Math.round(anim.h * ESCENA)));
+      const celda = (compact ? CELDA.compact : CELDA.desktop) * pr;
+      const cx = Math.ceil(W / celda);
+      const cy = Math.ceil(H / celda);
+      cellTarget.setSize(cx, cy);
+      cellUniforms.uCells.value.set(cx, cy);
+      cellUniforms.uCellUv.value.set(celda / W, celda / H);
+      bgUniforms.uCells.value.set(cx, cy);
+      bgUniforms.uRes.value.set(W, H);
+      bgUniforms.uCellPx.value = celda;
       bgUniforms.uAspect.value = camera.aspect;
       medirAncla();
       redibujarNombre();
+      programarMascara();
     };
 
     const alMedir = () => {
-      // dos cuadros: el layout del hero recién montado todavía puede moverse
+      // dos cuadros: el layout recién montado todavía puede moverse
       requestAnimationFrame(() => requestAnimationFrame(resize));
     };
 
     const onPointer = (e) => {
       anim.pointer.set((e.clientX / anim.w) * 2 - 1, -((e.clientY / anim.h) * 2 - 1));
-      anim.lastMove = performance.now();
+      anim.mouse.tx = e.clientX / anim.w - 0.5;
+      anim.mouse.ty = -(e.clientY / anim.h - 0.5);
+      // Al apoyar el dedo el hueco del enjambre se abre ahí mismo, no viene
+      // viajando desde el toque anterior
+      if (e.type === "pointerdown" && e.pointerType === "touch") {
+        anim.mouse.x = anim.mouse.tx;
+        anim.mouse.y = anim.mouse.ty;
+      }
+      anim.pointerAmpTarget = 1;
+    };
+    // En táctil el enjambre reacciona mientras el dedo está apoyado
+    const onPointerUp = (e) => {
+      if (e.pointerType === "touch") anim.pointerAmpTarget = 0;
     };
     const onScroll = () => {
       anim.scroll = window.scrollY;
     };
 
-    resize();
-    onScroll();
-    window.addEventListener("resize", resize);
-    window.addEventListener("hero-layout", alMedir);
-    window.addEventListener("pointermove", onPointer, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.fonts?.ready?.then(alMedir);
+    // Cursor proyectado al plano de la escena ASCII con la cámara real
+    const rayo = new THREE.Vector3();
+    const enPlano = (nx, ny, z, out) => {
+      a3cam.updateMatrixWorld();
+      rayo.set(nx, ny, 0.5).unproject(a3cam).sub(a3cam.position);
+      const k = (z - a3cam.position.z) / rayo.z;
+      return out.copy(a3cam.position).addScaledVector(rayo, k);
+    };
+    const lugar = new THREE.Vector3();
+    const puntero = new THREE.Vector3();
+    const BEAT_HZ = 145 / 60 / 4; // pulso a un cuarto de 145 BPM
 
     const frame = (now) => {
       anim.raf = requestAnimationFrame(frame);
-      const { active: on, revealActive: listo, reduced: quieto } = estado.current;
+      const { home: enHome, revealActive: listo, reduced: quieto } = estado.current;
+      if (document.hidden) return;
+      // Con el visor o un panel abiertos el fondo queda tapado: no se dibuja
+      if (anim.dibujado && document.body.style.overflow === "hidden") return;
+      const enHero = enHome && anim.scroll < anim.h * 1.05;
+      // Fuera del hero (y en celular) alcanza con 30 cuadros
+      const intervalo = compact || !enHero ? 1000 / 30 - 2 : 0;
+      if (!quieto && anim.dibujado && now - anim.last < intervalo) return;
       // El timestamp del rAF puede venir antes del último registro: sin el piso
       // en 0 el dt negativo se acumula y la escultura se deforma sin límite.
       const dt = Math.min(0.05, Math.max(0, (now - anim.last) / 1000));
       anim.last = now;
 
-      // Visible mientras el hero ocupa la pantalla; después el canvas se funde
-      const fade = 1 - THREE.MathUtils.clamp(anim.scroll / (anim.h * 0.9), 0, 1);
-      host.style.opacity = on ? String(fade) : "0";
-      const visible = on && fade > 0.01 && !document.hidden;
-      if (!visible) return;
-
       if (!quieto) anim.t += dt;
+      const film = import.meta.env.DEV ? anim.film : null;
       // Solo en dev: modo filmación, para grabar cuadro por cuadro en
-      // máquinas sin GPU (el tiempo y el puntero los fija quien graba).
-      if (import.meta.env.DEV && anim.film) {
-        anim.t = anim.film.t;
-        anim.pointer.set(anim.film.px, anim.film.py);
+      // máquinas sin GPU (el tiempo, el puntero y la escena los fija quien graba).
+      if (film) {
+        anim.t = film.t;
+        anim.pointer.set(film.px, film.py);
+        anim.mouse.x = anim.mouse.tx = film.px * 0.5;
+        anim.mouse.y = anim.mouse.ty = film.py * 0.5;
         anim.reveal = 1;
       }
-      if (listo) anim.reveal = Math.min(1, anim.reveal + dt / 1.6);
-      const ease = 1 - Math.pow(1 - THREE.MathUtils.clamp(anim.reveal, 0, 1), 3);
+      if (quieto) anim.reveal = 1;
+      else if (listo) anim.reveal = Math.min(1, anim.reveal + dt / 1.6);
+      const ease = 1 - Math.pow(1 - clamp01(anim.reveal), 3);
 
-      // Cursor: la pieza mira hacia el puntero y se agita con la velocidad
-      const prev = anim.pointerS.clone();
-      anim.pointerS.lerp(anim.pointer, quieto || (import.meta.env.DEV && anim.film) ? 1 : 0.06);
-      const v = prev.distanceTo(anim.pointerS) / Math.max(dt, 0.001);
-      anim.speed = THREE.MathUtils.lerp(anim.speed, Math.min(v, 3), 0.08);
+      // Turnos de las escenas ASCII: cada una entra y sale por negro, así el
+      // cambio de niveles (cada escena tiene los suyos) no se nota
+      const ci = anim.ciclo;
+      if (quieto) ci.k = 1;
+      else if (ci.fase === "entra") {
+        ci.t += dt;
+        ci.k = Math.min(1, ci.k + dt / ENTRA);
+        if (ci.t >= CICLO - SALE) ci.fase = "sale";
+      } else {
+        ci.k = Math.max(0, ci.k - dt / SALE);
+        if (ci.k === 0) {
+          ci.i = (ci.i + 1) % piezas.length;
+          ci.t = 0;
+          ci.fase = "entra";
+        }
+      }
+      if (film?.escena) {
+        ci.i = Math.max(0, ESCENAS.indexOf(film.escena));
+        ci.k = 1;
+      }
+      const pieza = piezas[ci.i];
+      piezas.forEach((p) => {
+        p.object.visible = p === pieza;
+      });
+      const revealAscii = (1 - Math.pow(1 - ci.k, 3)) * ease;
+      const niveles = (compact && ASCII_LEVELS_COMPACT[pieza.kind]) || {
+        gain: ASCII_GAIN[pieza.kind],
+        floor: ASCII_FLOOR[pieza.kind],
+      };
+      cellUniforms.uGain.value = niveles.gain;
+      cellUniforms.uFloor.value = niveles.floor;
 
-      const scrollK = THREE.MathUtils.clamp(anim.scroll / anim.h, 0, 1);
-      orb.position.set(
-        anim.target.x * anim.halfW + anim.pointerS.x * 0.18,
-        anim.target.y * anim.halfH + anim.pointerS.y * 0.12 + scrollK * anim.halfH * 0.9,
-        0,
-      );
-      const s = anim.radius * (0.72 + 0.28 * ease) * (1 - scrollK * 0.18);
-      orb.scale.setScalar(Math.max(s, 0.001));
-      orb.rotation.y = anim.t * 0.18 + anim.pointerS.x * 0.55;
-      orb.rotation.x = Math.sin(anim.t * 0.21) * 0.25 - anim.pointerS.y * 0.4;
-      orb.rotation.z = anim.t * 0.05;
+      // Puntero: amortiguado igual a cualquier cantidad de cuadros
+      const m = anim.mouse;
+      const suave = film || quieto ? 1 : 1 - Math.exp(-dt * 6.5);
+      m.x += (m.tx - m.x) * suave;
+      m.y += (m.ty - m.y) * suave;
+      anim.pointerAmp += (anim.pointerAmpTarget - anim.pointerAmp) * (1 - Math.exp(-dt * 5));
 
-      const ndc = orb.position.clone().project(camera);
-      glassUniforms.uCenter.value.set(ndc.x * 0.5 + 0.5, ndc.y * 0.5 + 0.5);
-      glassUniforms.uRadius.value.set(s / (2 * anim.halfW), s / (2 * anim.halfH));
-      glassUniforms.uTime.value = anim.t;
-      glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035) * (quieto ? 0.8 : 1);
+      // La escultura de vidrio (solo en el home): mira hacia el puntero y se
+      // agita con la velocidad
+      const heroK = enHome && anim.anclaOk ? clamp01(1 - anim.scroll / (anim.h * 0.85)) : 0;
+      const scrollK = clamp01(anim.scroll / anim.h);
+      let orbX = 0;
+      let orbY = 0;
+      if (enHome && anim.anclaOk) {
+        const prev = anim.pointerS.clone();
+        anim.pointerS.lerp(anim.pointer, quieto || film ? 1 : 0.06);
+        const v = prev.distanceTo(anim.pointerS) / Math.max(dt, 0.001);
+        anim.speed = THREE.MathUtils.lerp(anim.speed, Math.min(v, 3), 0.08);
+        orb.position.set(
+          anim.target.x * anim.halfW + anim.pointerS.x * 0.18,
+          anim.target.y * anim.halfH + anim.pointerS.y * 0.12 + scrollK * anim.halfH * 0.9,
+          0,
+        );
+        const s = anim.radius * (0.72 + 0.28 * ease) * (1 - scrollK * 0.18);
+        orb.scale.setScalar(Math.max(s, 0.001));
+        orb.rotation.y = anim.t * 0.18 + anim.pointerS.x * 0.55;
+        orb.rotation.x = Math.sin(anim.t * 0.21) * 0.25 - anim.pointerS.y * 0.4;
+        orb.rotation.z = anim.t * 0.05;
+        const ndc = orb.position.clone().project(camera);
+        orbX = ndc.x;
+        orbY = ndc.y;
+        glassUniforms.uCenter.value.set(ndc.x * 0.5 + 0.5, ndc.y * 0.5 + 0.5);
+        glassUniforms.uRadius.value.set(s / (2 * anim.halfW), s / (2 * anim.halfH));
+        glassUniforms.uTime.value = anim.t;
+        glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035) * (quieto ? 0.8 : 1);
+      }
+
+      // La escena ASCII ocupa todo el fondo, al tamaño del hero de 2026-08
+      // (con la cámara fija en vertical, mide lo mismo contra el alto en
+      // cualquier pantalla). En el hero se centra detrás del vidrio, que la
+      // dobla; más abajo y en las otras rutas, un poco a la derecha.
+      const nx = lerp(compact ? 0 : 0.3, orbX, heroK);
+      const ny = lerp(compact ? -0.04 : -0.02, orbY, heroK);
+      a3cam.position.x = m.x * 0.18;
+      a3cam.position.y = 0.18 + m.y * 0.12;
+      a3cam.lookAt(0, 0, -2.5);
+      enPlano(nx, ny, 0, lugar);
+      pieza.object.position.set(lugar.x, lugar.y, 0);
+      pieza.object.scale.setScalar(compact ? 1.48 : 1.46);
+      const activo = anim.pointerAmpTarget > 0 || anim.pointerAmp > 0.002;
+      pieza.animate({
+        time: anim.t,
+        mouse: m,
+        pointer: activo ? enPlano(m.x * 2, m.y * 2, 0, puntero) : null,
+        pointerAmp: anim.pointerAmp,
+        reveal: revealAscii,
+        scroll: scrollK,
+        pulse: Math.pow(Math.max(Math.sin(anim.t * BEAT_HZ * Math.PI * 2), 0), 4),
+        dt,
+      });
+      // `animate` de la escultura mueve su posición: el lugar lo manda el fondo
+      pieza.object.position.set(lugar.x, lugar.y, 0);
+
+      renderer.setRenderTarget(sceneTarget);
+      renderer.clear();
+      renderer.render(a3, a3cam);
+      renderer.setRenderTarget(cellTarget);
+      renderer.render(cellScene, cellCam);
+
       bgUniforms.uTime.value = anim.t;
+      bgUniforms.uInk.value = revealAscii * lerp(0.85, 1, heroK);
+      // La escena debajo de los caracteres le da volumen al hero; en el resto
+      // del sitio, más baja, si no queda una mancha detrás de las secciones
+      bgUniforms.uKeep.value = lerp(0.2, 0.36, heroK);
+      bgUniforms.uGlow.value.set(nx * 0.5 + 0.5, ny * 0.5 + 0.5);
+      bgUniforms.uGlowK.value = lerp(0.18, 0.3, heroK);
+      bgUniforms.uCore.value = 0.5 * heroK * ease;
+      bgUniforms.uPage.value.set(anim.scroll, mascara.state.pageH, anim.h);
+      bgUniforms.uBar.value = mascara.state.barra;
       bgUniforms.uScroll.value = anim.scroll / anim.h;
+      bgUniforms.uTypeOn.value = enHome && anim.typeReady ? 1 : 0;
 
-      renderer.setRenderTarget(bgTarget);
-      renderer.render(bgScene, camera);
-      renderer.setRenderTarget(null);
-      renderer.render(scene, camera);
+      if (enHero && anim.anclaOk) {
+        renderer.setRenderTarget(bgTarget);
+        renderer.render(bgScene, camera);
+        renderer.setRenderTarget(null);
+        renderer.render(scene, camera);
+      } else {
+        renderer.setRenderTarget(null);
+        renderer.render(bgScene, camera);
+      }
+      if (!anim.dibujado) {
+        anim.dibujado = true;
+        host.style.opacity = "1";
+      }
       if (quieto) {
         cancelAnimationFrame(anim.raf);
         anim.raf = 0;
       }
     };
-    anim.raf = requestAnimationFrame(frame);
 
     // Con movimiento reducido el bucle se corta después de un cuadro: hay que
     // volver a pedirlo cuando algo cambia (scroll, tamaño, ruta).
     const despertar = () => {
       if (!anim.raf) anim.raf = requestAnimationFrame(frame);
     };
+
+    resize();
+    onScroll();
+    mascara.update();
+    window.addEventListener("resize", resize);
+    window.addEventListener("hero-layout", alMedir);
+    window.addEventListener("pointermove", onPointer, { passive: true });
+    window.addEventListener("pointerdown", onPointer, { passive: true });
+    window.addEventListener("pointerup", onPointerUp, { passive: true });
+    window.addEventListener("pointercancel", onPointerUp, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("scroll", despertar, { passive: true });
     window.addEventListener("resize", despertar);
     window.addEventListener("hero-layout", despertar);
+    document.fonts?.ready?.then(alMedir);
+    // El largo de la página cambia con las imágenes, las rutas y el idioma
+    const ro = new ResizeObserver(programarMascara);
+    ro.observe(document.body);
+    const main = document.getElementById("main");
+    const mo = main ? new MutationObserver(programarMascara) : null;
+    mo?.observe(main, { childList: true, subtree: true });
     const reloj = window.setInterval(despertar, 1000);
+    anim.raf = requestAnimationFrame(frame);
 
-    if (import.meta.env.DEV) window.__glass = { anim, mat, glassUniforms, bgUniforms, renderer };
+    api.current = {
+      alCambiarRuta: () => {
+        alMedir();
+        programarMascara();
+        despertar();
+      },
+    };
+
+    if (import.meta.env.DEV) {
+      window.__glass = { anim, mat, glassUniforms, bgUniforms, cellUniforms, renderer, mascara, sceneTarget, cellTarget, piezas };
+    }
 
     return () => {
       cancelAnimationFrame(anim.raf);
       window.clearInterval(reloj);
+      window.clearTimeout(tMascara);
+      ro.disconnect();
+      mo?.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("hero-layout", alMedir);
       window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("pointerdown", onPointer);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("scroll", despertar);
       window.removeEventListener("resize", despertar);
       window.removeEventListener("hero-layout", despertar);
       document.documentElement.classList.remove("glass-type");
+      api.current = null;
+      piezas.forEach((p) => disposeObject(p.object));
+      cellScene.traverse((o) => o.material?.dispose?.());
       geo.dispose();
       mat.dispose();
+      bg.material.dispose();
+      copia.material.dispose();
+      quad.dispose();
       envTarget.dispose();
       bgTarget.dispose();
+      sceneTarget.dispose();
+      cellTarget.dispose();
+      atlas.texture.dispose();
       typeTex.dispose();
-      bg.geometry.dispose();
-      bg.material.dispose();
+      mascara.dispose();
       renderer.dispose();
       canvas.remove();
     };

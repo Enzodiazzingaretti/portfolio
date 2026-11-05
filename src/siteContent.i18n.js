@@ -536,7 +536,7 @@ const blenderAssets = {
 };
 
 export const siteContent = {
-  brand: "ENZO DIAZ ZINGARETTI",
+  brand: "ENZO ZINGARETTI",
   defaultLanguage: "es",
   heroImage: null,
   languages: [
@@ -607,7 +607,7 @@ export const siteContent = {
         { id: "velo", title: "VELO DEL TEMPLO", description: "Tela de Verlet de 30×20 nudos. El viento la infla y el golpe la sacude; los hilos que se estiran de más se cortan y no vuelven hasta que el velo se teje de nuevo." },
       ],
       hero: {
-        title: "ENZO DIAZ ZINGARETTI",
+        title: "ENZO ZINGARETTI",
         description: "Motion, 3D y dirección de arte para marcas, campañas y artistas, con herramientas de IA y TouchDesigner en el proceso. Desde Mendoza, Argentina, en remoto.",
         location: "Mendoza, AR · UTC−3",
         availability: "Disponible",
@@ -875,7 +875,7 @@ export const siteContent = {
         { id: "velo", title: "VELO DEL TEMPLO", description: "A 30×20 Verlet cloth. Wind fills it and the beat shakes it; threads stretched past their limit snap and stay snapped until the veil is woven again." },
       ],
       hero: {
-        title: "ENZO DIAZ ZINGARETTI",
+        title: "ENZO ZINGARETTI",
         description: "Motion, 3D and art direction for brands, campaigns and artists, with AI tools and TouchDesigner in the process. Based in Mendoza, Argentina, working remotely.",
         location: "Mendoza, AR · UTC−3",
         availability: "Available",
@@ -1130,7 +1130,7 @@ export const siteContent = {
         { id: "velo", title: "VELO DEL TEMPLO", description: "Tecido de Verlet de 30×20 nós. O vento o enche e a batida o sacode; os fios esticados além do limite se rompem e não voltam até o véu ser tecido de novo." },
       ],
       hero: {
-        title: "ENZO DIAZ ZINGARETTI",
+        title: "ENZO ZINGARETTI",
         description: "Motion, 3D e direção de arte para marcas, campanhas e artistas, com ferramentas de IA e TouchDesigner no processo. De Mendoza, Argentina, trabalhando remotamente.",
         location: "Mendoza, AR · UTC−3",
         availability: "Disponível",
