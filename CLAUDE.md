@@ -317,7 +317,12 @@ en el home, el nombre y la escultura de vidrio van encima y las refractan.
   textura es el fondo de la escena. El `<h1>` se vuelve transparente recién
   cuando la textura está dibujada (`html.glass-type`): si WebGL falla, se ve el
   texto del DOM. `useFitLines` ajusta el cuerpo de cada renglón al ancho y avisa
-  con el evento `hero-layout` para que la escena vuelva a medir.
+  con el evento `hero-layout` para que la escena vuelva a medir. Reajusta
+  también en cada `loadingdone` de `document.fonts` (y la escena redibuja el
+  atlas de glifos): la hoja de Google Fonts entra asíncrona y `fonts.ready` se
+  resolvía antes de registrar Anton, así que con la fuente lenta el nombre
+  quedaba dibujado con la tipografía de reemplazo (pasó en producción el
+  2026-11-05; se prueba demorando `fonts.gstatic.com` en Playwright).
 - **El lugar y el tamaño de la escultura los decide el CSS** (`.vx-orb`, ancla
   `[data-glass-anchor]`): cambiar la composición no toca el JS. Mide contra el
   alto del bloque del nombre (`--name-h`, que pone `useFitLines` junto a
