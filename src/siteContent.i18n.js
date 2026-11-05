@@ -158,6 +158,8 @@ const flyerAssets = {
   // verificadas.
   innusual: {
     square: true,
+    client: "Innusual",
+    year: "2025",
     imageUrl: "/images/flyers/innusual/innusual-va002innu.webp",
     slides: ["/images/flyers/innusual/innusual-va002innu.webp"],
   },
@@ -263,16 +265,22 @@ const espaciosAssets = {
 const campaignAssets = {
   sonarKeyVisual: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/key-visual-feed.webp",
     slides: ["/images/campanas/sonar/key-visual-feed.webp", "/images/campanas/sonar/key-visual-historia.webp"],
   },
   sonarLineUp: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/line-up-portada.webp",
     slides: ["/images/campanas/sonar/line-up-reel.mp4", "/images/campanas/sonar/line-up-portada.webp"],
   },
   sonarCarrusel: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/carrusel-01.webp",
     slides: [
       "/images/campanas/sonar/carrusel-01.webp",
@@ -284,15 +292,21 @@ const campaignAssets = {
   },
   sonarHorarios: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/horarios-feed.webp",
     slides: ["/images/campanas/sonar/horarios-feed.webp", "/images/campanas/sonar/horarios-historia.webp"],
   },
   sonarEntradas: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/entradas-feed.webp",
     slides: ["/images/campanas/sonar/entradas-feed.webp", "/images/campanas/sonar/entradas-historia.webp"],
   },
   sonarManual: {
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/manual-01.webp",
     slides: [
       "/images/campanas/sonar/manual-01.webp",
@@ -306,11 +320,15 @@ const campaignAssets = {
   },
   sonarPlantillas: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/plantillas.webp",
     slides: ["/images/campanas/sonar/plantillas.webp"],
   },
   sonarCuentaRegresiva: {
     portrait: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/campanas/sonar/cuenta-regresiva-portada.webp",
     slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
   },
@@ -335,6 +353,8 @@ const logosAssets = {
   },
   sonar: {
     square: true,
+    client: "Sonar Produce",
+    year: "2026",
     imageUrl: "/images/visual/Logos/sonar/sonar-isotipo.webp",
     slides: [
       "/images/visual/Logos/sonar/sonar-logo-negativo.webp",
@@ -730,7 +750,7 @@ export const siteContent = {
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Descargar CV (PDF)" },
-        modal: { close: "Cerrar", previous: "Anterior", next: "Siguiente", navigateHint: "← → para navegar · ", closeHint: "ESC para cerrar", year: "Año", role: "Rol", status: "Estado", visitSite: "Abrir sitio", viewCode: "Ver código", features: "Incluye", infoShow: "Ver info", infoClose: "Cerrar", slide: "Slide" },
+        modal: { close: "Cerrar", previous: "Anterior", next: "Siguiente", navigateHint: "← → para navegar · ", closeHint: "ESC para cerrar", year: "Año", role: "Rol", status: "Estado", client: "Cliente", duration: "Duración", tools: "Herramientas", visitSite: "Abrir sitio", viewCode: "Ver código", features: "Incluye", infoShow: "Ver info", infoClose: "Cerrar", slide: "Slide" },
         skipToContent: "Saltar al contenido",
         backToTop: "Inicio",
         lab: {
@@ -993,7 +1013,7 @@ export const siteContent = {
         blenderRender: "Blender Render",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Profile", cv: "Download CV (PDF)" },
-        modal: { close: "Close", previous: "Previous", next: "Next", navigateHint: "← → to navigate · ", closeHint: "ESC to close", year: "Year", role: "Role", status: "Status", visitSite: "Visit Site", viewCode: "View code", features: "Includes", infoShow: "View info", infoClose: "Close", slide: "Slide" },
+        modal: { close: "Close", previous: "Previous", next: "Next", navigateHint: "← → to navigate · ", closeHint: "ESC to close", year: "Year", role: "Role", status: "Status", client: "Client", duration: "Duration", tools: "Tools", visitSite: "Visit Site", viewCode: "View code", features: "Includes", infoShow: "View info", infoClose: "Close", slide: "Slide" },
         skipToContent: "Skip to content",
         backToTop: "Top",
         lab: {
@@ -1248,7 +1268,7 @@ export const siteContent = {
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Baixar CV (PDF)" },
-        modal: { close: "Fechar", previous: "Anterior", next: "Próximo", navigateHint: "← → para navegar · ", closeHint: "ESC para fechar", year: "Ano", role: "Papel", status: "Status", visitSite: "Abrir site", viewCode: "Ver código", features: "Inclui", infoShow: "Ver info", infoClose: "Fechar", slide: "Slide" },
+        modal: { close: "Fechar", previous: "Anterior", next: "Próximo", navigateHint: "← → para navegar · ", closeHint: "ESC para fechar", year: "Ano", role: "Função", status: "Status", client: "Cliente", duration: "Duração", tools: "Ferramentas", visitSite: "Abrir site", viewCode: "Ver código", features: "Inclui", infoShow: "Ver info", infoClose: "Fechar", slide: "Slide" },
         skipToContent: "Pular para o conteúdo",
         backToTop: "Início",
         lab: {

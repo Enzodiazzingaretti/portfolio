@@ -621,6 +621,8 @@
       ],
       "title": "Sonar 001 — Key visual",
       "type": "Key visual",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Key visual de SONAR 001, la primera fecha de Sonar Produce (Stella Bossi, Mendoza, 30.10.2026). Fondo negro, el radar del logo ordena la pieza alrededor de la artista y el rojo aparece solo donde hay que mirar. Presenté cuatro opciones; Sonar eligió esta. Feed 3:4 e historia 9:16.",
       "tags": [
         "Dirección de arte",
@@ -637,6 +639,8 @@
       ],
       "title": "Sonar 001 — Animación del line-up",
       "type": "Motion / Reel",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Reel de 14,4 s a 150 BPM: el radar barre la pieza, el golpe de la headliner cae en el segundo 9,6 y el cierre es la tapa del carrusel. Reel e historia en 1080 × 1920.",
       "tags": [
         "Motion",
@@ -656,6 +660,8 @@
       ],
       "title": "Sonar 001 — Carrusel del line-up",
       "type": "Carrusel",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Cinco placas 3:4 para el feed: la tapa y una por artista, con su foto tratada en negro, blanco y rojo, su rol, una bio corta y su @. Cada placa sale también en historia y reel.",
       "tags": [
         "Dirección de arte",
@@ -672,6 +678,8 @@
       ],
       "title": "Sonar 001 — Horarios",
       "type": "Placa",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Una franja por set, con la foto de cada artista; el alto de la franja es proporcional a lo que dura el set y la headliner va en rojo. Feed, historia y reel.",
       "tags": [
         "Diseño",
@@ -688,6 +696,8 @@
       ],
       "title": "Sonar 001 — Entradas",
       "type": "Placa",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Las tres tandas de venta, cada una con su talón para el sello de SOLD OUT. En el PSD los sellos son capas: se prende el de cada tanda cuando se agota, sin rehacer la pieza.",
       "tags": [
         "Diseño",
@@ -708,6 +718,8 @@
       ],
       "title": "Sonar — Manual de marca",
       "type": "Branding / Sistema visual",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Manual de 16 páginas que baja el documento de marca a reglas concretas: el radar como concepto, versiones del logo, tres colores con su proporción, dos tipografías, tratamiento de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
       "tags": [
         "Branding",
@@ -723,6 +735,8 @@
       ],
       "title": "Sonar — Plantillas",
       "type": "Plantillas",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Tres plantillas de Photoshop para las próximas fechas (flyer de fecha, placa de artista y anuncio), cada una en feed, historia y reel. La foto toma el look de Sonar desde una capa de ajuste: al cambiarla, el tratamiento se aplica solo.",
       "tags": [
         "Plantillas",
@@ -739,6 +753,8 @@
       ],
       "title": "Sonar 001 — Cuenta regresiva",
       "type": "Motion / Reel",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.",
       "tags": [
         "Motion",
@@ -756,6 +772,8 @@
       ],
       "title": "Innusual — V/A002INNU",
       "type": "Portada",
+      "client": "Innusual",
+      "year": "2025",
       "description": "Portada del compilado [V/A002INNU] del sello Innusual, de Buenos Aires (2025). El render es mío; la ilustración, de @shifo.__. Un disco partido desde el centro dentro de un marco técnico, casi sin color, para que se lea igual en miniatura que en grande.",
       "tags": [
         "Portada",
@@ -906,6 +924,8 @@
       ],
       "title": "Sonar Produce",
       "type": "Logo",
+      "client": "Sonar Produce",
+      "year": "2026",
       "description": "Vectorización y ajuste del logo de Sonar Produce, un rayo con ondas concéntricas: negativo (la versión principal), positivo, blanco, negro e isotipo para avatar y sellos, en SVG y PNG.",
       "tags": [
         "Logo",

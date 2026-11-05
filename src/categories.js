@@ -70,6 +70,37 @@ export function getCategory(slug) {
 /* ---------------------------------------------------------------------- */
 
 const asset = (p) => (p ? resolvePublicAsset(p) : null);
+
+/**
+ * Herramientas que vienen mezcladas en `tags` («Photoshop» al lado de
+ * «Dirección de arte»). La ficha del visor las muestra aparte y los tags
+ * quedan para disciplinas y formatos. Se reconocen por nombre, sin distinguir
+ * mayúsculas; `base` suma las que da el grupo (un render es de Blender).
+ */
+const HERRAMIENTAS = new Map(
+  [
+    "Blender", "After Effects", "Photoshop", "Illustrator", "Premiere", "DaVinci Resolve", "Cinema 4D", "Figma",
+    "TouchDesigner", "Python", "ffmpeg", "Playwright", "GSAP", "Canvas", "GLSL", "Three.js", "React",
+  ].map((tool) => [tool.toLowerCase(), tool]),
+);
+
+export function separarHerramientas(tags = [], base = []) {
+  const tools = [...base];
+  const resto = [];
+  for (const tag of tags ?? []) {
+    const tool = HERRAMIENTAS.get(String(tag).trim().toLowerCase());
+    if (!tool) resto.push(tag);
+    else if (!tools.includes(tool)) tools.push(tool);
+  }
+  return { tools, tags: resto };
+}
+
+/** Lo que la ficha muestra si la pieza lo tiene cargado (desde /admin o el bundle). */
+const ficha = (entry) => ({
+  client: entry.client || null,
+  year: entry.year || null,
+  role: entry.role || null,
+});
 const slides = (arr) => (Array.isArray(arr) ? arr.filter(Boolean).map(resolvePublicAsset) : []);
 
 const NORMALIZERS = {
@@ -77,7 +108,8 @@ const NORMALIZERS = {
     title: loop.name,
     subtitle: ui.touchDesignerLoop,
     description: loop.notes,
-    tags: ["touchdesigner", "generative", "live visuals"],
+    ...ficha(loop),
+    ...separarHerramientas(["generative", "live visuals"], ["TouchDesigner"]),
     thumbnail: asset(loop.thumbnail) ?? asset(loop.slides?.[0]),
     // Solo las piezas que tienen pista real. Las otras cuatro traen un track
     // de silencio digital en el original, así que no declaran `audio` y no
@@ -88,11 +120,10 @@ const NORMALIZERS = {
   reel: (reel) => ({
     title: reel.title,
     subtitle: reel.type,
-    client: reel.client,
     description: reel.description,
-    tags: reel.tags ?? [],
-    year: reel.year,
-    duration: reel.duration,
+    ...ficha(reel),
+    ...separarHerramientas(reel.tags),
+    duration: reel.duration || null,
     portrait: true,
     // Portada liviana de /images/loops/ (8 s, sin audio, con poster); el reel
     // entero va primero en `slides`, para el visor.
@@ -103,7 +134,8 @@ const NORMALIZERS = {
     title: work.title,
     subtitle: ui.blenderRender,
     description: work.description,
-    tags: ui.renderTags,
+    ...ficha(work),
+    ...separarHerramientas(ui.renderTags, ["Blender"]),
     portrait: work.portrait ?? false,
     square: work.square ?? false,
     // Igual que en `loop`: si la pieza tiene portada propia se usa esa. Los
@@ -116,7 +148,8 @@ const NORMALIZERS = {
     title: space.title,
     subtitle: space.type,
     description: space.description,
-    tags: space.tags ?? [],
+    ...ficha(space),
+    ...separarHerramientas(space.tags, ["Blender"]),
     portrait: space.portrait ?? false,
     square: space.square ?? false,
     thumbnail: asset(space.imageUrl) ?? asset(space.slides?.[0]),
@@ -126,7 +159,8 @@ const NORMALIZERS = {
     title: piece.title,
     subtitle: piece.type,
     description: piece.description,
-    tags: piece.tags ?? [],
+    ...ficha(piece),
+    ...separarHerramientas(piece.tags),
     portrait: piece.portrait ?? false,
     square: piece.square ?? false,
     thumbnail: asset(piece.imageUrl) ?? asset(piece.slides?.[0]),
@@ -139,8 +173,7 @@ const NORMALIZERS = {
     tags: project.tags ?? [],
     features: project.features ?? [],
     status: project.status,
-    year: project.year,
-    role: project.role,
+    ...ficha(project),
     previewUrl: project.previewUrl,
     // Repo público en GitHub: quien evalúa un perfil técnico quiere ver el
     // código, no solo la captura.

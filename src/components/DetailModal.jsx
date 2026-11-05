@@ -87,6 +87,9 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     year: "Year",
     role: "Role",
     status: "Status",
+    client: "Client",
+    duration: "Duration",
+    tools: "Tools",
     visitSite: "Visit Site",
     viewCode: "View code",
     features: "Includes",
@@ -203,6 +206,28 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           ))}
         </ul>
       </div>
+    ) : null;
+
+  // Ficha: lo que quien contrata busca de un vistazo (para quién, cuándo, con
+  // qué). Solo lo que la pieza tiene cargado; nada se completa a ojo.
+  const filasFicha = [
+    item.client && { k: "client", label: modalLabels.client, value: item.client },
+    item.year && { k: "year", label: modalLabels.year, value: item.year },
+    item.duration && { k: "duration", label: modalLabels.duration, value: item.duration },
+    item.role && { k: "role", label: modalLabels.role, value: item.role },
+    item.tools?.length && { k: "tools", label: modalLabels.tools, value: item.tools.join(" · ") },
+    item.status && { k: "status", label: modalLabels.status, value: item.status, accent: true },
+  ].filter(Boolean);
+  const ficha = (className) =>
+    filasFicha.length ? (
+      <dl className={`modal-spec font-mono ${className}`}>
+        {filasFicha.map((row) => (
+          <div key={row.k} className="modal-spec-row">
+            <dt>{row.label}</dt>
+            <dd className={row.accent ? "is-accent" : undefined}>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
     ) : null;
 
   const slideIndicators = total > 1 && (
@@ -397,6 +422,8 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           }`}
         >
           <div className="px-5 pb-8 pt-6">
+            {ficha("")}
+
             {item.description && (
               <p className="text-[0.82rem] leading-[1.7] text-white/60">{item.description}</p>
             )}
@@ -412,29 +439,6 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             ) : null}
 
             {listaIncluye("mt-6")}
-
-            {(item.year || item.role || item.status) && (
-              <div className="mt-6 flex gap-8 border-t border-white/[0.06] pt-5">
-                {item.year && (
-                  <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.year}</p>
-                    <p className="mt-1.5 font-mono text-meta text-white/55">{item.year}</p>
-                  </div>
-                )}
-                {item.role && (
-                  <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.role}</p>
-                    <p className="mt-1.5 font-mono text-meta text-white/55">{item.role}</p>
-                  </div>
-                )}
-                {item.status && (
-                  <div>
-                    <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
-                    <p className="mt-1.5 font-mono text-meta text-raveRedBright">{item.status}</p>
-                  </div>
-                )}
-              </div>
-            )}
 
             {sitio && (
               <a
@@ -538,6 +542,8 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 )}
               </div>
 
+              {ficha("")}
+
               {item.description && (
                 <p className="text-[0.8rem] leading-[1.75] text-white/60">{item.description}</p>
               )}
@@ -553,29 +559,6 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               ) : null}
 
               {listaIncluye("")}
-
-              {(item.year || item.role || item.status) && (
-                <div className="grid grid-cols-3 gap-3 border-t border-white/[0.06] pt-5">
-                  {item.year && (
-                    <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.year}</p>
-                      <p className="mt-1 font-mono text-caption text-white/50">{item.year}</p>
-                    </div>
-                  )}
-                  {item.role && (
-                    <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.role}</p>
-                      <p className="mt-1 font-mono text-caption text-white/50">{item.role}</p>
-                    </div>
-                  )}
-                  {item.status && (
-                    <div>
-                      <p className="font-mono text-nano uppercase tracking-[0.35em] text-white/46">{modalLabels.status}</p>
-                      <p className="mt-1 font-mono text-caption text-raveRedBright">{item.status}</p>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
 
             <div className="mt-6 flex flex-col gap-3 border-t border-white/[0.06] pt-5">
