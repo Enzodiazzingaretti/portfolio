@@ -138,7 +138,7 @@ export default function Shell() {
   };
 
   return (
-    <div className={`relative min-h-screen overflow-x-hidden bg-ink text-paper selection:bg-raveRed/40${glitching ? " glitch-overdrive" : ""}`}>
+    <div className={`shell-root relative min-h-screen bg-ink text-paper selection:bg-raveRed/40${glitching ? " glitch-overdrive" : ""}`}>
       <a href="#main" className="skip-link">
         {content.ui.skipToContent ?? "Saltar al contenido"}
       </a>

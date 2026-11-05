@@ -158,6 +158,13 @@ html.fondo-vivo .atmo { display: none; }
 
 #main { position: relative; z-index: 10; }
 
+/* La raíz recorta en x con clip, no con hidden: hidden con overflow-y
+   visible la volvía un contenedor de scroll que no scrollea, y todo lo que
+   mide el scroll quedaba congelado (los `view()` de los títulos, de la sala
+   y del índice; los títulos sticky de los casos). hidden queda de respaldo
+   para los navegadores sin clip. */
+.shell-root { overflow-x: hidden; overflow-x: clip; }
+
 /* Las secciones dejan ver la atmósfera: nada de placas negras */
 .home-about,
 .home-index,
@@ -2259,7 +2266,10 @@ html.glass-type .vx-name-line {
 .sala-marco {
   position: absolute;
   inset: 0;
+  /* clip y no hidden: con hidden el marco era el contenedor de scroll del
+     `view()` de .sala-deriva y el parallax no se movía */
   overflow: hidden;
+  overflow: clip;
   isolation: isolate;
   border-radius: inherit;
   border: 1px solid rgba(255, 255, 255, 0.09);
