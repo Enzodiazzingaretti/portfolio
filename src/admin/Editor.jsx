@@ -30,6 +30,23 @@ const CATEGORIES = [
     newItem: () => ({ id: "web-" + Date.now(), title: "", type: "Web", year: "", status: "", role: "", description: "", tags: [], features: [], previewUrl: "", repoUrl: "", previewImage: "", scrollPreview: false, imageUrl: null, slides: [], enabled: true }),
   },
   {
+    key: "aiCommercials", slot: "ia", title: "Comerciales con IA", subtitle: "Anuncios y piezas hechas o asistidas con IA · no se muestra vacía", titleKey: "title", addLabel: "Agregar pieza",
+    fields: [
+      { key: "title", label: "Título" },
+      { key: "client", label: "Cliente / marca", hint: "Vacío si es un spec propio." },
+      { key: "type", label: "Tipo", placeholder: "Comercial de producto · Spec" },
+      { key: "year", label: "Año" },
+      { key: "duration", label: "Duración", placeholder: "30 s" },
+      { key: "role", label: "Rol", placeholder: "Dirección, IA y edición" },
+      { key: "description", label: "Descripción", type: "textarea", rows: 3, hint: "Objetivo y resultado: qué se buscaba y qué se logró." },
+      { key: "tags", label: "Tags", type: "tags", hint: "Separados por coma. Las herramientas (Runway, Kling, Midjourney, After Effects…) se muestran aparte, en la ficha del visor." },
+      { key: "thumbnail", label: "Loop de portada (mp4 corto)", type: "image", hint: "La versión liviana de /images/loops/, con su -poster.jpg al lado." },
+      { key: "portrait", label: "Formato vertical", type: "toggle" },
+      { key: "slides", label: "Video completo y fotogramas", type: "slides" },
+    ],
+    newItem: () => ({ id: "ia-" + Date.now(), title: "", client: "", type: "", year: "", duration: "", role: "", description: "", tags: [], thumbnail: "", portrait: false, slides: [], enabled: true }),
+  },
+  {
     key: "motionReels", slot: "reel", title: "Reels", subtitle: "Motion para redes (9:16)", titleKey: "title", addLabel: "Agregar reel",
     fields: [
       { key: "title", label: "Título" },

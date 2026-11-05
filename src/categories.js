@@ -4,7 +4,7 @@ import { resolvePublicAsset } from "./utils/helpers";
  * Las 9 secciones del scroll viejo colapsadas en 4 categorías por disciplina.
  * Cada categoría es una ruta propia; adentro puede tener varios grupos.
  *
- * MOTION    → Reels
+ * MOTION    → Comerciales con IA (oculto mientras esté vacío) + Reels
  * 3D        → Blender + Arquitectura
  * GRÁFICA   → Campañas + Flyers + Logos
  * TECH      → TouchDesigner + Lab generativo + Sitios web
@@ -23,6 +23,10 @@ export const CATEGORIES = [
     num: "01",
     accent: "motion",
     groups: [
+      // Comerciales y piezas hechas o asistidas con IA: el trabajo que se
+      // busca conseguir, así que van primero. Mientras la lista esté vacía el
+      // grupo no se dibuja (buildCategory descarta los grupos vacíos).
+      { id: "ia", source: "aiCommercials", kind: "spot", layout: "gallery" },
       // El motion para clientes: press kits, campañas y marcas
       { id: "reels", source: "motionReels", kind: "reel", layout: "reels" },
     ],
@@ -88,6 +92,9 @@ const HERRAMIENTAS = new Map(
   [
     "Blender", "After Effects", "Photoshop", "Illustrator", "Premiere", "DaVinci Resolve", "Cinema 4D", "Figma",
     "TouchDesigner", "Python", "ffmpeg", "Playwright", "GSAP", "Canvas", "GLSL", "Three.js", "React",
+    // IA generativa
+    "Runway", "Kling", "Veo", "Sora", "Luma", "Pika", "Hailuo", "Higgsfield", "Midjourney", "Flux",
+    "Stable Diffusion", "ComfyUI", "Firefly", "Magnific", "Topaz", "ElevenLabs", "Suno",
   ].map((tool) => [tool.toLowerCase(), tool]),
 );
 
@@ -172,6 +179,20 @@ const NORMALIZERS = {
     square: piece.square ?? false,
     thumbnail: asset(piece.imageUrl) ?? asset(piece.slides?.[0]),
     slides: slides(piece.slides),
+  }),
+  // Un comercial o una pieza audiovisual: como un reel, pero de cualquier
+  // formato (16:9, 9:16, 1:1), así que entra en la grilla de galería
+  spot: (spot) => ({
+    title: spot.title,
+    subtitle: spot.type,
+    description: spot.description,
+    ...ficha(spot),
+    ...separarHerramientas(spot.tags),
+    duration: spot.duration || null,
+    portrait: spot.portrait ?? false,
+    square: spot.square ?? false,
+    thumbnail: asset(spot.thumbnail) ?? asset(spot.slides?.[0]),
+    slides: slides(spot.slides),
   }),
   web: (project) => ({
     title: project.title,

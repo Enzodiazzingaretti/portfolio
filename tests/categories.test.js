@@ -59,3 +59,20 @@ describe("buildShowcase", () => {
     expect(ids).toHaveLength(SHOWCASE_PICKS.length - renders);
   });
 });
+
+describe("AI commercials", () => {
+  it("stay hidden while the list is empty", () => {
+    const motion = buildCategories(english).find((c) => c.slug === "motion");
+    expect(english.aiCommercials).toEqual([]);
+    expect(motion.groups.map((g) => g.id)).toEqual(["reels"]);
+  });
+
+  it("show up first in MOTION, with the AI tools in the spec sheet", () => {
+    const spot = { title: "Spec", type: "Comercial", tags: ["Spec", "Runway", "After Effects"], portrait: false, thumbnail: "/images/loops/x.mp4", slides: ["/images/x.mp4"] };
+    const motion = buildCategories({ ...english, aiCommercials: [spot] }).find((c) => c.slug === "motion");
+    expect(motion.groups.map((g) => g.id)).toEqual(["ia", "reels"]);
+    const item = motion.groups[0].items[0];
+    expect(item.tools).toEqual(["Runway", "After Effects"]);
+    expect(item.tags).toEqual(["Spec"]);
+  });
+});

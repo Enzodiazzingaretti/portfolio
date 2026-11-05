@@ -563,6 +563,7 @@ export const siteContent = {
           kicker: "Reels / Campañas / Marcas",
           subtitle: "Reels y piezas de motion para marcas, campañas y artistas.",
           groups: {
+            ia: { title: "Comerciales con IA", note: "Anuncios, campañas y piezas audiovisuales hechas o asistidas con IA" },
             reels: { title: "Reels", note: "Motion para redes: press kits, campañas y marcas" },
           },
         },
@@ -645,6 +646,9 @@ export const siteContent = {
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
         { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits para artistas a partir de una plantilla propia. Clonarla no funcionó: cada estructura sale del material del artista, y en un press kit no se inventa ningún dato." },
       ],
+      // Comerciales con IA: vacía hasta que haya piezas publicadas (el grupo
+      // no se muestra vacío). Se cargan desde /admin y acá en EN y PT.
+      aiCommercials: [],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel del caso", client: "Sonar Produce", type: "Reel · Caso de estudio", year: "2026", duration: "25,6 s", description: "Reel propio que cuenta la campaña de SONAR 001 en 25 segundos: identidad, key visual (cuatro propuestas, se eligió la B), carrusel del line-up, motion, cuenta regresiva, entradas, horarios, plantillas y el mosaico de las 49 piezas. A 150 BPM: cada corte cae en el beat. No es After Effects: el video se genera con código (Python + ffmpeg), y la misma plantilla rinde el reel, la historia y el feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
         { ...reelAssets.kexxy, title: "KEXXY — Reel del press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "El reel del press kit de Kexxy en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
@@ -831,6 +835,7 @@ export const siteContent = {
           kicker: "Reels / Campaigns / Brands",
           subtitle: "Reels and motion pieces for brands, campaigns and artists.",
           groups: {
+            ia: { title: "AI commercials", note: "Ads, campaigns and films made or assisted with AI" },
             reels: { title: "Reels", note: "Motion for social: press kits, campaigns and brands" },
           },
         },
@@ -908,6 +913,9 @@ export const siteContent = {
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
         { slug: "press-kits", title: "Artist press kits", tags: "HTML · CSS · JavaScript", summary: "Five artist press kits built from a template of my own. Cloning it didn't work: each structure comes from the artist's material, and a press kit never invents a fact." },
       ],
+      // Comerciales con IA: vacía hasta que haya piezas publicadas (el grupo
+      // no se muestra vacío). Se cargan desde /admin y acá en EN y PT.
+      aiCommercials: [],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Case reel", client: "Sonar Produce", type: "Reel · Case study", year: "2026", duration: "25.6 s", description: "My own reel telling the SONAR 001 campaign in 25 seconds: identity, key visual (four proposals, B was chosen), line-up carousel, motion, countdown, tickets, set times, templates and the mosaic of all 49 pieces. At 150 BPM, every cut lands on the beat. It isn't After Effects: the video is generated with code (Python + ffmpeg), and the same template renders the reel, the story and the feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
         { ...reelAssets.kexxy, title: "KEXXY — Press kit reel", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "The reel for Kexxy's press kit, in its fanzine version: cover, sets, upcoming dates, booth, promoters and contact. It isn't a screen recording: an engine of my own mirrors the live site, injects a virtual clock and records it frame by frame with Playwright and ffmpeg, with real motion blur.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
@@ -1086,6 +1094,7 @@ export const siteContent = {
           kicker: "Reels / Campanhas / Marcas",
           subtitle: "Reels e peças de motion para marcas, campanhas e artistas.",
           groups: {
+            ia: { title: "Comerciais com IA", note: "Anúncios, campanhas e peças audiovisuais feitas ou assistidas com IA" },
             reels: { title: "Reels", note: "Motion para redes: press kits, campanhas e marcas" },
           },
         },
@@ -1163,6 +1172,9 @@ export const siteContent = {
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
         { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits para artistas a partir de um template próprio. Cloná-lo não funcionou: cada estrutura sai do material do artista, e num press kit nenhum dado é inventado." },
       ],
+      // Comerciales con IA: vacía hasta que haya piezas publicadas (el grupo
+      // no se muestra vacío). Se cargan desde /admin y acá en EN y PT.
+      aiCommercials: [],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel do case", client: "Sonar Produce", type: "Reel · Estudo de caso", year: "2026", duration: "25,6 s", description: "Reel próprio que conta a campanha do SONAR 001 em 25 segundos: identidade, key visual (quatro propostas, a B foi a escolhida), carrossel do line-up, motion, contagem regressiva, ingressos, horários, templates e o mosaico das 49 peças. A 150 BPM: cada corte cai no beat. Não é After Effects: o vídeo é gerado com código (Python + ffmpeg), e o mesmo template renderiza o reel, o story e o feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
         { ...reelAssets.kexxy, title: "KEXXY — Reel do press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "O reel do press kit de Kexxy, na versão fanzine: capa, sets, próximas datas, cabine, produtoras e contato. Não é uma gravação de tela: um motor próprio copia o site no ar, injeta um relógio virtual e grava quadro a quadro com Playwright e ffmpeg, com motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
