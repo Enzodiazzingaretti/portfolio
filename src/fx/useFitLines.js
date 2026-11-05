@@ -40,10 +40,16 @@ export function useFitLines(ref, deps = []) {
       // 3) En desktop el hero entra en una pantalla: si no entra (1280×720,
       //    1024×768), el bloque del nombre se achica hasta que entre.
       if (window.matchMedia("(min-width: 768px) and (orientation: landscape)").matches) {
+        // El ancla del vidrio no cuenta: es absoluta, crece cuando el nombre
+        // se achica (mide el lugar que le deja) y, contada, lo seguía
+        // achicando hasta la mitad (pasó en 1366×768).
+        const anclas = Array.from(root.querySelectorAll("[data-glass-anchor]"));
+        anclas.forEach((el) => (el.style.display = "none"));
         for (let i = 0; i < 8 && root.scrollHeight > window.innerHeight + 2; i++) {
           k *= 0.92;
           aplicar();
         }
+        anclas.forEach((el) => (el.style.display = ""));
       }
       // Ancho y alto reales del bloque: la escultura se monta sobre su borde
       // derecho y se mide contra su alto, así guarda la proporción con las

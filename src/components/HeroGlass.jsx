@@ -226,6 +226,7 @@ void main(){ gl_FragColor = texture2D(uBg, vUv); }
 `;
 
 const RED = "#E52436";
+const PAPER = "#E5E3E0";
 
 // Celdas de caracteres en px CSS: más grandes en celular, menos pero legibles
 const CELDA = { desktop: 11, compact: 9 };
@@ -371,24 +372,8 @@ function dibujarNombre(ctx, w, h, dpr) {
     ctx.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
     if ("letterSpacing" in ctx) ctx.letterSpacing = cs.letterSpacing === "normal" ? "0px" : cs.letterSpacing;
     ctx.textBaseline = "alphabetic";
-    const top = base - size * 0.82;
-    const bottom = base + size * 0.04;
-    if (el.dataset.glassType === "red") {
-      const g = ctx.createLinearGradient(0, top, 0, bottom);
-      g.addColorStop(0, "#ff4a5b");
-      g.addColorStop(0.55, RED);
-      g.addColorStop(1, "#a50f1d");
-      ctx.fillStyle = g;
-    } else {
-      // Metal: dos bandas de brillo, como el titular cromado de un afiche
-      const g = ctx.createLinearGradient(0, top, 0, bottom);
-      g.addColorStop(0, "#f6f5f3");
-      g.addColorStop(0.36, "#d2d2d6");
-      g.addColorStop(0.5, "#86878f");
-      g.addColorStop(0.58, "#b4b5bb");
-      g.addColorStop(1, "#e9e8e5");
-      ctx.fillStyle = g;
-    }
+    // Tinta plana, como el <h1> del DOM: sin el brillo metálico (2026-11-05)
+    ctx.fillStyle = el.dataset.glassType === "red" ? RED : PAPER;
     ctx.fillText(text, rect.left, base);
     ctx.restore();
   });
