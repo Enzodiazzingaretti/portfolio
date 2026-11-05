@@ -3,8 +3,13 @@
 Portfolio profesional de Enzo Diaz Zingaretti. React 19 + Vite + Tailwind + three.js.
 Deploy en Vercel. Panel de administración propio en `/admin` con API serverless.
 
-**Todo vive en `main`** (el rediseño de `redesign-minimal` ya está mergeado y en
-producción). Las ramas remotas que quedan están todas mergeadas.
+**Todo vive en `main`** (el rediseño de `redesign-minimal` ya está en producción).
+Ojo con las ramas remotas que quedan: el historial de `main` arranca el 2026-08-20
+desde cero, así que `admin-panel` y `redesign-minimal` son el único registro de julio
+y agosto (sus commits no están en `main`, ni con otro hash). No borrarlas sin que Enzo
+lo decida. `tmp/shodnan-capturas` (sus capturas de Shodnan están iguales en `main`;
+las de Kexxy se rehicieron) y `claude/portfolio-interactive-sliders-lertja` (mergeada)
+sí se pueden borrar sin perder nada.
 
 > [!warning] En español manda `public/content.json`, no `siteContent.i18n.js`
 > `useSiteContent` superpone `content.json` (lo que edita `/admin`) sobre los
