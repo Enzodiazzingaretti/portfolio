@@ -90,6 +90,9 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     visitSite: "Visit Site",
     viewCode: "View code",
     features: "Includes",
+    piece: "Piece",
+    prevPiece: "Previous piece",
+    nextPiece: "Next piece",
     ...labels,
   }), [labels]);
 
@@ -112,6 +115,55 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
 
   const handlePrev = useCallback(() => navigate("prev"), [navigate]);
   const handleNext = useCallback(() => navigate("next"), [navigate]);
+
+  /**
+   * Saltar de pieza sin cerrar el visor. Antes había que cerrar y abrir la
+   * siguiente desde la grilla; ahora el visor recorre el grupo entero.
+   */
+  const goPiece = useCallback((delta) => {
+    setViewer((current) => {
+      if (!current || current.items.length <= 1) return current;
+      const n = current.items.length;
+      return { ...current, index: (current.index + delta + n) % n, slideIndex: 0 };
+    });
+  }, [setViewer]);
+
+  /**
+   * Teclado: ← → recorre las vistas de la pieza y, al llegar a la última,
+   * sigue con la pieza siguiente (y al revés); Shift + ← → salta de pieza
+   * directo. Vivía en CategoryPage; ahora el visor también se abre desde el
+   * home, así que el teclado va con él.
+   */
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      const delta = event.key === "ArrowRight" ? 1 : -1;
+      if (event.shiftKey) {
+        goPiece(delta);
+        return;
+      }
+      setViewer((current) => {
+        if (!current) return current;
+        const vistas = current.items[current.index].slides?.length ?? 0;
+        const siguiente = current.slideIndex + delta;
+        if (siguiente >= 0 && siguiente < vistas) return { ...current, slideIndex: siguiente };
+        const n = current.items.length;
+        if (n <= 1) {
+          return vistas > 1 ? { ...current, slideIndex: (siguiente + vistas) % vistas } : current;
+        }
+        const index = (current.index + delta + n) % n;
+        const vistasNueva = current.items[index].slides?.length ?? 0;
+        return { ...current, index, slideIndex: delta > 0 ? 0 : Math.max(0, vistasNueva - 1) };
+      });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose, goPiece, setViewer]);
 
   const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
@@ -213,6 +265,32 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     </>
   );
 
+  const piezas = viewer.items.length;
+  const numPieza = `${String(viewer.index + 1).padStart(2, "0")} / ${String(piezas).padStart(2, "0")}`;
+
+  // Fondo ambiente: la pieza misma, desenfocada y enorme detrás del visor,
+  // para que cada obra tiña la sala con su color. De un video se usa su
+  // poster (solo existe para los loops de /images/loops/).
+  const ambiente = (() => {
+    const candidatos = [currentSlide, item.thumbnail, item.previewImage].filter(Boolean);
+    for (const src of candidatos) {
+      if (!isVideoAsset(src)) return src.replace(/\.(png|jpe?g)$/i, ".webp");
+      if (/\/images\/loops\//i.test(src)) return src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg");
+    }
+    return null;
+  })();
+
+  const navPiezas = piezas > 1 ? (
+    <div className="modal-pieces">
+      <button type="button" className="modal-piece-btn font-mono" onClick={() => goPiece(-1)}>
+        <span aria-hidden="true">←</span> {modalLabels.prevPiece}
+      </button>
+      <button type="button" className="modal-piece-btn modal-piece-btn--next font-mono" onClick={() => goPiece(1)}>
+        {modalLabels.nextPiece} <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  ) : null;
+
   // Portal a <body>: el modal vive dentro de .cat-page, que tiene animacion de
   // entrada y z-index propio. Eso hacia dos cosas: el transform retenido de la
   // animacion convertia a .cat-page en bloque contenedor y el `fixed` del
@@ -237,6 +315,10 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
       className="modal-scrim fixed inset-0 z-[120] outline-none"
       onClick={onClose}
     >
+      {ambiente ? (
+        <div className="modal-ambient" key={ambiente} style={{ backgroundImage: `url("${encodeURI(ambiente)}")` }} aria-hidden="true" />
+      ) : null}
+      <div className="modal-ambient-veil" aria-hidden="true" />
 
       {/* ══════════════════════════════════════
           MOBILE — fullscreen cinematic viewer
@@ -256,7 +338,10 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5">
             <div className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-raveRed" />
-              <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/60">{viewer.sectionLabel}</span>
+              <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/60">
+                {viewer.sectionLabel}
+                {piezas > 1 ? <span className="modal-piece-count"> · {numPieza}</span> : null}
+              </span>
             </div>
             <button
               type="button"
@@ -275,7 +360,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             {item.subtitle && (
               <p className="mb-2 font-mono text-micro uppercase tracking-[0.35em] text-raveRedBright/80">{item.subtitle}</p>
             )}
-            <h3 className="font-display text-[2rem] font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+            <h3 className="modal-title font-poster text-[2.1rem] uppercase leading-[0.9] text-white">
               {item.title}
             </h3>
 
@@ -371,6 +456,8 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 {modalLabels.viewCode} ↗
               </a>
             )}
+
+            {navPiezas ? <div className="mt-6">{navPiezas}</div> : null}
           </div>
         </div>
       </div>
@@ -393,6 +480,10 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           {/* Media */}
           <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden">
             {mediaCore}
+            <span className="modal-corner modal-corner--tl" aria-hidden="true" />
+            <span className="modal-corner modal-corner--tr" aria-hidden="true" />
+            <span className="modal-corner modal-corner--bl" aria-hidden="true" />
+            <span className="modal-corner modal-corner--br" aria-hidden="true" />
             {total > 1 && (
               <>
                 <button type="button" onClick={handlePrev} aria-label={modalLabels.previous}
@@ -434,7 +525,12 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
               </div>
 
               <div>
-                <h3 className="font-display text-[clamp(1.6rem,2.8vw,2.8rem)] font-bold uppercase leading-[0.85] tracking-[-0.04em] text-paper">
+                {piezas > 1 ? (
+                  <p className="modal-piece-count font-mono">
+                    {modalLabels.piece} <span>{numPieza}</span>
+                  </p>
+                ) : null}
+                <h3 className="modal-title font-poster text-[clamp(1.9rem,3vw,3.1rem)] uppercase leading-[0.9] text-paper">
                   {item.title}
                 </h3>
                 {item.subtitle && (
@@ -503,6 +599,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                   {modalLabels.viewCode} ↗
                 </a>
               )}
+              {navPiezas}
               <div className="flex items-center justify-between">
                 {total > 1
                   ? <p className="font-mono text-micro text-white/46">{viewer.slideIndex + 1} / {total}</p>

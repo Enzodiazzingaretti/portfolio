@@ -15,6 +15,40 @@ producción). Las ramas remotas que quedan están todas mergeadas.
 > en español seguía el viejo hasta el 2026-09-27. Todo texto en español se toca
 > en los dos archivos.
 
+## Rediseño «vidrio ahumado» (2026-11)
+
+La capa visual del sitio público es `src/styles/vidrio.css` (va después de
+`index.css` y pisa lo que hace falta). Dirección: grafito `#17191D` de fondo
+(nunca negro puro), gunmetal `#292C32`, humo `#85858C`, off-white `#E5E3E0` y
+rojo `#E52436` solo de acento; para texto chico en rojo, `#FF5A66` (el otro no
+llega a AA a 10 px). Titulares en **Anton** (`font-poster`), texto en Inter,
+datos en JetBrains Mono. Vidrio en tres niveles (fino: barra, chips, botones;
+panel: visor, leyendas, marcos; líquido: solo la escultura del hero) y una
+regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
+
+- **Atmósfera** (`src/fx/Atmosphere.jsx`): capa fija con dos luces y la
+  retícula; también escribe `--scroll-k` en `<html>` y maneja la inclinación
+  de todo lo que tenga `data-tilt` (un listener delegado; `data-tilt="0.35"`
+  baja la intensidad). Sin mouse fino o con movimiento reducido no inclina.
+- **Hero** (`src/components/HeroGlass.jsx`, montado por `HeroBackdrop`): ver
+  la sección 3. El hero ASCII anterior queda en el repo sin montar.
+- **Reels** (grupo `reels` de Motion, array `motionReels`): bundle en tres
+  idiomas, `content.json` y su lista en `/admin`. Cada reel tiene un loop
+  liviano en `/images/loops/reel-<slug>.mp4` (+ `-poster.jpg`, 8 s, 360 px) y
+  el reel entero en `/images/reels/<slug>.mp4` (720 px, 30 fps, sin audio). Los
+  originales están en el Drive, carpeta «reels portfolio». Un reel de cliente
+  entra recién cuando el cliente lo publicó.
+- **Componentes del home:** `Showreel`, `ReelsRail` (celulares de vidrio),
+  `CategoryIndex` (contorno que se llena + tarjetas que siguen al cursor; en
+  táctil, tira de fotogramas), `CasePosters` (tarjetas en capas) y
+  `SectionHead` en `src/fx/Hud.jsx` (título con máscara y el mismo título en
+  contorno detrás, con parallax por `animation-timeline: view()` donde existe).
+- **Transición entre rutas:** `src/fx/SignalCut.jsx` (paneles de vidrio y una
+  línea roja, ~0,75 s; no corre en la primera carga ni con movimiento reducido).
+- **Capturas sin GPU:** `?sinfondo` (solo dev) no monta el WebGL; para filmar el
+  hero existe `window.__glass.anim.film = { t, px, py }` (solo dev), que fija
+  tiempo y puntero cuadro por cuadro. El render por software da ~1 fps.
+
 **Idioma inicial:** sin elección guardada, sale del navegador (`es`/`en`/`pt`); si
 ninguno coincide, inglés. El portfolio apunta a trabajo remoto.
 
@@ -139,7 +173,7 @@ Ahora: **hero + índice de 4 filas**, y una ruta por disciplina.
 | Ruta       | Categoría | Agrupa                          |
 |------------|-----------|---------------------------------|
 | `/`        | Home      | Hero three.js + índice          |
-| `/motion`  | MOTION    | TouchDesigner + Lab generativo  |
+| `/motion`  | MOTION    | Reels + TouchDesigner + Lab     |
 | `/3d`      | 3D        | Blender + Arquitectura          |
 | `/grafica` | GRÁFICA   | Campañas + Flyers + Logos       |
 | `/web`     | WEB       | Proyectos web                   |
@@ -196,7 +230,41 @@ igual. Traducciones completas en es / en / pt.
 
 ---
 
-## 3. El hero: filtro ASCII + enjambre
+## 3. El hero
+
+### 3.0 Escultura de vidrio (desde 2026-11)
+
+`HeroGlass.jsx`. Un solo contexto WebGL en el Shell, como antes: se apaga fuera
+del home, cuando el hero sale de pantalla (el canvas se funde con el scroll) y
+con la pestaña oculta.
+
+- **El nombre que se ve a través del vidrio es el `<h1>` real.** Cada renglón
+  (`[data-glass-type]`) lleva una sonda de línea base (`[data-glass-baseline]`)
+  y la escena lo redibuja en una textura con esas posiciones exactas; esa
+  textura es el fondo de la escena. El `<h1>` se vuelve transparente recién
+  cuando la textura está dibujada (`html.glass-type`): si WebGL falla, se ve el
+  texto del DOM. `useFitLines` ajusta el cuerpo de cada renglón al ancho y avisa
+  con el evento `hero-layout` para que la escena vuelva a medir.
+- **El lugar y el tamaño de la escultura los decide el CSS** (`.vx-orb`, ancla
+  `[data-glass-anchor]`): cambiar la composición no toca el JS.
+- **La refracción es un shader propio, no `transmission`.** Con
+  `MeshPhysicalMaterial` el vidrio muestreaba un mip borroso del fondo y se veía
+  lechoso, sin las letras de atrás (con `thickness` alto, además, el rayo se
+  corría cientos de píxeles). Ahora el fondo se dibuja primero en un render
+  target sin MSAA ni mipmaps y el vidrio lo muestrea corrido según la normal
+  en pantalla (con dispersión por canal y efecto lupa), más un reflejo de un
+  ambiente propio fotografiado una vez con una `CubeCamera`. Todo sale en sRGB:
+  sin tone mapping de three.
+- **`dt` con piso en 0.** El timestamp del rAF puede llegar antes que el último
+  registro; sin el piso el dt negativo se acumulaba y la escultura se deformaba
+  sin límite (amplitud ~390 en vez de 0,2).
+
+### 3.1 a 3.6: el hero ASCII anterior (archivado)
+
+Lo que sigue documenta `HeroThreeBackground` + `AsciiPass`, que siguen en el
+repo pero ya no se montan.
+
+## 3.x El hero ASCII: filtro + enjambre
 
 Calibrado el 2026-08-10 mirándolo en GPU real, no ya sobre capturas de un
 render por software. Los valores están fijados en el código.

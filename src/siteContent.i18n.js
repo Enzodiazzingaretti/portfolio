@@ -342,6 +342,50 @@ const logosAssets = {
   },
 };
 
+// Reels de motion (9:16). `thumbnail` es la portada liviana de /images/loops/
+// (8 s o menos, 360 px, sin audio, con su -poster.jpg); el reel entero va
+// primero en `slides`, a 720 px y sin audio, y después su portada.
+const reelAssets = {
+  sonarCaso: {
+    thumbnail: "/images/loops/reel-sonar-caso.mp4",
+    slides: ["/images/reels/sonar-caso.mp4", "/images/reels/sonar-caso-portada.webp"],
+  },
+  // Los reels de la serie de press kits y el de kook. salen de la carpeta
+  // «reels portfolio» del Drive: 720 px, 30 fps y sin audio para la web.
+  kexxy: {
+    thumbnail: "/images/loops/reel-kexxy.mp4",
+    slides: ["/images/reels/kexxy.mp4"],
+  },
+  shodnanRef: {
+    thumbnail: "/images/loops/reel-shodnan-ref.mp4",
+    slides: ["/images/reels/shodnan-ref.mp4"],
+  },
+  martinaHobelar: {
+    thumbnail: "/images/loops/reel-martina-hobelar.mp4",
+    slides: ["/images/reels/martina-hobelar.mp4"],
+  },
+  kook: {
+    thumbnail: "/images/loops/reel-kook.mp4",
+    slides: ["/images/reels/kook.mp4"],
+  },
+  ctrlz: {
+    thumbnail: "/images/loops/reel-ctrlz.mp4",
+    slides: ["/images/reels/ctrlz.mp4"],
+  },
+  gabiRaiz: {
+    thumbnail: "/images/loops/reel-gabi-raiz.mp4",
+    slides: ["/images/reels/gabi-raiz.mp4"],
+  },
+  sonarLineUp: {
+    thumbnail: "/images/loops/reel-sonar-line-up.mp4",
+    slides: ["/images/campanas/sonar/line-up-reel.mp4", "/images/campanas/sonar/line-up-portada.webp"],
+  },
+  sonarCuentaRegresiva: {
+    thumbnail: "/images/loops/reel-sonar-cuenta-regresiva.mp4",
+    slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
+  },
+};
+
 const blenderAssets = {
   // Golden Faces y Faces Alternative eran dos fichas del mismo modelo con
   // otro material: van juntas. El showcase la busca por "golden-faces" en la
@@ -497,9 +541,10 @@ export const siteContent = {
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "TouchDesigner / Tiempo real",
-          subtitle: "Loops audio-reactivos, visuales en vivo y sistemas generativos.",
+          kicker: "Reels / TouchDesigner / Tiempo real",
+          subtitle: "Reels para redes, loops audio-reactivos, visuales en vivo y sistemas generativos.",
           groups: {
+            reels: { title: "Reels", note: "Motion para redes: press kits, campañas y marcas" },
             touchdesigner: { title: "TouchDesigner", note: "Loops audio-reactivos y visuales en tiempo real" },
             lab: { title: "Lab generativo", note: "Sistemas algorítmicos dibujándose en vivo a 145 BPM" },
           },
@@ -576,6 +621,17 @@ export const siteContent = {
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Un sitio para que cada visita termine en un WhatsApp con los datos del seguro ya cargados. Guarda la consulta antes de abrir el chat, y Federico la sigue desde un panel propio junto con su cartera de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
         { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits a partir de mi plantilla. Clonarla no funcionó: cada estructura sale del material del artista, y en un press kit no se inventa ningún dato." },
+      ],
+      motionReels: [
+        { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel del caso", client: "Sonar Produce", type: "Reel · Caso de estudio", year: "2026", duration: "25,6 s", description: "Reel propio que cuenta la campaña de SONAR 001 en 25 segundos: identidad, key visual (cuatro propuestas, se eligió la B), carrusel del line-up, motion, cuenta regresiva, entradas, horarios, plantillas y el mosaico de las 49 piezas. A 150 BPM: cada corte cae en el beat. No es After Effects: el video se genera con código (Python + ffmpeg), y la misma plantilla rinde el reel, la historia y el feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
+        { ...reelAssets.kexxy, title: "KEXXY — Reel del press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "El reel de mi press kit en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
+        { ...reelAssets.shodnanRef, title: "Shodnan Ref — Reel del press kit", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel del press kit de Shodnan Ref, DJ de hardtechno y hardgroove de Tupungato: info, biografía, cabinas, rider y sonido, con la estética del sitio (revelado en blanco y negro, rojo y grano). Animado en HTML con GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
+        { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Reel del press kit", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "Recorrido por el press kit de Martina Høbelar, DJ y productora de hard techno y schranz: portada, sets, bio, fotos, rider y booking, y el sitio en el celular. Renderizado a 60 fps con el motor propio de la serie.", tags: ["Motion", "60 fps", "Press kit"] },
+        { ...reelAssets.kook, title: "kook. — Armá la tuya", client: "kook.", type: "Historia · Motion para redes", year: "2026", duration: "21 s", description: "Motion para kook., tortas servidas en tazas de cerámica pintadas a mano. 21 s a 120 BPM con loop perfecto: el logo cae, «elegí tu torta», «elegí tu taza», el glaseado dibujado a mano y la foto real de la combinación. El wordmark está vectorizado letra por letra y la animación sale de un motor propio en HTML y Canvas, sin librerías.", tags: ["Motion", "Canvas", "120 BPM"] },
+        { ...reelAssets.ctrlz, title: "CTRL.Z — Reel del press kit", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Cinco escenas en 16 s: la portada, el sitio corriendo en el celular, las fotos de prensa y la trayectoria. Hecho con el mismo motor que el resto de la serie: el sitio real, con un reloj virtual, exportado cuadro por cuadro.", tags: ["Motion", "Playwright", "Press kit"] },
+        { ...reelAssets.gabiRaiz, title: "Gabi Raíz — De la foto a la web", client: "Gabi Raíz", type: "Historia · Press kit", year: "2026", duration: "21 s", description: "Del retrato al sitio: las fotos de Coty Marty (@circes.eyes.ph) pasan al press kit de Gabi Raíz, DJ y productor de Mendoza, y el recorrido termina en el celular. La fotógrafa lleva su crédito en la pieza.", tags: ["Motion", "Press kit", "Fotografía"] },
+        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Animación del line-up", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14,4 s", description: "Reel de 14,4 s a 150 BPM: el radar barre la pieza, el golpe de la headliner cae en el segundo 9,6 y el cierre es la tapa del carrusel. Reel e historia en 1080 × 1920.", tags: ["Motion", "Dirección de arte", "Reel"] },
+        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Cuenta regresiva", client: "Sonar Produce", type: "Reel · Cuenta regresiva", year: "2026", duration: "14,4 s", description: "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.", tags: ["Motion", "After Effects", "Plantilla"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
@@ -717,6 +773,17 @@ export const siteContent = {
         },
         // Secuencia de arranque. Es texto de maquina, va igual en los tres
         // idiomas; vive acá para poder cambiarlo sin tocar el componente.
+        // Capa «tinta y señal»: rótulos del HUD, la nota a mano del hero y las
+        // cintas. Van en `ui` y no en content.json: son interfaz, no obra.
+        ink: {
+          live: "En vivo",
+          coords: "32°53′S 68°50′O",
+          showreel: { title: "Showreel", open: "Ver la pieza", list: "Piezas del showreel", play: "Reproducir el showreel", pause: "Pausar el showreel" },
+          reels: { open: "Ver reel", hint: "Deslizá →", previous: "Anteriores", next: "Siguientes" },
+          cases: { label: "Caso", plural: "casos" },
+          cursor: { view: "Ver", play: "Play" },
+          modal: { piece: "Pieza", prevPiece: "Pieza anterior", nextPiece: "Pieza siguiente" },
+        },
         boot: [
           "INITIALIZING PORTFOLIO_SYS v1.0",
           "LOADING ASSET MANIFEST...",
@@ -739,9 +806,10 @@ export const siteContent = {
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "TouchDesigner / Real-time",
-          subtitle: "Audio-reactive loops, live visuals and generative systems.",
+          kicker: "Reels / TouchDesigner / Real-time",
+          subtitle: "Reels for social, audio-reactive loops, live visuals and generative systems.",
           groups: {
+            reels: { title: "Reels", note: "Motion for social: press kits, campaigns and brands" },
             touchdesigner: { title: "TouchDesigner", note: "Audio-reactive loops and real-time visuals" },
             lab: { title: "Generative lab", note: "Algorithmic systems drawing live at 145 BPM" },
           },
@@ -816,6 +884,17 @@ export const siteContent = {
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "A site built so every visit ends in a WhatsApp chat with the insurance details already filled in. It saves the lead before opening the chat, and the broker follows it up from a custom panel along with his client portfolio." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
         { slug: "press-kits", title: "Artist press kits", tags: "HTML · CSS · JavaScript", summary: "Five press kits built from my own template. Cloning it didn't work: each structure comes from the artist's material, and a press kit never invents a fact." },
+      ],
+      motionReels: [
+        { ...reelAssets.sonarCaso, title: "Sonar Produce — Case reel", client: "Sonar Produce", type: "Reel · Case study", year: "2026", duration: "25.6 s", description: "My own reel telling the SONAR 001 campaign in 25 seconds: identity, key visual (four proposals, B was chosen), line-up carousel, motion, countdown, tickets, set times, templates and the mosaic of all 49 pieces. At 150 BPM, every cut lands on the beat. It isn't After Effects: the video is generated with code (Python + ffmpeg), and the same template renders the reel, the story and the feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
+        { ...reelAssets.kexxy, title: "KEXXY — Press kit reel", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "The reel for my own press kit, in its fanzine version: cover, sets, upcoming dates, booth, promoters and contact. It isn't a screen recording: an engine of my own mirrors the live site, injects a virtual clock and records it frame by frame with Playwright and ffmpeg, with real motion blur.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
+        { ...reelAssets.shodnanRef, title: "Shodnan Ref — Press kit reel", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel for the press kit of Shodnan Ref, a hardtechno and hardgroove DJ from Tupungato: info, bio, booths, rider and sound, in the site's look (black-and-white development, red and grain). Animated in HTML with GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
+        { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Press kit reel", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "A walkthrough of the press kit of Martina Høbelar, a hard techno and schranz DJ and producer: cover, sets, bio, photos, rider and booking, plus the site on a phone. Rendered at 60 fps with the series' own engine.", tags: ["Motion", "60 fps", "Press kit"] },
+        { ...reelAssets.kook, title: "kook. — Build yours", client: "kook.", type: "Story · Social motion", year: "2026", duration: "21 s", description: "Motion for kook., cakes served in hand-painted ceramic cups. 21 s at 120 BPM with a seamless loop: the logo drops, “pick your cake”, “pick your cup”, the hand-drawn frosting and the real photo of the combination. The wordmark is vectorized letter by letter and the animation comes from an engine of my own in HTML and Canvas, with no libraries.", tags: ["Motion", "Canvas", "120 BPM"] },
+        { ...reelAssets.ctrlz, title: "CTRL.Z — Press kit reel", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Five scenes in 16 s: the cover, the site running on a phone, the press photos and the track record. Made with the same engine as the rest of the series: the real site, on a virtual clock, exported frame by frame.", tags: ["Motion", "Playwright", "Press kit"] },
+        { ...reelAssets.gabiRaiz, title: "Gabi Raíz — From photo to web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "From portrait to site: Coty Marty's photos (@circes.eyes.ph) flow into the press kit of Gabi Raíz, a DJ and producer from Mendoza, and the walkthrough ends on a phone. The photographer is credited in the piece.", tags: ["Motion", "Press kit", "Photography"] },
+        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Line-up animation", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14.4 s", description: "A 14.4 s reel at 150 BPM: the radar sweeps the frame, the headliner's hit lands at 9.6 s and it closes on the carousel cover. Reel and story at 1080 × 1920.", tags: ["Motion", "Art direction", "Reel"] },
+        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Countdown", client: "Sonar Produce", type: "Reel · Countdown", year: "2026", duration: "14.4 s", description: "A 14.4 s animation at 150 BPM: the 3-2-1 on the radar dial, the night's details and a final hit in red. One reel, one feed post and one story per day, built from an After Effects template with editable text.", tags: ["Motion", "After Effects", "Template"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
@@ -951,6 +1030,15 @@ export const siteContent = {
             exit: "close the terminal",
           },
         },
+        ink: {
+          live: "Live",
+          coords: "32°53′S 68°50′W",
+          showreel: { title: "Showreel", open: "View the piece", list: "Showreel pieces", play: "Play the showreel", pause: "Pause the showreel" },
+          reels: { open: "Watch reel", hint: "Swipe →", previous: "Previous", next: "Next" },
+          cases: { label: "Case", plural: "cases" },
+          cursor: { view: "View", play: "Play" },
+          modal: { piece: "Piece", prevPiece: "Previous piece", nextPiece: "Next piece" },
+        },
         boot: [
           "INITIALIZING PORTFOLIO_SYS v1.0",
           "LOADING ASSET MANIFEST...",
@@ -973,9 +1061,10 @@ export const siteContent = {
       categories: {
         motion: {
           title: "MOTION",
-          kicker: "TouchDesigner / Tempo real",
-          subtitle: "Loops audio-reativos, visuais ao vivo e sistemas generativos.",
+          kicker: "Reels / TouchDesigner / Tempo real",
+          subtitle: "Reels para redes, loops audio-reativos, visuais ao vivo e sistemas generativos.",
           groups: {
+            reels: { title: "Reels", note: "Motion para redes: press kits, campanhas e marcas" },
             touchdesigner: { title: "TouchDesigner", note: "Loops audio-reativos e visuais em tempo real" },
             lab: { title: "Lab generativo", note: "Sistemas algorítmicos desenhando ao vivo a 145 BPM" },
           },
@@ -1050,6 +1139,17 @@ export const siteContent = {
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Um site para que cada visita termine numa conversa de WhatsApp com os dados do seguro já preenchidos. Ele salva a consulta antes de abrir o chat, e o corretor acompanha tudo num painel próprio, junto com a carteira de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
         { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits a partir do meu template. Cloná-lo não funcionou: cada estrutura sai do material do artista, e num press kit nenhum dado é inventado." },
+      ],
+      motionReels: [
+        { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel do case", client: "Sonar Produce", type: "Reel · Estudo de caso", year: "2026", duration: "25,6 s", description: "Reel próprio que conta a campanha do SONAR 001 em 25 segundos: identidade, key visual (quatro propostas, a B foi a escolhida), carrossel do line-up, motion, contagem regressiva, ingressos, horários, templates e o mosaico das 49 peças. A 150 BPM: cada corte cai no beat. Não é After Effects: o vídeo é gerado com código (Python + ffmpeg), e o mesmo template renderiza o reel, o story e o feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
+        { ...reelAssets.kexxy, title: "KEXXY — Reel do press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "O reel do meu press kit, na versão fanzine: capa, sets, próximas datas, cabine, produtoras e contato. Não é uma gravação de tela: um motor próprio copia o site no ar, injeta um relógio virtual e grava quadro a quadro com Playwright e ffmpeg, com motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
+        { ...reelAssets.shodnanRef, title: "Shodnan Ref — Reel do press kit", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel do press kit de Shodnan Ref, DJ de hardtechno e hardgroove de Tupungato: info, biografia, cabines, rider e som, com a estética do site (revelação em preto e branco, vermelho e granulado). Animado em HTML com GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
+        { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Reel do press kit", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "Um passeio pelo press kit de Martina Høbelar, DJ e produtora de hard techno e schranz: capa, sets, bio, fotos, rider e booking, e o site no celular. Renderizado a 60 fps com o motor próprio da série.", tags: ["Motion", "60 fps", "Press kit"] },
+        { ...reelAssets.kook, title: "kook. — Monte a sua", client: "kook.", type: "Story · Motion para redes", year: "2026", duration: "21 s", description: "Motion para a kook., bolos servidos em xícaras de cerâmica pintadas à mão. 21 s a 120 BPM com loop perfeito: o logo cai, «escolha seu bolo», «escolha sua xícara», a cobertura desenhada à mão e a foto real da combinação. O wordmark foi vetorizado letra por letra e a animação sai de um motor próprio em HTML e Canvas, sem bibliotecas.", tags: ["Motion", "Canvas", "120 BPM"] },
+        { ...reelAssets.ctrlz, title: "CTRL.Z — Reel do press kit", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Cinco cenas em 16 s: a capa, o site rodando no celular, as fotos de imprensa e a trajetória. Feito com o mesmo motor do resto da série: o site real, com um relógio virtual, exportado quadro a quadro.", tags: ["Motion", "Playwright", "Press kit"] },
+        { ...reelAssets.gabiRaiz, title: "Gabi Raíz — Da foto à web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "Do retrato ao site: as fotos de Coty Marty (@circes.eyes.ph) passam para o press kit de Gabi Raíz, DJ e produtor de Mendoza, e o passeio termina no celular. A fotógrafa leva o crédito na peça.", tags: ["Motion", "Press kit", "Fotografia"] },
+        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Animação do line-up", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14,4 s", description: "Reel de 14,4 s a 150 BPM: o radar varre a peça, o golpe da headliner cai no segundo 9,6 e o fechamento é a capa do carrossel. Reel e story em 1080 × 1920.", tags: ["Motion", "Direção de arte", "Reel"] },
+        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Contagem regressiva", client: "Sonar Produce", type: "Reel · Contagem regressiva", year: "2026", duration: "14,4 s", description: "Animação de 14,4 s a 150 BPM: o 3-2-1 no dial do radar, os dados da data e o golpe final em vermelho. Um reel, um post de feed e um story por dia, montados a partir de um template de After Effects com textos editáveis.", tags: ["Motion", "After Effects", "Template"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },
@@ -1184,6 +1284,15 @@ export const siteContent = {
             clear: "limpar o console",
             exit: "fechar o terminal",
           },
+        },
+        ink: {
+          live: "Ao vivo",
+          coords: "32°53′S 68°50′O",
+          showreel: { title: "Showreel", open: "Ver a peça", list: "Peças do showreel", play: "Reproduzir o showreel", pause: "Pausar o showreel" },
+          reels: { open: "Ver reel", hint: "Deslize →", previous: "Anteriores", next: "Próximos" },
+          cases: { label: "Caso", plural: "casos" },
+          cursor: { view: "Ver", play: "Play" },
+          modal: { piece: "Peça", prevPiece: "Peça anterior", nextPiece: "Próxima peça" },
         },
         boot: [
           "INITIALIZING PORTFOLIO_SYS v1.0",

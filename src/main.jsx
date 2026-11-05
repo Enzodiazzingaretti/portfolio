@@ -6,6 +6,8 @@ import Home from "./routes/Home.jsx";
 import CategoryPage from "./routes/CategoryPage.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import "./index.css";
+// La capa «vidrio ahumado» va después: pisa lo que haga falta de index.css.
+import "./styles/vidrio.css";
 
 // El admin es otra app: fuera del bundle del portfolio
 const Admin = lazy(() => import("./admin/Admin.jsx"));

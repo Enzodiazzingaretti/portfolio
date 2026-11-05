@@ -64,8 +64,8 @@ export default function ContactContent({ contact, labels, variant = "panel" }) {
       <p
         className={
           enPagina
-            ? "font-display text-[clamp(2.8rem,8vw,6rem)] font-bold uppercase leading-[0.85] tracking-[-0.05em] text-paper"
-            : "font-display text-[clamp(2.6rem,7vw,5rem)] font-bold uppercase leading-[0.85] tracking-[-0.05em] text-paper"
+            ? "contact-headline font-poster uppercase text-paper"
+            : "font-poster text-[clamp(2.6rem,7vw,5rem)] uppercase leading-[0.88] text-paper"
         }
       >
         {contact.headline}
@@ -95,7 +95,7 @@ export default function ContactContent({ contact, labels, variant = "panel" }) {
                     {labels?.[key] ?? key}
                   </span>
                 ) : null}
-                <span className="info-contact-value font-display">
+                <span className="info-contact-value font-poster">
                   {valorVisible(key, contact[key], labels)}
                 </span>
                 <span className="info-contact-arrow" aria-hidden="true">

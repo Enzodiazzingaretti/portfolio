@@ -82,7 +82,7 @@ export default function LabGrid({ pieces, labels }) {
 
             <div className="mt-3">
               <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-display text-xl font-bold uppercase leading-tight tracking-[-0.02em] text-paper transition group-hover:text-white md:text-2xl">
+                <h3 className="font-poster text-2xl uppercase leading-tight text-paper transition group-hover:text-white md:text-3xl">
                   {copy.title}
                 </h3>
                 <span className="font-mono text-micro uppercase tracking-[0.25em] text-raveRed/70">RT</span>

@@ -30,6 +30,21 @@ const CATEGORIES = [
     newItem: () => ({ id: "web-" + Date.now(), title: "", type: "Web", year: "", status: "", role: "", description: "", tags: [], features: [], previewUrl: "", repoUrl: "", previewImage: "", scrollPreview: false, imageUrl: null, slides: [], enabled: true }),
   },
   {
+    key: "motionReels", slot: "reel", title: "Reels", subtitle: "Motion para redes (9:16)", titleKey: "title", addLabel: "Agregar reel",
+    fields: [
+      { key: "title", label: "Título" },
+      { key: "client", label: "Cliente / marca" },
+      { key: "type", label: "Tipo", placeholder: "Reel · Press kit" },
+      { key: "year", label: "Año" },
+      { key: "duration", label: "Duración", placeholder: "16 s" },
+      { key: "description", label: "Descripción", type: "textarea", rows: 3 },
+      { key: "tags", label: "Tags", type: "tags" },
+      { key: "thumbnail", label: "Loop de portada (mp4 corto)", type: "image", hint: "La versión liviana de /images/loops/, con su -poster.jpg al lado." },
+      { key: "slides", label: "Reel completo y portada", type: "slides" },
+    ],
+    newItem: () => ({ id: "reel-" + Date.now(), title: "", client: "", type: "Reel", year: "", duration: "", description: "", tags: [], thumbnail: "", slides: [], enabled: true }),
+  },
+  {
     key: "touchDesignerLoops", slot: "motion", title: "Motion", subtitle: "Loops de TouchDesigner", titleKey: "name", addLabel: "Agregar loop",
     fields: [
       { key: "name", label: "Nombre" },

@@ -95,7 +95,7 @@ export default function Preloader({ onDone, criticalAssets = [], lines }) {
         </p>
 
         <div
-          className="font-display font-bold uppercase leading-none tracking-[-0.05em] text-paper select-none"
+          className="preloader-count font-poster uppercase leading-none text-paper select-none"
           style={{ fontSize: "clamp(5rem, 20vw, 14rem)" }}
         >
           {String(percent).padStart(3, "0")}

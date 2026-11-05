@@ -219,6 +219,166 @@
       "enabled": false
     }
   ],
+  "motionReels": [
+    {
+      "thumbnail": "/images/loops/reel-sonar-caso.mp4",
+      "slides": [
+        "/images/reels/sonar-caso.mp4",
+        "/images/reels/sonar-caso-portada.webp"
+      ],
+      "title": "Sonar Produce — Reel del caso",
+      "client": "Sonar Produce",
+      "type": "Reel · Caso de estudio",
+      "year": "2026",
+      "duration": "25,6 s",
+      "description": "Reel propio que cuenta la campaña de SONAR 001 en 25 segundos: identidad, key visual (cuatro propuestas, se eligió la B), carrusel del line-up, motion, cuenta regresiva, entradas, horarios, plantillas y el mosaico de las 49 piezas. A 150 BPM: cada corte cae en el beat. No es After Effects: el video se genera con código (Python + ffmpeg), y la misma plantilla rinde el reel, la historia y el feed.",
+      "tags": [
+        "Motion",
+        "Python",
+        "ffmpeg",
+        "150 BPM"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-kexxy.mp4",
+      "slides": [
+        "/images/reels/kexxy.mp4"
+      ],
+      "title": "KEXXY — Reel del press kit",
+      "client": "Kexxy",
+      "type": "Reel · Press kit",
+      "year": "2026",
+      "duration": "25 s",
+      "description": "El reel de mi press kit en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.",
+      "tags": [
+        "Motion",
+        "Playwright",
+        "ffmpeg",
+        "Press kit"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-shodnan-ref.mp4",
+      "slides": [
+        "/images/reels/shodnan-ref.mp4"
+      ],
+      "title": "Shodnan Ref — Reel del press kit",
+      "client": "Shodnan Ref",
+      "type": "Reel · Press kit",
+      "year": "2026",
+      "duration": "29 s",
+      "description": "Reel del press kit de Shodnan Ref, DJ de hardtechno y hardgroove de Tupungato: info, biografía, cabinas, rider y sonido, con la estética del sitio (revelado en blanco y negro, rojo y grano). Animado en HTML con GSAP.",
+      "tags": [
+        "Motion",
+        "GSAP",
+        "Press kit"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-martina-hobelar.mp4",
+      "slides": [
+        "/images/reels/martina-hobelar.mp4"
+      ],
+      "title": "Martina Høbelar — Reel del press kit",
+      "client": "Martina Høbelar",
+      "type": "Reel · Press kit",
+      "year": "2026",
+      "duration": "23 s",
+      "description": "Recorrido por el press kit de Martina Høbelar, DJ y productora de hard techno y schranz: portada, sets, bio, fotos, rider y booking, y el sitio en el celular. Renderizado a 60 fps con el motor propio de la serie.",
+      "tags": [
+        "Motion",
+        "60 fps",
+        "Press kit"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-kook.mp4",
+      "slides": [
+        "/images/reels/kook.mp4"
+      ],
+      "title": "kook. — Armá la tuya",
+      "client": "kook.",
+      "type": "Historia · Motion para redes",
+      "year": "2026",
+      "duration": "21 s",
+      "description": "Motion para kook., tortas servidas en tazas de cerámica pintadas a mano. 21 s a 120 BPM con loop perfecto: el logo cae, «elegí tu torta», «elegí tu taza», el glaseado dibujado a mano y la foto real de la combinación. El wordmark está vectorizado letra por letra y la animación sale de un motor propio en HTML y Canvas, sin librerías.",
+      "tags": [
+        "Motion",
+        "Canvas",
+        "120 BPM"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-ctrlz.mp4",
+      "slides": [
+        "/images/reels/ctrlz.mp4"
+      ],
+      "title": "CTRL.Z — Reel del press kit",
+      "client": "CTRL.Z",
+      "type": "Reel · Press kit",
+      "year": "2026",
+      "duration": "16 s",
+      "description": "Cinco escenas en 16 s: la portada, el sitio corriendo en el celular, las fotos de prensa y la trayectoria. Hecho con el mismo motor que el resto de la serie: el sitio real, con un reloj virtual, exportado cuadro por cuadro.",
+      "tags": [
+        "Motion",
+        "Playwright",
+        "Press kit"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-gabi-raiz.mp4",
+      "slides": [
+        "/images/reels/gabi-raiz.mp4"
+      ],
+      "title": "Gabi Raíz — De la foto a la web",
+      "client": "Gabi Raíz",
+      "type": "Historia · Press kit",
+      "year": "2026",
+      "duration": "21 s",
+      "description": "Del retrato al sitio: las fotos de Coty Marty (@circes.eyes.ph) pasan al press kit de Gabi Raíz, DJ y productor de Mendoza, y el recorrido termina en el celular. La fotógrafa lleva su crédito en la pieza.",
+      "tags": [
+        "Motion",
+        "Press kit",
+        "Fotografía"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-sonar-line-up.mp4",
+      "slides": [
+        "/images/campanas/sonar/line-up-reel.mp4",
+        "/images/campanas/sonar/line-up-portada.webp"
+      ],
+      "title": "Sonar 001 — Animación del line-up",
+      "client": "Sonar Produce",
+      "type": "Reel · Line-up",
+      "year": "2026",
+      "duration": "14,4 s",
+      "description": "Reel de 14,4 s a 150 BPM: el radar barre la pieza, el golpe de la headliner cae en el segundo 9,6 y el cierre es la tapa del carrusel. Reel e historia en 1080 × 1920.",
+      "tags": [
+        "Motion",
+        "Dirección de arte",
+        "Reel"
+      ]
+    },
+    {
+      "thumbnail": "/images/loops/reel-sonar-cuenta-regresiva.mp4",
+      "slides": [
+        "/images/campanas/sonar/cuenta-regresiva-reel.mp4",
+        "/images/campanas/sonar/cuenta-regresiva-portada.webp"
+      ],
+      "title": "Sonar 001 — Cuenta regresiva",
+      "client": "Sonar Produce",
+      "type": "Reel · Cuenta regresiva",
+      "year": "2026",
+      "duration": "14,4 s",
+      "description": "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.",
+      "tags": [
+        "Motion",
+        "After Effects",
+        "Plantilla"
+      ]
+    }
+  ],
   "touchDesignerLoops": [
     {
       "thumbnail": "/images/loops/feedback-ritual.mp4",

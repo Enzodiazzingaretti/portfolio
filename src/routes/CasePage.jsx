@@ -28,7 +28,7 @@ function SectionHead({ num, title }) {
   return (
     <div className="case-section-head">
       <span className="case-section-num font-mono">{num}</span>
-      <h2 className="case-section-title font-display">{title}</h2>
+      <h2 className="case-section-title font-poster">{title}</h2>
     </div>
   );
 }
@@ -80,7 +80,7 @@ function Block({ block, num, figures, ui, eager }) {
       <ol className="case-decisions">
         {block.items.map((item) => (
           <li key={item.title} className="case-decision">
-            <h3 className="case-decision-title font-display">{item.title}</h3>
+            <h3 className="case-decision-title font-poster">{item.title}</h3>
             <p className="case-decision-text">
               <Inline text={item.text} />
             </p>
@@ -118,7 +118,7 @@ function Block({ block, num, figures, ui, eager }) {
       <dl className="case-stats">
         {block.items.map((item) => (
           <div key={item.value} className="case-stat">
-            <dt className="case-stat-value font-display">{item.value}</dt>
+            <dt className="case-stat-value font-poster">{item.value}</dt>
             <dd className="case-stat-label">{item.label}</dd>
           </div>
         ))}
@@ -189,7 +189,7 @@ export default function CasePage() {
           {ui.label} {String(index + 1).padStart(2, "0")} / {String(cases.length).padStart(2, "0")}
           <span className="case-kicker-tags"> · {teaser.tags}</span>
         </p>
-        <h1 className="case-title font-display">{teaser.title}</h1>
+        <h1 className="case-title font-poster">{teaser.title}</h1>
         <p className="case-lead">{teaser.summary}</p>
 
         <div className="case-meta-row">
@@ -250,7 +250,7 @@ export default function CasePage() {
         {next && next.slug !== caso ? (
           <Link to={`/${slug}/${next.slug}`} className="case-pager-next">
             <span className="case-pager-dir font-mono">{ui.next} →</span>
-            <span className="case-pager-title font-display">{next.title}</span>
+            <span className="case-pager-title font-poster">{next.title}</span>
           </Link>
         ) : (
           <span />

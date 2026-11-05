@@ -32,7 +32,7 @@ export default function SelectedWorkCard({ project, index, onOpen, labels }) {
     />
   );
   const heading = (
-    <h3 className="font-display text-[clamp(3rem,6.5vw,7rem)] font-bold uppercase leading-[0.78] tracking-[-0.06em] text-paper transition group-hover:text-white">
+    <h3 className="font-poster text-[clamp(3rem,6.2vw,6.6rem)] uppercase leading-[0.86] text-paper transition group-hover:text-white">
       {project.title}
     </h3>
   );

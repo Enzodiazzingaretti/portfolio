@@ -6,16 +6,23 @@ export default {
       colors: {
         // Fondos: ink es el fondo global, surface para cards/thumbnails,
         // surfaceDeep para paneles de modal
-        ink: "#050505",
+        // «Vidrio ahumado» (2026-11): el fondo deja de ser negro puro y pasa a
+        // grafito; gunmetal para superficies y humo para texto secundario.
+        ink: "#17191D",
+        graphite: "#17191D",
+        gunmetal: "#292C32",
+        smoke: "#85858C",
         surface: "#0A0A0A",
         surfaceDeep: "#080808",
         // Texto: paper para titulares/principal, dim para secundario
-        paper: "#EAEAEA",
+        paper: "#E5E3E0",
         dim: "#C8C8C8",
         raveRed: "#8B0000",
         raveRedHover: "#B11212",
         // Variante luminosa para texto chico sobre fondo oscuro (WCAG AA)
-        raveRedBright: "#FF3B3B",
+        raveRedBright: "#FF5A66",
+        // Rojo Kexxy: acento de la identidad (relleno y tipo grande)
+        kexxy: "#E52436",
       },
       // Escala micro para labels tipo HUD; un solo lugar para ajustarla
       fontSize: {
@@ -30,6 +37,8 @@ export default {
         sans: ["Inter", "Arial", "sans-serif"],
         display: ["Barlow Condensed", "Arial Narrow", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
+        // Titulares de afiche: condensada, a gran escala
+        poster: ["Anton", "Impact", "Arial Narrow", "sans-serif"],
       },
       letterSpacing: {
         brutal: "0.14em",

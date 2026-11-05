@@ -12,7 +12,7 @@ import { siteContent } from "../src/siteContent.i18n.js";
  */
 
 const LOCALES = ["es", "en", "pt"];
-const WORK_LISTS = ["webProjects", "touchDesignerLoops", "blenderWorks", "campaigns", "flyers", "logos", "espacios", "labPieces"];
+const WORK_LISTS = ["webProjects", "motionReels", "touchDesignerLoops", "blenderWorks", "campaigns", "flyers", "logos", "espacios", "labPieces"];
 const editable = JSON.parse(readFileSync(new URL("../public/content.json", import.meta.url), "utf8"));
 
 /** Same rule MediaAsset applies at runtime: .png/.jpg are served as .webp. */

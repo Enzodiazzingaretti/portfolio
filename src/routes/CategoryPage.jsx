@@ -4,10 +4,18 @@ import MediaAsset from "../components/MediaAsset";
 import SelectedWorkCard from "../components/SelectedWorkCard";
 import DetailModal from "../components/DetailModal";
 import LoopAudioButton from "../components/LoopAudioButton";
+import { ReelCard } from "../components/ReelsRail";
 import { loopAudio } from "../audio/loopAudio";
+import Scramble from "../fx/Scramble";
+import { Crosshair, Sparkle } from "../fx/Hud";
+import { useInView } from "../fx/useInView";
 import NotFound from "./NotFound";
 
 const LabGrid = lazy(() => import("../components/LabGrid"));
+
+function pad(n, len = 2) {
+  return String(n).padStart(len, "0");
+}
 
 /* Relación de aspecto: respeta el formato original de cada pieza */
 function tileRatio(item) {
@@ -16,18 +24,32 @@ function tileRatio(item) {
   return "landscape";
 }
 
-function WorkTile({ item, onOpen }) {
+/**
+ * Sin número visible a propósito: la grilla es masonry por columnas y una
+ * numeración leería 01, 03, 05 de izquierda a derecha. Lo que sí se marca es
+ * cuántas vistas más tiene la pieza adentro.
+ */
+function WorkTile({ item, onOpen, cursor }) {
+  const extra = (item.slides?.length ?? 0) - 1;
   return (
     <article className={`work-tile work-tile--${tileRatio(item)} reveal-on-scroll`}>
-      <button type="button" onClick={onOpen} className="work-tile-button">
+      <button type="button" onClick={onOpen} className="work-tile-button" data-cursor={cursor} data-tilt>
         <span className="work-tile-media">
           <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
           <span className="work-tile-veil" aria-hidden="true" />
+          {extra > 0 ? (
+            <span className="work-tile-hud font-mono" aria-hidden="true">
+              +{extra}
+            </span>
+          ) : null}
+          <span className="work-tile-corner work-tile-corner--tl" aria-hidden="true" />
+          <span className="work-tile-corner work-tile-corner--br" aria-hidden="true" />
         </span>
         <span className="work-tile-caption">
           <span className="work-tile-index" aria-hidden="true" />
           <span className="work-tile-text">
-            <span className="work-tile-title font-display">{item.title}</span>
+            <span className="work-tile-title font-poster">{item.title}</span>
+            {item.subtitle ? <span className="work-tile-type font-mono">{item.subtitle}</span> : null}
             {item.description ? <span className="work-tile-desc">{item.description}</span> : null}
           </span>
         </span>
@@ -36,7 +58,7 @@ function WorkTile({ item, onOpen }) {
   );
 }
 
-function VideoTile({ item, index, onOpen, label, audioLabels }) {
+function VideoTile({ item, index, onOpen, label, audioLabels, cursor }) {
   return (
     <article
       className="loop-tile reveal-on-scroll"
@@ -45,23 +67,92 @@ function VideoTile({ item, index, onOpen, label, audioLabels }) {
       onMouseEnter={() => loopAudio.alEntrar(item.audio)}
       onMouseLeave={() => loopAudio.alSalir(item.audio)}
     >
-      <button type="button" onClick={onOpen} className="loop-tile-button">
+      <button type="button" onClick={onOpen} className="loop-tile-button" data-cursor={cursor} data-tilt>
         <span className="loop-tile-media">
           <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
           <span className="loop-tile-veil" aria-hidden="true" />
           <span className="loop-tile-badge font-mono">
             <span className="loop-tile-dot" aria-hidden="true" />
-            {label} {String(index + 1).padStart(2, "0")}
+            {label} {pad(index + 1)}
           </span>
         </span>
         <span className="loop-tile-caption">
-          <span className="loop-tile-title font-display">{item.title}</span>
+          <span className="loop-tile-title font-poster">{item.title}</span>
           {item.description ? <span className="loop-tile-desc">{item.description}</span> : null}
         </span>
       </button>
 
       {item.audio ? <LoopAudioButton src={item.audio} labels={audioLabels} /> : null}
     </article>
+  );
+}
+
+/**
+ * Cabecera de categoría como afiche: el título enorme, el numeral en gótica
+ * con un círculo a mano y, detrás, la primera pieza impresa en trama.
+ */
+function TitleCard({ category, content }) {
+  const [ref, inView] = useInView({ rootMargin: "0px" });
+  const fondo = category.groups
+    .flatMap((g) => g.items)
+    .map((item) => item.thumbnail)
+    .find((src) => src && !/\.(mp4|webm|mov)$/i.test(src));
+  const navLabels = content.ui.nav;
+
+  return (
+    <header ref={ref} className={`cat-header tc${inView ? " is-in" : ""}`}>
+      {fondo ? (
+        <span className="tc-print" aria-hidden="true">
+          <MediaAsset src={fondo} alt="" className="h-full w-full object-cover" />
+        </span>
+      ) : null}
+      <span className="tc-shade" aria-hidden="true" />
+      <Crosshair className="tc-cross" />
+      <Sparkle className="tc-sparkle" />
+
+      <Link to="/" className="cat-back font-mono">
+        <span aria-hidden="true">←</span> {navLabels.back}
+      </Link>
+
+      <div className="tc-main">
+        <span className="tc-num font-mono" aria-hidden="true">
+          {category.num}
+        </span>
+        <h1 className="tc-title font-poster">
+          <Scramble text={category.title} trigger="mount" duration={620} />
+        </h1>
+      </div>
+
+      <div className="tc-meta">
+        <p className="tc-kicker font-mono">{category.kicker}</p>
+        <p className="tc-sub">{category.subtitle}</p>
+        <p className="tc-count font-mono">
+          <span>{pad(category.count, 3)}</span> {content.ui.worksLabel}
+          <span className="tc-sep" aria-hidden="true">
+            /
+          </span>
+          {category.groups.map((g) => g.title).filter(Boolean).join(" · ")}
+        </p>
+      </div>
+    </header>
+  );
+}
+
+function GroupHead({ group, index }) {
+  const [ref, inView] = useInView();
+  return (
+    <div ref={ref} className={`cat-group-head${inView ? " is-in" : ""}`}>
+      <span className="cat-group-num font-mono" aria-hidden="true">
+        {pad(index + 1)}
+      </span>
+      <h2 className="cat-group-title font-poster">
+        {group.title}
+      </h2>
+      <span className="cat-group-rule" aria-hidden="true" />
+      <p className="cat-group-note font-mono">
+        {group.note} <span className="cat-group-count">· {pad(group.items.length)}</span>
+      </p>
+    </div>
   );
 }
 
@@ -130,66 +221,39 @@ export default function CategoryPage() {
     };
   }, [slug, preloaded]);
 
-  useEffect(() => {
-    if (!viewer) return undefined;
-    const onKey = (event) => {
-      if (event.key === "Escape") setViewer(null);
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-      const delta = event.key === "ArrowRight" ? 1 : -1;
-      setViewer((current) => {
-        if (!current) return current;
-        const total = current.items[current.index].slides?.length ?? 0;
-        if (total <= 1) return current;
-        return { ...current, slideIndex: (current.slideIndex + delta + total) % total };
-      });
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [viewer]);
-
   // Slug inventado: 404 de verdad, no un desvio silencioso al home
   if (!category) return <NotFound />;
 
   const navLabels = content.ui.nav;
+  const ink = content.ui.ink;
   // sectionLabel alimenta el rotulo del modal, al lado del punto rojo. Sin el
   // el punto quedaba solo, sin texto.
   const open = (items, index, sectionLabel) => setViewer({ items, index, slideIndex: 0, sectionLabel });
 
   return (
     <div className="cat-page">
-      <header className="cat-header">
-        <Link to="/" className="cat-back font-mono">
-          <span aria-hidden="true">←</span> {navLabels.back}
-        </Link>
+      <TitleCard category={category} content={content} />
 
-        <div className="cat-header-main">
-          <span className="cat-header-num font-mono">{category.num}</span>
-          <h1 className="cat-header-title font-display">{category.title}</h1>
-        </div>
-
-        <div className="cat-header-meta">
-          <p className="font-mono text-label uppercase tracking-[0.32em] text-raveRedBright">{category.kicker}</p>
-          <p className="cat-header-sub">{category.subtitle}</p>
-          <p className="font-mono text-label uppercase tracking-[0.3em] text-white/52">
-            {String(category.count).padStart(2, "0")} {content.ui.worksLabel}
-          </p>
-        </div>
-      </header>
-
-      {category.groups.map((group) => (
-        <section key={group.id} className="cat-group" aria-label={group.title}>
-          {category.groups.length > 1 ? (
-            <div className="cat-group-head">
-              <h2 className="cat-group-title font-display">{group.title}</h2>
-              <span className="cat-group-rule" aria-hidden="true" />
-              <p className="cat-group-note font-mono">{group.note}</p>
-            </div>
-          ) : null}
+      {category.groups.map((group, gi) => (
+        <section key={group.id} className={`cat-group cat-group--${group.layout}`} aria-label={group.title} id={group.id}>
+          {category.groups.length > 1 ? <GroupHead group={group} index={gi} /> : null}
 
           {group.layout === "lab" ? (
             <Suspense fallback={<div className="cat-lab-fallback" />}>
               <LabGrid pieces={group.items} labels={content.ui.lab} />
             </Suspense>
+          ) : group.layout === "reels" ? (
+            <div className="reel-grid">
+              {group.items.map((item, index) => (
+                <ReelCard
+                  key={`${item.title}-${index}`}
+                  item={item}
+                  index={index}
+                  labels={ink.reels}
+                  onOpen={() => open(group.items, index, group.title ?? category.title)}
+                />
+              ))}
+            </div>
           ) : group.layout === "video" ? (
             <div className="loop-grid">
               {group.items.map((item, index) => (
@@ -199,6 +263,7 @@ export default function CategoryPage() {
                   index={index}
                   label={content.ui.loopLabel}
                   audioLabels={content.ui.showcase?.audio}
+                  cursor={ink.cursor.play}
                   onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}
@@ -221,6 +286,7 @@ export default function CategoryPage() {
                 <WorkTile
                   key={`${item.title}-${index}`}
                   item={item}
+                  cursor={ink.cursor.view}
                   onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}
@@ -232,18 +298,18 @@ export default function CategoryPage() {
       <nav className="cat-pager" aria-label={navLabels.index}>
         <Link to={`/${siblings.prev.slug}`} className="cat-pager-link cat-pager-link--prev">
           <span className="cat-pager-dir font-mono">← {siblings.prev.num}</span>
-          <span className="cat-pager-title font-display">{siblings.prev.title}</span>
+          <span className="cat-pager-title font-poster">{siblings.prev.title}</span>
         </Link>
         <Link to="/" className="cat-pager-home font-mono">
           {navLabels.index}
         </Link>
         <Link to={`/${siblings.next.slug}`} className="cat-pager-link cat-pager-link--next">
           <span className="cat-pager-dir font-mono">{siblings.next.num} →</span>
-          <span className="cat-pager-title font-display">{siblings.next.title}</span>
+          <span className="cat-pager-title font-poster">{siblings.next.title}</span>
         </Link>
       </nav>
 
-      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => setViewer(null)} labels={content.ui.modal} />
+      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => setViewer(null)} labels={{ ...content.ui.modal, ...ink.modal }} />
     </div>
   );
 }

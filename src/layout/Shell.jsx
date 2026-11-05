@@ -10,6 +10,8 @@ import CustomCursor from "../components/CustomCursor";
 import LanguageSelector from "../components/LanguageSelector";
 import InfoPanel from "../components/InfoPanel";
 import Preloader from "../components/Preloader";
+import SignalCut from "../fx/SignalCut";
+import Atmosphere from "../fx/Atmosphere";
 
 const KonsoleEasterEgg = lazy(() => import("../components/KonsoleEasterEgg"));
 const PRELOADER_FLAG = "kexxy-preloaded";
@@ -73,6 +75,10 @@ export default function Shell() {
    * un cuadro, así que bajarlo era gastar ~130 KB y un contexto WebGL en nada.
    */
   const [heroMontado, setHeroMontado] = useState(isHome);
+  // Solo en dev: `?sinfondo` no monta el WebGL del hero. Sirve para grabar o
+  // capturar en máquinas sin GPU, donde el render por software deja la
+  // página a 1 cuadro cada pocos segundos. No viaja al build.
+  const sinFondo = import.meta.env.DEV && new URLSearchParams(location.search).has("sinfondo");
   useEffect(() => {
     if (isHome) setHeroMontado(true);
   }, [isHome]);
@@ -149,13 +155,15 @@ export default function Shell() {
         <Preloader onDone={terminarPreloader} criticalAssets={criticalAssets} lines={content.ui.boot} />
       )}
 
-      {heroMontado ? (
+      <Atmosphere />
+      {heroMontado && !sinFondo ? (
         <Suspense fallback={null}>
           <HeroBackdrop active={isHome} revealActive={preloaded} />
         </Suspense>
       ) : null}
       <GrainOverlay />
       <CustomCursor />
+      <SignalCut labels={{ home: navLabels.home }} />
       <Suspense fallback={null}>
         <KonsoleEasterEgg onGlitch={handleGlitch} labels={konsole} contact={content.contact} />
       </Suspense>
@@ -196,6 +204,12 @@ export default function Shell() {
       <main id="main">
         <Outlet context={{ content, language, categories, preloaded, openPanel: setPanel }} />
       </main>
+
+      {/* Firma al pie: el nombre a todo el ancho, en contorno, como el
+          sello de un afiche. Decorativa: el nombre ya está en la barra. */}
+      <div className="shell-signature" aria-hidden="true">
+        <span className="shell-signature-name font-poster">{content.brand}</span>
+      </div>
 
       <footer className="shell-footer">
         <p className="font-mono text-caption uppercase tracking-[0.25em] text-white/60">

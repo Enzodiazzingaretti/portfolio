@@ -4,7 +4,7 @@ import { resolvePublicAsset } from "./utils/helpers";
  * Las 9 secciones del scroll viejo colapsadas en 4 categorías por disciplina.
  * Cada categoría es una ruta propia; adentro puede tener varios grupos.
  *
- * MOTION    → TouchDesigner + Lab generativo
+ * MOTION    → Reels + TouchDesigner + Lab generativo
  * 3D        → Blender + Arquitectura
  * GRÁFICA   → Campañas + Flyers + Logos
  * WEB       → Proyectos web
@@ -19,6 +19,9 @@ export const CATEGORIES = [
     num: "01",
     accent: "motion",
     groups: [
+      // Los reels van primero: son las piezas de motion para clientes (press
+      // kits, campañas, marcas). Los loops y el lab vienen después.
+      { id: "reels", source: "motionReels", kind: "reel", layout: "reels" },
       { id: "touchdesigner", source: "touchDesignerLoops", kind: "loop", layout: "video" },
       { id: "lab", source: "labPieces", kind: "lab", layout: "lab" },
     ],
@@ -81,6 +84,20 @@ const NORMALIZERS = {
     // muestran el parlante.
     audio: loop.audio ? asset(loop.audio) : null,
     slides: slides(loop.slides),
+  }),
+  reel: (reel) => ({
+    title: reel.title,
+    subtitle: reel.type,
+    client: reel.client,
+    description: reel.description,
+    tags: reel.tags ?? [],
+    year: reel.year,
+    duration: reel.duration,
+    portrait: true,
+    // Portada liviana de /images/loops/ (8 s, sin audio, con poster); el reel
+    // entero va primero en `slides`, para el visor.
+    thumbnail: asset(reel.thumbnail) ?? asset(reel.slides?.[0]),
+    slides: slides(reel.slides),
   }),
   render: (work, ui) => ({
     title: work.title,

@@ -23,7 +23,7 @@ export default function NotFound() {
   return (
     <div className="notfound">
       <p className="notfound-code font-mono">404</p>
-      <h1 className="notfound-title font-display">{ui.title ?? "Esta página no existe"}</h1>
+      <h1 className="notfound-title font-poster">{ui.title ?? "Esta página no existe"}</h1>
       <p className="notfound-text">{ui.text ?? "El enlace es viejo o está mal escrito."}</p>
 
       <nav className="notfound-links" aria-label={content.ui.nav.index}>

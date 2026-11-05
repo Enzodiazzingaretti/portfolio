@@ -67,6 +67,7 @@ export function useSiteContent() {
           about: mergeContent(base.about, editable.about),
           contact: mergeContent(base.contact, editable.contact),
           webProjects: editable.webProjects ?? base.webProjects,
+          motionReels: editable.motionReels ?? base.motionReels,
           touchDesignerLoops: editable.touchDesignerLoops ?? base.touchDesignerLoops,
           blenderWorks: editable.blenderWorks ?? base.blenderWorks,
           campaigns: editable.campaigns ?? base.campaigns,
@@ -83,6 +84,7 @@ export function useSiteContent() {
     return {
       ...localized,
       webProjects: enabled(localized.webProjects),
+      motionReels: enabled(localized.motionReels),
       touchDesignerLoops: enabled(localized.touchDesignerLoops),
       blenderWorks: enabled(localized.blenderWorks),
       campaigns: enabled(localized.campaigns),

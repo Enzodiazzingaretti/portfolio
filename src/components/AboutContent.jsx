@@ -23,8 +23,8 @@ export default function AboutContent({ about, variant = "panel" }) {
       <p
         className={
           enPagina
-            ? "font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold uppercase leading-[0.9] tracking-[-0.05em] text-paper"
-            : "font-display text-[clamp(2rem,4.5vw,3.4rem)] font-bold uppercase leading-[0.9] tracking-[-0.04em] text-paper"
+            ? "font-poster text-[clamp(2.4rem,5vw,4.6rem)] uppercase leading-[0.9] text-paper"
+            : "font-poster text-[clamp(2rem,4.5vw,3.4rem)] uppercase leading-[0.92] text-paper"
         }
       >
         {about.headline}

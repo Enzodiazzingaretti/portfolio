@@ -1,11 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import HeroThreeBackground from "./HeroThreeBackground";
-import { HERO_VARIANT_IDS, getVariant } from "./heroVariants";
-
-// Ciclado más lento que antes (7s → 14s): la escena tiene tiempo de respirar
-// en vez de sentirse como un carrusel.
-const CYCLE_MS = 14000;
-const CROSSFADE_MS = 1600;
+import { useEffect, useState } from "react";
+import HeroGlass from "./HeroGlass";
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -21,57 +15,21 @@ function usePrefersReducedMotion() {
 }
 
 /**
- * Fondo three.js persistente. Vive en el Shell, fuera de <Routes>, así al
- * navegar entre categorías no se reinicializa WebGL: solo se congela y se
- * atenúa. Ciclado automático sin selector manual visible.
+ * Fondo WebGL persistente. Vive en el Shell, fuera de <Routes>, así al navegar
+ * no se reinicializa el contexto: fuera del home se apaga y deja de dibujar.
  *
- * @param {boolean} props.active - true en "/", false en rutas de categoría
+ * Desde el rediseño «vidrio ahumado» (2026-11) es la escultura de vidrio de
+ * `HeroGlass`. El hero ASCII anterior (`HeroThreeBackground` + `AsciiPass`)
+ * queda en el repo, sin montar, por si se quiere volver a él.
+ *
+ * @param {boolean} props.active - true en "/"
  * @param {boolean} props.revealActive - el preloader ya terminó
  */
 export default function HeroBackdrop({ active, revealActive = true }) {
   const reduced = usePrefersReducedMotion();
-  const [layers, setLayers] = useState(() => [
-    { key: 0, variant: getVariant(HERO_VARIANT_IDS[0]), instant: false },
-  ]);
-  const counter = useRef(0);
-  const cursor = useRef(0);
-
-  // El ciclo solo corre en el home, con la pestaña visible y sin reduced-motion
-  useEffect(() => {
-    if (!active || reduced || !revealActive) return undefined;
-    const id = setInterval(() => {
-      if (document.hidden) return;
-      cursor.current = (cursor.current + 1) % HERO_VARIANT_IDS.length;
-      counter.current += 1;
-      setLayers((prev) => [
-        ...prev,
-        { key: counter.current, variant: getVariant(HERO_VARIANT_IDS[cursor.current]), instant: true },
-      ]);
-    }, CYCLE_MS);
-    return () => clearInterval(id);
-  }, [active, reduced, revealActive]);
-
-  // Descarta las capas viejas cuando terminó el fundido
-  useEffect(() => {
-    if (layers.length <= 1) return undefined;
-    const timer = setTimeout(() => setLayers((prev) => prev.slice(-1)), CROSSFADE_MS);
-    return () => clearTimeout(timer);
-  }, [layers]);
-
   return (
-    <div className={`hero-backdrop${active ? "" : " hero-backdrop--dim"}`} aria-hidden="true">
-      {layers.map((layer) => (
-        <div key={layer.key} className={`hero-bg-layer${layer.instant ? " hero-bg-layer--enter" : ""}`}>
-          <HeroThreeBackground
-            variant={layer.variant}
-            staticMode={reduced}
-            revealActive={revealActive}
-            instantReveal={layer.instant}
-            paused={!active}
-          />
-        </div>
-      ))}
-      <div className="hero-backdrop-wash" />
+    <div className={`hero-backdrop${active ? "" : " hero-backdrop--off"}`} aria-hidden="true">
+      <HeroGlass active={active} revealActive={revealActive} reduced={reduced} />
     </div>
   );
 }
