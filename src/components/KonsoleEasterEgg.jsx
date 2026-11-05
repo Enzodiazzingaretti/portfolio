@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 
-const TRIGGER = "KEXXY";
+const TRIGGER = "ENZO";
 const BPM = 142;
 
 const ASCII_ART = `██╗  ██╗███████╗██╗  ██╗██╗  ██╗██╗   ██╗   ██████╗ ██████╗      ██╗
@@ -12,7 +12,7 @@ const ASCII_ART = `██╗  ██╗███████╗██╗  ██
 
 const BOOT_LINES = [
   "——————————————————————————",
-  "KEXXY_ROOT > ACCESS GRANTED",
+  "EDZ_ROOT > ACCESS GRANTED",
   "DECRYPTING SECURE LAYER...",
   "LOADING HIDDEN ARCHIVE...",
   "——————————————————————————",
@@ -38,10 +38,7 @@ const DIAG_LINES = [
   "CORE ENGINE         : ACTIVE [100%]",
   "RENDER PIPELINE     : BLENDER 4.2 — CYCLES X",
   "MOTION LAYER        : TOUCHDESIGNER 2023.11340",
-  "REKORDBOX LINK      : CONNECTED — 2 DECKS",
   "RESOLUME ARENA      : RENDERING FRAMEBUFFER",
-  "CURRENT BPM         : 142 ///",
-  "SOUND PRESSURE      : OVERCLOCK — CLIP DETECTED",
   "LOCATION            : MENDOZA_NODE_AR",
   "VISUAL OUTPUT       : 1920×1080 / 60FPS",
   "NETWORK             : UNDERGROUND_MESH_v4",
@@ -63,8 +60,6 @@ const HELP_COMMANDS = [
   ["about", "about"],
   ["links", "links"],
   ["stack", "stack"],
-  ["kexxy --play", "play"],
-  ["get --vj-pack", "vjpack"],
   ["glitch --overdrive", "glitch"],
   ["sys --status", "status"],
   ["credits", "credits"],
@@ -86,7 +81,7 @@ function helpLines(commands = {}) {
 
 const CREDITS_LINES = [
   "——————————————————————————",
-  "KEXXY.OBJ // BUILD CREDITS",
+  "ENZO DIAZ ZINGARETTI // BUILD CREDITS",
   "——————————————————————————",
   "FRONTEND         : React 19 + Vite 6",
   "STYLING          : TailwindCSS 3",
@@ -96,15 +91,10 @@ const CREDITS_LINES = [
   "DEPLOY           : Vercel",
   "ANALYTICS        : Vercel Web Analytics",
   "CURSOR           : Custom WebGL-free CSS",
-  "EASTER EGG       : Designed & coded by KEXXY",
-  "——————————————————————————",
-  "SPECIAL THANKS   : A todo el underground",
-  "                   que inspira cada frame.",
+  "EASTER EGG       : Designed & coded by Enzo Diaz Zingaretti",
   "——————————————————————————",
   "// si llegáste hasta acá, sabés lo que hacés.",
   "// o sos muy curioso. los dos están bien.",
-  "——————————————————————————",
-  "[HIDDEN] enzo@kexxy.com.ar | SAL FUERZA",
   "——————————————————————————",
 ];
 
@@ -157,7 +147,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
         setOpen(true);
       }
     };
-    // Alternativa a escribir "kexxy": abrir por tap (útil en mobile, sin teclado).
+    // Alternativa a escribir "enzo": abrir por tap (útil en mobile, sin teclado).
     const onOpenEvent = () => setOpen(true);
     window.addEventListener("keydown", onKey);
     window.addEventListener("open-konsole", onOpenEvent);
@@ -210,12 +200,12 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
 
     if (cmd === "about") {
       push([
-        "KEXXY // IDENTITY MANIFESTO",
+        "ENZO DIAZ ZINGARETTI // MANIFESTO",
         "——————————————————————————",
         "Exploraciones visuales entre lo analógico y lo digital.",
         "3D cinematográfico, sistemas de motion y experiencias",
-        "que mezclan la estética del club underground con",
-        "la precisión técnica del diseño contemporáneo.",
+        "en tiempo real, con la precisión técnica",
+        "del diseño contemporáneo.",
         "——————————————————————————",
       ]); return;
     }
@@ -243,38 +233,6 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
         "  Photoshop / Illustrator — Print",
         "  Ableton — Audio Reference",
       ]); return;
-    }
-
-    if (cmd === "kexxy --play") {
-      if (isPlaying) {
-        push(["STREAM ALREADY ACTIVE. USE clear TO RESET OR exit TO QUIT."]);
-        return;
-      }
-      push([
-        "——————————————————————————",
-        "LOADING STREAM: KEXXY_UNDERGROUND_LIVE.wav",
-        "BUFFERING... ████████████ 100%",
-        "STREAM ACTIVE — BPM: " + BPM + " — HARDGROOVE",
-        "——————————————————————————",
-        "[!] No audio file linked yet — visual mode only",
-        "——————————————————————————",
-      ]);
-      setIsPlaying(true);
-      return;
-    }
-
-    if (cmd === "get --vj-pack") {
-      push([
-        "——————————————————————————",
-        "LOCATING VJ ASSET PACK...",
-        "COMPRESSING: loops/, textures/, wallpapers/",
-        "PACKAGING... ████████████ 100%",
-        "——————————————————————————",
-        "[!] VJ PACK NOT UPLOADED YET — COMING SOON",
-        "    Contact: enzo@kexxy.com.ar to request early access",
-        "——————————————————————————",
-      ]);
-      return;
     }
 
     if (cmd === "glitch --overdrive") {
@@ -314,7 +272,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
     }
 
     push([`COMMAND NOT FOUND: "${raw}" — type "help"`]);
-  }, [handleClose, isPlaying, onGlitch, labels.commands, contact]);
+  }, [handleClose, onGlitch, labels.commands, contact]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -334,7 +292,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
         {/* Title bar */}
         <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-2 shrink-0">
           <span className="font-mono text-label uppercase tracking-[0.3em] text-raveRed/70">
-            KEXXY_ROOT — TERMINAL v1.0
+            EDZ_ROOT — TERMINAL v1.0
           </span>
           <div className="flex items-center gap-4">
             {isPlaying && (
@@ -380,7 +338,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
         {booted && (
           <div className="border-t border-white/[0.04] px-5 py-2 flex flex-wrap gap-2 shrink-0">
             {[
-              "about", "links", "stack", "kexxy --play", "get --vj-pack",
+              "about", "links", "stack",
               "glitch --overdrive", "sys --status", "credits", "clear",
             ].map((c) => (
               <button
@@ -401,7 +359,7 @@ export default function KonsoleEasterEgg({ onGlitch, labels = {}, contact = {} }
             onSubmit={handleSubmit}
             className="border-t border-white/[0.07] px-5 py-3 flex items-center gap-2 shrink-0"
           >
-            <span className="font-mono text-caption text-raveRed/70 shrink-0">KEXXY_ROOT &gt;</span>
+            <span className="font-mono text-caption text-raveRed/70 shrink-0">EDZ_ROOT &gt;</span>
             <input
               ref={inputRef}
               value={input}

@@ -1,5 +1,6 @@
 const webProjectAssets = {
-  // Serie: el mío (Kexxy), CTRL.Z, Gabi Raíz y Martina Høbelar. Sin
+  // Serie de press kits de clientes (CTRL.Z, Gabi Raíz, Martina Høbelar y
+  // Shodnan Ref). El propio no entra: es del alias musical. Sin
   // previewUrl porque son cinco sitios: el caso los enlaza uno por uno. El
   // código que se muestra es el de la plantilla, presskit_digital.
   pressKits: {
@@ -7,7 +8,8 @@ const webProjectAssets = {
     imageUrl: null,
     previewUrl: "",
     previewImage: "/images/previews/screenshot_presskits.webp",
-    repoUrl: "https://github.com/Enzodiazzingaretti/presskit_digital",
+    // Sin «Código»: el repo de la plantilla es el press kit del alias musical.
+    repoUrl: null,
     caseSlug: "press-kits",
     slides: [],
   },
@@ -185,13 +187,6 @@ const flyerAssets = {
       "/images/flyers/blastkick-ano-nuevo/blastkick-ano-nuevo-2.png",
     ],
   },
-  distRaptisKexxy: {
-    square: true,
-    imageUrl: "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png",
-    slides: [
-      "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png",
-    ],
-  },
   // Portada: un cuadro del video donde se ve la pantalla con el artista. La
   // imagen fija anterior eran los cables con las pantallas en blanco.
   maccari: {
@@ -352,10 +347,6 @@ const reelAssets = {
   },
   // Los reels de la serie de press kits y el de kook. salen de la carpeta
   // «reels portfolio» del Drive: 720 px, 30 fps y sin audio para la web.
-  kexxy: {
-    thumbnail: "/images/loops/reel-kexxy.mp4",
-    slides: ["/images/reels/kexxy.mp4"],
-  },
   shodnanRef: {
     thumbnail: "/images/loops/reel-shodnan-ref.mp4",
     slides: ["/images/reels/shodnan-ref.mp4"],
@@ -524,10 +515,8 @@ export const siteContent = {
   ],
   contactLinks: {
     email: "k3xxy.art@gmail.com",
-    instagram: "https://www.instagram.com/kexxy.obj",
     linkedin: "https://www.linkedin.com/in/enzo-diaz-zingaretti",
     github: "https://github.com/Enzodiazzingaretti",
-    presskit: "https://presskit-digital.vercel.app/",
   },
   locales: {
     es: {
@@ -536,7 +525,6 @@ export const siteContent = {
         { label: "3D", href: "/3d" },
         { label: "Gráfica", href: "/grafica" },
         { label: "Web", href: "/web" },
-        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       categories: {
         motion: {
@@ -611,7 +599,7 @@ export const siteContent = {
         { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Sitio de un productor de seguros de Mendoza: diez formularios de cotización que terminan en un WhatsApp con los datos ya cargados, y un panel propio para seguir las consultas y la cartera de clientes. Next.js y TypeScript, con Sanity y Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Cotizador de 10 seguros", "Panel de consultas y clientes", "Contenido editable", "Una URL por seguro"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Portfolio de una artista visual (tatuajes, ilustración y pintura). React + Vite + Tailwind CSS y Framer Motion, con panel de administración propio sobre funciones serverless para que ella actualice su galería. La API y el panel tienen tests con Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Panel de administración", "Tests con Vitest", "Galería por categoría", "Contacto por WhatsApp"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Sitio para un taller de fabricación y soldadura metálica de Tupungato, Mendoza. React + Vite + Tailwind CSS y Framer Motion: hero animado con una chispa sobre negro, catálogo de trabajos editable desde un panel propio y contacto directo por WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Panel de administración", "Catálogo de trabajos", "Contacto por WhatsApp"] },
-        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Cinco press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["5 sitios en vivo", "Una estética por artista", "Booking sin servidor", "Sin framework"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Diseño y desarrollo", status: "Online", role: "Diseño y desarrollo", description: "Cuatro press kits web para DJs a partir de una plantilla propia: CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 sitios en vivo", "Una estética por artista", "Booking sin servidor", "Sin framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedajes", type: "Web / Diseño y desarrollo", status: "En desarrollo", role: "Diseño y desarrollo", description: "Sitio para dos casas de alquiler en Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinemática por propiedad, trilingüe.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propiedad", "Trilingüe", "Scroll suave"] },
       ],
       // Casos de estudio: título, bajada y orden. El cuerpo vive en src/cases/
@@ -620,11 +608,10 @@ export const siteContent = {
         { slug: "portfolio", title: "Portfolio Personal", tags: "React · Three.js · GLSL", summary: "Rehice la estructura de mi sitio y escribí a mano el filtro ASCII del hero. Los niveles del filtro, el peso de las páginas y el contraste los fijé midiendo." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Un sitio para que cada visita termine en un WhatsApp con los datos del seguro ya cargados. Guarda la consulta antes de abrir el chat, y Federico la sigue desde un panel propio junto con su cartera de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
-        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits a partir de mi plantilla. Clonarla no funcionó: cada estructura sale del material del artista, y en un press kit no se inventa ningún dato." },
+        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cuatro press kits para artistas a partir de una plantilla propia. Clonarla no funcionó: cada estructura sale del material del artista, y en un press kit no se inventa ningún dato." },
       ],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel del caso", client: "Sonar Produce", type: "Reel · Caso de estudio", year: "2026", duration: "25,6 s", description: "Reel propio que cuenta la campaña de SONAR 001 en 25 segundos: identidad, key visual (cuatro propuestas, se eligió la B), carrusel del line-up, motion, cuenta regresiva, entradas, horarios, plantillas y el mosaico de las 49 piezas. A 150 BPM: cada corte cae en el beat. No es After Effects: el video se genera con código (Python + ffmpeg), y la misma plantilla rinde el reel, la historia y el feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
-        { ...reelAssets.kexxy, title: "KEXXY — Reel del press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "El reel de mi press kit en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
         { ...reelAssets.shodnanRef, title: "Shodnan Ref — Reel del press kit", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel del press kit de Shodnan Ref, DJ de hardtechno y hardgroove de Tupungato: info, biografía, cabinas, rider y sonido, con la estética del sitio (revelado en blanco y negro, rojo y grano). Animado en HTML con GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
         { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Reel del press kit", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "Recorrido por el press kit de Martina Høbelar, DJ y productora de hard techno y schranz: portada, sets, bio, fotos, rider y booking, y el sitio en el celular. Renderizado a 60 fps con el motor propio de la serie.", tags: ["Motion", "60 fps", "Press kit"] },
         { ...reelAssets.kook, title: "kook. — Armá la tuya", client: "kook.", type: "Historia · Motion para redes", year: "2026", duration: "21 s", description: "Motion para kook., tortas servidas en tazas de cerámica pintadas a mano. 21 s a 120 BPM con loop perfecto: el logo cae, «elegí tu torta», «elegí tu taza», el glaseado dibujado a mano y la foto real de la combinación. El wordmark está vectorizado letra por letra y la animación sale de un motor propio en HTML y Canvas, sin librerías.", tags: ["Motion", "Canvas", "120 BPM"] },
@@ -673,7 +660,6 @@ export const siteContent = {
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "Flyers 3D para el ciclo Aguantadero Bass (dubstep y drum & bass, Buenos Aires): la cabina de DJ en gran angular y el line-up en pantalla. Dos fechas, con versión animada.", tags: ["Diseño", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "Flyer 3D del Blastkick Festival (Club Sportivo Italiano): un monolito de piedra con raíces rojas y el line-up grabado. Incluye reel animado.", tags: ["Diseño", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — Año Nuevo", type: "Flyer", description: "Edición del 31 de diciembre: composición 3D en violeta y dorado.", tags: ["Diseño", "Flyer", "3D"] },
-        { ...flyerAssets.distRaptisKexxy, title: "Dist. Raptis. Kexxy.", type: "Flyer", description: "Cadenas y tipografía gótica sobre rojo, para DIST b2b RAPTIS y Kexxy.", tags: ["Diseño", "Flyer", "3D"] },
         { ...flyerAssets.maccari, title: "Maccari", type: "Flyer", description: "Flyer animado en 3D para Maccari: una sala de cables con pantallas que muestran al artista y los logos de la fecha.", tags: ["Diseño", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.overkill, title: "Overkill", type: "Flyer", description: "Placa de piedra colgada de cadenas con el line-up grabado, para la sesión Overkill.", tags: ["Diseño", "Flyer", "3D"] },
       ],
@@ -753,7 +739,7 @@ export const siteContent = {
         // fijo: alguien navegando el sitio en inglés los oia igual en español.
         a11y: { openConsole: "Abrir la consola oculta", adminPanel: "Panel de administración" },
         konsole: {
-          hintLong: 'escribí "kexxy"',
+          hintLong: 'escribí "enzo"',
           hintShort: "consola",
           prompt: "escribí un comando...",
           // Las descripciones del `help`. El resto de la terminal es salida de
@@ -801,7 +787,6 @@ export const siteContent = {
         { label: "3D", href: "/3d" },
         { label: "Graphics", href: "/grafica" },
         { label: "Web", href: "/web" },
-        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       categories: {
         motion: {
@@ -876,18 +861,17 @@ export const siteContent = {
         { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Site for an insurance broker in Mendoza: ten quote forms that end in a WhatsApp chat with the details already filled in, and a custom panel to follow up leads and the client portfolio. Next.js and TypeScript, with Sanity and Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Quotes for 10 insurance types", "Leads and clients panel", "Editable content", "One URL per insurance type"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Portfolio for a visual artist (tattoos, illustration and painting). React + Vite + Tailwind CSS and Framer Motion, with a custom admin panel on serverless functions so she can update her gallery herself. The API and the panel are tested with Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Admin panel", "Vitest tests", "Gallery by category", "WhatsApp contact"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Site for a metal fabrication and welding workshop in Tupungato, Mendoza. React + Vite + Tailwind CSS and Framer Motion: an animated hero with a spark on black, a work catalogue editable from a custom admin panel, and direct WhatsApp contact.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Admin panel", "Work catalogue", "WhatsApp contact"] },
-        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Artist press kits", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Five web press kits for DJs built from my own template: mine (Kexxy), CTRL.Z, Gabi Raíz, Martina Høbelar and Shodnan Ref. The same architecture underneath, a look of its own for each artist, and no fact the artist didn't give. Framework-free HTML, CSS and JavaScript.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["5 live sites", "A look per artist", "Server-free booking", "No framework"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Artist press kits", type: "Web / Design and development", status: "Live", role: "Design and development", description: "Four web press kits for DJs built from a template of my own: CTRL.Z, Gabi Raíz, Martina Høbelar and Shodnan Ref. The same architecture underneath, a look of its own for each artist, and no fact the artist didn't give. Framework-free HTML, CSS and JavaScript.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 live sites", "A look per artist", "Server-free booking", "No framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Stays", type: "Web / Design and development", status: "In development", role: "Design and development", description: "Site for two rental houses in Mendoza. Next.js + TypeScript + Tailwind CSS, cinematic landing per property, trilingual.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing per property", "Trilingual", "Smooth scroll"] },
       ],
       cases: [
         { slug: "portfolio", title: "Personal Portfolio", tags: "React · Three.js · GLSL", summary: "I rebuilt my site's structure and hand-wrote the ASCII filter on the hero. The filter levels, page weight and contrast were all set by measuring." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "A site built so every visit ends in a WhatsApp chat with the insurance details already filled in. It saves the lead before opening the chat, and the broker follows it up from a custom panel along with his client portfolio." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
-        { slug: "press-kits", title: "Artist press kits", tags: "HTML · CSS · JavaScript", summary: "Five press kits built from my own template. Cloning it didn't work: each structure comes from the artist's material, and a press kit never invents a fact." },
+        { slug: "press-kits", title: "Artist press kits", tags: "HTML · CSS · JavaScript", summary: "Four artist press kits built from a template of my own. Cloning it didn't work: each structure comes from the artist's material, and a press kit never invents a fact." },
       ],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Case reel", client: "Sonar Produce", type: "Reel · Case study", year: "2026", duration: "25.6 s", description: "My own reel telling the SONAR 001 campaign in 25 seconds: identity, key visual (four proposals, B was chosen), line-up carousel, motion, countdown, tickets, set times, templates and the mosaic of all 49 pieces. At 150 BPM, every cut lands on the beat. It isn't After Effects: the video is generated with code (Python + ffmpeg), and the same template renders the reel, the story and the feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
-        { ...reelAssets.kexxy, title: "KEXXY — Press kit reel", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "The reel for my own press kit, in its fanzine version: cover, sets, upcoming dates, booth, promoters and contact. It isn't a screen recording: an engine of my own mirrors the live site, injects a virtual clock and records it frame by frame with Playwright and ffmpeg, with real motion blur.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
         { ...reelAssets.shodnanRef, title: "Shodnan Ref — Press kit reel", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel for the press kit of Shodnan Ref, a hardtechno and hardgroove DJ from Tupungato: info, bio, booths, rider and sound, in the site's look (black-and-white development, red and grain). Animated in HTML with GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
         { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Press kit reel", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "A walkthrough of the press kit of Martina Høbelar, a hard techno and schranz DJ and producer: cover, sets, bio, photos, rider and booking, plus the site on a phone. Rendered at 60 fps with the series' own engine.", tags: ["Motion", "60 fps", "Press kit"] },
         { ...reelAssets.kook, title: "kook. — Build yours", client: "kook.", type: "Story · Social motion", year: "2026", duration: "21 s", description: "Motion for kook., cakes served in hand-painted ceramic cups. 21 s at 120 BPM with a seamless loop: the logo drops, “pick your cake”, “pick your cup”, the hand-drawn frosting and the real photo of the combination. The wordmark is vectorized letter by letter and the animation comes from an engine of my own in HTML and Canvas, with no libraries.", tags: ["Motion", "Canvas", "120 BPM"] },
@@ -936,7 +920,6 @@ export const siteContent = {
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "3D flyers for the Aguantadero Bass night (dubstep and drum & bass, Buenos Aires): the DJ booth in wide angle with the line-up on screen. Two dates, with an animated version.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "3D flyer for Blastkick Festival (Club Sportivo Italiano): a stone monolith with red roots and the line-up carved in. Includes an animated reel.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — New Year", type: "Flyer", description: "New Year's Eve edition: a 3D composition in violet and gold.", tags: ["Design", "Flyer", "3D"] },
-        { ...flyerAssets.distRaptisKexxy, title: "Dist. Raptis. Kexxy.", type: "Flyer", description: "Chains and gothic type on red, for DIST b2b RAPTIS and Kexxy.", tags: ["Design", "Flyer", "3D"] },
         { ...flyerAssets.maccari, title: "Maccari", type: "Flyer", description: "Animated 3D flyer for Maccari: a room of cables with screens showing the artist and the event logos.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.overkill, title: "Overkill", type: "Flyer", description: "A stone plaque hanging from chains with the line-up carved in, for the Overkill session.", tags: ["Design", "Flyer", "3D"] },
       ],
@@ -1014,7 +997,7 @@ export const siteContent = {
         cvCta: "Download CV",
         a11y: { openConsole: "Open the hidden console", adminPanel: "Admin panel" },
         konsole: {
-          hintLong: 'type "kexxy"',
+          hintLong: 'type "enzo"',
           hintShort: "console",
           prompt: "type a command...",
           commands: {
@@ -1056,7 +1039,6 @@ export const siteContent = {
         { label: "3D", href: "/3d" },
         { label: "Gráfica", href: "/grafica" },
         { label: "Web", href: "/web" },
-        { label: "Press Kit ↗", href: "https://presskit-digital.vercel.app/", external: true },
       ],
       categories: {
         motion: {
@@ -1131,18 +1113,17 @@ export const siteContent = {
         { ...webProjectAssets.andino, title: "Andino Seguros", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Site de um corretor de seguros de Mendoza: dez formulários de cotação que terminam numa conversa de WhatsApp com os dados já preenchidos, e um painel próprio para acompanhar as consultas e a carteira de clientes. Next.js e TypeScript, com Sanity e Supabase.", tags: ["Next.js", "TypeScript", "Supabase", "Sanity", "Tailwind CSS"], features: ["Cotação de 10 seguros", "Painel de consultas e clientes", "Conteúdo editável", "Uma URL por seguro"] },
         { ...webProjectAssets.tamara, title: "Tamara González", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Portfólio de uma artista visual (tatuagens, ilustração e pintura). React + Vite + Tailwind CSS e Framer Motion, com painel de administração próprio sobre funções serverless para ela atualizar a galeria. A API e o painel têm testes com Vitest.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Vitest"], features: ["Painel de administração", "Testes com Vitest", "Galeria por categoria", "Contato via WhatsApp"] },
         { ...webProjectAssets.newMetals, title: "New Metals", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Site para uma oficina de fabricação e solda metálica em Tupungato, Mendoza. React + Vite + Tailwind CSS e Framer Motion: hero animado com uma faísca sobre preto, catálogo de trabalhos editável por um painel próprio e contato direto via WhatsApp.", tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"], features: ["Painel de administração", "Catálogo de trabalhos", "Contato via WhatsApp"] },
-        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Cinco press kits web para DJs a partir do meu template: o meu (Kexxy), CTRL.Z, Gabi Raíz, Martina Høbelar e Shodnan Ref. A mesma base de arquitetura, uma estética própria para cada artista e nenhum dado que o artista não tenha dado. HTML, CSS e JavaScript sem framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["5 sites no ar", "Uma estética por artista", "Booking sem servidor", "Sem framework"] },
+        { ...webProjectAssets.pressKits, scrollPreview: false, title: "Press kits para artistas", type: "Web / Design e desenvolvimento", status: "Online", role: "Design e desenvolvimento", description: "Quatro press kits web para DJs a partir de um template próprio: CTRL.Z, Gabi Raíz, Martina Høbelar e Shodnan Ref. A mesma base de arquitetura, uma estética própria para cada artista e nenhum dado que o artista não tenha dado. HTML, CSS e JavaScript sem framework.", tags: ["HTML", "CSS", "JavaScript", "Vercel"], features: ["4 sites no ar", "Uma estética por artista", "Booking sem servidor", "Sem framework"] },
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedagens", type: "Web / Design e desenvolvimento", status: "Em desenvolvimento", role: "Design e desenvolvimento", description: "Site para duas casas de aluguel em Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinematográfica por propriedade, trilíngue.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propriedade", "Trilíngue", "Rolagem suave"] },
       ],
       cases: [
         { slug: "portfolio", title: "Portfólio Pessoal", tags: "React · Three.js · GLSL", summary: "Refiz a estrutura do meu site e escrevi à mão o filtro ASCII do hero. Os níveis do filtro, o peso das páginas e o contraste foram definidos medindo." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Um site para que cada visita termine numa conversa de WhatsApp com os dados do seguro já preenchidos. Ele salva a consulta antes de abrir o chat, e o corretor acompanha tudo num painel próprio, junto com a carteira de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
-        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Cinco press kits a partir do meu template. Cloná-lo não funcionou: cada estrutura sai do material do artista, e num press kit nenhum dado é inventado." },
+        { slug: "press-kits", title: "Press kits para artistas", tags: "HTML · CSS · JavaScript", summary: "Quatro press kits para artistas a partir de um template próprio. Cloná-lo não funcionou: cada estrutura sai do material do artista, e num press kit nenhum dado é inventado." },
       ],
       motionReels: [
         { ...reelAssets.sonarCaso, title: "Sonar Produce — Reel do case", client: "Sonar Produce", type: "Reel · Estudo de caso", year: "2026", duration: "25,6 s", description: "Reel próprio que conta a campanha do SONAR 001 em 25 segundos: identidade, key visual (quatro propostas, a B foi a escolhida), carrossel do line-up, motion, contagem regressiva, ingressos, horários, templates e o mosaico das 49 peças. A 150 BPM: cada corte cai no beat. Não é After Effects: o vídeo é gerado com código (Python + ffmpeg), e o mesmo template renderiza o reel, o story e o feed.", tags: ["Motion", "Python", "ffmpeg", "150 BPM"] },
-        { ...reelAssets.kexxy, title: "KEXXY — Reel do press kit", client: "Kexxy", type: "Reel · Press kit", year: "2026", duration: "25 s", description: "O reel do meu press kit, na versão fanzine: capa, sets, próximas datas, cabine, produtoras e contato. Não é uma gravação de tela: um motor próprio copia o site no ar, injeta um relógio virtual e grava quadro a quadro com Playwright e ffmpeg, com motion blur real.", tags: ["Motion", "Playwright", "ffmpeg", "Press kit"] },
         { ...reelAssets.shodnanRef, title: "Shodnan Ref — Reel do press kit", client: "Shodnan Ref", type: "Reel · Press kit", year: "2026", duration: "29 s", description: "Reel do press kit de Shodnan Ref, DJ de hardtechno e hardgroove de Tupungato: info, biografia, cabines, rider e som, com a estética do site (revelação em preto e branco, vermelho e granulado). Animado em HTML com GSAP.", tags: ["Motion", "GSAP", "Press kit"] },
         { ...reelAssets.martinaHobelar, title: "Martina Høbelar — Reel do press kit", client: "Martina Høbelar", type: "Reel · Press kit", year: "2026", duration: "23 s", description: "Um passeio pelo press kit de Martina Høbelar, DJ e produtora de hard techno e schranz: capa, sets, bio, fotos, rider e booking, e o site no celular. Renderizado a 60 fps com o motor próprio da série.", tags: ["Motion", "60 fps", "Press kit"] },
         { ...reelAssets.kook, title: "kook. — Monte a sua", client: "kook.", type: "Story · Motion para redes", year: "2026", duration: "21 s", description: "Motion para a kook., bolos servidos em xícaras de cerâmica pintadas à mão. 21 s a 120 BPM com loop perfeito: o logo cai, «escolha seu bolo», «escolha sua xícara», a cobertura desenhada à mão e a foto real da combinação. O wordmark foi vetorizado letra por letra e a animação sai de um motor próprio em HTML e Canvas, sem bibliotecas.", tags: ["Motion", "Canvas", "120 BPM"] },
@@ -1191,7 +1172,6 @@ export const siteContent = {
         { ...flyerAssets.aguantaderobass, title: "Aguantadero Bass", type: "Flyer", description: "Flyers 3D para o ciclo Aguantadero Bass (dubstep e drum & bass, Buenos Aires): a cabine de DJ em grande-angular e o line-up na tela. Duas datas, com versão animada.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkick, title: "Blastkick", type: "Flyer", description: "Flyer 3D do Blastkick Festival (Club Sportivo Italiano): um monólito de pedra com raízes vermelhas e o line-up gravado. Inclui reel animado.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.blastkickAnoNuevo, title: "Blastkick — Ano Novo", type: "Flyer", description: "Edição de 31 de dezembro: composição 3D em violeta e dourado.", tags: ["Design", "Flyer", "3D"] },
-        { ...flyerAssets.distRaptisKexxy, title: "Dist. Raptis. Kexxy.", type: "Flyer", description: "Correntes e tipografia gótica sobre vermelho, para DIST b2b RAPTIS e Kexxy.", tags: ["Design", "Flyer", "3D"] },
         { ...flyerAssets.maccari, title: "Maccari", type: "Flyer", description: "Flyer animado em 3D para Maccari: uma sala de cabos com telas que mostram o artista e os logos do evento.", tags: ["Design", "Flyer", "3D", "Motion"] },
         { ...flyerAssets.overkill, title: "Overkill", type: "Flyer", description: "Placa de pedra pendurada em correntes com o line-up gravado, para a sessão Overkill.", tags: ["Design", "Flyer", "3D"] },
       ],
@@ -1269,7 +1249,7 @@ export const siteContent = {
         cvCta: "Baixar CV",
         a11y: { openConsole: "Abrir o console oculto", adminPanel: "Painel de administração" },
         konsole: {
-          hintLong: 'digite "kexxy"',
+          hintLong: 'digite "enzo"',
           hintShort: "console",
           prompt: "digite um comando...",
           commands: {

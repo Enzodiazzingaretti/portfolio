@@ -22,7 +22,7 @@ function contactHref(key, value) {
 
 /**
  * Lo que se muestra no es la URL. Una red social se identifica por el handle
- * —`instagram.com/kexxy.obj` es ruido alrededor de `@kexxy.obj`— y el CV
+ * —`instagram.com/usuario` es ruido alrededor de `@usuario`— y el CV
  * por lo que hace ("Descargar CV (PDF)"), no por la ruta del archivo.
  */
 function valorVisible(key, value, labels) {

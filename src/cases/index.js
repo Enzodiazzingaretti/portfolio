@@ -67,16 +67,14 @@ export const CASE_ASSETS = {
     stack: ["HTML", "CSS", "JavaScript", "Vercel"],
     site: null,
     sites: [
-      { label: "Kexxy", url: "https://presskit-digital.vercel.app/" },
       { label: "CTRL.Z", url: "https://ctrlz-presskit.vercel.app/" },
       { label: "Gabi Raíz", url: "https://gabiraiz-presskit.vercel.app/" },
       { label: "Martina Høbelar", url: "https://martinahobelar-presskit.vercel.app/" },
       { label: "Shodnan Ref", url: "https://shodnan-presskit.vercel.app/" },
     ],
-    repo: "https://github.com/Enzodiazzingaretti/presskit_digital",
+    repo: null,
     figures: {
       portadas: { src: "/images/casos/press-kits/portadas.webp", w: 1600, h: 1000 },
-      kexxyMobile: { src: "/images/casos/press-kits/kexxy-mobile.webp", w: 739, h: 1600 },
       gabiMobile: { src: "/images/casos/press-kits/gabi-mobile.webp", w: 739, h: 1600 },
       martinaMobile: { src: "/images/casos/press-kits/martina-mobile.webp", w: 739, h: 1600 },
       gabiBooking: { src: "/images/casos/press-kits/gabi-booking.webp", w: 714, h: 835 },

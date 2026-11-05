@@ -310,14 +310,14 @@ export default {
         type: "text",
         title: "O ponto de partida",
         paragraphs: [
-          "Comecei pelo meu: um press kit web para mostrar meus sets como DJ, em três idiomas e com um painel para editar sem mexer no código. Depois vieram quatro artistas: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ e produtor de Mendoza que vai do downtempo ao psychedelic trance; Martina Høbelar, DJ e produtora de hard techno e schranz de Buenos Aires; e Shodnan Ref, DJ de hard techno e hard groove de Tupungato, Mendoza.",
-          "Um produtor abre o press kit para decidir se contrata: quem é, o que toca, que equipamento pede e para onde escrever. Os cinco respondem exatamente isso, e nenhum se parece com outro.",
+          "Quatro press kits web para artistas, a partir de um template próprio em três idiomas e com um painel para editar sem mexer no código: CTRL.Z, DJ de música urbana de Mendoza; Gabi Raíz, DJ e produtor de Mendoza que vai do downtempo ao psychedelic trance; Martina Høbelar, DJ e produtora de hard techno e schranz de Buenos Aires; e Shodnan Ref, DJ de hard techno e hard groove de Tupungato, Mendoza.",
+          "Um produtor abre o press kit para decidir se contrata: quem é, o que toca, que equipamento pede e para onde escrever. Os quatro respondem exatamente isso, e nenhum se parece com outro.",
         ],
       },
       {
         type: "figure",
-        figures: [{ key: "portadas", alt: "As capas de quatro dos press kits: Kexxy (o fanzine), CTRL.Z, Gabi Raíz e Martina Høbelar." }],
-        caption: "Kexxy, CTRL.Z, Gabi Raíz e Martina Høbelar: a mesma base, uma estética para cada um.",
+        figures: [{ key: "portadas", alt: "As capas dos quatro press kits: CTRL.Z, Gabi Raíz, Martina Høbelar e Shodnan Ref." }],
+        caption: "CTRL.Z, Gabi Raíz, Martina Høbelar e Shodnan Ref: a mesma base, uma estética para cada um.",
       },
       {
         type: "decisions",
@@ -325,12 +325,12 @@ export default {
         items: [
           {
             title: "Uma base de arquitetura, não um site para clonar",
-            text: "Meu template pressupõe techno, três idiomas, sets do SoundCloud e uma seção pessoal. CTRL.Z toca reggaeton, RKT, cumbia e trap, e todo o material dela era um PDF de uma página só. Clonada, a página ficava meio vazia ou cheia de texto inventado, então refiz a estrutura para o material que existia. Desde então, cada press kit começa pela mesma pergunta: o que o artista tem e que estrutura esse material pede.",
+            text: "O template pressupunha techno, três idiomas, sets do SoundCloud e uma seção pessoal. CTRL.Z toca reggaeton, RKT, cumbia e trap, e todo o material dela era um PDF de uma página só. Clonada, a página ficava meio vazia ou cheia de texto inventado, então refiz a estrutura para o material que existia. Desde então, cada press kit começa pela mesma pergunta: o que o artista tem e que estrutura esse material pede.",
             discarded: "Clonar e desligar as seções que sobravam: ficava uma página curta com a estética de outro artista.",
           },
           {
             title: "A estética sai do material",
-            text: "No meu, um fanzine punk em papel: xerox, fita, adesivos e títulos de bilhete de resgate; a capa com meu retrato em pontilhismo, o logo de espinhos em tinta preta sobre um adesivo recortado e uma tinta viva em WebGL que respira a 150 BPM e se abre com o cursor. Em CTRL.Z, o verde-oliva e os títulos cromados do PDF dela. Em Gabi Raíz, o azul-petróleo das fotos de estúdio, um vermelho que aparece uma vez só e as listras do logo, que seguem adiante e desenham a cordilheira atrás dele; no fim da página ela volta invertida, como raiz. Em Martina Høbelar, a sala no escuro, uma única tipografia condensada e o vermelho dela reservado para um led que marca o que está ativo. Em Shodnan Ref, que pediu algo carregado: as fotos reveladas em preto e branco por um mesmo script, o logo dele em vermelho, textura de parede e grão, traços que tremem e textos que se decodificam ao aparecer.",
+            text: "Em CTRL.Z, o verde-oliva e os títulos cromados do PDF dela. Em Gabi Raíz, o azul-petróleo das fotos de estúdio, um vermelho que aparece uma vez só e as listras do logo, que seguem adiante e desenham a cordilheira atrás dele; no fim da página ela volta invertida, como raiz. Em Martina Høbelar, a sala no escuro, uma única tipografia condensada e o vermelho dela reservado para um led que marca o que está ativo. Em Shodnan Ref, que pediu algo carregado: as fotos reveladas em preto e branco por um mesmo script, o logo dele em vermelho, textura de parede e grão, traços que tremem e textos que se decodificam ao aparecer.",
           },
           {
             title: "Nenhum dado inventado",
@@ -338,7 +338,7 @@ export default {
           },
           {
             title: "Painel só se alguém for usar",
-            text: "O meu tem um painel de dois níveis que salva as alterações no repositório pela API do GitHub; o site as lê de lá ao vivo, então aparecem em cerca de um minuto sem publicar de novo. O de CTRL.Z eu construí, testei e entreguei desligado. Gabi Raíz e Martina Høbelar são uma página estática só, sem painel nem funções serverless. Shodnan Ref tem um, com uma só função: cadastrar as datas pelo celular. Elas ficam no Vercel Blob e aparecem no site em menos de um minuto, sem publicar o site de novo.",
+            text: "O template traz um painel de dois níveis que salva as alterações no repositório pela API do GitHub; o site as lê de lá ao vivo, então aparecem em cerca de um minuto sem publicar de novo. O de CTRL.Z eu construí, testei e entreguei desligado. Gabi Raíz e Martina Høbelar são uma página estática só, sem painel nem funções serverless. Shodnan Ref tem um, com uma só função: cadastrar as datas pelo celular. Elas ficam no Vercel Blob e aparecem no site em menos de um minuto, sem publicar o site de novo.",
             discarded: "Um painel em todos, por via das dúvidas: um painel ativo é superfície de ataque e mais uma senha para perder.",
           },
         ],
@@ -346,7 +346,6 @@ export default {
       {
         type: "figure",
         figures: [
-          { key: "kexxyMobile", alt: "O press kit de Kexxy no celular: a capa do fanzine, com o logo de espinhos em preto, o retrato em pontilhismo e os botões Ouvir e Booking." },
           { key: "gabiMobile", alt: "O press kit de Gabi Raíz no celular: o logo, a cordilheira de linhas e os botões para consultar uma data e ouvir um set." },
           { key: "martinaMobile", alt: "O press kit de Martina Høbelar no celular: o nome em tipografia condensada e os botões Ver sets e Booking." },
           { key: "shodnanMobile", alt: "O press kit de Shodnan Ref no celular: a foto em preto e branco, o logo vermelho atrás e o nome em tipografia condensada." },
@@ -387,7 +386,7 @@ export default {
         type: "stats",
         title: "Em números",
         items: [
-          { value: "5", label: "press kits no ar, da mesma base" },
+          { value: "4", label: "press kits de artistas no ar, da mesma base" },
           { value: "18", label: "imagens recuperadas em resolução original do PDF de CTRL.Z" },
           { value: "8", label: "piscadas do led de Martina, no BPM do set escolhido" },
           { value: "44 px", label: "de altura mínima para botões e links no da Martina" },

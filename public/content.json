@@ -50,10 +50,8 @@
   },
   "contactLinks": {
     "email": "k3xxy.art@gmail.com",
-    "instagram": "https://www.instagram.com/kexxy.obj",
     "linkedin": "https://www.linkedin.com/in/enzo-diaz-zingaretti",
-    "github": "https://github.com/Enzodiazzingaretti",
-    "presskit": "https://presskit-digital.vercel.app/"
+    "github": "https://github.com/Enzodiazzingaretti"
   },
   "webProjects": [
     {
@@ -176,7 +174,7 @@
       "type": "Web / Diseño y desarrollo",
       "status": "Online",
       "role": "Diseño y desarrollo",
-      "description": "Cinco press kits web para DJs a partir de mi plantilla: el mío (Kexxy), CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
+      "description": "Cuatro press kits web para DJs a partir de una plantilla propia: CTRL.Z, Gabi Raíz, Martina Høbelar y Shodnan Ref. La misma base de arquitectura, una estética propia para cada artista y ningún dato que el artista no haya dado. HTML, CSS y JavaScript sin framework.",
       "tags": [
         "HTML",
         "CSS",
@@ -184,13 +182,13 @@
         "Vercel"
       ],
       "features": [
-        "5 sitios en vivo",
+        "4 sitios en vivo",
         "Una estética por artista",
         "Booking sin servidor",
         "Sin framework"
       ],
       "scrollPreview": false,
-      "repoUrl": "https://github.com/Enzodiazzingaretti/presskit_digital",
+      "repoUrl": null,
       "caseSlug": "press-kits"
     },
     {
@@ -237,24 +235,6 @@
         "Python",
         "ffmpeg",
         "150 BPM"
-      ]
-    },
-    {
-      "thumbnail": "/images/loops/reel-kexxy.mp4",
-      "slides": [
-        "/images/reels/kexxy.mp4"
-      ],
-      "title": "KEXXY — Reel del press kit",
-      "client": "Kexxy",
-      "type": "Reel · Press kit",
-      "year": "2026",
-      "duration": "25 s",
-      "description": "El reel de mi press kit en su versión fanzine: portada, sets, próximas fechas, cabina, productoras y contacto. No es una grabación de pantalla: un motor propio copia el sitio en vivo, le inyecta un reloj virtual y lo graba cuadro por cuadro con Playwright y ffmpeg, con motion blur real.",
-      "tags": [
-        "Motion",
-        "Playwright",
-        "ffmpeg",
-        "Press kit"
       ]
     },
     {
@@ -808,21 +788,6 @@
       "title": "Blastkick — Año Nuevo",
       "type": "Flyer",
       "description": "Edición del 31 de diciembre: composición 3D en violeta y dorado.",
-      "tags": [
-        "Diseño",
-        "Flyer",
-        "3D"
-      ]
-    },
-    {
-      "square": true,
-      "imageUrl": "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png",
-      "slides": [
-        "/images/flyers/dist-raptis-kexxy/dist-raptis-kexxy-1.png"
-      ],
-      "title": "Dist. Raptis. Kexxy.",
-      "type": "Flyer",
-      "description": "Cadenas y tipografía gótica sobre rojo, para DIST b2b RAPTIS y Kexxy.",
       "tags": [
         "Diseño",
         "Flyer",
