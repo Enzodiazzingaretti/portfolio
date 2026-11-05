@@ -2377,6 +2377,9 @@ html.glass-type .vx-name-line {
 
 .sala-audio.loop-audio-btn { border-radius: 999px; }
 
+/* Con parlante, el pie le deja lugar: si no, la descripción pasaba por debajo */
+.sala-pieza--audio .sala-pie { padding-right: 3.4rem; }
+
 @media (prefers-reduced-motion: reduce) {
   .sala-zoom,
   .sala-eco,

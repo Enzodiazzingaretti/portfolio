@@ -37,7 +37,7 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
 
   return (
     <article
-      className={`sala-pieza sala-pieza--${o} sala-pieza--${lado} reveal-on-scroll`}
+      className={`sala-pieza sala-pieza--${o} sala-pieza--${lado}${loop && item.audio ? " sala-pieza--audio" : ""} reveal-on-scroll`}
       style={{ "--col": lugar.col, "--span": lugar.span, "--desfase": lugar.desfase, "--hw": h / w }}
       onMouseEnter={loop && item.audio ? () => loopAudio.alEntrar(item.audio) : undefined}
       onMouseLeave={loop && item.audio ? () => loopAudio.alSalir(item.audio) : undefined}
