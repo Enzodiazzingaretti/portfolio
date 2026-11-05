@@ -392,10 +392,12 @@ html.glass-type .vx-name-line {
 /* La escultura se monta sobre el borde derecho del bloque del nombre (el
    WebGL lee esta caja): refracta las dos líneas a la vez. */
 .vx-orb {
-  --orb: min(27vw, 46vh);
+  /* Proporcional al bloque del nombre (en 1280×720 el nombre se achica para
+     entrar y la escultura, medida solo contra la pantalla, le tapaba letras) */
+  --orb: min(27vw, 46vh, calc(var(--name-h, 34vh) * 1.2));
   position: absolute;
   /* Apenas monta la última letra: el nombre se tiene que leer entero. */
-  left: min(calc(var(--name-w, 60vw) - var(--orb) * 0.2), calc(100% - var(--orb)));
+  left: min(calc(var(--name-w, 60vw) - var(--orb) * 0.06), calc(100% - var(--orb)));
   top: 50%;
   width: var(--orb);
   aspect-ratio: 1;
@@ -562,11 +564,12 @@ html.glass-type .vx-name-line {
 .sparkle { fill: var(--paper); }
 
 .vx-cross { position: absolute; width: 22px; height: 22px; }
-.vx-cross--a { left: 31%; top: 27%; }
-.vx-cross--b { right: 24%; bottom: 31%; }
+/* Marcas de registro en los huecos de la composición, nunca sobre el nombre */
+.vx-cross--a { right: 5.5%; top: 16%; }
+.vx-cross--b { left: 41%; top: 67%; }
 .vx-spark { position: absolute; }
 .vx-spark--a { width: 16px; height: 16px; left: 62%; top: 22%; animation: twinkle 3.2s ease-in-out infinite; }
-.vx-spark--b { width: 10px; height: 10px; left: 37%; bottom: 26%; fill: var(--red); animation: twinkle 2.6s ease-in-out 0.8s infinite; }
+.vx-spark--b { width: 10px; height: 10px; left: 82%; top: 53%; fill: var(--red); animation: twinkle 2.6s ease-in-out 0.8s infinite; }
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); }
@@ -609,8 +612,10 @@ html.glass-type .vx-name-line {
     right: auto;
     top: auto;
     display: block;
-    width: 68vw;
-    margin: -3vw auto -5vw;
+    /* Debajo del nombre, apenas rozándolo: el canto del vidrio pasa sobre el
+       pie de las letras sin taparlas (la lente las deja intactas en el borde) */
+    width: min(64vw, 42vh);
+    margin: -1.5vw auto -2vw;
     transform: none;
   }
   .vx-rule-row { margin-top: 1.2rem; letter-spacing: 0.14em; }
@@ -619,6 +624,7 @@ html.glass-type .vx-name-line {
     position: static;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: 1.6rem;
     margin-top: 1.6rem;
     transform: none;
@@ -628,10 +634,10 @@ html.glass-type .vx-name-line {
   .vx-foot { grid-template-columns: 1fr auto; margin-top: 2rem; }
   .vx-scroll { display: none; }
   .vx-foot-right { gap: 0.8rem; }
-  .vx-cross--a { left: 6%; top: 40%; }
-  .vx-cross--b { right: 6%; bottom: auto; top: 58%; }
-  .vx-spark--a { left: 78%; top: 16%; }
-  .vx-spark--b { left: 12%; bottom: auto; top: 30%; }
+  .vx-cross--a { left: 6%; right: auto; top: 40%; }
+  .vx-cross--b { left: auto; right: 6%; top: 58%; }
+  .vx-spark--a { left: 86%; top: 33%; }
+  .vx-spark--b { left: 12%; top: 30%; }
 }
 
 /* ───────────────────────── Secciones y encabezados ───────────────────────── */

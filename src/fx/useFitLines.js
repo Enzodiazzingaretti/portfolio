@@ -42,9 +42,14 @@ export function useFitLines(ref, deps = []) {
           aplicar();
         }
       }
-      // Ancho real del bloque: la escultura se monta sobre su borde derecho.
-      const ancho = Math.max(0, ...lines.map((el) => el.getBoundingClientRect().width));
+      // Ancho y alto reales del bloque: la escultura se monta sobre su borde
+      // derecho y se mide contra su alto, así guarda la proporción con las
+      // letras en cualquier pantalla.
+      const cajas = lines.map((el) => el.getBoundingClientRect());
+      const ancho = Math.max(0, ...cajas.map((r) => r.width));
+      const alto = cajas.length ? Math.max(...cajas.map((r) => r.bottom)) - Math.min(...cajas.map((r) => r.top)) : 0;
       root.style.setProperty("--name-w", `${Math.round(ancho)}px`);
+      root.style.setProperty("--name-h", `${Math.round(alto)}px`);
       window.dispatchEvent(new Event("hero-layout"));
     };
 

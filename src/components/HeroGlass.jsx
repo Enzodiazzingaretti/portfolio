@@ -78,6 +78,10 @@ uniform float uScroll;
 uniform float uTime;
 uniform float uAspect;
 uniform vec2 uGlow;
+uniform float uCore;
+uniform float uCoreR;
+uniform vec3 uCoreCol;
+uniform vec4 uGrid;
 varying vec2 vUv;
 float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
 void main(){
@@ -90,6 +94,18 @@ void main(){
   vec2 g = uGlow; g.x *= uAspect;
   float red = exp(-pow(length(p - g) * 1.55, 2.0));
   col += vec3(0.898, 0.141, 0.212) * red * 0.30;
+  // Contraluz: un núcleo rojo más chico justo detrás de la escultura, para
+  // que el vidrio tenga algo que doblar aunque no tenga letras atrás
+  float core = exp(-pow(length(p - g) / max(uCoreR, 0.001), 2.0));
+  col += uCoreCol * core * uCore;
+  // La retícula de 12 columnas de la atmósfera del CSS (que el lienzo tapa):
+  // sigue de largo por el hero y el vidrio la dobla
+  float gx = (vUv.x - uGrid.x) / max(uGrid.y, 0.0001) * 12.0;
+  if (gx > -0.02 && gx < 11.98) {
+    float dpx = abs(fract(gx + 0.5) - 0.5) * uGrid.y / 12.0 * uGrid.z;
+    float fade = smoothstep(0.0, 0.14, vUv.y) * smoothstep(0.0, 0.14, 1.0 - vUv.y);
+    col = mix(col, vec3(0.898, 0.890, 0.878), (1.0 - smoothstep(0.5, 1.5, dpx)) * fade * uGrid.w);
+  }
   vec2 s = vec2(0.08 * uAspect, 0.06);
   float smoke = exp(-pow(length(p - s) * 1.25, 2.0));
   col += vec3(0.52, 0.53, 0.57) * smoke * 0.10;
@@ -146,13 +162,13 @@ function crearAmbiente(renderer, size) {
 
 /** La escultura: deformación en el vértice, refracción y reflejo en el fragmento. */
 const ORB_VERT = /* glsl */ `
-uniform float uTime; uniform float uAmp; uniform float uFreq;
+uniform float uTime; uniform float uAmp; uniform float uFreq; uniform float uFine;
 varying vec3 vPosW; varying vec3 vNormalW; varying vec4 vClip;
 ${NOISE}
 vec3 deformar(vec3 p){
   float t = uTime;
   float n = snoise(p * uFreq + vec3(t * 0.16, t * 0.11, -t * 0.09));
-  float n2 = snoise(p * uFreq * 2.3 + vec3(-t * 0.21, t * 0.17, t * 0.13)) * 0.32;
+  float n2 = snoise(p * uFreq * 2.3 + vec3(-t * 0.21, t * 0.17, t * 0.13)) * uFine;
   float twist = sin(p.y * 2.2 + t * 0.6) * 0.18;
   return p + normalize(p) * (n + n2 + twist) * uAmp;
 }
@@ -175,7 +191,7 @@ void main(){
 
 const ORB_FRAG = /* glsl */ `
 uniform sampler2D uBg; uniform samplerCube uEnv; uniform float uRefr; uniform float uTime;
-uniform vec2 uCenter; uniform float uMag;
+uniform vec2 uCenter; uniform float uMag; uniform vec2 uRadius; uniform float uRim;
 varying vec3 vPosW; varying vec3 vNormalW; varying vec4 vClip;
 void main(){
   vec3 N = normalize(vNormalW);
@@ -187,8 +203,12 @@ void main(){
   // pantalla, más fuerte hacia el borde; cada canal se corre un poco (dispersión)
   vec3 nV = normalize((viewMatrix * vec4(N, 0.0)).xyz);
   vec2 off = -nV.xy * uRefr * (0.25 + 0.75 * (1.0 - NdV));
-  // Lente: lo de atrás se ve más grande, como a través de una gota
-  suv = uCenter + (suv - uCenter) * (1.0 - uMag);
+  // Lente de gota: lo de atrás se ve más grande en el centro y llega intacto
+  // al canto, así el final del nombre que queda debajo del borde se sigue
+  // leyendo, curvado, en vez de desaparecer dentro del vidrio.
+  vec2 d = (suv - uCenter) / uRadius;
+  float r2 = min(dot(d, d), 1.4);
+  suv = uCenter + (suv - uCenter) * (1.0 - uMag * (1.0 - r2));
   vec3 refr;
   refr.r = texture2D(uBg, suv + off * 1.00).r;
   refr.g = texture2D(uBg, suv + off * 1.07).g;
@@ -207,6 +227,8 @@ void main(){
   col += irid * fres * 0.16;
   // Destellos: lo más brillante del ambiente pasa entero
   col += max(env - 0.72, 0.0) * 1.6;
+  // Filo de luz: una línea fina sobre el contorno
+  col += vec3(1.0, 0.96, 0.94) * pow(1.0 - NdV, 7.0) * uRim;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -305,6 +327,10 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       uTime: { value: 0 },
       uAspect: { value: 1 },
       uGlow: { value: new THREE.Vector2(0.58, 0.55) },
+      uCore: { value: 0.5 },
+      uCoreR: { value: 0.12 },
+      uCoreCol: { value: new THREE.Vector3(0.84, 0.68, 0.7) },
+      uGrid: { value: new THREE.Vector4(0, 1, 1, 0) },
     };
     const bg = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
@@ -327,10 +353,13 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       uTime: { value: 0 },
       uAmp: { value: 0.0 },
       uFreq: { value: 1.05 },
+      uFine: { value: 0.1 },
+      uRim: { value: 0.7 },
       uBg: { value: bgTarget.texture },
       uEnv: { value: envTarget.texture },
-      uRefr: { value: 0.085 },
+      uRefr: { value: 0.035 },
       uCenter: { value: new THREE.Vector2(0.5, 0.5) },
+      uRadius: { value: new THREE.Vector2(0.2, 0.3) },
       uMag: { value: 0.22 },
     };
     const mat = new THREE.ShaderMaterial({ uniforms: glassUniforms, vertexShader: ORB_VERT, fragmentShader: ORB_FRAG });
@@ -367,6 +396,8 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
       anim.target.set((cx / anim.w) * 2 - 1, -((cy / anim.h) * 2 - 1), 0);
       anim.radius = (r.width / 2 / anim.w) * 2 * anim.halfW;
       bgUniforms.uGlow.value.set(cx / anim.w, 1 - cy / anim.h);
+      const grid = document.querySelector(".atmo-grid")?.getBoundingClientRect();
+      if (grid?.width) bgUniforms.uGrid.value.set(grid.left / anim.w, grid.width / anim.w, anim.w, 0.04);
       return true;
     };
 
@@ -470,6 +501,7 @@ export default function HeroGlass({ active = true, revealActive = true, reduced 
 
       const ndc = orb.position.clone().project(camera);
       glassUniforms.uCenter.value.set(ndc.x * 0.5 + 0.5, ndc.y * 0.5 + 0.5);
+      glassUniforms.uRadius.value.set(s / (2 * anim.halfW), s / (2 * anim.halfH));
       glassUniforms.uTime.value = anim.t;
       glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035) * (quieto ? 0.8 : 1);
       bgUniforms.uTime.value = anim.t;
