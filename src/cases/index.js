@@ -17,6 +17,26 @@ import pt from "./pt.js";
  * test los compara con el archivo.
  */
 export const CASE_ASSETS = {
+  // Una campaña, no un sitio: cuelga de Gráfica (/grafica/sonar-produce) y
+  // usa las mismas imágenes que las piezas de la campaña, sin duplicarlas.
+  "sonar-produce": {
+    category: "grafica",
+    year: "2026",
+    stack: ["Photoshop", "After Effects", "Python", "ffmpeg"],
+    site: null,
+    repo: null,
+    figures: {
+      kv: { src: "/images/campanas/sonar/key-visual-feed.webp", w: 1080, h: 1440 },
+      kvHistoria: { src: "/images/campanas/sonar/key-visual-historia.webp", w: 900, h: 1600 },
+      concepto: { src: "/images/campanas/sonar/manual-03.webp", w: 1600, h: 900 },
+      color: { src: "/images/campanas/sonar/manual-06.webp", w: 1600, h: 900 },
+      carrusel: { src: "/images/campanas/sonar/carrusel-01.webp", w: 1080, h: 1440 },
+      horarios: { src: "/images/campanas/sonar/horarios-feed.webp", w: 1080, h: 1440 },
+      entradas: { src: "/images/campanas/sonar/entradas-feed.webp", w: 1080, h: 1440 },
+      sistema: { src: "/images/campanas/sonar/manual-13.webp", w: 1600, h: 900 },
+      plantillas: { src: "/images/campanas/sonar/manual-14.webp", w: 1600, h: 900 },
+    },
+  },
   portfolio: {
     category: "tech",
     year: "2025–2026",
@@ -92,39 +112,39 @@ export const CASE_ASSETS = {
 export const CASE_UI = {
   es: {
     label: "Caso",
-    back: "Proyectos web",
+    backTo: "Volver a",
     role: "Rol",
     year: "Año",
     stack: "Stack",
+    tools: "Herramientas",
     site: "Abrir sitio",
     code: "Ver código",
     discarded: "Descartado",
     next: "Siguiente caso",
-    all: "Todos los proyectos web",
   },
   en: {
     label: "Case study",
-    back: "Web projects",
+    backTo: "Back to",
     role: "Role",
     year: "Year",
     stack: "Stack",
+    tools: "Tools",
     site: "Visit site",
     code: "View code",
     discarded: "Ruled out",
     next: "Next case study",
-    all: "All web projects",
   },
   pt: {
     label: "Case",
-    back: "Projetos web",
-    role: "Papel",
+    backTo: "Voltar para",
+    role: "Função",
     year: "Ano",
     stack: "Stack",
+    tools: "Ferramentas",
     site: "Abrir site",
     code: "Ver código",
     discarded: "Descartado",
     next: "Próximo case",
-    all: "Todos os projetos web",
   },
 };
 

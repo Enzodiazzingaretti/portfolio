@@ -1,5 +1,7 @@
 import { useEffect, useCallback, useMemo, useState, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
+import { caseHref } from "../cases/covers";
 import MediaAsset from "./MediaAsset";
 import { isVideoAsset } from "../utils/helpers";
 
@@ -90,6 +92,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
     client: "Client",
     duration: "Duration",
     tools: "Tools",
+    readCase: "Read the case study",
     visitSite: "Visit Site",
     viewCode: "View code",
     features: "Includes",
@@ -440,12 +443,21 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
 
             {listaIncluye("mt-6")}
 
+            {item.caseSlug ? (
+              <Link
+                to={caseHref(item.caseSlug)}
+                onClick={onClose}
+                className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
+              >
+                {modalLabels.readCase} →
+              </Link>
+            ) : null}
             {sitio && (
               <a
                 href={sitio}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 flex items-center justify-center gap-2 border border-raveRed/40 bg-raveRed/10 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20"
+                className={`${item.caseSlug ? "mt-3 border-white/15" : "mt-6 border-raveRed/40 bg-raveRed/10"} flex items-center justify-center gap-2 border py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/80 transition-colors active:bg-raveRed/20`}
               >
                 {modalLabels.visitSite} ↗
               </a>
@@ -455,7 +467,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
                 href={item.repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={`${sitio ? "mt-3" : "mt-6"} flex items-center justify-center gap-2 border border-white/15 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/70 transition-colors active:bg-white/5`}
+                className={`${sitio || item.caseSlug ? "mt-3" : "mt-6"} flex items-center justify-center gap-2 border border-white/15 py-3.5 font-mono text-label uppercase tracking-[0.28em] text-white/70 transition-colors active:bg-white/5`}
               >
                 {modalLabels.viewCode} ↗
               </a>
@@ -562,12 +574,22 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
             </div>
 
             <div className="mt-6 flex flex-col gap-3 border-t border-white/[0.06] pt-5">
+              {/* Si la pieza es parte de un caso escrito, leerlo es lo primero */}
+              {item.caseSlug ? (
+                <Link
+                  to={caseHref(item.caseSlug)}
+                  onClick={onClose}
+                  className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]"
+                >
+                  {modalLabels.readCase} →
+                </Link>
+              ) : null}
               {sitio && (
                 <a
                   href={sitio}
                   target="_blank"
                   rel="noreferrer"
-                  className="premium-button premium-button-accent flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]"
+                  className={`premium-button${item.caseSlug ? "" : " premium-button-accent"} flex items-center justify-center gap-2 py-3 font-mono text-label uppercase tracking-[0.24em]`}
                 >
                   {modalLabels.visitSite} ↗
                 </a>

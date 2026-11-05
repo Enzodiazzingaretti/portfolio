@@ -266,6 +266,7 @@ const campaignAssets = {
   sonarKeyVisual: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/key-visual-feed.webp",
     slides: ["/images/campanas/sonar/key-visual-feed.webp", "/images/campanas/sonar/key-visual-historia.webp"],
@@ -273,6 +274,7 @@ const campaignAssets = {
   sonarLineUp: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/line-up-portada.webp",
     slides: ["/images/campanas/sonar/line-up-reel.mp4", "/images/campanas/sonar/line-up-portada.webp"],
@@ -280,6 +282,7 @@ const campaignAssets = {
   sonarCarrusel: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/carrusel-01.webp",
     slides: [
@@ -293,6 +296,7 @@ const campaignAssets = {
   sonarHorarios: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/horarios-feed.webp",
     slides: ["/images/campanas/sonar/horarios-feed.webp", "/images/campanas/sonar/horarios-historia.webp"],
@@ -300,12 +304,14 @@ const campaignAssets = {
   sonarEntradas: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/entradas-feed.webp",
     slides: ["/images/campanas/sonar/entradas-feed.webp", "/images/campanas/sonar/entradas-historia.webp"],
   },
   sonarManual: {
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/manual-01.webp",
     slides: [
@@ -321,6 +327,7 @@ const campaignAssets = {
   sonarPlantillas: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/plantillas.webp",
     slides: ["/images/campanas/sonar/plantillas.webp"],
@@ -328,6 +335,7 @@ const campaignAssets = {
   sonarCuentaRegresiva: {
     portrait: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/campanas/sonar/cuenta-regresiva-portada.webp",
     slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
@@ -354,6 +362,7 @@ const logosAssets = {
   sonar: {
     square: true,
     client: "Sonar Produce",
+    caseSlug: "sonar-produce",
     year: "2026",
     imageUrl: "/images/visual/Logos/sonar/sonar-isotipo.webp",
     slides: [
@@ -369,6 +378,7 @@ const logosAssets = {
 // primero en `slides`, a 720 px y sin audio, y después su portada.
 const reelAssets = {
   sonarCaso: {
+    caseSlug: "sonar-produce",
     thumbnail: "/images/loops/reel-sonar-caso.mp4",
     slides: ["/images/reels/sonar-caso.mp4", "/images/reels/sonar-caso-portada.webp"],
   },
@@ -399,10 +409,12 @@ const reelAssets = {
     slides: ["/images/reels/gabi-raiz.mp4"],
   },
   sonarLineUp: {
+    caseSlug: "sonar-produce",
     thumbnail: "/images/loops/reel-sonar-line-up.mp4",
     slides: ["/images/campanas/sonar/line-up-reel.mp4", "/images/campanas/sonar/line-up-portada.webp"],
   },
   sonarCuentaRegresiva: {
+    caseSlug: "sonar-produce",
     thumbnail: "/images/loops/reel-sonar-cuenta-regresiva.mp4",
     slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
   },
@@ -641,6 +653,7 @@ export const siteContent = {
       // Casos de estudio: título, bajada y orden. El cuerpo vive en src/cases/
       // y entra solo con la página del caso (/tech/<slug>). No los edita /admin.
       cases: [
+        { slug: "sonar-produce", title: "Sonar Produce", tags: "Identidad · Campaña · Motion", summary: "El sistema visual de Sonar Produce y la campaña completa de su primera fecha: un radar como idea, tres reglas para todas las piezas y plantillas para las fechas que siguen." },
         { slug: "portfolio", title: "Portfolio Personal", tags: "React · Three.js · GLSL", summary: "Rehice la estructura de mi sitio y escribí a mano el filtro ASCII del hero. Los niveles del filtro, el peso de las páginas y el contraste los fijé midiendo." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Un sitio para que cada visita termine en un WhatsApp con los datos del seguro ya cargados. Guarda la consulta antes de abrir el chat, y Federico la sigue desde un panel propio junto con su cartera de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Panel propio", summary: "Empezó como portfolio de marketing y terminó siendo el de una artista visual. Le hice un panel para que cargue su obra sin tocar código, y ese panel quedó como base de otros tres sitios." },
@@ -754,7 +767,7 @@ export const siteContent = {
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Descargar CV (PDF)" },
-        modal: { close: "Cerrar", previous: "Anterior", next: "Siguiente", navigateHint: "← → para navegar · ", closeHint: "ESC para cerrar", year: "Año", role: "Rol", status: "Estado", client: "Cliente", duration: "Duración", tools: "Herramientas", visitSite: "Abrir sitio", viewCode: "Ver código", features: "Incluye", infoShow: "Ver info", infoClose: "Cerrar", slide: "Slide" },
+        modal: { close: "Cerrar", previous: "Anterior", next: "Siguiente", navigateHint: "← → para navegar · ", closeHint: "ESC para cerrar", year: "Año", role: "Rol", status: "Estado", client: "Cliente", duration: "Duración", tools: "Herramientas", visitSite: "Abrir sitio", viewCode: "Ver código", features: "Incluye", infoShow: "Ver info", infoClose: "Cerrar", slide: "Slide", readCase: "Leer el caso" },
         skipToContent: "Saltar al contenido",
         backToTop: "Inicio",
         lab: {
@@ -908,6 +921,7 @@ export const siteContent = {
         { ...webProjectAssets.aurora, title: "Cecilia — Stays", type: "Web / Design and development", status: "In development", role: "Design and development", description: "Site for two rental houses in Mendoza. Next.js + TypeScript + Tailwind CSS, cinematic landing per property, trilingual.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing per property", "Trilingual", "Smooth scroll"] },
       ],
       cases: [
+        { slug: "sonar-produce", title: "Sonar Produce", tags: "Identity · Campaign · Motion", summary: "Sonar Produce's visual system and the full campaign for its first night: a radar as the idea, three rules for every piece and templates for the nights to come." },
         { slug: "portfolio", title: "Personal Portfolio", tags: "React · Three.js · GLSL", summary: "I rebuilt my site's structure and hand-wrote the ASCII filter on the hero. The filter levels, page weight and contrast were all set by measuring." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "A site built so every visit ends in a WhatsApp chat with the insurance details already filled in. It saves the lead before opening the chat, and the broker follows it up from a custom panel along with his client portfolio." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Custom CMS", summary: "It started as a marketing portfolio and ended up as a visual artist's. I built her a panel to upload her work without touching code, and that panel became the base for three other sites." },
@@ -1021,7 +1035,7 @@ export const siteContent = {
         blenderRender: "Blender Render",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Profile", cv: "Download CV (PDF)" },
-        modal: { close: "Close", previous: "Previous", next: "Next", navigateHint: "← → to navigate · ", closeHint: "ESC to close", year: "Year", role: "Role", status: "Status", client: "Client", duration: "Duration", tools: "Tools", visitSite: "Visit Site", viewCode: "View code", features: "Includes", infoShow: "View info", infoClose: "Close", slide: "Slide" },
+        modal: { close: "Close", previous: "Previous", next: "Next", navigateHint: "← → to navigate · ", closeHint: "ESC to close", year: "Year", role: "Role", status: "Status", client: "Client", duration: "Duration", tools: "Tools", visitSite: "Visit Site", viewCode: "View code", features: "Includes", infoShow: "View info", infoClose: "Close", slide: "Slide", readCase: "Read the case study" },
         skipToContent: "Skip to content",
         backToTop: "Top",
         lab: {
@@ -1167,6 +1181,7 @@ export const siteContent = {
         { ...webProjectAssets.aurora, title: "Cecilia — Hospedagens", type: "Web / Design e desenvolvimento", status: "Em desenvolvimento", role: "Design e desenvolvimento", description: "Site para duas casas de aluguel em Mendoza. Next.js + TypeScript + Tailwind CSS, landing cinematográfica por propriedade, trilíngue.", tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"], features: ["Landing por propriedade", "Trilíngue", "Rolagem suave"] },
       ],
       cases: [
+        { slug: "sonar-produce", title: "Sonar Produce", tags: "Identidade · Campanha · Motion", summary: "O sistema visual da Sonar Produce e a campanha completa da sua primeira data: um radar como ideia, três regras para todas as peças e templates para as próximas datas." },
         { slug: "portfolio", title: "Portfólio Pessoal", tags: "React · Three.js · GLSL", summary: "Refiz a estrutura do meu site e escrevi à mão o filtro ASCII do hero. Os níveis do filtro, o peso das páginas e o contraste foram definidos medindo." },
         { slug: "andino-seguros", title: "Andino Seguros", tags: "Next.js · TypeScript · Supabase", summary: "Um site para que cada visita termine numa conversa de WhatsApp com os dados do seguro já preenchidos. Ele salva a consulta antes de abrir o chat, e o corretor acompanha tudo num painel próprio, junto com a carteira de clientes." },
         { slug: "tamara-gonzalez", title: "Tamara González", tags: "React · Framer Motion · Painel próprio", summary: "Começou como portfólio de marketing e virou o de uma artista visual. Fiz um painel para ela subir a obra sem mexer em código, e esse painel virou a base de outros três sites." },
@@ -1280,7 +1295,7 @@ export const siteContent = {
         blenderRender: "Render Blender",
         renderTags: ["blender", "3d", "render"],
         contactLabels: { email: "Email", instagram: "Instagram", linkedin: "LinkedIn", github: "GitHub", profile: "Perfil", cv: "Baixar CV (PDF)" },
-        modal: { close: "Fechar", previous: "Anterior", next: "Próximo", navigateHint: "← → para navegar · ", closeHint: "ESC para fechar", year: "Ano", role: "Função", status: "Status", client: "Cliente", duration: "Duração", tools: "Ferramentas", visitSite: "Abrir site", viewCode: "Ver código", features: "Inclui", infoShow: "Ver info", infoClose: "Fechar", slide: "Slide" },
+        modal: { close: "Fechar", previous: "Anterior", next: "Próximo", navigateHint: "← → para navegar · ", closeHint: "ESC para fechar", year: "Ano", role: "Função", status: "Status", client: "Cliente", duration: "Duração", tools: "Ferramentas", visitSite: "Abrir site", viewCode: "Ver código", features: "Inclui", infoShow: "Ver info", infoClose: "Fechar", slide: "Slide", readCase: "Ler o case" },
         skipToContent: "Pular para o conteúdo",
         backToTop: "Início",
         lab: {

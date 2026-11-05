@@ -131,10 +131,11 @@ describe("case studies", () => {
   });
 
   it("are linked from the web project they tell, in the bundle and in content.json", () => {
+    const sitios = slugsOf("es").filter((slug) => CASE_ASSETS[slug].category === "tech");
     const sources = [...LOCALES.map((l) => siteContent.locales[l].webProjects), editable.webProjects];
     for (const projects of sources) {
       const linked = projects.filter((p) => p.caseSlug).map((p) => p.caseSlug);
-      expect([...linked].sort()).toEqual([...slugsOf("es")].sort());
+      expect([...linked].sort()).toEqual([...sitios].sort());
       for (const project of projects.filter((p) => p.caseSlug)) {
         expect(project.repoUrl, project.caseSlug).toBe(CASE_ASSETS[project.caseSlug].repo);
       }
@@ -144,7 +145,25 @@ describe("case studies", () => {
   it("reach the web cards through the normalizer", () => {
     const categories = buildCategories(siteContent.locales.en);
     const sitios = categories.find((c) => c.slug === "tech").groups.find((g) => g.id === "proyectos");
-    expect(sitios.items.filter((i) => i.caseSlug).map((i) => i.caseSlug).sort()).toEqual([...slugsOf("en")].sort());
+    const enTech = slugsOf("en").filter((slug) => CASE_ASSETS[slug].category === "tech");
+    expect(sitios.items.filter((i) => i.caseSlug).map((i) => i.caseSlug).sort()).toEqual([...enTech].sort());
+  });
+
+  it("outside TECH, are linked from the pieces they tell, in every language and in content.json", () => {
+    const LISTAS = ["campaigns", "flyers", "logos", "motionReels", "aiCommercials", "blenderWorks", "espacios"];
+    const otros = slugsOf("es").filter((slug) => CASE_ASSETS[slug].category !== "tech");
+    expect(otros.length).toBeGreaterThan(0);
+    const fuentes = [...LOCALES.map((l) => siteContent.locales[l]), editable];
+    for (const slug of otros) {
+      for (const fuente of fuentes) {
+        const piezas = LISTAS.flatMap((k) => fuente[k] ?? []).filter((p) => p.caseSlug === slug);
+        expect(piezas.length, slug).toBeGreaterThan(0);
+      }
+    }
+    // y el visor las lleva al caso
+    const grafica = buildCategories(siteContent.locales.es).find((c) => c.slug === "grafica");
+    const campana = grafica.groups.find((g) => g.id === "campanas").items;
+    expect(campana.every((i) => i.caseSlug === "sonar-produce")).toBe(true);
   });
 
   it("link to the route of their category, from the home too", () => {

@@ -3,6 +3,108 @@
  * fails if the structure drifts between languages.
  */
 export default {
+  "sonar-produce": {
+    role: "Identity, art direction and motion",
+    blocks: [
+      {
+        type: "text",
+        title: "Where it started",
+        paragraphs: [
+          "Sonar Produce was launching with its first night: SONAR 001, Stella Bossi at Alma Hydra, Mendoza, on October 30, 2026. It had a logo (a lightning bolt inside concentric waves) and a brand document. My job was to turn that document into concrete rules, and to use those rules to make the whole campaign for the night.",
+          "My part: refining the logo, the manual, the key visual, the motion, the social posts and the templates for the nights to come.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "kv", alt: "SONAR 001 key visual: Stella Bossi on a black background, with the logo's red radar behind her, the date, the venue and the tickets." },
+          { key: "kvHistoria", alt: "The same key visual as a 9:16 story." },
+        ],
+        caption: "The key visual in feed (3:4) and story (9:16). I presented four options; Sonar chose this one.",
+      },
+      {
+        type: "decisions",
+        title: "Decisions",
+        items: [
+          {
+            title: "A radar as the idea",
+            text: "The manual starts from one line: “Sonar is a frequency that connects.” The frequency is drawn as a radar (rings, pulse and sweep) taken from the logo itself. The radar points at the artist and arranges the piece around them, so every post has a clear center in any format.",
+          },
+          {
+            title: "Three rules for every piece",
+            text: "Darkness, impact and signal. Black rules: everything starts from a black background, and the light comes from the photo and the type. Type is big, condensed and uppercase: the name and the date are the image. And red is the pulse: it shows up rarely and only where the eye should go (B2B, labels, tickets, the headliner, the word “HOY”). In numbers: 70% black, 20% white and 10% red per piece.",
+          },
+          {
+            title: "The key visual: four options",
+            text: "A black background, the logo's radar arranging the piece around Stella Bossi, and red only where the eye should go. It was one of four proposals; Sonar chose this one, option B, and the rest of the campaign follows its rules.",
+          },
+          {
+            title: "Pieces that update without redoing them",
+            text: "The tickets have a stub per release for the SOLD OUT stamp, and in the PSD the stamps are layers: when a release sells out, its stamp gets switched on. In the templates the photo takes on Sonar's look from an adjustment layer, and the countdown is built from an After Effects template with editable text.",
+          },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "concepto", alt: "Manual page “The frequency”: the brand line and the three rules, darkness, impact and signal." },
+          { key: "color", alt: "Manual page “Three colors”: black, white and Sonar red #DE0A17, with a 70, 20 and 10% split per piece." },
+        ],
+        caption: "The 16-page manual: the concept and the three colors, with how much of each piece they take.",
+      },
+      {
+        type: "list",
+        title: "What it includes",
+        intro: "The full SONAR 001 campaign, in feed, story and reel where it applied:",
+        items: [
+          "Logo: vectorized and refined, in negative (the main version), positive, white, black and an icon for avatars and stamps, in SVG and PNG.",
+          "A 16-page brand manual: concept, logo versions, color, typefaces, two photo treatments with a gradient map, safe zones per format and incorrect uses.",
+          "Key visual in feed and story.",
+          "Line-up carousel: the cover and one post per artist, with their photo in black, white and red, their role, a short bio and their handle.",
+          "Set times: one band per set, its height proportional to how long the set lasts, with the headliner in red.",
+          "Tickets: the three releases, each with its stub for the SOLD OUT stamp.",
+          "Line-up animation: 14.4 s at 150 BPM; the headliner's hit lands at 9.6 s.",
+          "Countdown: the 3-2-1 on the radar dial, one reel, one feed post and one story per day. Sonar posted it from October 27 to 30.",
+          "Three Photoshop templates for the next nights: date flyer, artist post and announcement.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "carrusel", alt: "Cover of the SONAR 001 line-up carousel." },
+          { key: "horarios", alt: "Set times post: one band per set, the headliner's in red." },
+          { key: "entradas", alt: "Tickets post with the three releases and their stubs for the SOLD OUT stamp." },
+        ],
+        caption: "The carousel cover, the set times and the tickets.",
+      },
+      {
+        type: "text",
+        title: "The case reel",
+        paragraphs: [
+          "To tell the campaign I made a 25.6 s reel at 150 BPM, with every cut on the beat: identity, key visual, carousel, motion, countdown, tickets, set times, templates and the mosaic of all 49 pieces.",
+          "It isn't made in After Effects: the video is generated with code (Python and ffmpeg), and the same template renders the reel, the story and the feed.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "sistema", alt: "Manual page with the SONAR 001 pieces: key visual, carousel, set times, tickets and stories." },
+          { key: "plantillas", alt: "Manual page with the three templates for the next nights: date flyer, artist post and announcement." },
+        ],
+        caption: "The system applied to SONAR 001, and the templates for the nights to come.",
+      },
+      {
+        type: "stats",
+        title: "In numbers",
+        items: [
+          { value: "49", label: "pieces in the campaign" },
+          { value: "16", label: "pages of brand manual" },
+          { value: "4", label: "key visual options; Sonar chose B" },
+          { value: "70 · 20 · 10", label: "percent black, white and red in every piece" },
+        ],
+      },
+    ],
+  },
   portfolio: {
     role: "Design and development",
     blocks: [

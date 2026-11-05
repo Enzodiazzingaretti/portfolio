@@ -1594,6 +1594,10 @@ html.glass-type .vx-name-line {
 
 .cat-back:hover { border-color: var(--red); color: #fff; }
 
+/* En un caso el encabezado es una columna: la vuelta va en el flujo, arriba
+   del kicker (absoluta, como en la categoría, se montaba sobre «Caso 01 / 05») */
+.case-header .cat-back { position: relative; left: auto; top: auto; }
+
 .tc-main { position: relative; display: flex; flex-direction: column; gap: 0.4rem; }
 .tc-num { font-size: 11px; letter-spacing: 0.2em; color: var(--red-hi); }
 

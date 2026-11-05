@@ -114,6 +114,8 @@ const ficha = (entry) => ({
   client: entry.client || null,
   year: entry.year || null,
   role: entry.role || null,
+  // Si la pieza es parte de un caso escrito, el visor lleva a leerlo
+  caseSlug: entry.caseSlug || null,
 });
 const slides = (arr) => (Array.isArray(arr) ? arr.filter(Boolean).map(resolvePublicAsset) : []);
 
@@ -206,8 +208,6 @@ const NORMALIZERS = {
     // Repo público en GitHub: quien evalúa un perfil técnico quiere ver el
     // código, no solo la captura.
     repoUrl: project.repoUrl || null,
-    // Slug del caso de estudio (/tech/<slug>), si el proyecto tiene uno escrito
-    caseSlug: project.caseSlug || null,
     thumbnail: asset(project.imageUrl) ?? asset(project.previewImage),
     previewImage: asset(project.previewImage),
     slides: slides(project.slides),

@@ -7,6 +7,7 @@
  * una portada cambia allá y no acá, falla.
  */
 export const CASE_COVERS = {
+  "sonar-produce": { category: "grafica", src: "/images/campanas/sonar/manual-13.webp", figure: "sistema", year: "2026" },
   portfolio: { category: "tech", src: "/images/casos/portfolio/hero.webp", figure: "hero", year: "2025–2026" },
   "andino-seguros": { category: "tech", src: "/images/casos/andino-seguros/home.webp", figure: "home", year: "2026" },
   "tamara-gonzalez": { category: "tech", src: "/images/casos/tamara-gonzalez/home.webp", figure: "home", year: "2026" },

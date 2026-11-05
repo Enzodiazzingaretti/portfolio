@@ -2,6 +2,7 @@ import { Fragment, useEffect } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../cases";
+import { getCategory } from "../categories";
 
 /**
  * Caso de estudio: /<categoría>/<slug> (los sitios, en /tech).
@@ -146,6 +147,9 @@ export default function CasePage() {
   const body = CASE_BODIES[language]?.[caso] ?? CASE_BODIES.es[caso];
   const ui = CASE_UI[language] ?? CASE_UI.es;
   const valid = Boolean(teaser && assets && body && assets.category === slug);
+  // Los casos cuelgan de su categoría (los sitios de /tech, la campaña de
+  // Sonar de /grafica): la vuelta lleva su nombre
+  const categoria = content.categories?.[getCategory(slug)?.id]?.title ?? slug;
 
   /**
    * El Shell pone el título de las rutas de un nivel; el de un caso lo pone
@@ -182,7 +186,7 @@ export default function CasePage() {
     <article className="case-page">
       <header className="case-header">
         <Link to={`/${slug}`} className="cat-back font-mono">
-          <span aria-hidden="true">←</span> {ui.back}
+          <span aria-hidden="true">←</span> {categoria}
         </Link>
 
         <p className="case-kicker font-mono">
@@ -203,7 +207,7 @@ export default function CasePage() {
               <dd>{assets.year}</dd>
             </div>
             <div className="case-meta-item case-meta-item--wide">
-              <dt className="font-mono">{ui.stack}</dt>
+              <dt className="font-mono">{assets.category === "tech" ? ui.stack : ui.tools}</dt>
               <dd>{assets.stack.join(" · ")}</dd>
             </div>
           </dl>
@@ -248,7 +252,7 @@ export default function CasePage() {
 
       <nav className="case-pager" aria-label={ui.label}>
         {next && next.slug !== caso ? (
-          <Link to={`/${slug}/${next.slug}`} className="case-pager-next">
+          <Link to={`/${CASE_ASSETS[next.slug]?.category ?? slug}/${next.slug}`} className="case-pager-next">
             <span className="case-pager-dir font-mono">{ui.next} →</span>
             <span className="case-pager-title font-poster">{next.title}</span>
           </Link>
@@ -256,7 +260,7 @@ export default function CasePage() {
           <span />
         )}
         <Link to={`/${slug}`} className="cat-pager-home font-mono">
-          {ui.all}
+          {ui.backTo} {categoria}
         </Link>
       </nav>
     </article>

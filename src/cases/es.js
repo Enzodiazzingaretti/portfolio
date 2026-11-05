@@ -6,6 +6,108 @@
  * Entre `backticks` el texto sale como código; no se acepta HTML.
  */
 export default {
+  "sonar-produce": {
+    role: "Identidad, dirección de arte y motion",
+    blocks: [
+      {
+        type: "text",
+        title: "El punto de partida",
+        paragraphs: [
+          "Sonar Produce arrancaba con su primera fecha: SONAR 001, Stella Bossi en Alma Hydra, Mendoza, el 30 de octubre de 2026. Tenía un logo —un rayo con ondas concéntricas— y un documento de marca. Mi trabajo fue bajar ese documento a reglas concretas y hacer, con esas reglas, la campaña entera de la fecha.",
+          "Mi parte: el ajuste del logo, el manual, el key visual, el motion, las placas para redes y las plantillas para las fechas que siguen.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "kv", alt: "Key visual de SONAR 001: Stella Bossi sobre fondo negro, con el radar rojo del logo detrás, la fecha, el lugar y las entradas." },
+          { key: "kvHistoria", alt: "El mismo key visual en formato historia, 9:16." },
+        ],
+        caption: "El key visual en feed (3:4) e historia (9:16). Presenté cuatro opciones; Sonar eligió esta.",
+      },
+      {
+        type: "decisions",
+        title: "Decisiones",
+        items: [
+          {
+            title: "Un radar como idea",
+            text: "El manual parte de una frase: «Sonar es una frecuencia que conecta». La frecuencia se dibuja como un radar —anillos, pulso y barrido— que sale del propio logo. El radar apunta al artista y ordena la pieza a su alrededor, así cada placa tiene un centro claro en cualquier formato.",
+          },
+          {
+            title: "Tres reglas para todas las piezas",
+            text: "Oscuridad, impacto y señal. El negro manda: todo sale de un fondo negro y la luz la ponen la foto y el texto. La tipografía es grande, condensada y en mayúsculas: el nombre y la fecha son la imagen. Y el rojo es el pulso: aparece poco y solo donde hay que mirar (B2B, etiquetas, entradas, la headliner, «HOY»). En números: 70 % negro, 20 % blanco y 10 % rojo por pieza.",
+          },
+          {
+            title: "El key visual: cuatro opciones",
+            text: "Fondo negro, el radar del logo ordenando la pieza alrededor de Stella Bossi y el rojo solo donde hay que mirar. Fue una de cuatro propuestas; Sonar eligió esta, la B, y el resto de la campaña sigue sus reglas.",
+          },
+          {
+            title: "Piezas que se actualizan sin rehacerlas",
+            text: "Las entradas tienen un talón por tanda para el sello de SOLD OUT, y en el PSD los sellos son capas: cuando se agota una tanda se prende la suya. En las plantillas la foto toma el look de Sonar desde una capa de ajuste, y la cuenta regresiva se arma desde una plantilla de After Effects con los textos editables.",
+          },
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "concepto", alt: "Página del manual «La frecuencia»: la frase de la marca y las tres reglas, oscuridad, impacto y señal." },
+          { key: "color", alt: "Página del manual «Tres colores»: negro, blanco y el rojo Sonar #DE0A17, con la proporción 70, 20 y 10 % por pieza." },
+        ],
+        caption: "El manual, de 16 páginas: el concepto y los tres colores, con lo que ocupa cada uno en una pieza.",
+      },
+      {
+        type: "list",
+        title: "Qué incluye",
+        intro: "La campaña completa de SONAR 001, en feed, historia y reel donde correspondía:",
+        items: [
+          "Logo: vectorización y ajuste, en negativo (la versión principal), positivo, blanco, negro e isotipo para avatar y sellos, en SVG y PNG.",
+          "Manual de marca de 16 páginas: concepto, versiones del logo, color, tipografías, dos tratamientos de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
+          "Key visual en feed e historia.",
+          "Carrusel del line-up: la tapa y una placa por artista, con su foto en negro, blanco y rojo, su rol, una bio corta y su @.",
+          "Horarios: una franja por set, con el alto proporcional a lo que dura cada set y la headliner en rojo.",
+          "Entradas: las tres tandas de venta, cada una con su talón para el sello de SOLD OUT.",
+          "Animación del line-up: 14,4 s a 150 BPM; el golpe de la headliner cae en el segundo 9,6.",
+          "Cuenta regresiva: el 3-2-1 en el dial del radar, un reel, un feed y una historia por día. Sonar la publicó del 27 al 30 de octubre.",
+          "Tres plantillas de Photoshop para las próximas fechas: flyer de fecha, placa de artista y anuncio.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "carrusel", alt: "Tapa del carrusel del line-up de SONAR 001." },
+          { key: "horarios", alt: "Placa de horarios: una franja por set, la de la headliner en rojo." },
+          { key: "entradas", alt: "Placa de entradas con las tres tandas y su talón para el sello de SOLD OUT." },
+        ],
+        caption: "La tapa del carrusel, los horarios y las entradas.",
+      },
+      {
+        type: "text",
+        title: "El reel del caso",
+        paragraphs: [
+          "Para contar la campaña hice un reel de 25,6 s a 150 BPM, con cada corte en el beat: identidad, key visual, carrusel, motion, cuenta regresiva, entradas, horarios, plantillas y el mosaico de las 49 piezas.",
+          "No está hecho en After Effects: el video se genera con código (Python y ffmpeg), y la misma plantilla rinde el reel, la historia y el feed.",
+        ],
+      },
+      {
+        type: "figure",
+        figures: [
+          { key: "sistema", alt: "Página del manual con las piezas de SONAR 001: key visual, carrusel, horarios, entradas e historias." },
+          { key: "plantillas", alt: "Página del manual con las tres plantillas para las próximas fechas: flyer de fecha, placa de artista y anuncio." },
+        ],
+        caption: "El sistema aplicado a SONAR 001 y las plantillas para las fechas que siguen.",
+      },
+      {
+        type: "stats",
+        title: "En números",
+        items: [
+          { value: "49", label: "piezas en la campaña" },
+          { value: "16", label: "páginas de manual de marca" },
+          { value: "4", label: "opciones de key visual; Sonar eligió la B" },
+          { value: "70 · 20 · 10", label: "por ciento de negro, blanco y rojo en cada pieza" },
+        ],
+      },
+    ],
+  },
   portfolio: {
     role: "Diseño y desarrollo",
     blocks: [
