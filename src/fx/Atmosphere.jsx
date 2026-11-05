@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * La atmósfera del sitio: grafito con dos luces difusas (roja cálida arriba,
@@ -6,22 +6,26 @@ import { useEffect } from "react";
  * capa fija debajo de todo; las luces se corren despacio con el scroll.
  *
  * Además maneja, una sola vez para todo el sitio:
- * - `--scroll-k` en <html> (0 a 1, cuánto se bajó), que usan las luces;
+ * - `--scroll-k` en la propia capa (0 a 1, cuánto se bajó), que usan las
+ *   luces. Va en la capa y no en <html>: escrita en la raíz invalidaba el
+ *   estilo de todo el documento en cada cuadro de scroll. Con el fondo WebGL
+ *   dibujado (`fondo-vivo`) la capa está apagada y no se escribe nada;
  * - la inclinación de los elementos con `data-tilt`: con el mouse encima se
  *   les escriben `--rx`/`--ry` (grados) y `--mx`/`--my` (dónde está el
  *   puntero, para el reflejo). Un solo listener delegado, con rAF.
  * Sin mouse fino o con movimiento reducido no se inclina nada.
  */
 export default function Atmosphere() {
+  const capa = useRef(null);
   useEffect(() => {
     const root = document.documentElement;
     let rafScroll = 0;
     const onScroll = () => {
-      if (rafScroll) return;
+      if (rafScroll || root.classList.contains("fondo-vivo")) return;
       rafScroll = requestAnimationFrame(() => {
         rafScroll = 0;
         const max = Math.max(1, root.scrollHeight - window.innerHeight);
-        root.style.setProperty("--scroll-k", (window.scrollY / max).toFixed(4));
+        capa.current?.style.setProperty("--scroll-k", (window.scrollY / max).toFixed(4));
       });
     };
     onScroll();
@@ -82,7 +86,7 @@ export default function Atmosphere() {
   }, []);
 
   return (
-    <div className="atmo" aria-hidden="true">
+    <div ref={capa} className="atmo" aria-hidden="true">
       <span className="atmo-light atmo-light--red" />
       <span className="atmo-light atmo-light--smoke" />
       <span className="atmo-light atmo-light--ember" />

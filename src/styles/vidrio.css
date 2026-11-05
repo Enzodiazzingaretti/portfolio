@@ -133,8 +133,17 @@ body {
 .hero-backdrop {
   z-index: 1;
   filter: none;
+  /* Alto fijo, el de la ventana con la barra del navegador escondida: en el
+     celular esa barra entra y sale al scrollear y el lienzo no tiene que
+     cambiar de tamaño cada vez (HeroGlass mide esta caja) */
+  bottom: auto;
+  height: 100vh;
+  height: 100lvh;
   transition: opacity 700ms var(--ease), visibility 0s linear 0s;
 }
+
+/* Con el lienzo dibujado, la atmósfera del CSS queda tapada: se apaga */
+html.fondo-vivo .atmo { display: none; }
 
 .hero-backdrop--off,
 .hero-backdrop--dim {
@@ -2121,4 +2130,43 @@ html.glass-type .vx-name-line {
   }
   .rl-phone { transform: none !important; }
   .signal-cut { display: none; }
+}
+
+/* ───────────────────────── Pantallas táctiles: sin desenfoque ───────────────────────── */
+
+/* Detrás de todo hay un lienzo que se anima a 30 cuadros, y cada capa de
+   vidrio esmerilado (barra, chips, botones, leyendas, tarjetas, pie) se
+   volvía a desenfocar en cada cuadro: en el teléfono era lo que más pesaba
+   al scrollear. Ahí el vidrio queda como un tinte más denso, con su borde y
+   su filo de luz; la máscara de legibilidad sigue apagando el ASCII debajo
+   del texto. */
+@media (hover: none) and (pointer: coarse) {
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  :root {
+    --glass-fill: rgba(31, 34, 39, 0.84);
+    --glass-fill-2: rgba(22, 24, 28, 0.88);
+  }
+
+  /* Casi opaca: sin desenfoque, los titulares que pasan por debajo se leían
+     a través de la nav */
+  .shell-bar,
+  .shell-bar--home { background: rgba(24, 26, 31, 0.96); }
+  .vx-btn:not(.vx-btn--red),
+  .premium-button:not(.premium-button-accent) { background: rgba(37, 40, 46, 0.86); }
+  .vx-chip,
+  .vx-status { background: rgba(31, 34, 39, 0.86); }
+  .reel-btn,
+  .reel-controls .loop-audio-btn,
+  .rl-play,
+  .cc-label,
+  .work-tile-hud,
+  .loop-tile-badge,
+  .modal-ctrl { background: rgba(23, 25, 29, 0.84); }
+  .shell-footer { background: rgba(14, 15, 18, 0.9); }
 }

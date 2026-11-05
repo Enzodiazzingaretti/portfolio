@@ -76,11 +76,24 @@ export function useFitLines(ref, deps = []) {
     document.fonts?.addEventListener?.("loadingdone", pedir);
     const ro = new ResizeObserver(pedir);
     ro.observe(root);
-    window.addEventListener("resize", pedir);
+    // En el celular la barra del navegador entra y sale al scrollear y
+    // dispara `resize` con el mismo ancho: el nombre se ajusta al ancho, así
+    // que eso no lo toca (y cada ajuste fuerza un layout y un redibujo del
+    // nombre detrás del vidrio).
+    const tactil = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    let ajustado = { w: window.innerWidth, h: window.innerHeight };
+    const alRedimensionar = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (tactil && w === ajustado.w && Math.abs(h - ajustado.h) < 160) return;
+      ajustado = { w, h };
+      pedir();
+    };
+    window.addEventListener("resize", alRedimensionar);
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
-      window.removeEventListener("resize", pedir);
+      window.removeEventListener("resize", alRedimensionar);
       document.fonts?.removeEventListener?.("loadingdone", pedir);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

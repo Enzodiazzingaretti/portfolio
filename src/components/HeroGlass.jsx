@@ -243,6 +243,11 @@ function esCompacto() {
   return window.matchMedia("(max-width: 767px)").matches;
 }
 
+/** Celular y tablet: pantalla táctil, sin mouse fino. */
+function esTactil() {
+  return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+}
+
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const lerp = (a, b, k) => a + (b - a) * k;
 
@@ -399,15 +404,19 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     const host = mount.current;
     if (!host) return undefined;
 
+    const compact = esCompacto();
+    // En el teléfono el lienzo es lo más caro de cada cuadro: sin MSAA y a
+    // 1,25 px por px CSS (el fondo son glifos de 9 px y el vidrio es liso; a
+    // 1,5 se pintaban 1,4 veces más píxeles sin diferencia a la vista).
+    const liviano = compact || esTactil();
     let renderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+      renderer = new THREE.WebGLRenderer({ antialias: !liviano, alpha: false, powerPreference: "high-performance" });
     } catch {
       return undefined; // sin WebGL: queda la atmósfera del CSS y el <h1> del DOM
     }
 
-    const compact = esCompacto();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, liviano ? 1.25 : 1.5));
     // Los shaders son propios y ya entregan color sRGB: nada de tone mapping
     // ni conversión de espacio de color de three.
     renderer.toneMapping = THREE.NoToneMapping;
@@ -556,7 +565,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
 
     // ── La escultura de vidrio
     const envTarget = crearAmbiente(renderer, compact ? 128 : 256);
-    const geo = new THREE.IcosahedronGeometry(1, compact ? 40 : 72);
+    const geo = new THREE.IcosahedronGeometry(1, liviano ? 30 : 72);
     const glassUniforms = {
       uTime: { value: 0 },
       uAmp: { value: 0.0 },
@@ -629,18 +638,53 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       document.documentElement.classList.toggle("glass-type", ok);
     };
 
+    // Medir la máscara recorre todo el contenido: se hace con la página
+    // quieta y en un hueco del hilo principal, no en medio del scroll (en el
+    // teléfono las imágenes que cargan al bajar la disparaban seguido).
     let tMascara = 0;
     const programarMascara = () => {
       window.clearTimeout(tMascara);
       tMascara = window.setTimeout(() => {
-        mascara.update();
-        despertar();
+        if (performance.now() - (anim.ultimoScroll || 0) < 300) {
+          programarMascara();
+          return;
+        }
+        const medir = () => {
+          mascara.update();
+          despertar();
+        };
+        if ("requestIdleCallback" in window) window.requestIdleCallback(medir, { timeout: 600 });
+        else medir();
       }, 250);
     };
 
+    // El lienzo mide lo que mide su caja (100lvh: el alto con la barra del
+    // navegador escondida). En el celular esa barra aparece y desaparece al
+    // scrollear y dispara `resize` sin parar: reasignar el lienzo y los render
+    // targets en medio del scroll trababa todo. Si la caja no cambió, nada.
+    const medirCaja = () => [host.clientWidth || window.innerWidth, host.clientHeight || window.innerHeight];
+    const alRedimensionar = () => {
+      const [w, h] = medirCaja();
+      if (w !== anim.w || h !== anim.h) resize();
+    };
+
     const resize = () => {
-      anim.w = window.innerWidth;
-      anim.h = window.innerHeight;
+      const [w, h] = medirCaja();
+      // Volver a asignar el tamaño del lienzo, aunque sea el mismo, rehace su
+      // buffer: solo si cambió (el `hero-layout` de cada ajuste del nombre
+      // pasa por acá con la ventana igual)
+      if (w !== anim.w || h !== anim.h || !anim.lienzoListo) {
+        anim.lienzoListo = true;
+        ajustarLienzo(w, h);
+      }
+      medirAncla();
+      redibujarNombre();
+      programarMascara();
+    };
+
+    const ajustarLienzo = (w, h) => {
+      anim.w = w;
+      anim.h = h;
       renderer.setSize(anim.w, anim.h, false);
       camera.aspect = anim.w / anim.h;
       camera.updateProjectionMatrix();
@@ -666,9 +710,6 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       bgUniforms.uRes.value.set(W, H);
       bgUniforms.uCellPx.value = celda;
       bgUniforms.uAspect.value = camera.aspect;
-      medirAncla();
-      redibujarNombre();
-      programarMascara();
     };
 
     const alMedir = () => {
@@ -694,6 +735,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     };
     const onScroll = () => {
       anim.scroll = window.scrollY;
+      anim.ultimoScroll = performance.now();
     };
 
     // Cursor proyectado al plano de la escena ASCII con la cámara real
@@ -864,6 +906,9 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       if (!anim.dibujado) {
         anim.dibujado = true;
         host.style.opacity = "1";
+        // El lienzo ya tapa la atmósfera del CSS: se apaga (sus luces se
+        // seguían componiendo y animando debajo, sin verse)
+        document.documentElement.classList.add("fondo-vivo");
       }
       if (quieto) {
         cancelAnimationFrame(anim.raf);
@@ -880,7 +925,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     resize();
     onScroll();
     mascara.update();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", alRedimensionar);
     window.addEventListener("hero-layout", alMedir);
     window.addEventListener("pointermove", onPointer, { passive: true });
     window.addEventListener("pointerdown", onPointer, { passive: true });
@@ -919,7 +964,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       window.clearTimeout(tMascara);
       ro.disconnect();
       mo?.disconnect();
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", alRedimensionar);
       window.removeEventListener("hero-layout", alMedir);
       window.removeEventListener("pointermove", onPointer);
       window.removeEventListener("pointerdown", onPointer);
@@ -929,7 +974,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       window.removeEventListener("scroll", despertar);
       window.removeEventListener("resize", despertar);
       window.removeEventListener("hero-layout", despertar);
-      document.documentElement.classList.remove("glass-type");
+      document.documentElement.classList.remove("glass-type", "fondo-vivo");
       api.current = null;
       piezas.forEach((p) => disposeObject(p.object));
       cellScene.traverse((o) => o.material?.dispose?.());
