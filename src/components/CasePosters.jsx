@@ -22,7 +22,7 @@ function CaseCard({ item, index, labels }) {
         <span className="cc-num font-poster" aria-hidden="true">
           {pad(index + 1)}
         </span>
-        <span className="cc-frame">
+        <span className="cc-frame visor">
           {cover ? <img className="cc-img" src={cover.src} alt="" loading="lazy" decoding="async" /> : null}
           <span className="cc-sheen" aria-hidden="true" />
           <span className="cc-label font-mono" aria-hidden="true">

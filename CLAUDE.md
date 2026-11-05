@@ -232,19 +232,26 @@ About y Contacto dejaron de ser secciones numeradas: son un panel lateral
 (`InfoPanel`) que se abre desde cualquier ruta.
 
 **La «sala» (2026-11-05, a pedido: «más grandes, menos cuadrado, más
-artístico»).** Las piezas que se mueven no van en grilla pareja: 3D (renders
-y arquitectura), los loops de TouchDesigner y los comerciales con IA usan
-`Sala.jsx` (layouts `sala` y `sala-loops`), y dónde cuelga cada una lo decide
-`salaPlan.js` (funciones puras, con `tests/sala.test.js`): de a pares, una
-grande y una chica alternando el lado, la chica desfasada; las panorámicas
-solas; tres verticales, tríptico. Marcos con forma según el formato (arco las
-verticales, hoja las apaisadas, lente los loops cuadrados, cuadrado blando los
-renders cuadrados), un eco corrido detrás, el número en contorno y el pie al
-costado del filo rojo. Los renders conservan su formato; los loops, que son
-abstractos, salen en formatos distintos (`FORMATOS_LOOP`). Los reels de
-/motion van de a tres, grandes y escalonados (de a uno y girados apenas en el
-celular), y el lab, cada obra con su tablero al lado, alternando. Gráfica
-sigue en masonry.
+artístico»).** La obra de las categorías no va en grilla pareja: 3D (renders
+y arquitectura), Gráfica (campañas, flyers, logos), los loops de
+TouchDesigner y los comerciales con IA usan `Sala.jsx` (layouts `sala` y
+`sala-loops`), y dónde cuelga cada pieza lo decide `salaPlan.js` (funciones
+puras, con `tests/sala.test.js`): de a pares, una grande y una chica
+alternando el lado, la chica desfasada; las panorámicas solas; tres del mismo
+formato, tríptico. Los renders y las gráficas conservan su formato; los
+loops, que son abstractos, salen en formatos distintos (`FORMATOS_LOOP`). Los
+reels de /motion van de a tres, grandes y escalonados (de a uno y girados
+apenas en el celular), y el lab, cada obra con su tablero al lado.
+
+**Regla del marco (2026-11-05):** la obra va en un rectángulo casi recto
+(4 px), entera, con las marcas de un visor de cámara en las esquinas (clase
+`visor`, un solo `::after`; al pasar el mouse se cierra y se pone rojo); la
+interfaz va en vidrio redondeado. Lo usan la sala, el lab, el showreel del
+home y las tarjetas de casos; los rótulos que van encima de la obra se
+corren hacia adentro para no pisar las esquinas. Primero se probaron marcos
+con forma (arco, hoja, lente): recortaban la pieza, hablaban otro idioma que
+el sitio (el arco es de marcas de bienestar y plantillas) y competían con la
+obra. No volver a eso.
 
 ### 2.2 Archivos nuevos
 

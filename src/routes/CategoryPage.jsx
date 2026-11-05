@@ -3,10 +3,8 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 import MediaAsset from "../components/MediaAsset";
 import SelectedWorkCard from "../components/SelectedWorkCard";
 import DetailModal from "../components/DetailModal";
-import LoopAudioButton from "../components/LoopAudioButton";
 import { ReelCard } from "../components/ReelsRail";
 import Sala from "../components/Sala";
-import { loopAudio } from "../audio/loopAudio";
 import Scramble from "../fx/Scramble";
 import { Crosshair, Sparkle } from "../fx/Hud";
 import { useInView } from "../fx/useInView";
@@ -16,76 +14,6 @@ const LabGrid = lazy(() => import("../components/LabGrid"));
 
 function pad(n, len = 2) {
   return String(n).padStart(len, "0");
-}
-
-/* Relación de aspecto: respeta el formato original de cada pieza */
-function tileRatio(item) {
-  if (item.portrait) return "portrait";
-  if (item.square) return "square";
-  return "landscape";
-}
-
-/**
- * Sin número visible a propósito: la grilla es masonry por columnas y una
- * numeración leería 01, 03, 05 de izquierda a derecha. Lo que sí se marca es
- * cuántas vistas más tiene la pieza adentro.
- */
-function WorkTile({ item, onOpen, cursor }) {
-  const extra = (item.slides?.length ?? 0) - 1;
-  return (
-    <article className={`work-tile work-tile--${tileRatio(item)} reveal-on-scroll`}>
-      <button type="button" onClick={onOpen} className="work-tile-button" data-cursor={cursor} data-tilt>
-        <span className="work-tile-media">
-          <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
-          <span className="work-tile-veil" aria-hidden="true" />
-          {extra > 0 ? (
-            <span className="work-tile-hud font-mono" aria-hidden="true">
-              +{extra}
-            </span>
-          ) : null}
-          <span className="work-tile-corner work-tile-corner--tl" aria-hidden="true" />
-          <span className="work-tile-corner work-tile-corner--br" aria-hidden="true" />
-        </span>
-        <span className="work-tile-caption">
-          <span className="work-tile-index" aria-hidden="true" />
-          <span className="work-tile-text">
-            <span className="work-tile-title font-poster">{item.title}</span>
-            {item.subtitle ? <span className="work-tile-type font-mono">{item.subtitle}</span> : null}
-            {item.description ? <span className="work-tile-desc">{item.description}</span> : null}
-          </span>
-        </span>
-      </button>
-    </article>
-  );
-}
-
-function VideoTile({ item, index, onOpen, label, audioLabels, cursor }) {
-  return (
-    <article
-      className="loop-tile reveal-on-scroll"
-      // Solo las piezas con pista real declaran `audio`; en las demás estas
-      // llamadas no hacen nada.
-      onMouseEnter={() => loopAudio.alEntrar(item.audio)}
-      onMouseLeave={() => loopAudio.alSalir(item.audio)}
-    >
-      <button type="button" onClick={onOpen} className="loop-tile-button" data-cursor={cursor} data-tilt>
-        <span className="loop-tile-media">
-          <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
-          <span className="loop-tile-veil" aria-hidden="true" />
-          <span className="loop-tile-badge font-mono">
-            <span className="loop-tile-dot" aria-hidden="true" />
-            {label} {pad(index + 1)}
-          </span>
-        </span>
-        <span className="loop-tile-caption">
-          <span className="loop-tile-title font-poster">{item.title}</span>
-          {item.description ? <span className="loop-tile-desc">{item.description}</span> : null}
-        </span>
-      </button>
-
-      {item.audio ? <LoopAudioButton src={item.audio} labels={audioLabels} /> : null}
-    </article>
-  );
 }
 
 /**
@@ -256,7 +184,7 @@ export default function CategoryPage() {
                 />
               ))}
             </div>
-          ) : group.layout === "sala" || group.layout === "sala-loops" ? (
+          ) : group.layout === "sala" || group.layout === "sala-loops" || group.layout === "gallery" ? (
             <Sala
               items={group.items}
               loop={group.layout === "sala-loops"}
@@ -267,20 +195,6 @@ export default function CategoryPage() {
               }}
               onOpen={(index) => open(group.items, index, group.title ?? category.title)}
             />
-          ) : group.layout === "video" ? (
-            <div className="loop-grid">
-              {group.items.map((item, index) => (
-                <VideoTile
-                  key={`${item.title}-${index}`}
-                  item={item}
-                  index={index}
-                  label={content.ui.loopLabel}
-                  audioLabels={content.ui.showcase?.audio}
-                  cursor={ink.cursor.play}
-                  onOpen={() => open(group.items, index, group.title ?? category.title)}
-                />
-              ))}
-            </div>
           ) : group.layout === "wide" ? (
             <div className="wide-grid">
               {group.items.map((item, index) => (
@@ -293,18 +207,7 @@ export default function CategoryPage() {
                 />
               ))}
             </div>
-          ) : (
-            <div className="work-grid">
-              {group.items.map((item, index) => (
-                <WorkTile
-                  key={`${item.title}-${index}`}
-                  item={item}
-                  cursor={ink.cursor.view}
-                  onOpen={() => open(group.items, index, group.title ?? category.title)}
-                />
-              ))}
-            </div>
-          )}
+          ) : null}
         </section>
       ))}
 

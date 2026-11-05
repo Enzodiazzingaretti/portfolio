@@ -37,8 +37,8 @@ export const CATEGORIES = [
     num: "02",
     accent: "tresd",
     groups: [
-      // «Sala»: las piezas que se mueven, grandes y colgadas como en una
-      // muestra (Sala.jsx); Gráfica sigue en masonry
+      // «Sala»: la obra grande y colgada como en una muestra (Sala.jsx), la
+      // misma en 3D, Gráfica y los loops de Tech
       { id: "blender", source: "blenderWorks", kind: "render", layout: "sala" },
       { id: "arquitectura", source: "espacios", kind: "space", layout: "sala" },
     ],
@@ -52,9 +52,9 @@ export const CATEGORIES = [
       // Una campaña es un cliente con varias piezas (key visual, motion,
       // placas, manual): va primero y aparte para que no se diluya entre
       // flyers sueltos.
-      { id: "campanas", source: "campaigns", kind: "graphic", layout: "gallery" },
-      { id: "flyers", source: "flyers", kind: "graphic", layout: "gallery" },
-      { id: "logos", source: "logos", kind: "graphic", layout: "gallery" },
+      { id: "campanas", source: "campaigns", kind: "graphic", layout: "sala" },
+      { id: "flyers", source: "flyers", kind: "graphic", layout: "sala" },
+      { id: "logos", source: "logos", kind: "graphic", layout: "sala" },
     ],
   },
   {

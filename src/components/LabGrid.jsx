@@ -59,7 +59,7 @@ export default function LabGrid({ pieces, labels }) {
               aria-label={`${copy.title} — ${labels.reseed}`}
               className="lab-shot block w-full text-left"
             >
-              <div className={`lab-frame relative overflow-hidden bg-ink ${piece.featured ? "aspect-video" : "aspect-[4/3]"}`}>
+              <div className={`lab-frame visor relative overflow-hidden bg-ink ${piece.featured ? "aspect-video" : "aspect-[4/3]"}`}>
                 <GenerativeCanvas
                   createPiece={piece.create}
                   seed={seed}
@@ -68,13 +68,13 @@ export default function LabGrid({ pieces, labels }) {
                   height={piece.h}
                   staticMode={reduced}
                 />
-                <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2">
+                <div className="lab-seed pointer-events-none absolute flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-raveRed" />
                   <span className="font-mono text-micro uppercase tracking-[0.3em] text-white/50">
                     {labels.seed} {String(seed).padStart(5, "0")}
                   </span>
                 </div>
-                <div className="pointer-events-none absolute bottom-4 right-4 font-mono text-micro uppercase tracking-[0.25em] text-white/0 transition-colors duration-300 group-hover:text-white/45">
+                <div className="lab-hint pointer-events-none absolute font-mono text-micro uppercase tracking-[0.25em] text-white/0 transition-colors duration-300 group-hover:text-white/45">
                   {labels.hint}
                 </div>
               </div>

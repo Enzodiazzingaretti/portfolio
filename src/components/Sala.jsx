@@ -4,33 +4,25 @@ import LoopAudioButton from "./LoopAudioButton";
 import { loopAudio } from "../audio/loopAudio";
 
 /**
- * «Sala»: las piezas que se mueven (renders y animaciones de 3D, loops de
- * TouchDesigner, comerciales) colgadas como en una muestra, no en una grilla
- * pareja de cajas. Cada pieza va grande, con su número en contorno detrás,
- * un marco con forma según su formato (arco las verticales, hoja las
- * apaisadas, lente o cuadrado blando las cuadradas) y un segundo marco
- * corrido, como un registro de imprenta que se acomoda al pasar el mouse.
+ * «Sala»: la obra de las categorías (3D, Gráfica, loops de TouchDesigner,
+ * comerciales) colgada como en una muestra, no en una grilla pareja de cajas.
+ * Cada pieza va grande, entera, en un rectángulo casi recto con el visor en
+ * las esquinas (la regla del sitio: la obra va así; la interfaz, en vidrio
+ * redondeado) y su número en contorno detrás. Hasta el 2026-11-05 los marcos
+ * tenían forma (arco, hoja, lente): recortaban la pieza y competían con ella.
  *
  * En desktop las piezas van de a pares, una grande y una chica, alternando
- * de lado y con la chica desfasada hacia abajo; las panorámicas van solas.
- * Tres verticales solas forman un tríptico de arcos. En el celular van de a
- * una, alternando el lado, con las apaisadas de borde a borde.
+ * de lado y con la chica desfasada hacia abajo; las panorámicas van solas y
+ * tres del mismo formato forman un tríptico. En el celular van de a una,
+ * alternando el lado, con las apaisadas de borde a borde.
  */
 
 function pad(n) {
   return String(n).padStart(2, "0");
 }
 
-/** Forma del marco: arco las verticales, hoja las apaisadas (alternando la diagonal). */
-function forma(o, index, loop) {
-  if (o === "P") return "arco";
-  if (o === "S") return loop ? "lente" : "blanda";
-  return index % 2 ? "hoja-b" : "hoja-a";
-}
-
 function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
   const o = orientacion(formato);
-  const [w, h] = formato.split("/").map(Number);
   const extra = (item.slides?.length ?? 0) - 1;
   const lado = lugar.col + lugar.span / 2 > 6.5 ? "der" : "izq";
   const meta = loop ? `${labels.loop} ${pad(index + 1)}` : item.subtitle;
@@ -38,7 +30,7 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
   return (
     <article
       className={`sala-pieza sala-pieza--${o} sala-pieza--${lado}${loop && item.audio ? " sala-pieza--audio" : ""} reveal-on-scroll`}
-      style={{ "--col": lugar.col, "--span": lugar.span, "--desfase": lugar.desfase, "--hw": h / w }}
+      style={{ "--col": lugar.col, "--span": lugar.span, "--desfase": lugar.desfase }}
       onMouseEnter={loop && item.audio ? () => loopAudio.alEntrar(item.audio) : undefined}
       onMouseLeave={loop && item.audio ? () => loopAudio.alSalir(item.audio) : undefined}
     >
@@ -46,10 +38,8 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
         {pad(index + 1)}
       </span>
       <button type="button" className="sala-boton" onClick={onOpen} data-cursor={labels.cursor} data-tilt="0.35">
-        <span className={`sala-cuadro sala-cuadro--${forma(o, index, loop)}`} style={{ aspectRatio: formato.replace("/", " / ") }}>
-          {/* El eco: el mismo marco corrido, como un registro de imprenta */}
-          <span className="sala-eco" aria-hidden="true" />
-          <span className="sala-marco">
+        <span className="sala-cuadro" style={{ aspectRatio: formato.replace("/", " / ") }}>
+          <span className="sala-marco visor">
             <span className="sala-deriva">
               <span className="sala-zoom">
                 <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />

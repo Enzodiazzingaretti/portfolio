@@ -777,7 +777,7 @@ html.glass-type .vx-name-line {
 .reel-stage {
   position: relative;
   aspect-ratio: 16 / 9.4;
-  border-radius: 20px;
+  border-radius: 4px;
   isolation: isolate;
 }
 
@@ -798,7 +798,7 @@ html.glass-type .vx-name-line {
   inset: 0;
   display: block;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--g-950);
   box-shadow: 0 50px 110px -45px rgba(0, 0, 0, 0.9);
@@ -846,15 +846,16 @@ html.glass-type .vx-name-line {
 .reel-corner { display: none; }
 .reel-cross { position: absolute; right: 7%; top: 18%; width: 22px; height: 22px; pointer-events: none; }
 
+/* Los rótulos van adentro de las esquinas del visor */
 .reel-hud {
   position: absolute;
-  left: 1.35rem;
-  right: 1.35rem;
+  left: 2.7rem;
+  right: 2.7rem;
   pointer-events: none;
 }
 
 .reel-hud--top {
-  top: 1.1rem;
+  top: 1.45rem;
   display: flex;
   justify-content: space-between;
   font-size: 10px;
@@ -875,7 +876,7 @@ html.glass-type .vx-name-line {
 
 .reel-tc { color: var(--paper); }
 
-.reel-hud--bottom { bottom: 1.2rem; }
+.reel-hud--bottom { bottom: 1.7rem; }
 
 .reel-tag {
   margin: 0 0 0.45rem;
@@ -916,8 +917,8 @@ html.glass-type .vx-name-line {
 
 .reel-controls {
   position: absolute;
-  right: 1.1rem;
-  top: 3.2rem;
+  right: 2.4rem;
+  top: 3.6rem;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -988,8 +989,8 @@ html.glass-type .vx-name-line {
 
 @media (max-width: 767px) {
   .reel-stage { aspect-ratio: 4 / 4.6; }
-  .reel-hud { left: 1rem; right: 1rem; }
-  .reel-controls { top: auto; bottom: 6.6rem; right: 0.9rem; }
+  .reel-hud { left: 2.3rem; right: 2.3rem; }
+  .reel-controls { top: auto; bottom: 6.6rem; right: 1.9rem; }
 }
 
 /* ───────────────────────── Índice ───────────────────────── */
@@ -1097,7 +1098,7 @@ html.glass-type .vx-name-line {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: var(--g-800);
   box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.85);
@@ -1346,7 +1347,7 @@ html.glass-type .vx-name-line {
   display: block;
   aspect-ratio: 16 / 10.5;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--g-800);
   box-shadow: 0 50px 100px -45px rgba(0, 0, 0, 0.95);
@@ -1386,8 +1387,8 @@ html.glass-type .vx-name-line {
 
 .cc-label {
   position: absolute;
-  left: 1rem;
-  top: 1rem;
+  left: 2.5rem;
+  top: 1.35rem;
   display: inline-flex;
   gap: 0.7rem;
   padding: 0.45rem 0.75rem;
@@ -1660,7 +1661,9 @@ html.glass-type .vx-name-line {
 }
 
 .cat-group-num { align-self: start; padding-top: 0.4rem; font-size: 11px; letter-spacing: 0.2em; color: var(--red-hi); }
-.cat-group-title { margin: 0; font-size: clamp(2.2rem, 4.6vw, 4.2rem); line-height: 0.88; text-transform: uppercase; color: var(--paper); }
+/* Puede cortar en dos renglones: «Campañas y dirección de arte» no entraba
+   en el celular y quedaba cortado contra el borde */
+.cat-group-title { margin: 0; font-size: clamp(2.2rem, 4.6vw, 4.2rem); line-height: 0.88; text-transform: uppercase; color: var(--paper); white-space: normal; text-wrap: balance; }
 .cat-group-rule { align-self: center; height: 1px; margin-bottom: 0.7rem; background: linear-gradient(to right, rgba(229, 227, 224, 0.24), transparent); }
 .cat-group-note { margin: 0 0 0.6rem; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--smoke-2); }
 .cat-group-count { color: var(--red-hi); }
@@ -1927,7 +1930,7 @@ html.glass-type .vx-name-line {
 .case-section-num { color: var(--red-hi); }
 
 .case-figure img {
-  border-radius: 14px;
+  border-radius: 4px;
   border: 1px solid var(--glass-edge);
   box-shadow: 0 40px 90px -45px rgba(0, 0, 0, 0.95);
 }
@@ -2132,6 +2135,53 @@ html.glass-type .vx-name-line {
   .signal-cut { display: none; }
 }
 
+/* ───────────────────────── Visor: el marco de la obra ───────────────────────── */
+
+/* Regla del sitio (2026-11-05): la obra va en un rectángulo casi recto (4 px),
+   entera, con las marcas de un visor de cámara en las esquinas; la interfaz
+   va en vidrio redondeado. Al pasar el mouse el visor se cierra y se pone
+   rojo. Una sola capa (::after) dibuja las cuatro esquinas. */
+@property --visor-c {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(229, 227, 224, 0.72);
+}
+
+@property --visor-in {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 14px;
+}
+
+.visor::after {
+  content: "";
+  position: absolute;
+  inset: var(--visor-in);
+  z-index: 3;
+  pointer-events: none;
+  --l: clamp(14px, 1.6vw, 22px);
+  --t: 1.5px;
+  background:
+    linear-gradient(var(--visor-c), var(--visor-c)) top left / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) top left / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) top right / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) top right / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) bottom left / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) bottom left / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) bottom right / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--visor-c), var(--visor-c)) bottom right / var(--t) var(--l) no-repeat;
+  transition: --visor-in 600ms var(--ease), --visor-c 400ms;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover .visor,
+  button:hover .visor,
+  a.visor:hover {
+    --visor-in: 22px;
+    --visor-c: var(--red-hi);
+  }
+}
+
 /* ───────────────────────── Sala: las piezas que se mueven ───────────────────────── */
 
 /* 3D, los loops de TouchDesigner y los comerciales, colgados como en una
@@ -2201,29 +2251,10 @@ html.glass-type .vx-name-line {
   transition: transform 700ms var(--ease);
 }
 
-/* Formas: arco (verticales), hoja (apaisadas, alternando la diagonal), lente
-   (loops cuadrados) y cuadrado blando (renders cuadrados). El eco y el marco
-   heredan la forma. */
-.sala-cuadro--arco {
-  border-radius:
-    50% 50% 14px 14px /
-    calc(50% / var(--hw, 1.25)) calc(50% / var(--hw, 1.25)) 14px 14px;
-}
-.sala-cuadro--hoja-a { border-radius: clamp(38px, 8vw, 130px) 12px clamp(38px, 8vw, 130px) 12px; }
-.sala-cuadro--hoja-b { border-radius: 12px clamp(38px, 8vw, 130px) 12px clamp(38px, 8vw, 130px); }
-.sala-cuadro--lente { border-radius: 50%; }
-.sala-cuadro--blanda { border-radius: 22%; }
-
-.sala-eco {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 1px solid rgba(229, 227, 224, 0.16);
-  transform: translate(12px, 12px);
-  transition: transform 800ms var(--ease), border-color 500ms;
-}
-
-.sala-pieza--der .sala-eco { transform: translate(-12px, 12px); }
+/* La obra va en un rectángulo casi recto, entera, con el visor en las esquinas
+   (ver «Visor»). Las formas de antes (arco, hoja, lente) recortaban la pieza y
+   hablaban otro idioma que el sitio. */
+.sala-cuadro { border-radius: 4px; }
 
 .sala-marco {
   position: absolute;
@@ -2317,8 +2348,6 @@ html.glass-type .vx-name-line {
 
 @media (hover: hover) and (pointer: fine) {
   .sala-boton:hover .sala-zoom { transform: scale(1.05); }
-  .sala-boton:hover .sala-eco,
-  .sala-pieza--der .sala-boton:hover .sala-eco { transform: translate(0, 0); border-color: rgba(229, 36, 54, 0.55); }
   .sala-boton:hover .sala-marco { box-shadow: 0 60px 110px -46px rgba(0, 0, 0, 0.95), 0 0 70px -24px rgba(229, 36, 54, 0.45); }
   .sala-pieza:hover .sala-num { transform: translateY(-8px); -webkit-text-stroke-color: rgba(229, 36, 54, 0.6); }
 }
@@ -2356,8 +2385,6 @@ html.glass-type .vx-name-line {
   .sala-pieza--L .sala-audio.loop-audio-btn,
   .sala-pieza--W .sala-audio.loop-audio-btn { right: 0; }
 
-  .sala-eco { transform: translate(16px, 16px); }
-  .sala-pieza--der .sala-eco { transform: translate(-16px, 16px); }
 }
 
 @supports (animation-timeline: view()) {
@@ -2382,7 +2409,6 @@ html.glass-type .vx-name-line {
 
 @media (prefers-reduced-motion: reduce) {
   .sala-zoom,
-  .sala-eco,
   .sala-num { transform: none !important; transition: none !important; }
 }
 
@@ -2467,8 +2493,11 @@ html.glass-type .vx-name-line {
 
 .cat-group--lab .lab-card > * { position: relative; z-index: 1; }
 
-.cat-group--lab .lab-frame { border-radius: clamp(38px, 8vw, 120px) 12px clamp(38px, 8vw, 120px) 12px; }
-.cat-group--lab .lab-card:nth-child(even) .lab-frame { border-radius: 12px clamp(38px, 8vw, 120px) 12px clamp(38px, 8vw, 120px); }
+.cat-group--lab .lab-frame { border-radius: 4px; }
+
+/* Los rótulos del lienzo, adentro de las esquinas del visor */
+.lab-seed { left: 2.6rem; top: 1.55rem; }
+.lab-hint { right: 2.6rem; bottom: 1.55rem; }
 
 @media (min-width: 900px) {
   .cat-group--lab .lab-grid {

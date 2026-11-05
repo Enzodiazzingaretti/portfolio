@@ -36,7 +36,8 @@ const CHICA = { W: 6, L: 5, S: 4, P: 4 };
  */
 export function planificarSala(formatos) {
   const os = formatos.map(orientacion);
-  if (os.length === 3 && os.every((o) => o === "P")) {
+  // Tres del mismo formato (verticales o cuadradas): tríptico
+  if (os.length === 3 && os.every((o) => o === os[0]) && (os[0] === "P" || os[0] === "S")) {
     return [
       { col: 1, span: 4, desfase: 0 },
       { col: 5, span: 4, desfase: 1 },

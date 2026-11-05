@@ -115,7 +115,7 @@ export default function Showreel({ items, labels }) {
         onMouseEnter={() => loopAudio.alEntrar(item.audio)}
         onMouseLeave={() => loopAudio.alSalir(item.audio)}
       >
-        <Link to={item.href} className="reel-stage-link" data-cursor={labels.open} data-tilt="0.35" aria-label={`${item.title} — ${labels.open}`}>
+        <Link to={item.href} className="reel-stage-link visor" data-cursor={labels.open} data-tilt="0.35" aria-label={`${item.title} — ${labels.open}`}>
           <span className={`reel-media${cut ? " is-cutting" : ""}`} key={`${item.id}-${cut}`}>
             <StageMedia item={item} reduced={reduced} />
             {/* Copia desplazada en rojo: el "registro" corrido de la impresión
