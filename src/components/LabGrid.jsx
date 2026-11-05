@@ -80,7 +80,7 @@ export default function LabGrid({ pieces, labels }) {
               </div>
             </button>
 
-            <div className="mt-3">
+            <div className="lab-info mt-3">
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="font-poster text-2xl uppercase leading-tight text-paper transition group-hover:text-white md:text-3xl">
                   {copy.title}

@@ -2132,6 +2132,384 @@ html.glass-type .vx-name-line {
   .signal-cut { display: none; }
 }
 
+/* ───────────────────────── Sala: las piezas que se mueven ───────────────────────── */
+
+/* 3D, los loops de TouchDesigner y los comerciales, colgados como en una
+   muestra (Sala.jsx): grandes, con su número en contorno detrás, el marco con
+   forma según el formato y un eco corrido. En el celular de a una, alternando
+   el lado; las apaisadas de borde a borde. */
+.sala {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.6rem, 12vw, 5rem);
+  padding-top: 1.5rem;
+}
+
+.sala-pieza {
+  position: relative;
+  width: 86%;
+  opacity: 0;
+  transform: translateY(56px);
+  filter: none;
+  transition:
+    opacity 900ms var(--ease) calc(var(--desfase, 0) * 160ms),
+    transform 1300ms var(--ease) calc(var(--desfase, 0) * 160ms);
+}
+
+.sala-pieza.is-visible { opacity: 1; transform: none; filter: none; }
+.sala-pieza:nth-child(even) { align-self: flex-end; }
+.sala-pieza--P { width: 80%; }
+.sala-pieza--L,
+.sala-pieza--W {
+  align-self: stretch;
+  width: auto;
+  margin-inline: calc(-1 * var(--page-px));
+}
+
+.sala-num {
+  position: absolute;
+  z-index: 0;
+  top: -0.4em;
+  left: -0.04em;
+  font-size: clamp(4.6rem, 24vw, 6.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  pointer-events: none;
+  transition: transform 900ms var(--ease), -webkit-text-stroke-color 500ms;
+}
+
+.sala-pieza--der .sala-num { left: auto; right: -0.04em; }
+.sala-pieza--L .sala-num,
+.sala-pieza--W .sala-num { left: var(--page-px); }
+.sala-pieza--L.sala-pieza--der .sala-num,
+.sala-pieza--W.sala-pieza--der .sala-num { left: auto; right: var(--page-px); }
+
+.sala-boton {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.sala-cuadro {
+  position: relative;
+  display: block;
+  width: 100%;
+  transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 700ms var(--ease);
+}
+
+/* Formas: arco (verticales), hoja (apaisadas, alternando la diagonal), lente
+   (loops cuadrados) y cuadrado blando (renders cuadrados). El eco y el marco
+   heredan la forma. */
+.sala-cuadro--arco {
+  border-radius:
+    50% 50% 14px 14px /
+    calc(50% / var(--hw, 1.25)) calc(50% / var(--hw, 1.25)) 14px 14px;
+}
+.sala-cuadro--hoja-a { border-radius: clamp(38px, 8vw, 130px) 12px clamp(38px, 8vw, 130px) 12px; }
+.sala-cuadro--hoja-b { border-radius: 12px clamp(38px, 8vw, 130px) 12px clamp(38px, 8vw, 130px); }
+.sala-cuadro--lente { border-radius: 50%; }
+.sala-cuadro--blanda { border-radius: 22%; }
+
+.sala-eco {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(229, 227, 224, 0.16);
+  transform: translate(12px, 12px);
+  transition: transform 800ms var(--ease), border-color 500ms;
+}
+
+.sala-pieza--der .sala-eco { transform: translate(-12px, 12px); }
+
+.sala-marco {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: var(--g-800);
+  box-shadow: 0 50px 90px -46px rgba(0, 0, 0, 0.95);
+  transition: box-shadow 500ms;
+}
+
+/* Parallax: la imagen es más alta que el marco y se corre con el scroll */
+.sala-deriva {
+  position: absolute;
+  inset: -7% 0;
+  display: block;
+}
+
+.sala-zoom {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.16);
+  transition: transform 1700ms var(--ease);
+}
+
+.sala-pieza.is-visible .sala-zoom { transform: scale(1); }
+
+.sala-zoom img,
+.sala-zoom video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.sala-vistas {
+  position: absolute;
+  right: 12%;
+  bottom: 1rem;
+  z-index: 2;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-edge);
+  background: rgba(23, 25, 29, 0.66);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--paper);
+}
+
+.sala-pie {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1.15rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--red);
+}
+
+.sala-pieza--L .sala-pie,
+.sala-pieza--W .sala-pie { margin-inline: var(--page-px); }
+
+.sala-meta { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red-hi); }
+
+.sala-titulo {
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.sala-desc {
+  display: -webkit-box;
+  max-width: 46ch;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--dim);
+}
+
+/* El parlante de los loops con pista: al pie, del otro lado del título */
+.sala-audio.loop-audio-btn {
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0.2rem;
+  z-index: 2;
+}
+
+.sala-pieza--L .sala-audio.loop-audio-btn,
+.sala-pieza--W .sala-audio.loop-audio-btn { right: var(--page-px); }
+
+@media (hover: hover) and (pointer: fine) {
+  .sala-boton:hover .sala-zoom { transform: scale(1.05); }
+  .sala-boton:hover .sala-eco,
+  .sala-pieza--der .sala-boton:hover .sala-eco { transform: translate(0, 0); border-color: rgba(229, 36, 54, 0.55); }
+  .sala-boton:hover .sala-marco { box-shadow: 0 60px 110px -46px rgba(0, 0, 0, 0.95), 0 0 70px -24px rgba(229, 36, 54, 0.45); }
+  .sala-pieza:hover .sala-num { transform: translateY(-8px); -webkit-text-stroke-color: rgba(229, 36, 54, 0.6); }
+}
+
+/* Desktop: grilla de 12 columnas; dónde cuelga cada pieza lo decide Sala.jsx */
+@media (min-width: 900px) {
+  .sala {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1rem, 2vw, 1.75rem);
+    row-gap: clamp(4rem, 6vw, 6.5rem);
+    align-items: start;
+    padding-top: 3rem;
+  }
+
+  .sala-pieza,
+  .sala-pieza--P,
+  .sala-pieza--L,
+  .sala-pieza--W {
+    grid-column: var(--col) / span var(--span);
+    align-self: start;
+    width: auto;
+    margin: calc(var(--desfase, 0) * clamp(3rem, 9vw, 9rem)) 0 0;
+  }
+
+  .sala-num { font-size: clamp(6rem, 9vw, 9.5rem); top: -0.46em; left: -0.08em; }
+  .sala-pieza--der .sala-num { left: auto; right: -0.08em; }
+  .sala-pieza--L .sala-num,
+  .sala-pieza--W .sala-num { left: -0.08em; }
+  .sala-pieza--L.sala-pieza--der .sala-num,
+  .sala-pieza--W.sala-pieza--der .sala-num { left: auto; right: -0.08em; }
+
+  .sala-pieza--L .sala-pie,
+  .sala-pieza--W .sala-pie { margin-inline: 0; }
+  .sala-pieza--L .sala-audio.loop-audio-btn,
+  .sala-pieza--W .sala-audio.loop-audio-btn { right: 0; }
+
+  .sala-eco { transform: translate(16px, 16px); }
+  .sala-pieza--der .sala-eco { transform: translate(-16px, 16px); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+    .sala-deriva {
+      animation: salaDeriva linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes salaDeriva {
+  from { transform: translateY(-5%); }
+  to { transform: translateY(5%); }
+}
+
+.sala-audio.loop-audio-btn { border-radius: 999px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sala-zoom,
+  .sala-eco,
+  .sala-num { transform: none !important; transition: none !important; }
+}
+
+/* ───────────────────────── Reels en /motion: más grandes y escalonados ───────────────────────── */
+
+.reel-grid .rl-card { position: relative; }
+
+.rl-num {
+  position: absolute;
+  z-index: 0;
+  top: -0.42em;
+  left: -0.1em;
+  font-size: clamp(4.6rem, 24vw, 8.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  pointer-events: none;
+  transition: transform 900ms var(--ease), -webkit-text-stroke-color 500ms;
+}
+
+.reel-grid .rl-button { position: relative; z-index: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .reel-grid .rl-card:hover .rl-num { transform: translateY(-8px); -webkit-text-stroke-color: rgba(229, 36, 54, 0.6); }
+}
+
+@media (min-width: 900px) {
+  .reel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(3.5rem, 6vw, 6rem) clamp(2.5rem, 6vw, 6.5rem);
+    padding: 3rem clamp(0rem, 6vw, 7rem) 0;
+  }
+
+  .reel-grid .rl-card,
+  .reel-grid .rl-card:nth-child(even) { width: auto; margin-top: 0; }
+  .reel-grid .rl-card:nth-child(3n + 2) { margin-top: clamp(4rem, 9vw, 8.5rem); }
+  .reel-grid .rl-card:nth-child(3n) { margin-top: clamp(1.5rem, 3.5vw, 3.2rem); }
+  .reel-grid .rl-phone { --lean: 5deg; }
+  .reel-grid .rl-card:nth-child(even) .rl-phone { --lean: -5deg; }
+  .reel-grid .rl-title { font-size: clamp(1.3rem, 1.8vw, 1.8rem); }
+}
+
+@media (max-width: 899px) {
+  .reel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3.4rem;
+    padding-top: 1.5rem;
+  }
+
+  .reel-grid .rl-card,
+  .reel-grid .rl-card:nth-child(even) { width: min(74vw, 340px); margin-top: 0; }
+  .reel-grid .rl-card:nth-child(even) { align-self: flex-end; }
+  .reel-grid .rl-card:nth-child(even) .rl-num { left: auto; right: -0.1em; }
+  .reel-grid .rl-phone { rotate: -1.6deg; }
+  .reel-grid .rl-card:nth-child(even) .rl-phone { rotate: 1.6deg; }
+}
+
+/* ───────────────────────── Lab: cada obra con su tablero al lado ───────────────────────── */
+
+.cat-group--lab .lab-grid { counter-reset: lab; }
+
+.cat-group--lab .lab-card {
+  position: relative;
+  counter-increment: lab;
+}
+
+.cat-group--lab .lab-card::before {
+  content: counter(lab, decimal-leading-zero);
+  position: absolute;
+  z-index: 0;
+  top: -0.42em;
+  left: -0.06em;
+  font-family: Anton, Impact, sans-serif;
+  font-size: clamp(4.6rem, 22vw, 8.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  pointer-events: none;
+}
+
+.cat-group--lab .lab-card > * { position: relative; z-index: 1; }
+
+.cat-group--lab .lab-frame { border-radius: clamp(38px, 8vw, 120px) 12px clamp(38px, 8vw, 120px) 12px; }
+.cat-group--lab .lab-card:nth-child(even) .lab-frame { border-radius: 12px clamp(38px, 8vw, 120px) 12px clamp(38px, 8vw, 120px); }
+
+@media (min-width: 900px) {
+  .cat-group--lab .lab-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(5.5rem, 9vw, 8.5rem);
+    padding-top: 2.5rem;
+  }
+
+  .cat-group--lab .lab-card,
+  .cat-group--lab .lab-card--wide {
+    grid-column: 1 / -1;
+  }
+
+  .cat-group--lab .lab-card {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    grid-template-areas: "shot info" "shot controls";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: start;
+  }
+
+  .cat-group--lab .lab-card:nth-child(even) {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    grid-template-areas: "info shot" "controls shot";
+  }
+
+  .cat-group--lab .lab-card:nth-child(even)::before { left: auto; right: -0.06em; }
+
+  .cat-group--lab .lab-card--wide,
+  .cat-group--lab .lab-card--wide:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "shot shot" "info controls";
+    grid-template-rows: auto auto;
+    row-gap: 1.6rem;
+  }
+
+  .cat-group--lab .lab-shot { grid-area: shot; }
+  .cat-group--lab .lab-info { grid-area: info; margin-top: 2.2rem; }
+  .cat-group--lab .lab-card--wide .lab-info { margin-top: 0; }
+  .cat-group--lab .lab-controls { grid-area: controls; }
+  .cat-group--lab .lab-card:not(.lab-card--wide) .lab-controls__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ───────────────────────── Pantallas táctiles: sin desenfoque ───────────────────────── */
 
 /* Detrás de todo hay un lienzo que se anima a 30 cuadros, y cada capa de

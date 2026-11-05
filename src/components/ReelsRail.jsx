@@ -10,9 +10,15 @@ function pad(n) {
  * entra en pantalla y el rótulo de grabación arriba. Abre el visor con el
  * reel completo. Se usa en el home (riel horizontal) y en /motion (grilla).
  */
-export function ReelCard({ item, index, onOpen, labels }) {
+export function ReelCard({ item, index, onOpen, labels, numerado = false }) {
   return (
     <article className="rl-card">
+      {/* En /motion cada reel lleva su número en contorno detrás, como la sala */}
+      {numerado ? (
+        <span className="rl-num font-poster" aria-hidden="true">
+          {pad(index + 1)}
+        </span>
+      ) : null}
       <button type="button" className="rl-button" onClick={onOpen} data-cursor={labels?.open} data-tilt="1.4">
         <span className="rl-phone">
           <span className="rl-screen">

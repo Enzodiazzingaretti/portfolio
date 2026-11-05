@@ -231,6 +231,21 @@ como el de un desarrollador. `/web` y `/web/<caso>` redirigen con un 308 a
 About y Contacto dejaron de ser secciones numeradas: son un panel lateral
 (`InfoPanel`) que se abre desde cualquier ruta.
 
+**La «sala» (2026-11-05, a pedido: «más grandes, menos cuadrado, más
+artístico»).** Las piezas que se mueven no van en grilla pareja: 3D (renders
+y arquitectura), los loops de TouchDesigner y los comerciales con IA usan
+`Sala.jsx` (layouts `sala` y `sala-loops`), y dónde cuelga cada una lo decide
+`salaPlan.js` (funciones puras, con `tests/sala.test.js`): de a pares, una
+grande y una chica alternando el lado, la chica desfasada; las panorámicas
+solas; tres verticales, tríptico. Marcos con forma según el formato (arco las
+verticales, hoja las apaisadas, lente los loops cuadrados, cuadrado blando los
+renders cuadrados), un eco corrido detrás, el número en contorno y el pie al
+costado del filo rojo. Los renders conservan su formato; los loops, que son
+abstractos, salen en formatos distintos (`FORMATOS_LOOP`). Los reels de
+/motion van de a tres, grandes y escalonados (de a uno y girados apenas en el
+celular), y el lab, cada obra con su tablero al lado, alternando. Gráfica
+sigue en masonry.
+
 ### 2.2 Archivos nuevos
 
 ```

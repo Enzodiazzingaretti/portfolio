@@ -26,7 +26,7 @@ export const CATEGORIES = [
       // Comerciales y piezas hechas o asistidas con IA: el trabajo que se
       // busca conseguir, así que van primero. Mientras la lista esté vacía el
       // grupo no se dibuja (buildCategory descarta los grupos vacíos).
-      { id: "ia", source: "aiCommercials", kind: "spot", layout: "gallery" },
+      { id: "ia", source: "aiCommercials", kind: "spot", layout: "sala" },
       // El motion para clientes: press kits, campañas y marcas
       { id: "reels", source: "motionReels", kind: "reel", layout: "reels" },
     ],
@@ -37,8 +37,10 @@ export const CATEGORIES = [
     num: "02",
     accent: "tresd",
     groups: [
-      { id: "blender", source: "blenderWorks", kind: "render", layout: "gallery" },
-      { id: "arquitectura", source: "espacios", kind: "space", layout: "gallery" },
+      // «Sala»: las piezas que se mueven, grandes y colgadas como en una
+      // muestra (Sala.jsx); Gráfica sigue en masonry
+      { id: "blender", source: "blenderWorks", kind: "render", layout: "sala" },
+      { id: "arquitectura", source: "espacios", kind: "space", layout: "sala" },
     ],
   },
   {
@@ -63,7 +65,7 @@ export const CATEGORIES = [
     groups: [
       // De lo más visual a lo más técnico: visuales en tiempo real, sistemas
       // generativos y, al final, los sitios con sus casos de estudio
-      { id: "touchdesigner", source: "touchDesignerLoops", kind: "loop", layout: "video" },
+      { id: "touchdesigner", source: "touchDesignerLoops", kind: "loop", layout: "sala-loops" },
       { id: "lab", source: "labPieces", kind: "lab", layout: "lab" },
       { id: "proyectos", source: "webProjects", kind: "web", layout: "wide" },
     ],

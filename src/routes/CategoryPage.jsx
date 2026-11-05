@@ -5,6 +5,7 @@ import SelectedWorkCard from "../components/SelectedWorkCard";
 import DetailModal from "../components/DetailModal";
 import LoopAudioButton from "../components/LoopAudioButton";
 import { ReelCard } from "../components/ReelsRail";
+import Sala from "../components/Sala";
 import { loopAudio } from "../audio/loopAudio";
 import Scramble from "../fx/Scramble";
 import { Crosshair, Sparkle } from "../fx/Hud";
@@ -250,10 +251,22 @@ export default function CategoryPage() {
                   item={item}
                   index={index}
                   labels={ink.reels}
+                  numerado
                   onOpen={() => open(group.items, index, group.title ?? category.title)}
                 />
               ))}
             </div>
+          ) : group.layout === "sala" || group.layout === "sala-loops" ? (
+            <Sala
+              items={group.items}
+              loop={group.layout === "sala-loops"}
+              labels={{
+                loop: content.ui.loopLabel,
+                cursor: group.layout === "sala-loops" ? ink.cursor.play : ink.cursor.view,
+                audio: content.ui.showcase?.audio,
+              }}
+              onOpen={(index) => open(group.items, index, group.title ?? category.title)}
+            />
           ) : group.layout === "video" ? (
             <div className="loop-grid">
               {group.items.map((item, index) => (
