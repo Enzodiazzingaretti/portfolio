@@ -2451,6 +2451,17 @@ html.glass-type .vx-name-line {
   color: var(--paper);
 }
 
+/* La tarjeta de un caso: cuántas piezas junta y la invitación a leerlo */
+.sala-vistas--caso { text-transform: uppercase; }
+
+.sala-caso {
+  margin-top: 0.35rem;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+
 .sala-pie {
   display: grid;
   gap: 0.4rem;
@@ -2729,3 +2740,8 @@ html.glass-type .vx-name-line {
   .modal-ctrl { background: rgba(23, 25, 29, 0.84); }
   .shell-footer { background: rgba(14, 15, 18, 0.9); }
 }
+
+/* La galería del caso: todas las piezas, a todo el ancho y con el título
+   arriba (con la columna lateral de las otras secciones la obra quedaba chica) */
+.case-section--piezas { grid-template-columns: 1fr; }
+.case-section--piezas .case-section-head { position: static; flex-direction: row; align-items: baseline; gap: 1rem; }

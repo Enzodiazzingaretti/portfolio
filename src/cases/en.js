@@ -11,7 +11,7 @@ export default {
         title: "Where it started",
         paragraphs: [
           "Sonar Produce was launching with its first night: SONAR 001, Stella Bossi at Alma Hydra, Mendoza, on October 30, 2026. It had a logo (a lightning bolt inside concentric waves) and a brand document. My job was to turn that document into concrete rules, and to use those rules to make the whole campaign for the night.",
-          "My part: refining the logo, the manual, the key visual, the motion, the social posts and the templates for the nights to come.",
+          "My part: the manual, the key visual, the motion, the social posts and the templates for the nights to come.",
         ],
       },
       {
@@ -57,8 +57,7 @@ export default {
         title: "What it includes",
         intro: "The full SONAR 001 campaign, in feed, story and reel where it applied:",
         items: [
-          "Logo: vectorized and refined, in negative (the main version), positive, white, black and an icon for avatars and stamps, in SVG and PNG.",
-          "A 16-page brand manual: concept, logo versions, color, typefaces, two photo treatments with a gradient map, safe zones per format and incorrect uses.",
+          "A 16-page brand manual: concept, color, typefaces, two photo treatments with a gradient map, safe zones per format and incorrect uses.",
           "Key visual in feed and story.",
           "Line-up carousel: the cover and one post per artist, with their photo in black, white and red, their role, a short bio and their handle.",
           "Set times: one band per set, its height proportional to how long the set lasts, with the headliner in red.",

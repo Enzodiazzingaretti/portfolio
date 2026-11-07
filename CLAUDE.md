@@ -226,8 +226,18 @@ ahí para que no se diluya entre flyers sueltos. El array es `campaigns`, en el
 bundle (tres idiomas, assets en `campaignAssets`) **y** en `content.json`, con
 su lista en `/admin`. Hoy tiene Sonar Produce (SONAR 001): las imágenes salen
 de `PROYECTOS/Sonar-Produce/compartido-con-cliente` en el Drive (las versiones
-aprobadas) a `public/images/campanas/sonar/`, y el logo a
-`images/visual/Logos/sonar/`. La cuenta regresiva estuvo con `enabled: false`
+aprobadas) a `public/images/campanas/sonar/`.
+
+**Un caso, una tarjeta (2026-11-07, a pedido: «todo gráfica es Sonar»).** En
+Gráfica, las piezas de `campaigns` que comparten `caseSlug` se juntan en una
+sola tarjeta (`porCaso` en `categories.js`, `agruparPorCaso`) con el texto del
+caso, la cuenta de piezas y un link al caso en vez del visor. El caso termina
+con «Todas las piezas» (`piezasDelCaso`: todas las categorías, sin repetir, en
+la sala y con el visor). En Motion queda solo el reel del caso: los reels del
+line-up y de la cuenta regresiva repetían piezas de la campaña y se sacaron.
+El logo de Sonar **no se usó**: se sacó la tarjeta de Logos, la página de
+versiones del logo del manual (`manual-04`) y su mención en el caso; no volver
+a sumarlo. La cuenta regresiva estuvo con `enabled: false`
 hasta que Sonar la publicó (del 27 al 30/10); desde el 2026-11-02 está a la
 vista, en el bundle y en `content.json` a la vez.
 

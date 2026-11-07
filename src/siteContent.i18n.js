@@ -317,7 +317,6 @@ const campaignAssets = {
     slides: [
       "/images/campanas/sonar/manual-01.webp",
       "/images/campanas/sonar/manual-03.webp",
-      "/images/campanas/sonar/manual-04.webp",
       "/images/campanas/sonar/manual-06.webp",
       "/images/campanas/sonar/manual-10.webp",
       "/images/campanas/sonar/manual-13.webp",
@@ -359,18 +358,6 @@ const logosAssets = {
       "/images/visual/Logos/chicalunar/logo-chica-lunar-3.png",
     ],
   },
-  sonar: {
-    square: true,
-    client: "Sonar Produce",
-    caseSlug: "sonar-produce",
-    year: "2026",
-    imageUrl: "/images/visual/Logos/sonar/sonar-isotipo.webp",
-    slides: [
-      "/images/visual/Logos/sonar/sonar-logo-negativo.webp",
-      "/images/visual/Logos/sonar/sonar-logo-positivo.webp",
-      "/images/visual/Logos/sonar/sonar-isotipo.webp",
-    ],
-  },
 };
 
 // Reels de motion (9:16). `thumbnail` es la portada liviana de /images/loops/
@@ -407,16 +394,6 @@ const reelAssets = {
   gabiRaiz: {
     thumbnail: "/images/loops/reel-gabi-raiz.mp4",
     slides: ["/images/reels/gabi-raiz.mp4"],
-  },
-  sonarLineUp: {
-    caseSlug: "sonar-produce",
-    thumbnail: "/images/loops/reel-sonar-line-up.mp4",
-    slides: ["/images/campanas/sonar/line-up-reel.mp4", "/images/campanas/sonar/line-up-portada.webp"],
-  },
-  sonarCuentaRegresiva: {
-    caseSlug: "sonar-produce",
-    thumbnail: "/images/loops/reel-sonar-cuenta-regresiva.mp4",
-    slides: ["/images/campanas/sonar/cuenta-regresiva-reel.mp4", "/images/campanas/sonar/cuenta-regresiva-portada.webp"],
   },
 };
 
@@ -670,8 +647,6 @@ export const siteContent = {
         { ...reelAssets.kook, title: "kook. — Armá la tuya", client: "kook.", type: "Historia · Motion para redes", year: "2026", duration: "21 s", description: "Motion para kook., tortas servidas en tazas de cerámica pintadas a mano. 21 s a 120 BPM con loop perfecto: el logo cae, «elegí tu torta», «elegí tu taza», el glaseado dibujado a mano y la foto real de la combinación. El wordmark está vectorizado letra por letra y la animación sale de un motor propio en HTML y Canvas, sin librerías.", tags: ["Motion", "Canvas", "120 BPM"] },
         { ...reelAssets.ctrlz, title: "CTRL.Z — Reel del press kit", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Cinco escenas en 16 s: la portada, el sitio corriendo en el celular, las fotos de prensa y la trayectoria. Hecho con el mismo motor que el resto de la serie: el sitio real, con un reloj virtual, exportado cuadro por cuadro.", tags: ["Motion", "Playwright", "Press kit"] },
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — De la foto a la web", client: "Gabi Raíz", type: "Historia · Press kit", year: "2026", duration: "21 s", description: "Del retrato al sitio: las fotos de Coty Marty (@circes.eyes.ph) pasan al press kit de Gabi Raíz, DJ y productor de Mendoza, y el recorrido termina en el celular. La fotógrafa lleva su crédito en la pieza.", tags: ["Motion", "Press kit", "Fotografía"] },
-        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Animación del line-up", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14,4 s", description: "Reel de 14,4 s a 150 BPM: el radar barre la pieza, el golpe de la headliner cae en el segundo 9,6 y el cierre es la tapa del carrusel. Reel e historia en 1080 × 1920.", tags: ["Motion", "Dirección de arte", "Reel"] },
-        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Cuenta regresiva", client: "Sonar Produce", type: "Reel · Cuenta regresiva", year: "2026", duration: "14,4 s", description: "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.", tags: ["Motion", "After Effects", "Plantilla"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
@@ -704,7 +679,7 @@ export const siteContent = {
         { ...campaignAssets.sonarCarrusel, title: "Sonar 001 — Carrusel del line-up", type: "Carrusel", description: "Cinco placas 3:4 para el feed: la tapa y una por artista, con su foto tratada en negro, blanco y rojo, su rol, una bio corta y su @. Cada placa sale también en historia y reel.", tags: ["Dirección de arte", "Carrusel", "Photoshop"] },
         { ...campaignAssets.sonarHorarios, title: "Sonar 001 — Horarios", type: "Placa", description: "Una franja por set, con la foto de cada artista; el alto de la franja es proporcional a lo que dura el set y la headliner va en rojo. Feed, historia y reel.", tags: ["Diseño", "Placa", "Photoshop"] },
         { ...campaignAssets.sonarEntradas, title: "Sonar 001 — Entradas", type: "Placa", description: "Las tres tandas de venta, cada una con su talón para el sello de SOLD OUT. En el PSD los sellos son capas: se prende el de cada tanda cuando se agota, sin rehacer la pieza.", tags: ["Diseño", "Placa", "Photoshop"] },
-        { ...campaignAssets.sonarManual, title: "Sonar — Manual de marca", type: "Branding / Sistema visual", description: "Manual de 16 páginas que baja el documento de marca a reglas concretas: el radar como concepto, versiones del logo, tres colores con su proporción, dos tipografías, tratamiento de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.", tags: ["Branding", "Sistema visual", "Manual de marca"] },
+        { ...campaignAssets.sonarManual, title: "Sonar — Manual de marca", type: "Branding / Sistema visual", description: "Manual de 16 páginas que baja el documento de marca a reglas concretas: el radar como concepto, tres colores con su proporción, dos tipografías, tratamiento de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.", tags: ["Branding", "Sistema visual", "Manual de marca"] },
         { ...campaignAssets.sonarPlantillas, title: "Sonar — Plantillas", type: "Plantillas", description: "Tres plantillas de Photoshop para las próximas fechas (flyer de fecha, placa de artista y anuncio), cada una en feed, historia y reel. La foto toma el look de Sonar desde una capa de ajuste: al cambiarla, el tratamiento se aplica solo.", tags: ["Plantillas", "Photoshop", "Sistema visual"] },
         { ...campaignAssets.sonarCuentaRegresiva, title: "Sonar 001 — Cuenta regresiva", type: "Motion / Reel", description: "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.", tags: ["Motion", "After Effects", "Plantilla"] },
       ],
@@ -720,7 +695,6 @@ export const siteContent = {
       logos: [
         { ...logosAssets.grandgroove, title: "Grandgroove Records", type: "Logo", description: "Logo para el sello Grandgroove Records: una G de trazo fino entre dos órbitas. Versión 3D cromada que gira.", tags: ["Logo", "Branding", "Motion"] },
         { ...logosAssets.chicaLunar, title: "Chica Lunar", type: "Logo", description: "Logo cromado estilo Y2K, con estrellas y una órbita.", tags: ["Logo", "Branding"] },
-        { ...logosAssets.sonar, title: "Sonar Produce", type: "Logo", description: "Vectorización y ajuste del logo de Sonar Produce, un rayo con ondas concéntricas: negativo (la versión principal), positivo, blanco, negro e isotipo para avatar y sellos, en SVG y PNG.", tags: ["Logo", "Branding", "Vector"] },
       ],
       espacios: [
         { ...espaciosAssets.plug, title: "Plug", type: "3D / Arquitectura", description: "Cabina de DJ y pista de un espacio para eventos, con luz roja y mural. Incluye vistas de trabajo sin texturas.", tags: ["Blender", "Arquitectura", "3D"] },
@@ -938,8 +912,6 @@ export const siteContent = {
         { ...reelAssets.kook, title: "kook. — Build yours", client: "kook.", type: "Story · Social motion", year: "2026", duration: "21 s", description: "Motion for kook., cakes served in hand-painted ceramic cups. 21 s at 120 BPM with a seamless loop: the logo drops, “pick your cake”, “pick your cup”, the hand-drawn frosting and the real photo of the combination. The wordmark is vectorized letter by letter and the animation comes from an engine of my own in HTML and Canvas, with no libraries.", tags: ["Motion", "Canvas", "120 BPM"] },
         { ...reelAssets.ctrlz, title: "CTRL.Z — Press kit reel", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Five scenes in 16 s: the cover, the site running on a phone, the press photos and the track record. Made with the same engine as the rest of the series: the real site, on a virtual clock, exported frame by frame.", tags: ["Motion", "Playwright", "Press kit"] },
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — From photo to web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "From portrait to site: Coty Marty's photos (@circes.eyes.ph) flow into the press kit of Gabi Raíz, a DJ and producer from Mendoza, and the walkthrough ends on a phone. The photographer is credited in the piece.", tags: ["Motion", "Press kit", "Photography"] },
-        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Line-up animation", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14.4 s", description: "A 14.4 s reel at 150 BPM: the radar sweeps the frame, the headliner's hit lands at 9.6 s and it closes on the carousel cover. Reel and story at 1080 × 1920.", tags: ["Motion", "Art direction", "Reel"] },
-        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Countdown", client: "Sonar Produce", type: "Reel · Countdown", year: "2026", duration: "14.4 s", description: "A 14.4 s animation at 150 BPM: the 3-2-1 on the radar dial, the night's details and a final hit in red. One reel, one feed post and one story per day, built from an After Effects template with editable text.", tags: ["Motion", "After Effects", "Template"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
@@ -972,7 +944,7 @@ export const siteContent = {
         { ...campaignAssets.sonarCarrusel, title: "Sonar 001 — Line-up carousel", type: "Carousel", description: "Five 3:4 feed slides: the cover and one per artist, with their photo treated in black, white and red, their role, a short bio and their handle. Each slide also ships as a story and a reel.", tags: ["Art direction", "Carousel", "Photoshop"] },
         { ...campaignAssets.sonarHorarios, title: "Sonar 001 — Set times", type: "Post", description: "One band per set with each artist's photo; each band's height is proportional to the set's length and the headliner is in red. Feed, story and reel.", tags: ["Design", "Post", "Photoshop"] },
         { ...campaignAssets.sonarEntradas, title: "Sonar 001 — Tickets", type: "Post", description: "The three ticket tiers, each with a stub for the SOLD OUT stamp. In the PSD the stamps are layers: switch on each tier's stamp when it sells out, no redesign needed.", tags: ["Design", "Post", "Photoshop"] },
-        { ...campaignAssets.sonarManual, title: "Sonar — Brand manual", type: "Branding / Visual system", description: "A 16-page manual that turns the brand document into concrete rules: the radar as concept, logo versions, three colors and their proportion, two typefaces, a gradient-map photo treatment, safe zones per format and incorrect uses.", tags: ["Branding", "Visual system", "Brand manual"] },
+        { ...campaignAssets.sonarManual, title: "Sonar — Brand manual", type: "Branding / Visual system", description: "A 16-page manual that turns the brand document into concrete rules: the radar as concept, three colors and their proportion, two typefaces, a gradient-map photo treatment, safe zones per format and incorrect uses.", tags: ["Branding", "Visual system", "Brand manual"] },
         { ...campaignAssets.sonarPlantillas, title: "Sonar — Templates", type: "Templates", description: "Three Photoshop templates for upcoming nights (date flyer, artist card and announcement), each in feed, story and reel. Photos take on Sonar's look through an adjustment layer: swap the photo and the treatment applies itself.", tags: ["Templates", "Photoshop", "Visual system"] },
         { ...campaignAssets.sonarCuentaRegresiva, title: "Sonar 001 — Countdown", type: "Motion / Reel", description: "A 14.4 s animation at 150 BPM: 3-2-1 on the radar dial, the event details and a final hit in red. One reel, one feed post and a story per day, built from an After Effects template with editable text.", tags: ["Motion", "After Effects", "Template"] },
       ],
@@ -988,7 +960,6 @@ export const siteContent = {
       logos: [
         { ...logosAssets.grandgroove, title: "Grandgroove Records", type: "Logo", description: "Logo for the label Grandgroove Records: a thin-stroke G between two orbits. Spinning chrome 3D version.", tags: ["Logo", "Branding", "Motion"] },
         { ...logosAssets.chicaLunar, title: "Chica Lunar", type: "Logo", description: "A Y2K-style chrome logo with stars and an orbit.", tags: ["Logo", "Branding"] },
-        { ...logosAssets.sonar, title: "Sonar Produce", type: "Logo", description: "Vectorization and refinement of the Sonar Produce logo, a lightning bolt with concentric waves: negative (the main version), positive, white, black and an isotype for avatars and stamps, in SVG and PNG.", tags: ["Logo", "Branding", "Vector"] },
       ],
       espacios: [
         { ...espaciosAssets.plug, title: "Plug", type: "3D / Architecture", description: "DJ booth and floor of an event space, with red light and a mural. Includes untextured work views.", tags: ["Blender", "Architecture", "3D"] },
@@ -1198,8 +1169,6 @@ export const siteContent = {
         { ...reelAssets.kook, title: "kook. — Monte a sua", client: "kook.", type: "Story · Motion para redes", year: "2026", duration: "21 s", description: "Motion para a kook., bolos servidos em xícaras de cerâmica pintadas à mão. 21 s a 120 BPM com loop perfeito: o logo cai, «escolha seu bolo», «escolha sua xícara», a cobertura desenhada à mão e a foto real da combinação. O wordmark foi vetorizado letra por letra e a animação sai de um motor próprio em HTML e Canvas, sem bibliotecas.", tags: ["Motion", "Canvas", "120 BPM"] },
         { ...reelAssets.ctrlz, title: "CTRL.Z — Reel do press kit", client: "CTRL.Z", type: "Reel · Press kit", year: "2026", duration: "16 s", description: "Cinco cenas em 16 s: a capa, o site rodando no celular, as fotos de imprensa e a trajetória. Feito com o mesmo motor do resto da série: o site real, com um relógio virtual, exportado quadro a quadro.", tags: ["Motion", "Playwright", "Press kit"] },
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — Da foto à web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "Do retrato ao site: as fotos de Coty Marty (@circes.eyes.ph) passam para o press kit de Gabi Raíz, DJ e produtor de Mendoza, e o passeio termina no celular. A fotógrafa leva o crédito na peça.", tags: ["Motion", "Press kit", "Fotografia"] },
-        { ...reelAssets.sonarLineUp, title: "Sonar 001 — Animação do line-up", client: "Sonar Produce", type: "Reel · Line-up", year: "2026", duration: "14,4 s", description: "Reel de 14,4 s a 150 BPM: o radar varre a peça, o golpe da headliner cai no segundo 9,6 e o fechamento é a capa do carrossel. Reel e story em 1080 × 1920.", tags: ["Motion", "Direção de arte", "Reel"] },
-        { ...reelAssets.sonarCuentaRegresiva, title: "Sonar 001 — Contagem regressiva", client: "Sonar Produce", type: "Reel · Contagem regressiva", year: "2026", duration: "14,4 s", description: "Animação de 14,4 s a 150 BPM: o 3-2-1 no dial do radar, os dados da data e o golpe final em vermelho. Um reel, um post de feed e um story por dia, montados a partir de um template de After Effects com textos editáveis.", tags: ["Motion", "After Effects", "Template"] },
       ],
       touchDesignerLoops: [
         { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },
@@ -1232,7 +1201,7 @@ export const siteContent = {
         { ...campaignAssets.sonarCarrusel, title: "Sonar 001 — Carrossel do line-up", type: "Carrossel", description: "Cinco placas 3:4 para o feed: a capa e uma por artista, com a foto tratada em preto, branco e vermelho, a função, uma bio curta e o @. Cada placa sai também em story e reel.", tags: ["Direção de arte", "Carrossel", "Photoshop"] },
         { ...campaignAssets.sonarHorarios, title: "Sonar 001 — Horários", type: "Post", description: "Uma faixa por set, com a foto de cada artista; a altura da faixa é proporcional à duração do set e a headliner vai em vermelho. Feed, story e reel.", tags: ["Design", "Post", "Photoshop"] },
         { ...campaignAssets.sonarEntradas, title: "Sonar 001 — Ingressos", type: "Post", description: "Os três lotes de venda, cada um com seu canhoto para o carimbo de SOLD OUT. No PSD os carimbos são camadas: liga-se o de cada lote quando esgota, sem refazer a peça.", tags: ["Design", "Post", "Photoshop"] },
-        { ...campaignAssets.sonarManual, title: "Sonar — Manual de marca", type: "Branding / Sistema visual", description: "Manual de 16 páginas que leva o documento de marca a regras concretas: o radar como conceito, versões do logo, três cores e sua proporção, duas tipografias, tratamento de foto com mapa de gradiente, zonas seguras por formato e usos incorretos.", tags: ["Branding", "Sistema visual", "Manual de marca"] },
+        { ...campaignAssets.sonarManual, title: "Sonar — Manual de marca", type: "Branding / Sistema visual", description: "Manual de 16 páginas que leva o documento de marca a regras concretas: o radar como conceito, três cores e sua proporção, duas tipografias, tratamento de foto com mapa de gradiente, zonas seguras por formato e usos incorretos.", tags: ["Branding", "Sistema visual", "Manual de marca"] },
         { ...campaignAssets.sonarPlantillas, title: "Sonar — Templates", type: "Templates", description: "Três templates de Photoshop para as próximas datas (flyer de data, placa de artista e anúncio), cada um em feed, story e reel. A foto ganha o visual da Sonar por uma camada de ajuste: ao trocá-la, o tratamento se aplica sozinho.", tags: ["Templates", "Photoshop", "Sistema visual"] },
         { ...campaignAssets.sonarCuentaRegresiva, title: "Sonar 001 — Contagem regressiva", type: "Motion / Reel", description: "Animação de 14,4 s a 150 BPM: o 3-2-1 no dial do radar, os dados da data e o golpe final em vermelho. Um reel, um post de feed e um story por dia, montados a partir de um template de After Effects com textos editáveis.", tags: ["Motion", "After Effects", "Template"] },
       ],
@@ -1248,7 +1217,6 @@ export const siteContent = {
       logos: [
         { ...logosAssets.grandgroove, title: "Grandgroove Records", type: "Logo", description: "Logo para o selo Grandgroove Records: um G de traço fino entre duas órbitas. Versão 3D cromada que gira.", tags: ["Logo", "Branding", "Motion"] },
         { ...logosAssets.chicaLunar, title: "Chica Lunar", type: "Logo", description: "Logo cromado estilo Y2K, com estrelas e uma órbita.", tags: ["Logo", "Branding"] },
-        { ...logosAssets.sonar, title: "Sonar Produce", type: "Logo", description: "Vetorização e ajuste do logo da Sonar Produce, um raio com ondas concêntricas: negativo (a versão principal), positivo, branco, preto e isotipo para avatar e carimbos, em SVG e PNG.", tags: ["Logo", "Branding", "Vetor"] },
       ],
       espacios: [
         { ...espaciosAssets.plug, title: "Plug", type: "3D / Arquitetura", description: "Cabine de DJ e pista de um espaço para eventos, com luz vermelha e mural. Inclui vistas de trabalho sem texturas.", tags: ["Blender", "Arquitetura", "3D"] },

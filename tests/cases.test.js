@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { siteContent } from "../src/siteContent.i18n.js";
 import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../src/cases/index.js";
-import { buildCategories } from "../src/categories.js";
+import { buildCategories, piezasDelCaso } from "../src/categories.js";
 import { buildShowcase } from "../src/showcasePicks.js";
 import { CASE_COVERS, caseHref } from "../src/cases/covers.js";
 
@@ -164,6 +164,22 @@ describe("case studies", () => {
     const grafica = buildCategories(siteContent.locales.es).find((c) => c.slug === "grafica");
     const campana = grafica.groups.find((g) => g.id === "campanas").items;
     expect(campana.every((i) => i.caseSlug === "sonar-produce")).toBe(true);
+  });
+
+  it("group a case's pieces in one card and show them all on the case", () => {
+    for (const lang of LOCALES) {
+      const content = siteContent.locales[lang];
+      const grafica = buildCategories(content).find((c) => c.slug === "grafica");
+      const tarjetas = grafica.groups.find((g) => g.id === "campanas").items.filter((i) => i.caseSlug === "sonar-produce");
+      expect(tarjetas, lang).toHaveLength(1);
+      expect(tarjetas[0].href).toBe("/grafica/sonar-produce");
+
+      const piezas = piezasDelCaso(content, "sonar-produce");
+      expect(piezas.length, lang).toBe(tarjetas[0].piezas + 1); // las de la campaña + el reel del caso
+      const claves = piezas.map((p) => p.slides[0] ?? p.thumbnail);
+      expect(new Set(claves).size, lang).toBe(claves.length);
+      expect(piezas.every((p) => p.caseSlug === null)).toBe(true);
+    }
   });
 
   it("link to the route of their category, from the home too", () => {

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import MediaAsset from "./MediaAsset";
 import { FORMATOS_LOOP, formatoPropio, orientacion, planificarSala } from "../salaPlan";
 import LoopAudioButton from "./LoopAudioButton";
@@ -21,6 +22,22 @@ function pad(n) {
   return String(n).padStart(2, "0");
 }
 
+/** Una pieza abre el visor; la tarjeta de un caso (`href`) lleva al caso. */
+function Boton({ item, onOpen, labels, children }) {
+  if (item.href) {
+    return (
+      <Link to={item.href} className="sala-boton" data-cursor={labels.readCase} data-tilt="0.35">
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <button type="button" className="sala-boton" onClick={onOpen} data-cursor={labels.cursor} data-tilt="0.35">
+      {children}
+    </button>
+  );
+}
+
 function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
   const o = orientacion(formato);
   const extra = (item.slides?.length ?? 0) - 1;
@@ -37,7 +54,7 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
       <span className="sala-num font-poster" aria-hidden="true">
         {pad(index + 1)}
       </span>
-      <button type="button" className="sala-boton" onClick={onOpen} data-cursor={labels.cursor} data-tilt="0.35">
+      <Boton item={item} onOpen={onOpen} labels={labels}>
         <span className="sala-cuadro" style={{ aspectRatio: formato.replace("/", " / ") }}>
           <span className="sala-marco visor">
             <span className="sala-deriva">
@@ -46,7 +63,11 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
               </span>
             </span>
           </span>
-          {extra > 0 ? (
+          {item.href ? (
+            <span className="sala-vistas sala-vistas--caso font-mono" aria-hidden="true">
+              {item.piezas} {labels.pieces}
+            </span>
+          ) : extra > 0 ? (
             <span className="sala-vistas font-mono" aria-hidden="true">
               +{extra}
             </span>
@@ -56,8 +77,9 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
           {meta ? <span className="sala-meta font-mono">{meta}</span> : null}
           <span className="sala-titulo font-poster">{item.title}</span>
           {item.description ? <span className="sala-desc">{item.description}</span> : null}
+          {item.href ? <span className="sala-caso font-mono">{labels.readCase} →</span> : null}
         </span>
-      </button>
+      </Boton>
       {loop && item.audio ? <LoopAudioButton src={item.audio} labels={labels.audio} className="sala-audio" /> : null}
     </article>
   );

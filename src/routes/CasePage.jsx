@@ -1,8 +1,10 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../cases";
-import { getCategory } from "../categories";
+import { getCategory, piezasDelCaso } from "../categories";
+import Sala from "../components/Sala";
+import DetailModal from "../components/DetailModal";
 
 /**
  * Caso de estudio: /<categoría>/<slug> (los sitios, en /tech).
@@ -139,6 +141,27 @@ function Block({ block, num, figures, ui, eager }) {
 export default function CasePage() {
   const { slug, caso } = useParams();
   const { content, language } = useOutletContext();
+  const [viewer, setViewer] = useState(null);
+  // Todo lo que se hizo para el caso, de todas las categorías: la tarjeta de
+  // la categoría junta las piezas y las muestra acá
+  const piezas = useMemo(() => piezasDelCaso(content, caso), [content, caso]);
+
+  // La sala entra con `reveal-on-scroll`, que en las categorías enciende
+  // CategoryPage: acá lo hace este observer, si no las piezas quedan en 0.
+  useEffect(() => {
+    if (!piezas.length || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }),
+      { threshold: 0.06, rootMargin: "0px 0px -2% 0px" },
+    );
+    document.querySelectorAll(".case-section--piezas .reveal-on-scroll").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [piezas]);
 
   const cases = content.cases ?? [];
   const index = cases.findIndex((c) => c.slug === caso);
@@ -248,6 +271,17 @@ export default function CasePage() {
         {blocks.map(({ block, num, eager }, i) => (
           <Block key={i} block={block} num={num} figures={assets.figures} ui={ui} eager={eager} />
         ))}
+
+        {piezas.length ? (
+          <section className="case-section case-section--piezas" id="piezas">
+            <SectionHead num={String(count + 1).padStart(2, "0")} title={`${ui.pieces} · ${piezas.length}`} />
+            <Sala
+              items={piezas}
+              labels={{ cursor: content.ui.ink?.cursor?.view, audio: content.ui.showcase?.audio }}
+              onOpen={(index) => setViewer({ items: piezas, index, slideIndex: 0, sectionLabel: teaser.title })}
+            />
+          </section>
+        ) : null}
       </div>
 
       <nav className="case-pager" aria-label={ui.label}>
@@ -263,6 +297,13 @@ export default function CasePage() {
           {ui.backTo} {categoria}
         </Link>
       </nav>
+
+      <DetailModal
+        viewer={viewer}
+        setViewer={setViewer}
+        onClose={() => setViewer(null)}
+        labels={{ ...content.ui.modal, ...content.ui.ink?.modal }}
+      />
     </article>
   );
 }

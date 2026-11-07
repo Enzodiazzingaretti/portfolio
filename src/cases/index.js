@@ -121,6 +121,7 @@ export const CASE_UI = {
     code: "Ver código",
     discarded: "Descartado",
     next: "Siguiente caso",
+    pieces: "Todas las piezas",
   },
   en: {
     label: "Case study",
@@ -133,6 +134,7 @@ export const CASE_UI = {
     code: "View code",
     discarded: "Ruled out",
     next: "Next case study",
+    pieces: "All the pieces",
   },
   pt: {
     label: "Case",
@@ -145,6 +147,7 @@ export const CASE_UI = {
     code: "Ver código",
     discarded: "Descartado",
     next: "Próximo case",
+    pieces: "Todas as peças",
   },
 };
 

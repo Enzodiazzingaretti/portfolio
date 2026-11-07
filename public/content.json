@@ -344,44 +344,6 @@
         "Press kit",
         "Fotografía"
       ]
-    },
-    {
-      "thumbnail": "/images/loops/reel-sonar-line-up.mp4",
-      "slides": [
-        "/images/campanas/sonar/line-up-reel.mp4",
-        "/images/campanas/sonar/line-up-portada.webp"
-      ],
-      "title": "Sonar 001 — Animación del line-up",
-      "client": "Sonar Produce",
-      "caseSlug": "sonar-produce",
-      "type": "Reel · Line-up",
-      "year": "2026",
-      "duration": "14,4 s",
-      "description": "Reel de 14,4 s a 150 BPM: el radar barre la pieza, el golpe de la headliner cae en el segundo 9,6 y el cierre es la tapa del carrusel. Reel e historia en 1080 × 1920.",
-      "tags": [
-        "Motion",
-        "Dirección de arte",
-        "Reel"
-      ]
-    },
-    {
-      "thumbnail": "/images/loops/reel-sonar-cuenta-regresiva.mp4",
-      "slides": [
-        "/images/campanas/sonar/cuenta-regresiva-reel.mp4",
-        "/images/campanas/sonar/cuenta-regresiva-portada.webp"
-      ],
-      "title": "Sonar 001 — Cuenta regresiva",
-      "client": "Sonar Produce",
-      "caseSlug": "sonar-produce",
-      "type": "Reel · Cuenta regresiva",
-      "year": "2026",
-      "duration": "14,4 s",
-      "description": "Animación de 14,4 s a 150 BPM: el 3-2-1 en el dial del radar, los datos de la fecha y el golpe final en rojo. Un reel, un feed y una historia por día. Se arma desde una plantilla de After Effects con los textos editables.",
-      "tags": [
-        "Motion",
-        "After Effects",
-        "Plantilla"
-      ]
     }
   ],
   "touchDesignerLoops": [
@@ -719,7 +681,6 @@
       "slides": [
         "/images/campanas/sonar/manual-01.webp",
         "/images/campanas/sonar/manual-03.webp",
-        "/images/campanas/sonar/manual-04.webp",
         "/images/campanas/sonar/manual-06.webp",
         "/images/campanas/sonar/manual-10.webp",
         "/images/campanas/sonar/manual-13.webp",
@@ -730,7 +691,7 @@
       "client": "Sonar Produce",
       "caseSlug": "sonar-produce",
       "year": "2026",
-      "description": "Manual de 16 páginas que baja el documento de marca a reglas concretas: el radar como concepto, versiones del logo, tres colores con su proporción, dos tipografías, tratamiento de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
+      "description": "Manual de 16 páginas que baja el documento de marca a reglas concretas: el radar como concepto, tres colores con su proporción, dos tipografías, tratamiento de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
       "tags": [
         "Branding",
         "Sistema visual",
@@ -924,26 +885,6 @@
       "tags": [
         "Logo",
         "Branding"
-      ]
-    },
-    {
-      "square": true,
-      "imageUrl": "/images/visual/Logos/sonar/sonar-isotipo.webp",
-      "slides": [
-        "/images/visual/Logos/sonar/sonar-logo-negativo.webp",
-        "/images/visual/Logos/sonar/sonar-logo-positivo.webp",
-        "/images/visual/Logos/sonar/sonar-isotipo.webp"
-      ],
-      "title": "Sonar Produce",
-      "type": "Logo",
-      "client": "Sonar Produce",
-      "caseSlug": "sonar-produce",
-      "year": "2026",
-      "description": "Vectorización y ajuste del logo de Sonar Produce, un rayo con ondas concéntricas: negativo (la versión principal), positivo, blanco, negro e isotipo para avatar y sellos, en SVG y PNG.",
-      "tags": [
-        "Logo",
-        "Branding",
-        "Vector"
       ]
     }
   ],

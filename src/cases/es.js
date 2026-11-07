@@ -14,7 +14,7 @@ export default {
         title: "El punto de partida",
         paragraphs: [
           "Sonar Produce arrancaba con su primera fecha: SONAR 001, Stella Bossi en Alma Hydra, Mendoza, el 30 de octubre de 2026. Tenía un logo —un rayo con ondas concéntricas— y un documento de marca. Mi trabajo fue bajar ese documento a reglas concretas y hacer, con esas reglas, la campaña entera de la fecha.",
-          "Mi parte: el ajuste del logo, el manual, el key visual, el motion, las placas para redes y las plantillas para las fechas que siguen.",
+          "Mi parte: el manual, el key visual, el motion, las placas para redes y las plantillas para las fechas que siguen.",
         ],
       },
       {
@@ -60,8 +60,7 @@ export default {
         title: "Qué incluye",
         intro: "La campaña completa de SONAR 001, en feed, historia y reel donde correspondía:",
         items: [
-          "Logo: vectorización y ajuste, en negativo (la versión principal), positivo, blanco, negro e isotipo para avatar y sellos, en SVG y PNG.",
-          "Manual de marca de 16 páginas: concepto, versiones del logo, color, tipografías, dos tratamientos de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
+          "Manual de marca de 16 páginas: concepto, color, tipografías, dos tratamientos de foto con mapa de degradado, zonas seguras por formato y usos incorrectos.",
           "Key visual en feed e historia.",
           "Carrusel del line-up: la tapa y una placa por artista, con su foto en negro, blanco y rojo, su rol, una bio corta y su @.",
           "Horarios: una franja por set, con el alto proporcional a lo que dura cada set y la headliner en rojo.",

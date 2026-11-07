@@ -1,4 +1,5 @@
 import { resolvePublicAsset } from "./utils/helpers";
+import { caseHref } from "./cases/covers";
 
 /**
  * Las 9 secciones del scroll viejo colapsadas en 4 categorías por disciplina.
@@ -52,7 +53,10 @@ export const CATEGORIES = [
       // Una campaña es un cliente con varias piezas (key visual, motion,
       // placas, manual): va primero y aparte para que no se diluya entre
       // flyers sueltos.
-      { id: "campanas", source: "campaigns", kind: "graphic", layout: "sala" },
+      // Las piezas de un caso escrito van juntas en una sola tarjeta que lleva
+      // al caso, donde están todas (`porCaso`): ocho tarjetas de Sonar
+      // llenaban Gráfica.
+      { id: "campanas", source: "campaigns", kind: "graphic", layout: "sala", porCaso: true },
       { id: "flyers", source: "flyers", kind: "graphic", layout: "sala" },
       { id: "logos", source: "logos", kind: "graphic", layout: "sala" },
     ],
@@ -236,10 +240,11 @@ export function buildCategory(category, content) {
       const raw = content[group.source];
       if (!Array.isArray(raw) || raw.length === 0) return null;
       const normalize = NORMALIZERS[group.kind];
+      const items = raw.map((entry) => normalize(entry, content.ui));
       return {
         ...group,
         ...(copy.groups?.[group.id] ?? {}),
-        items: raw.map((entry) => normalize(entry, content.ui)),
+        items: group.porCaso ? agruparPorCaso(items, content) : items,
       };
     })
     .filter(Boolean);
@@ -251,4 +256,59 @@ export function buildCategory(category, content) {
 
 export function buildCategories(content) {
   return CATEGORIES.map((c) => buildCategory(c, content)).filter((c) => c && c.count > 0);
+}
+
+/**
+ * Junta en una tarjeta las piezas que comparten caso: la portada es la
+ * primera (el key visual), el texto es el del caso y la tarjeta lleva a él
+ * (`href`) en vez de abrir el visor. Una pieza sin caso queda como está.
+ */
+function agruparPorCaso(items, content) {
+  const vistos = new Set();
+  return items.flatMap((item) => {
+    const slug = item.caseSlug;
+    if (!slug) return [item];
+    if (vistos.has(slug)) return [];
+    vistos.add(slug);
+    const teaser = content.cases?.find((c) => c.slug === slug);
+    const piezas = items.filter((i) => i.caseSlug === slug);
+    return [
+      {
+        ...item,
+        title: teaser?.title ?? item.client ?? item.title,
+        subtitle: teaser?.tags ?? item.subtitle,
+        description: teaser?.summary ?? item.description,
+        href: caseHref(slug),
+        piezas: piezas.length,
+        slides: [],
+      },
+    ];
+  });
+}
+
+/**
+ * Todas las piezas de un caso, de todas las categorías y sin repetir (el
+ * reel del line-up está en la campaña y antes estaba también en Motion):
+ * es la galería del final de la página del caso. Sin `caseSlug`, así el
+ * visor no ofrece «Leer el caso» estando en el caso.
+ */
+export function piezasDelCaso(content, slug) {
+  const vistas = new Set();
+  const piezas = [];
+  for (const category of CATEGORIES) {
+    for (const group of category.groups) {
+      const raw = content[group.source];
+      const normalize = NORMALIZERS[group.kind];
+      if (!Array.isArray(raw) || group.kind === "lab") continue;
+      for (const entry of raw) {
+        if (entry.caseSlug !== slug) continue;
+        const item = normalize(entry, content.ui);
+        const clave = item.slides[0] ?? item.thumbnail;
+        if (vistas.has(clave)) continue;
+        vistas.add(clave);
+        piezas.push({ ...item, caseSlug: null });
+      }
+    }
+  }
+  return piezas;
 }

@@ -192,6 +192,8 @@ export default function CategoryPage() {
                 loop: content.ui.loopLabel,
                 cursor: group.layout === "sala-loops" ? ink.cursor.play : ink.cursor.view,
                 audio: content.ui.showcase?.audio,
+                pieces: content.ui.worksLabel,
+                readCase: content.ui.readCase,
               }}
               onOpen={(index) => open(group.items, index, group.title ?? category.title)}
             />
