@@ -194,7 +194,7 @@ describe("case studies", () => {
     // Desde el 2026-11 el trabajo seleccionado no lleva sitios web: son las
     // piezas para quien contrata (campaña, reel, 3D, spec, tiempo real).
     const picks = buildShowcase(buildCategories(siteContent.locales.en));
-    expect(picks.map((p) => p.id)).toEqual(["sonar-key-visual", "sonar-caso", "golden-faces", "240-kmh", "feedback-ritual"]);
+    expect(picks.map((p) => p.id)).toEqual(["sonar-caso", "golden-faces", "240-kmh"]);
     picks.forEach((p) => expect(p.href).toMatch(/^\/(motion|3d|grafica|tech)(\/|$)/));
   });
 });

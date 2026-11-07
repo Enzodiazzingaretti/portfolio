@@ -348,19 +348,6 @@
   ],
   "touchDesignerLoops": [
     {
-      "thumbnail": "/images/loops/feedback-ritual.mp4",
-      "slides": [
-        "/images/touchdesigner/feedback-ritual/audioreactive-vol2-test.mp4",
-        "/images/touchdesigner/feedback-ritual/audioreactive-vol3-test-1-1.mp4",
-        "/images/touchdesigner/feedback-ritual/audioreactive-vol5-test-1.mp4",
-        "/images/touchdesigner/feedback-ritual/audioreactive-vol6-test-1.mp4",
-        "/images/touchdesigner/feedback-ritual/audioreactive-vol7-test-1.mp4"
-      ],
-      "name": "Feedback Ritual",
-      "notes": "Partículas y trails audio-reactivos. Hardgroove, 145 BPM.",
-      "audio": "/images/loops/feedback-ritual.m4a"
-    },
-    {
       "thumbnail": "/images/loops/pulse-vandal.mp4",
       "slides": [
         "/images/touchdesigner/pulse-vandal/visuales1.mp4"
@@ -558,15 +545,6 @@
       ],
       "title": "Chrome Grotesque",
       "description": "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro."
-    },
-    {
-      "portrait": true,
-      "slides": [
-        "/images/blender/glass_skullz/glass-skullz-2.png",
-        "/images/blender/glass_skullz/glass-skullz-3.png"
-      ],
-      "title": "Glass Skullz",
-      "description": "Cráneos en vidrio. Exploración de refracción y render."
     },
     {
       "square": true,

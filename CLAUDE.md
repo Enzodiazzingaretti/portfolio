@@ -38,9 +38,14 @@ sí se pueden borrar sin perder nada.
   sigue asignado y redirige con un 308 por host desde `vercel.json`, así los
   links viejos de CV y LinkedIn siguen andando. La raíz tiene su propia regla
   (`"source": "/"`): `/:path*` no la agarraba y el home viejo daba 200.
-- **Trabajo seleccionado** (`showcasePicks.js`): campaña de Sonar, reel del caso
-  Sonar, Golden Faces, 240 KM/H y Feedback Ritual. Los sitios y el lab quedan
-  en sus categorías, como diferencial.
+- **Trabajo seleccionado** (`showcasePicks.js`): reel del caso Sonar, Golden
+  Faces y 240 KM/H (desde el 2026-11-07: sin el key visual, para no repetir
+  Sonar). Como las tres son verticales o cuadradas, el escenario del showreel
+  va alto (desktop: `clamp(32rem, 80svh, 48rem)`; celular: 1/2). Los sitios y
+  el lab quedan en sus categorías, como diferencial.
+- **Sacados por completo el 2026-11-07, a pedido:** Feedback Ritual (loop de
+  TouchDesigner) y Glass Skullz (render). Sin archivos en `public/` ni en
+  `portfolio-media`; no volver a sumarlos.
 - **Comerciales con IA:** grupo `ia` de MOTION, primero, con la lista
   `aiCommercials` (bundle en tres idiomas, `content.json` y `/admin`). Vacía:
   el grupo no se dibuja. Con las primeras piezas publicadas cambian a la par

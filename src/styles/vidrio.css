@@ -839,6 +839,12 @@ html.glass-type .vx-name-line {
 }
 .reel-media .reel-obra img,
 .reel-media .reel-obra video { object-fit: contain; object-position: 90% 50%; }
+/* Las piezas del trabajo seleccionado son verticales o cuadradas (el reel de
+   Sonar es 9:16): el escenario va alto, no apaisado, si no el reel ocupaba un
+   tercio del ancho (2026-11-07, a pedido: «que se vea en buen tamaño»). */
+@media (min-width: 1024px) {
+  .reel-stage { aspect-ratio: auto; height: clamp(32rem, 80svh, 48rem); }
+}
 /* El título va a la izquierda, sobre el fondo desenfocado, sin pisar la obra */
 @media (min-width: 768px) {
   .reel-hud--bottom .reel-tag,
@@ -847,8 +853,8 @@ html.glass-type .vx-name-line {
 }
 @media (max-width: 767px) {
   /* En el celular la obra va arriba y el título debajo, sin pisarla */
-  .reel-stage { aspect-ratio: 4 / 5.4; }
-  .reel-media .reel-obra { inset: 3.2rem 0 36% 0; width: auto; height: auto; }
+  .reel-stage { aspect-ratio: 1 / 2; }
+  .reel-media .reel-obra { inset: 3.2rem 0 24% 0; width: auto; height: auto; }
   .reel-hud--bottom .reel-title { font-size: clamp(1.9rem, 9vw, 2.6rem); }
   .reel-media .reel-obra img,
   .reel-media .reel-obra video { object-position: 50% 50%; }
@@ -1025,7 +1031,6 @@ html.glass-type .vx-name-line {
 .reel-item.is-active .reel-item-state { color: var(--red-hi); }
 
 @media (max-width: 767px) {
-  .reel-stage { aspect-ratio: 4 / 5.4; }
   .reel-hud { left: 2.3rem; right: 2.3rem; }
   .reel-controls { top: auto; bottom: 6.6rem; right: 1.9rem; }
 }

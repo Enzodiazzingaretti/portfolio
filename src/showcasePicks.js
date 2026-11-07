@@ -1,7 +1,8 @@
 /**
- * «Trabajo seleccionado» del home: las cinco piezas que más le dicen a quien
- * contrata (campaña, reel de caso, 3D, spec publicitario y tiempo real). Los
- * sitios web y el lab siguen en sus categorías, como diferencial.
+ * «Trabajo seleccionado» del home: el reel del caso Sonar (que cuenta toda la
+ * campaña; el key visual se sacó el 2026-11-07 para no repetir Sonar), un
+ * render 3D y un spec publicitario. Los sitios web y el lab siguen en sus
+ * categorías, como diferencial.
  *
  * No repite ni un título ni una descripción. Cada entrada apunta a una pieza
  * que ya existe en `buildCategories()`, así que el texto sale del mismo lugar
@@ -13,12 +14,6 @@
  * pieza sin aviso.
  */
 export const SHOWCASE_PICKS = [
-  {
-    id: "sonar-key-visual",
-    slug: "grafica",
-    group: "campanas",
-    find: (item) => /campanas\/sonar\/key-visual/.test(item.thumbnail ?? ""),
-  },
   {
     id: "sonar-caso",
     slug: "motion",
@@ -36,12 +31,6 @@ export const SHOWCASE_PICKS = [
     slug: "3d",
     group: "blender",
     find: (item) => /240kmh/.test(item.thumbnail ?? ""),
-  },
-  {
-    id: "feedback-ritual",
-    slug: "tech",
-    group: "touchdesigner",
-    find: (item) => /feedback-ritual/.test(item.thumbnail ?? ""),
   },
 ];
 

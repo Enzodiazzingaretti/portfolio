@@ -74,17 +74,6 @@ const webProjectAssets = {
  * Para regenerarlas ver la seccion "Portadas de grilla" en CLAUDE.md.
  */
 const touchDesignerAssets = {
-  feedbackRitual: {
-    thumbnail: "/images/loops/feedback-ritual.mp4",
-    audio: "/images/loops/feedback-ritual.m4a",
-    slides: [
-      "/images/touchdesigner/feedback-ritual/audioreactive-vol2-test.mp4",
-      "/images/touchdesigner/feedback-ritual/audioreactive-vol3-test-1-1.mp4",
-      "/images/touchdesigner/feedback-ritual/audioreactive-vol5-test-1.mp4",
-      "/images/touchdesigner/feedback-ritual/audioreactive-vol6-test-1.mp4",
-      "/images/touchdesigner/feedback-ritual/audioreactive-vol7-test-1.mp4",
-    ],
-  },
   pulseVandal: {
     thumbnail: "/images/loops/pulse-vandal.mp4",
     slides: [
@@ -461,13 +450,6 @@ const blenderAssets = {
       "/images/blender/abstract/blackgoo.mp4",
     ],
   },
-  glassSkullz: {
-    portrait: true,
-    slides: [
-      "/images/blender/glass_skullz/glass-skullz-2.png",
-      "/images/blender/glass_skullz/glass-skullz-3.png",
-    ],
-  },
   // Oculta: la portada sale casi negra en la grilla y repetía el tema de las
   // cabezas. Queda cargada; se vuelve a mostrar con enabled: true (y en
   // public/content.json para español).
@@ -649,7 +631,6 @@ export const siteContent = {
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — De la foto a la web", client: "Gabi Raíz", type: "Historia · Press kit", year: "2026", duration: "21 s", description: "Del retrato al sitio: las fotos de Coty Marty (@circes.eyes.ph) pasan al press kit de Gabi Raíz, DJ y productor de Mendoza, y el recorrido termina en el celular. La fotógrafa lleva su crédito en la pieza.", tags: ["Motion", "Press kit", "Fotografía"] },
       ],
       touchDesignerLoops: [
-        { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas y trails audio-reactivos. Hardgroove, 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Humo en blanco y negro que envuelve un vacío en el centro." },
         { ...touchDesignerAssets.ghostTunnel, name: "Ghost Tunnel", notes: "Caleidoscopio de partículas verdes en simetría radial." },
         { ...touchDesignerAssets.staticVeil, name: "Static Veil", notes: "Un rostro que aparece y se pierde entre humo, ruido y líneas de barrido." },
@@ -670,7 +651,6 @@ export const siteContent = {
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgánicas y fluidos abstractos en Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Un rostro que grita bajo una tela negra brillante." },
         { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Cabezas cromadas apiladas, gritando, con dientes de oro, y una variación en negro brillante sobre gris claro." },
-        { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Cráneos en vidrio. Exploración de refracción y render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Dos manos que se buscan a través de portales de luz roja. Render para la sesión Overkill." },
       ],
       campaigns: [
@@ -914,7 +894,6 @@ export const siteContent = {
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — From photo to web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "From portrait to site: Coty Marty's photos (@circes.eyes.ph) flow into the press kit of Gabi Raíz, a DJ and producer from Mendoza, and the walkthrough ends on a phone. The photographer is credited in the piece.", tags: ["Motion", "Press kit", "Photography"] },
       ],
       touchDesignerLoops: [
-        { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Audio-reactive particles and trails. Hardgroove, 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Black-and-white smoke wrapped around an empty centre." },
         { ...touchDesignerAssets.ghostTunnel, name: "Ghost Tunnel", notes: "A kaleidoscope of green particles in radial symmetry." },
         { ...touchDesignerAssets.staticVeil, name: "Static Veil", notes: "A face that surfaces and fades through smoke, noise and scanlines." },
@@ -935,7 +914,6 @@ export const siteContent = {
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Organic shapes and fluid abstractions in Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "A screaming face pressing through a glossy black sheet." },
         { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Stacked chrome heads, screaming, with gold teeth, plus a variation in glossy black on light grey." },
-        { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Glass skulls. Refraction and render study." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Two hands reaching for each other through portals of red light. Render for the Overkill session." },
       ],
       campaigns: [
@@ -1171,7 +1149,6 @@ export const siteContent = {
         { ...reelAssets.gabiRaiz, title: "Gabi Raíz — Da foto à web", client: "Gabi Raíz", type: "Story · Press kit", year: "2026", duration: "21 s", description: "Do retrato ao site: as fotos de Coty Marty (@circes.eyes.ph) passam para o press kit de Gabi Raíz, DJ e produtor de Mendoza, e o passeio termina no celular. A fotógrafa leva o crédito na peça.", tags: ["Motion", "Press kit", "Fotografia"] },
       ],
       touchDesignerLoops: [
-        { ...touchDesignerAssets.feedbackRitual, name: "Feedback Ritual", notes: "Partículas e trails generativos sincronizados com hardgroove a 145 BPM." },
         { ...touchDesignerAssets.pulseVandal, name: "Pulse Vandal", notes: "Fumaça em preto e branco envolvendo um vazio no centro." },
         { ...touchDesignerAssets.ghostTunnel, name: "Ghost Tunnel", notes: "Caleidoscópio de partículas verdes em simetria radial." },
         { ...touchDesignerAssets.staticVeil, name: "Static Veil", notes: "Um rosto que aparece e se perde entre fumaça, ruído e linhas de varredura." },
@@ -1192,7 +1169,6 @@ export const siteContent = {
         { ...blenderAssets.abstract, title: "Abstract Vol. I", description: "Formas orgânicas e abstrações fluidas em Blender." },
         { ...blenderAssets.screamingHead, title: "Screaming Head", description: "Um rosto gritando sob um tecido preto brilhante." },
         { ...blenderAssets.noclueyet, title: "Chrome Grotesque", description: "Cabeças cromadas empilhadas, gritando, com dentes de ouro, e uma variação em preto brilhante sobre cinza claro." },
-        { ...blenderAssets.glassSkullz, title: "Glass Skullz", description: "Crânios em vidro. Estudo de refração e render." },
         { ...blenderAssets.overkillBlender, title: "Overkill 3D", description: "Duas mãos que se buscam através de portais de luz vermelha. Render para a sessão Overkill." },
       ],
       campaigns: [
