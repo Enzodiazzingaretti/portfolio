@@ -85,12 +85,24 @@ export const VIDEOS_HQ = new Set([
 
 const ANGOSTA = "(max-width: 900px)";
 
-/** La versión en alta de un video del sitio, o null si no tiene. */
-export function videoHQ(src) {
+/**
+ * La versión en alta de un video del sitio, o null si no tiene. Con `caja`
+ * (el tamaño en pantalla, en px CSS) elige por lo que de verdad se ve: si
+ * entra en 720 sin agrandarse, 720, aunque la pantalla sea grande (los
+ * celulares de vidrio de los reels, las piezas chicas de la sala). Sin caja,
+ * por el ancho de la pantalla.
+ */
+export function videoHQ(src, caja) {
   if (!MEDIA_BASE || !src || !VIDEOS_HQ.has(src)) return null;
-  const angosta = typeof window !== "undefined" && window.matchMedia?.(ANGOSTA).matches;
+  let chico;
+  if (caja && caja.w > 0 && caja.h > 0) {
+    const dpr = Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2);
+    chico = Math.min(caja.w, caja.h) * dpr <= 760;
+  } else {
+    chico = typeof window !== "undefined" && window.matchMedia?.(ANGOSTA).matches;
+  }
   return {
-    src: `${MEDIA_BASE}/${angosta ? "720" : "1080"}${encodeURI(src)}`,
+    src: `${MEDIA_BASE}/${chico ? "720" : "1080"}${encodeURI(src)}`,
     poster: `${MEDIA_BASE}/1080${encodeURI(src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg"))}`,
   };
 }

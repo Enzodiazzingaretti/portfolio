@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { isConvertible, isVideoAsset, toWebpSrc } from "../utils/helpers";
 import { videoHQ } from "../media";
 
@@ -21,7 +21,13 @@ function LazyVideo({ src: liviano, className, controls }) {
   const [hq, setHq] = useState(() => videoHQ(liviano));
   const src = hq?.src ?? liviano;
   const poster = hq?.poster ?? posterDe(liviano);
-  useEffect(() => setHq(videoHQ(liviano)), [liviano]);
+  // Con el tamaño real en pantalla se elige el de 720 o el de 1080. Con
+  // preload="none" el cambio llega antes de bajar un solo byte del video.
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const r = el?.getBoundingClientRect();
+    setHq(videoHQ(liviano, r ? { w: r.width, h: r.height } : undefined));
+  }, [liviano]);
 
   useEffect(() => {
     const el = ref.current;
