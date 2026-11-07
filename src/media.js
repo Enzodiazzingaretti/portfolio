@@ -45,6 +45,7 @@ export const VIDEOS_HQ = new Set([
   "/images/loops/reel-kook.mp4",
   "/images/loops/reel-martina-hobelar.mp4",
   "/images/loops/reel-shodnan-ref.mp4",
+  "/images/loops/reel-sonar-caso.mp4",
   "/images/loops/reel-sonar-cuenta-regresiva.mp4",
   "/images/loops/reel-sonar-line-up.mp4",
   "/images/loops/static-veil.mp4",
