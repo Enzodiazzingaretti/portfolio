@@ -92,6 +92,10 @@ export default function Showreel({ items, labels }) {
   const [cut, setCut] = useState(0);
   const [ref, inView] = useInView({ once: false, threshold: 0.35, rootMargin: "0px" });
   const timer = useRef(0);
+  const stageRef = useRef(null);
+  // Formato real de cada pieza (ancho / alto), medido cuando carga: en el
+  // celular el escenario lo toma, así la obra lo llena sin bandas vacías.
+  const [formatos, setFormatos] = useState({});
 
   const total = items.length;
   const corriendo = inView && !paused && !hover && !reduced && total > 1;
@@ -111,6 +115,23 @@ export default function Showreel({ items, labels }) {
     return () => window.clearTimeout(timer.current);
   }, [corriendo, active, ir]);
 
+  const actual = items[active];
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !actual || actual.generative) return undefined;
+    const id = actual.id;
+    const guardar = (w, h) => {
+      if (w > 0 && h > 0) setFormatos((f) => (f[id] ? f : { ...f, [id]: w / h }));
+    };
+    const el = stage.querySelector(".reel-obra video, .reel-obra img");
+    if (!el) return undefined;
+    const leer = () => (el.tagName === "VIDEO" ? guardar(el.videoWidth, el.videoHeight) : guardar(el.naturalWidth, el.naturalHeight));
+    if (el.tagName === "VIDEO" ? el.readyState >= 1 : el.complete) leer();
+    const evento = el.tagName === "VIDEO" ? "loadedmetadata" : "load";
+    el.addEventListener(evento, leer);
+    return () => el.removeEventListener(evento, leer);
+  }, [actual, cut]);
+
   if (!total) return null;
   const item = items[active];
   const proxima = items[(active + 1) % total];
@@ -127,7 +148,9 @@ export default function Showreel({ items, labels }) {
       }}
     >
       <div
+        ref={stageRef}
         className="reel-stage"
+        style={formatos[item.id] ? { "--reel-ar": formatos[item.id] } : undefined}
         onMouseEnter={() => loopAudio.alEntrar(item.audio)}
         onMouseLeave={() => loopAudio.alSalir(item.audio)}
       >
@@ -144,6 +167,9 @@ export default function Showreel({ items, labels }) {
           </span>
           <span className="reel-scan" aria-hidden="true" />
           <span className="reel-vignette" aria-hidden="true" />
+          {/* En el celular el título va encima de la obra: un velo con blur
+              que se desvanece hacia arriba lo hace legible sin taparla. */}
+          <span className="reel-velo" aria-hidden="true" />
         </Link>
 
         {/* Precarga la próxima imagen para que el corte no caiga en negro. Un

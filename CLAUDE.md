@@ -40,9 +40,14 @@ sí se pueden borrar sin perder nada.
   (`"source": "/"`): `/:path*` no la agarraba y el home viejo daba 200.
 - **Trabajo seleccionado** (`showcasePicks.js`): reel del caso Sonar, Golden
   Faces y 240 KM/H (desde el 2026-11-07: sin el key visual, para no repetir
-  Sonar). Como las tres son verticales o cuadradas, el escenario del showreel
-  va alto (desktop: `clamp(32rem, 80svh, 48rem)`; celular: 1/2). Los sitios y
-  el lab quedan en sus categorías, como diferencial.
+  Sonar). Como las tres son verticales o cuadradas, en desktop el escenario
+  del showreel va alto (`clamp(32rem, 80svh, 48rem)`). En celular y tablet
+  (2026-11-07, «que no se vean los espacios vacíos») toma el formato de cada
+  pieza (`--reel-ar`, que `Showreel.jsx` mide al cargarla; tope de 84svh), la
+  obra lo llena y el título va encima, sobre `.reel-velo`: una franja con blur
+  que se desvanece hacia arriba. Es la única excepción a «sin
+  `backdrop-filter` en táctiles» y a «la obra nunca bajo vidrio esmerilado»,
+  por pedido explícito. Los sitios y el lab quedan en sus categorías.
 - **Sacados por completo el 2026-11-07, a pedido:** Feedback Ritual (loop de
   TouchDesigner) y Glass Skullz (render). Sin archivos en `public/` ni en
   `portfolio-media`; no volver a sumarlos.

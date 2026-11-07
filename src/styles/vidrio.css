@@ -851,13 +851,41 @@ html.glass-type .vx-name-line {
   .reel-hud--bottom .reel-title { max-width: 52%; }
   .reel-hud--bottom .reel-title { font-size: clamp(2rem, 3.4vw, 3.6rem); text-wrap: balance; }
 }
-@media (max-width: 767px) {
-  /* En el celular la obra va arriba y el título debajo, sin pisarla */
-  .reel-stage { aspect-ratio: 1 / 2; }
-  .reel-media .reel-obra { inset: 3.2rem 0 24% 0; width: auto; height: auto; }
-  .reel-hud--bottom .reel-title { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+.reel-velo { display: none; }
+
+/* Celular y tablet (2026-11-07, a pedido: «que no se vean los espacios vacíos
+   arriba y abajo»): el escenario toma el formato de la pieza (`--reel-ar`, que
+   mide Showreel.jsx al cargarla), la obra lo llena entero y el título va encima,
+   sobre un velo con blur. Tope de alto: 84svh. */
+@media (max-width: 1023px) {
+  .reel-stage {
+    aspect-ratio: var(--reel-ar, 0.5625);
+    width: min(100%, calc(84svh * var(--reel-ar, 0.5625)));
+    margin-inline: auto;
+    transition: aspect-ratio 600ms var(--ease);
+  }
+  .reel-media .reel-obra { inset: 0; }
   .reel-media .reel-obra img,
-  .reel-media .reel-obra video { object-position: 50% 50%; }
+  .reel-media .reel-obra video { object-fit: cover; object-position: 50% 50%; }
+  .reel-fondo { display: none; }
+  .reel-vignette {
+    background:
+      linear-gradient(to top, rgba(14, 15, 18, 0.62) 0%, rgba(14, 15, 18, 0.12) 30%, transparent 45%),
+      linear-gradient(to bottom, rgba(14, 15, 18, 0.5), transparent 16%);
+  }
+  .reel-velo {
+    display: block;
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 34%;
+    pointer-events: none;
+    background: rgba(14, 15, 18, 0.18);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    -webkit-mask-image: linear-gradient(to top, #000 55%, transparent);
+    mask-image: linear-gradient(to top, #000 55%, transparent);
+  }
+  .reel-hud--bottom .reel-title { font-size: clamp(1.9rem, 9vw, 2.6rem); }
 }
 
 @keyframes reelIn {
@@ -1032,7 +1060,7 @@ html.glass-type .vx-name-line {
 
 @media (max-width: 767px) {
   .reel-hud { left: 2.3rem; right: 2.3rem; }
-  .reel-controls { top: auto; bottom: 6.6rem; right: 1.9rem; }
+  .reel-controls { top: 3.3rem; bottom: auto; right: 1.9rem; }
 }
 
 /* ───────────────────────── Índice ───────────────────────── */
@@ -2721,6 +2749,13 @@ html.glass-type .vx-name-line {
   *::after {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  /* La excepción: el velo del showreel es una sola franja chica y el título
+     encima de la obra no se lee sin él (pedido explícito, 2026-11-07). */
+  .reel-velo {
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
   }
 
   :root {
