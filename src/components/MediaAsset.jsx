@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isConvertible, isVideoAsset, toWebpSrc } from "../utils/helpers";
+import { videoHQ } from "../media";
 
 /**
  * Las portadas livianas de grilla viven en /images/loops/ y cada una tiene su
@@ -11,10 +12,16 @@ function posterDe(src) {
   return src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg");
 }
 
-function LazyVideo({ src, className, controls }) {
+function LazyVideo({ src: liviano, className, controls }) {
   const ref = useRef(null);
   const enVista = useRef(false);
-  const poster = posterDe(src);
+  // La versión en alta, si la hay (ver src/media.js). Si no carga —el
+  // proyecto de medios caído, un archivo que falta—, vuelve a la liviana del
+  // repo en vez de dejar el cuadro en negro.
+  const [hq, setHq] = useState(() => videoHQ(liviano));
+  const src = hq?.src ?? liviano;
+  const poster = hq?.poster ?? posterDe(liviano);
+  useEffect(() => setHq(videoHQ(liviano)), [liviano]);
 
   useEffect(() => {
     const el = ref.current;
@@ -62,6 +69,7 @@ function LazyVideo({ src, className, controls }) {
       ref={ref}
       src={src}
       poster={poster}
+      onError={hq ? () => setHq(null) : undefined}
       className={className}
       muted
       loop

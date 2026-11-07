@@ -108,6 +108,30 @@ regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
   que fija tiempo, puntero y escena ASCII (`sculpture`, `particles` u
   `organic`) cuadro por cuadro. El render por software da ~1 fps.
 
+**Videos en alta (2026-11-07, a pedido: «se ve en muy mala calidad el reel»).**
+Los videos de `public/` son livianos (360–720 px, poca tasa): el reel del home era
+un loop de 360 px estirado a ~1200 y recortado de vertical a horizontal. Ahora cada
+video tiene su versión en alta en un proyecto aparte, **`portfolio-media`** (repo y
+deploy propios en Vercel, sin build), para que el repo del sitio no cargue cientos
+de MB: `<MEDIA_BASE>/1080/<camino>` (lado corto hasta 1080, CRF 19) y
+`<MEDIA_BASE>/720/<camino>` (celular, CRF 21), más `1080/<camino>-poster.jpg`, con
+el mismo camino que la versión liviana. `src/media.js` tiene la base
+(`VITE_MEDIA_BASE` la pisa) y la lista `VIDEOS_HQ`; `MediaAsset` usa la alta para
+todo video de la lista (720 en pantallas de hasta 900 px) y, si no carga, vuelve a
+la liviana del repo, que queda como respaldo. Salen de los originales del Drive
+(`reels portfolio`, `PORTFOLIO/01_3D-Renders`, `02_Arquitectura-Escenografia`,
+`03_Visuales-Generativo`, `PROYECTOS/…`), identificados cuadro por cuadro; los
+recortes y el arranque de cada loop se midieron contra los originales. Sin
+original encontrado (quedan livianos): `calvarian-animation` y su loop,
+`patrullero-1` y `rathermodular-2`. **Para sumar un video:** encodear los dos
+tamaños y el poster con el mismo camino en `portfolio-media`, pushear ahí y sumar
+el camino a `VIDEOS_HQ`; el liviano va igual en `public/`.
+
+**El showreel del home muestra la obra entera** (`object-fit: contain`), corrida
+a la derecha con el título a la izquierda y, detrás, la misma imagen desenfocada;
+en el celular, la obra arriba y el título debajo. Antes recortaba las piezas
+verticales a 16:9.
+
 **Idioma inicial:** sin elección guardada, sale del navegador (`es`/`en`/`pt`); si
 ninguno coincide, inglés. El portfolio apunta a trabajo remoto.
 

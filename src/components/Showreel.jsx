@@ -9,6 +9,7 @@ import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { isVideoAsset } from "../utils/helpers";
 import { Crosshair } from "../fx/Hud";
 import { useInView } from "../fx/useInView";
+import { imagenFija } from "../media";
 
 /**
  * Se importa la pieza suelta y no el registro `LAB_PIECES`: ese índice trae
@@ -54,7 +55,22 @@ function StageMedia({ item, reduced }) {
       />
     );
   }
-  return <MediaAsset src={item.thumbnail} alt="" className="h-full w-full object-cover" eager />;
+  // La pieza va entera (la regla del sitio): casi toda la obra destacada es
+  // vertical y antes se recortaba a horizontal y se estiraba. Detrás, la
+  // misma imagen desenfocada y oscura llena el cuadro.
+  const fondo = imagenFija(item.thumbnail);
+  return (
+    <>
+      {fondo ? (
+        <span className="reel-fondo" aria-hidden="true">
+          <img src={fondo} alt="" decoding="async" />
+        </span>
+      ) : null}
+      <span className="reel-obra">
+        <MediaAsset src={item.thumbnail} alt="" className="h-full w-full object-contain" eager />
+      </span>
+    </>
+  );
 }
 
 /**
@@ -122,7 +138,7 @@ export default function Showreel({ items, labels }) {
                 en el instante del corte. */}
             {!item.generative && !isVideoAsset(item.thumbnail) ? (
               <span className="reel-media-ghost" aria-hidden="true">
-                <MediaAsset src={item.thumbnail} alt="" className="h-full w-full object-cover" />
+                <MediaAsset src={item.thumbnail} alt="" className="h-full w-full object-contain" />
               </span>
             ) : null}
           </span>
