@@ -12,7 +12,7 @@
  * archivo liviano de `public/`, que sigue en el repo como respaldo. Con la base
  * vacía (mientras el proyecto de medios no está publicado) se usan los livianos.
  */
-export const MEDIA_BASE = (import.meta.env.VITE_MEDIA_BASE ?? "").replace(/\/$/, "");
+export const MEDIA_BASE = (import.meta.env.VITE_MEDIA_BASE ?? "https://enzo-zingaretti-media.vercel.app").replace(/\/$/, "");
 
 export const VIDEOS_HQ = new Set([
   "/images/blender/240KM-H/semaforo-preview.mp4",
