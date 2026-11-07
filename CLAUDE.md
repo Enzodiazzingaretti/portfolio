@@ -117,7 +117,8 @@ de MB: `<MEDIA_BASE>/1080/<camino>` (lado corto hasta 1080, CRF 19) y
 `<MEDIA_BASE>/720/<camino>` (celular, CRF 21), más `1080/<camino>-poster.jpg`, con
 el mismo camino que la versión liviana. `src/media.js` tiene la base
 (`VITE_MEDIA_BASE` la pisa) y la lista `VIDEOS_HQ`; `MediaAsset` usa la alta para
-todo video de la lista (720 en pantallas de hasta 900 px) y, si no carga, vuelve a
+todo video de la lista y elige el tamaño por lo que mide en pantalla (720 si el lado
+corto por el dpr, con tope 2, no pasa de 760 px; si no, 1080) y, si no carga, vuelve a
 la liviana del repo, que queda como respaldo. Salen de los originales del Drive
 (`reels portfolio`, `PORTFOLIO/01_3D-Renders`, `02_Arquitectura-Escenografia`,
 `03_Visuales-Generativo`, `PROYECTOS/…`), identificados cuadro por cuadro; los
@@ -125,7 +126,12 @@ recortes y el arranque de cada loop se midieron contra los originales. Sin
 original encontrado (quedan livianos): `calvarian-animation` y su loop,
 `patrullero-1` y `rathermodular-2`. **Para sumar un video:** encodear los dos
 tamaños y el poster con el mismo camino en `portfolio-media`, pushear ahí y sumar
-el camino a `VIDEOS_HQ`; el liviano va igual en `public/`.
+el camino a `VIDEOS_HQ`; el liviano va igual en `public/`. Los loops de 8 s van
+más livianos que las piezas enteras (CRF 23 con tope de 2,5 Mbps en 1080; CRF 24 y
+1,2 Mbps en 720): con el tope de 6 Mbps pesaban 6,6 MB cada uno y /motion bajaba 46 MB
+scrolleando entera. Medido el 2026-11-07 en producción, scrolleando toda la página:
+home 5,8 MB, /motion 8,9, /tech 11,2, /3d 5,2 (antes de los videos en alta, /motion
+3,6); sin scrollear, 1,5 a 2 MB como antes.
 
 **El showreel del home muestra la obra entera** (`object-fit: contain`), corrida
 a la derecha con el título a la izquierda y, detrás, la misma imagen desenfocada;
