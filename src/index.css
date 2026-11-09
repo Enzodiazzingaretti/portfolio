@@ -65,7 +65,7 @@ body {
   margin: 0;
   background:
     radial-gradient(circle at 80% 8%, rgb(var(--red-deep-ch) / 0.13), transparent 30rem),
-    radial-gradient(circle at 10% 40%, rgba(255, 255, 255, 0.035), transparent 24rem),
+    radial-gradient(circle at 10% 40%, rgb(var(--fg-ch) / 0.035), transparent 24rem),
     var(--bg);
   color: var(--text);
   font-family: "Inter", "Arial", sans-serif;
@@ -79,7 +79,7 @@ body {
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; font: inherit; background: none; border: none; padding: 0; color: inherit; }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 a:focus-visible,
 button:focus-visible {
@@ -224,7 +224,7 @@ button:focus-visible {
   position: relative;
   isolation: isolate;
   box-shadow:
-    0 32px 100px -60px rgba(255,255,255,0.16),
+    0 32px 100px -60px rgb(var(--fg-ch) / 0.16),
     0 36px 110px -45px rgba(0,0,0,0.86);
 }
 
@@ -233,9 +233,9 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border: 1px solid rgba(255,255,255,0.14);
+  border: 1px solid rgb(var(--fg-ch) / 0.14);
   background:
-    linear-gradient(115deg, rgba(255,255,255,0.12), transparent 24%, transparent 70%, rgb(var(--red-deep-ch) / 0.18));
+    linear-gradient(115deg, rgb(var(--fg-ch) / 0.12), transparent 24%, transparent 70%, rgb(var(--red-deep-ch) / 0.18));
   opacity: 0.5;
   transition: opacity var(--base) var(--ease-out), border-color var(--base) var(--ease-out);
 }
@@ -249,9 +249,9 @@ button:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgb(var(--fg-ch) / 0.12);
   color: rgb(var(--paper-ch) / 0.62);
-  background: rgba(255,255,255,0.02);
+  background: rgb(var(--fg-ch) / 0.02);
   transition:
     border-color var(--base) var(--ease-out),
     color var(--base) var(--ease-out),
@@ -261,14 +261,14 @@ button:focus-visible {
 
 .premium-button:hover {
   transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.28);
-  color: #fff;
-  background: rgba(255,255,255,0.045);
+  border-color: rgb(var(--fg-ch) / 0.28);
+  color: rgb(var(--fg-ch));
+  background: rgb(var(--fg-ch) / 0.045);
 }
 
 .premium-button-accent {
   border-color: var(--accent-hover);
-  color: #fff;
+  color: rgb(var(--fg-ch));
   background: var(--accent);
   box-shadow: 0 8px 32px -12px rgb(var(--red-deep-ch) / 0.55);
 }
@@ -281,7 +281,7 @@ button:focus-visible {
 
 .case-study,
 .render-row {
-  border-top: 1px solid rgba(255,255,255,0.07);
+  border-top: 1px solid rgb(var(--fg-ch) / 0.07);
   padding-top: 2rem;
 }
 
@@ -289,7 +289,7 @@ button:focus-visible {
    LAB GENERATIVO (Liturgia Máquina)
 ───────────────────────────────────────── */
 .lab-frame {
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgb(var(--fg-ch) / 0.12);
   transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
 }
 
@@ -306,11 +306,11 @@ button:focus-visible {
 /* ── Tablero de parámetros ─────────────────────────────────────
    Cada obra expone cuatro controles. La tipografía es la misma micro
    monoespaciada del resto del sitio, y los alfas respetan el piso de
-   contraste (0.45 sobre #050505 = 4.5:1 en texto chico). */
+   contraste (0.45 sobre rgb(var(--deep-ch)) = 4.5:1 en texto chico). */
 .lab-controls {
   margin-top: 1rem;
   padding-top: 0.85rem;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgb(var(--fg-ch) / 0.08);
 }
 
 .lab-controls__bar {
@@ -322,14 +322,14 @@ button:focus-visible {
 }
 
 .lab-reset {
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   transition: color var(--fast) var(--ease-out);
 }
 
 .lab-reset:hover:not(:disabled) { color: var(--accent-hover); }
 
 .lab-reset:disabled {
-  color: rgba(255,255,255,0.2);
+  color: rgb(var(--fg-ch) / 0.2);
   cursor: default;
 }
 
@@ -361,13 +361,13 @@ button:focus-visible {
   font-size: 0.625rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.62);
+  color: rgb(var(--fg-ch) / 0.62);
 }
 
 .lab-ctrl__value {
   font-size: 0.625rem;
   letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.85);
+  color: rgb(var(--fg-ch) / 0.85);
   font-variant-numeric: tabular-nums;
 }
 
@@ -398,7 +398,7 @@ button:focus-visible {
   background: linear-gradient(
     to right,
     var(--accent-hover) 0 var(--fill, 0%),
-    rgba(255,255,255,0.18) var(--fill, 0%) 100%
+    rgb(var(--fg-ch) / 0.18) var(--fill, 0%) 100%
   );
 }
 
@@ -418,7 +418,7 @@ button:focus-visible {
 
 .lab-slider::-moz-range-track {
   height: 2px;
-  background: rgba(255,255,255,0.18);
+  background: rgb(var(--fg-ch) / 0.18);
 }
 
 .lab-slider::-moz-range-progress {
@@ -456,7 +456,7 @@ button:focus-visible {
    lámina translúcida, así se mantiene la sensación de estar sobre la obra y
    no en otra pantalla. */
 .modal-scrim {
-  background: rgba(5, 5, 5, 0.62);
+  background: rgb(var(--deep-ch) / 0.62);
   backdrop-filter: blur(22px) saturate(115%);
   -webkit-backdrop-filter: blur(22px) saturate(115%);
   animation: scrimIn 220ms var(--ease-out) both;
@@ -464,8 +464,8 @@ button:focus-visible {
 
 .modal-cinematic {
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(14, 14, 16, 0.55);
+  border: 1px solid rgb(var(--fg-ch) / 0.09);
+  background: rgb(var(--deep-ch) / 0.55);
   backdrop-filter: blur(30px) saturate(135%);
   -webkit-backdrop-filter: blur(30px) saturate(135%);
   box-shadow:
@@ -484,8 +484,8 @@ button:focus-visible {
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.055),
-    rgba(255, 255, 255, 0) 38%
+    rgb(var(--fg-ch) / 0.055),
+    rgb(var(--fg-ch) / 0) 38%
   );
   z-index: 3;
 }
@@ -499,15 +499,15 @@ button:focus-visible {
 }
 
 .modal-aside {
-  background: rgba(10, 10, 12, 0.5);
-  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgb(var(--deep-ch) / 0.5);
+  border-left: 1px solid rgb(var(--fg-ch) / 0.07);
   border-radius: 0 17px 17px 0;
 }
 
 /* Controles: pastillas de vidrio en vez de cuadrados opacos */
 .modal-ctrl {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgb(var(--fg-ch) / 0.12);
+  background: rgb(var(--fg-ch) / 0.06);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 999px;
@@ -515,18 +515,18 @@ button:focus-visible {
 }
 
 .modal-ctrl:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.28);
-  color: #fff;
+  background: rgb(var(--fg-ch) / 0.12);
+  border-color: rgb(var(--fg-ch) / 0.28);
+  color: rgb(var(--fg-ch));
 }
 
 /* En mobile el visor es a pantalla completa, así que el vidrio va en las
    franjas de chrome y en la hoja de info, no en un marco. */
 .modal-sheet {
-  background: rgba(10, 10, 12, 0.72);
+  background: rgb(var(--deep-ch) / 0.72);
   backdrop-filter: blur(24px) saturate(130%);
   -webkit-backdrop-filter: blur(24px) saturate(130%);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgb(var(--fg-ch) / 0.08);
 }
 
 @media (max-width: 767px) {
@@ -592,11 +592,11 @@ button:focus-visible {
   font-size: 10px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   transition: color var(--base) var(--ease-out);
 }
 
-.notfound-link:hover { color: #fff; }
+.notfound-link:hover { color: rgb(var(--fg-ch)); }
 
 /* ─────────────────────────────────────────
    CUSTOM CURSOR
@@ -616,7 +616,7 @@ button:focus-visible {
     position: fixed;
     top: 0; left: 0;
     width: 6px; height: 6px;
-    background: #ffffff;
+    background: rgb(var(--fg-ch));
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
@@ -635,7 +635,7 @@ button:focus-visible {
     width: 32px;
     height: 32px;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgb(var(--fg-ch) / 0.4);
   }
 
   .cursor-dot.clicking {
@@ -694,9 +694,9 @@ button:focus-visible {
 ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 0; }
+::-webkit-scrollbar-thumb { background: rgb(var(--fg-ch) / 0.12); border-radius: 0; }
 ::-webkit-scrollbar-thumb:hover { background: rgb(var(--red-deep-ch) / 0.7); }
-* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) #000; }
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--fg-ch) / 0.12) #000; }
 
 /* ─────────────────────────────────────────
    GRAIN OVERLAY
@@ -936,8 +936,8 @@ button:focus-visible {
   inset: 0;
   background:
     radial-gradient(circle at 72% 50%, rgb(var(--red-deep-ch) / 0.16), transparent 38%),
-    linear-gradient(to right, rgba(5,5,5,0.90) 0%, rgba(5,5,5,0.38) 44%, rgba(5,5,5,0) 74%),
-    linear-gradient(to top, rgba(5,5,5,0.80) 0%, rgba(5,5,5,0.16) 30%, transparent 55%);
+    linear-gradient(to right, rgb(var(--deep-ch) / 0.90) 0%, rgb(var(--deep-ch) / 0.38) 44%, rgb(var(--deep-ch) / 0) 74%),
+    linear-gradient(to top, rgb(var(--deep-ch) / 0.80) 0%, rgb(var(--deep-ch) / 0.16) 30%, transparent 55%);
 }
 
 /* ── Barra superior ────────────────────────────────────────────── */
@@ -951,7 +951,7 @@ button:focus-visible {
   align-items: center;
   gap: 2rem;
   padding: 1.1rem var(--page-px);
-  background: linear-gradient(to bottom, rgba(5,5,5,0.88), rgba(5,5,5,0));
+  background: linear-gradient(to bottom, rgb(var(--deep-ch) / 0.88), rgb(var(--deep-ch) / 0));
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -962,7 +962,7 @@ button:focus-visible {
    pisaria el texto del hero y conserva el fondo completo. */
 @media (min-width: 768px) {
   .shell-bar--home {
-    background: linear-gradient(to bottom, rgba(5,5,5,0.62), rgba(5,5,5,0));
+    background: linear-gradient(to bottom, rgb(var(--deep-ch) / 0.62), rgb(var(--deep-ch) / 0));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -1052,7 +1052,7 @@ button:focus-visible {
   font-size: 10px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.48);
+  color: rgb(var(--fg-ch) / 0.48);
   transition: color var(--base) var(--ease-out);
   white-space: nowrap;
 }
@@ -1070,10 +1070,10 @@ button:focus-visible {
   transition: transform var(--base) var(--ease-out);
 }
 
-.shell-nav-link:hover { color: #fff; }
+.shell-nav-link:hover { color: rgb(var(--fg-ch)); }
 .shell-nav-link:hover::after,
 .shell-nav-link.is-active::after { transform: scaleX(1); }
-.shell-nav-link.is-active { color: rgba(255,255,255,0.92); }
+.shell-nav-link.is-active { color: rgb(var(--fg-ch) / 0.92); }
 
 @media (max-width: 520px) {
   .shell-actions { gap: 0.85rem; }
@@ -1125,7 +1125,7 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.72);
+  color: rgb(var(--fg-ch) / 0.72);
   /* Placa propia y no solo sombra de texto. Esta linea cae del lado derecho,
      encima de lo mas denso del campo ASCII, y a 9 px con letterspacing el
      halo no alcanza cuando pasa el orbe o el enjambre. Es una chapa de
@@ -1139,11 +1139,11 @@ button:focus-visible {
      caracteres y quedan como un resplandor con textura, que es lo que tiene
      que verse debajo; el velo solo baja la luminancia lo justo. */
   padding: 0.4rem 0.7rem;
-  background: rgba(5,5,5,0.42);
+  background: rgb(var(--deep-ch) / 0.42);
   backdrop-filter: blur(13px) saturate(0.85);
   -webkit-backdrop-filter: blur(13px) saturate(0.85);
-  border: 1px solid rgba(255,255,255,0.07);
-  text-shadow: 0 0 4px rgba(5,5,5,0.85);
+  border: 1px solid rgb(var(--fg-ch) / 0.07);
+  text-shadow: 0 0 4px rgb(var(--deep-ch) / 0.85);
 }
 
 .home-status-dot {
@@ -1207,8 +1207,8 @@ button:focus-visible {
   font-size: 11px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.74);
-  text-shadow: 0 0 6px rgba(5,5,5,0.9);
+  color: rgb(var(--fg-ch) / 0.74);
+  text-shadow: 0 0 6px rgb(var(--deep-ch) / 0.9);
 }
 
 .home-scroll {
@@ -1219,17 +1219,17 @@ button:focus-visible {
   font-size: 9px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.48);
+  color: rgb(var(--fg-ch) / 0.48);
   transition: color var(--base) var(--ease-out);
 }
 
-.home-scroll:hover { color: rgba(255,255,255,0.75); }
+.home-scroll:hover { color: rgb(var(--fg-ch) / 0.75); }
 
 .home-scroll-rule {
   display: block;
   width: 1px;
   height: 2.4rem;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+  background: linear-gradient(to bottom, rgb(var(--fg-ch) / 0.35), transparent);
   animation: scrollRule 2.4s ease-in-out infinite;
 }
 
@@ -1244,17 +1244,17 @@ button:focus-visible {
    vienen abajo, ya sobre fondo opaco. */
 .home-about {
   padding: 1rem var(--page-px) 4rem;
-  background: rgba(5,5,5,0.95);
+  background: rgb(var(--deep-ch) / 0.95);
 }
 
 .home-index {
   padding: 1rem var(--page-px) 4rem;
-  background: rgba(5,5,5,0.95);
+  background: rgb(var(--deep-ch) / 0.95);
 }
 
 .home-contact {
   padding: 2rem var(--page-px) 7rem;
-  background: rgba(5,5,5,0.95);
+  background: rgb(var(--deep-ch) / 0.95);
 }
 
 /* La sección que queda pegada al hero, sea cual sea. El degradado disuelve el
@@ -1265,7 +1265,7 @@ button:focus-visible {
    sola clase dependería del orden y se rompería al mover un bloque. */
 section.home-lead {
   padding-top: 5rem;
-  background: linear-gradient(to bottom, rgba(5,5,5,0.45), rgba(5,5,5,0.95) 14%);
+  background: linear-gradient(to bottom, rgb(var(--deep-ch) / 0.45), rgb(var(--deep-ch) / 0.95) 14%);
 }
 
 /* Dos columnas en desktop: el texto a la izquierda (con el ancho de lectura de
@@ -1327,7 +1327,7 @@ section.home-lead {
 
 .home-showcase {
   padding: 1rem var(--page-px) 3.5rem;
-  background: rgba(5,5,5,0.95);
+  background: rgb(var(--deep-ch) / 0.95);
 }
 
 .showcase { position: relative; }
@@ -1394,7 +1394,7 @@ section.home-lead {
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-2);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgb(var(--fg-ch) / 0.12);
   transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
 }
 
@@ -1471,8 +1471,8 @@ section.home-lead {
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid var(--line);
-  background: rgba(255,255,255,0.02);
-  color: rgba(255,255,255,0.7);
+  background: rgb(var(--fg-ch) / 0.02);
+  color: rgb(var(--fg-ch) / 0.7);
   transition: color var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out);
 }
 
@@ -1500,10 +1500,10 @@ section.home-lead {
   align-items: center;
   gap: 0.4rem;
   padding: 0.42rem 0.6rem;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(5,5,5,0.62);
+  border: 1px solid rgb(var(--fg-ch) / 0.18);
+  background: rgb(var(--deep-ch) / 0.62);
   backdrop-filter: blur(7px);
-  color: rgba(255,255,255,0.75);
+  color: rgb(var(--fg-ch) / 0.75);
   transition: color var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out),
               background var(--fast) var(--ease-out);
 }
@@ -1560,7 +1560,7 @@ section.home-lead {
 .home-index-rule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, rgb(var(--red-deep-ch) / 0.6), rgba(255,255,255,0.07));
+  background: linear-gradient(to right, rgb(var(--red-deep-ch) / 0.6), rgb(var(--fg-ch) / 0.07));
 }
 
 .cat-index {
@@ -1610,7 +1610,7 @@ section.home-lead {
 .cat-row-num {
   font-size: 10px;
   letter-spacing: 0.28em;
-  color: rgba(255,255,255,0.46);
+  color: rgb(var(--fg-ch) / 0.46);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -1633,13 +1633,13 @@ section.home-lead {
   transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);
 }
 
-.cat-row.is-hovered .cat-row-title { color: #fff; }
+.cat-row.is-hovered .cat-row-title { color: rgb(var(--fg-ch)); }
 
 .cat-row-kicker {
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.48);
+  color: rgb(var(--fg-ch) / 0.48);
 }
 
 /* Avance de la obra: solo desktop, aparece en hover */
@@ -1657,7 +1657,7 @@ section.home-lead {
   width: 92px;
   height: 62px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   opacity: 0;
   transform: translateY(10px);
   filter: grayscale(1);
@@ -1681,14 +1681,14 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.48);
+  color: rgb(var(--fg-ch) / 0.48);
   white-space: nowrap;
 }
 
 .cat-row-arrow {
   display: inline-block;
   font-size: 14px;
-  color: rgba(255,255,255,0.47);
+  color: rgb(var(--fg-ch) / 0.47);
   transition: transform var(--base) var(--ease-out), color var(--base) var(--ease-out);
 }
 
@@ -1734,7 +1734,7 @@ section.home-lead {
   font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.52);
+  color: rgb(var(--fg-ch) / 0.52);
   transition: color var(--base) var(--ease-out), gap var(--base) var(--ease-out);
 }
 
@@ -1802,7 +1802,7 @@ section.home-lead {
 .cat-group-rule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, rgb(var(--red-deep-ch) / 0.5), rgba(255,255,255,0.06));
+  background: linear-gradient(to right, rgb(var(--red-deep-ch) / 0.5), rgb(var(--fg-ch) / 0.06));
 }
 
 .cat-group-note {
@@ -1810,7 +1810,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   white-space: nowrap;
 }
 
@@ -1849,7 +1849,7 @@ section.home-lead {
   display: block;
   overflow: hidden;
   background: var(--bg-2);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
 }
 
@@ -1941,7 +1941,7 @@ section.home-lead {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--bg-2);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgb(var(--fg-ch) / 0.12);
   transition: border-color var(--base) var(--ease-out), box-shadow var(--base) var(--ease-out);
 }
 
@@ -1966,7 +1966,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.82);
+  color: rgb(var(--fg-ch) / 0.82);
 }
 
 .loop-tile-dot {
@@ -2038,7 +2038,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -2053,17 +2053,17 @@ section.home-lead {
 }
 
 .cat-pager-link:hover .cat-pager-dir { color: var(--accent-hover); }
-.cat-pager-link:hover .cat-pager-title { color: #fff; }
+.cat-pager-link:hover .cat-pager-title { color: rgb(var(--fg-ch)); }
 
 .cat-pager-home {
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   transition: color var(--base) var(--ease-out);
 }
 
-.cat-pager-home:hover { color: #fff; }
+.cat-pager-home:hover { color: rgb(var(--fg-ch)); }
 
 /* ── Caso de estudio (/web/<slug>) ─────────────────────────────── */
 /* Lectura larga: una columna de texto de ~65 caracteres con el título de
@@ -2095,7 +2095,7 @@ section.home-lead {
   color: theme(colors.raveRedBright);
 }
 
-.case-kicker-tags { color: rgba(255,255,255,0.55); }
+.case-kicker-tags { color: rgb(var(--fg-ch) / 0.55); }
 
 .case-title {
   font-weight: 700;
@@ -2154,7 +2154,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.52);
+  color: rgb(var(--fg-ch) / 0.52);
   margin-bottom: 0.4rem;
 }
 
@@ -2224,9 +2224,9 @@ section.home-lead {
   font-family: theme(fontFamily.mono);
   font-size: 0.86em;
   padding: 0.08em 0.35em;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04);
-  color: #fff;
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
+  background: rgb(var(--fg-ch) / 0.04);
+  color: rgb(var(--fg-ch));
   white-space: nowrap;
 }
 
@@ -2263,7 +2263,7 @@ section.home-lead {
   font-size: clamp(1.25rem, 2vw, 1.55rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: rgb(var(--fg-ch));
   margin-bottom: 0.75rem;
 }
 
@@ -2272,8 +2272,8 @@ section.home-lead {
   gap: 0.45rem;
   margin-top: 1rem;
   padding: 0.9rem 1rem;
-  border-left: 2px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.025);
+  border-left: 2px solid rgb(var(--fg-ch) / 0.14);
+  background: rgb(var(--fg-ch) / 0.025);
   font-size: 0.9rem;
   line-height: 1.65;
   color: rgb(var(--paper-ch) / 0.72);
@@ -2283,7 +2283,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  color: rgb(var(--fg-ch) / 0.55);
 }
 
 .case-stats {
@@ -2299,7 +2299,7 @@ section.home-lead {
   font-size: clamp(1.9rem, 3.4vw, 2.9rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: rgb(var(--fg-ch));
   font-variant-numeric: tabular-nums;
 }
 
@@ -2325,7 +2325,7 @@ section.home-lead {
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   background: theme(colors.surface);
 }
 
@@ -2358,7 +2358,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.52);
+  color: rgb(var(--fg-ch) / 0.52);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -2373,12 +2373,12 @@ section.home-lead {
 }
 
 .case-pager-next:hover .case-pager-dir { color: var(--accent-hover); }
-.case-pager-next:hover .case-pager-title { color: #fff; }
+.case-pager-next:hover .case-pager-title { color: rgb(var(--fg-ch)); }
 
 /* ── Casos en el home ──────────────────────────────────────────── */
 .home-cases {
   padding: 1rem var(--page-px) 4rem;
-  background: rgba(5,5,5,0.95);
+  background: rgb(var(--deep-ch) / 0.95);
 }
 
 .case-rows { display: flex; flex-direction: column; }
@@ -2420,7 +2420,7 @@ section.home-lead {
   padding-top: 0.45rem;
   font-size: 10px;
   letter-spacing: 0.28em;
-  color: rgba(255,255,255,0.48);
+  color: rgb(var(--fg-ch) / 0.48);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -2455,7 +2455,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
 }
 
 @media (min-width: 1024px) {
@@ -2465,7 +2465,7 @@ section.home-lead {
 .case-row-arrow {
   display: inline-block;
   font-size: 14px;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--fg-ch) / 0.5);
   transition: transform var(--base) var(--ease-out), color var(--base) var(--ease-out);
 }
 
@@ -2474,7 +2474,7 @@ section.home-lead {
 .case-row:hover .case-row-num,
 .case-row:focus-visible .case-row-num { color: var(--accent-hover); }
 .case-row:hover .case-row-title,
-.case-row:focus-visible .case-row-title { color: #fff; }
+.case-row:focus-visible .case-row-title { color: rgb(var(--fg-ch)); }
 .case-row:hover .case-row-arrow,
 .case-row:focus-visible .case-row-arrow { transform: translateX(6px); color: var(--accent-hover); }
 
@@ -2494,7 +2494,7 @@ section.home-lead {
   position: absolute;
   inset: 0;
   width: 100%;
-  background: rgba(5,5,5,0.82);
+  background: rgb(var(--deep-ch) / 0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   animation: scrimIn 260ms var(--ease-out) both;
@@ -2509,8 +2509,8 @@ section.home-lead {
   bottom: 0;
   width: min(560px, 100%);
   overflow-y: auto;
-  background: linear-gradient(180deg, #0A0A0A 0%, #070707 100%);
-  border-left: 1px solid rgba(255,255,255,0.09);
+  background: linear-gradient(180deg, rgb(var(--deep-ch)) 0%, rgb(var(--deep-ch)) 100%);
+  border-left: 1px solid rgb(var(--fg-ch) / 0.09);
   box-shadow: -40px 0 120px -40px rgba(0,0,0,0.9);
   animation: panelIn 380ms var(--ease-out) both;
 }
@@ -2533,7 +2533,7 @@ section.home-lead {
   justify-content: space-between;
   gap: 1rem;
   padding: 1.4rem 2rem;
-  background: rgba(10,10,10,0.92);
+  background: rgb(var(--deep-ch) / 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
@@ -2543,7 +2543,7 @@ section.home-lead {
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.52);
+  color: rgb(var(--fg-ch) / 0.52);
   transition: color var(--base) var(--ease-out);
 }
 
@@ -2567,7 +2567,7 @@ section.home-lead {
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.58);
+  color: rgb(var(--fg-ch) / 0.58);
 }
 
 .info-spec-dot {
@@ -2608,7 +2608,7 @@ section.home-lead {
   width: 38px;
   height: 38px;
   border: 1px solid var(--line);
-  color: rgba(255,255,255,0.55);
+  color: rgb(var(--fg-ch) / 0.55);
   transition:
     color var(--base) var(--ease-out),
     border-color var(--base) var(--ease-out),
@@ -2643,13 +2643,13 @@ section.home-lead {
   transition: color var(--base) var(--ease-out);
 }
 
-.info-contact-link:hover .info-contact-value { color: #fff; }
+.info-contact-link:hover .info-contact-value { color: rgb(var(--fg-ch)); }
 
 .info-contact-arrow {
   grid-row: 1 / 3;
   grid-column: 3;
   align-self: center;
-  color: rgba(255,255,255,0.45);
+  color: rgb(var(--fg-ch) / 0.45);
   transition: color var(--base) var(--ease-out), transform var(--base) var(--ease-out);
 }
 
@@ -2659,12 +2659,12 @@ section.home-lead {
 }
 
 .info-tag {
-  border: 1px solid rgba(255,255,255,0.14);
+  border: 1px solid rgb(var(--fg-ch) / 0.14);
   padding: 0.35rem 0.7rem;
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.62);
+  color: rgb(var(--fg-ch) / 0.62);
 }
 
 /* Scrim local bajo el bloque de texto del hero: con el campo ASCII detras,
@@ -2680,9 +2680,9 @@ section.home-lead {
   pointer-events: none;
   background: radial-gradient(
     ellipse at 50% 50%,
-    rgba(5, 5, 5, 0.96) 0%,
-    rgba(5, 5, 5, 0.9) 50%,
-    rgba(5, 5, 5, 0) 86%
+    rgb(var(--deep-ch) / 0.96) 0%,
+    rgb(var(--deep-ch) / 0.9) 50%,
+    rgb(var(--deep-ch) / 0) 86%
   );
 }
 

@@ -48,6 +48,10 @@
   --red: rgb(var(--red-ch));
   --red-hi: rgb(var(--red-hi-ch));
   --red-deep: rgb(var(--red-deep-ch));
+  /* Primer plano: blanco en las paletas oscuras, tinta en las claras. Y el
+     texto que va sobre el acento (botón rojo, selección) */
+  --fg-ch: 255 255 255;
+  --on-accent: #fff;
 
   --accent: var(--red);
   --accent-hover: color-mix(in srgb, var(--red) 82%, white);
@@ -57,8 +61,8 @@
 
   --glass-fill: rgb(var(--glass-ch) / 0.46);
   --glass-fill-2: rgb(var(--bg-ch) / 0.62);
-  --glass-edge: rgba(255, 255, 255, 0.09);
-  --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  --glass-edge: rgb(var(--fg-ch) / 0.09);
+  --glass-hi: inset 0 1px 0 rgb(var(--glass-hi-ch, 255 255 255) / 0.11);
   --glass-shadow: 0 30px 70px -32px rgba(0, 0, 0, 0.75);
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -74,7 +78,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-::selection { background: var(--red); color: #fff; }
+::selection { background: var(--red); color: var(--on-accent); }
 
 .font-poster {
   font-weight: 400;
@@ -91,7 +95,7 @@ body {
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(130% 90% at 50% -10%, #1d2025 0%, var(--g-900) 52%, var(--g-950) 100%);
+    radial-gradient(130% 90% at 50% -10%, var(--g-850) 0%, var(--g-900) 52%, var(--g-950) 100%);
 }
 
 .atmo-light {
@@ -200,7 +204,7 @@ section.home-lead {
   gap: 1rem;
   padding: 0.45rem 0.5rem 0.45rem 1.05rem;
   border-radius: 999px;
-  background: rgba(30, 32, 37, 0.58);
+  background: rgb(var(--g820-ch) / 0.58);
   border: 1px solid var(--glass-edge);
   box-shadow: var(--glass-hi), 0 18px 44px -20px rgba(0, 0, 0, 0.75);
   -webkit-backdrop-filter: blur(18px) saturate(1.35);
@@ -210,7 +214,7 @@ section.home-lead {
 
 @media (min-width: 768px) {
   .shell-bar--home {
-    background: rgba(30, 32, 37, 0.34);
+    background: rgb(var(--g820-ch) / 0.34);
     -webkit-backdrop-filter: blur(14px) saturate(1.3);
     backdrop-filter: blur(14px) saturate(1.3);
   }
@@ -246,8 +250,8 @@ section.home-lead {
   transition: transform 300ms var(--ease);
 }
 
-.shell-nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-.shell-nav-link.is-active { color: #fff; background: rgb(var(--red-ch) / 0.14); }
+.shell-nav-link:hover { color: rgb(var(--fg-ch)); background: rgb(var(--fg-ch) / 0.05); }
+.shell-nav-link.is-active { color: rgb(var(--fg-ch)); background: rgb(var(--red-ch) / 0.14); }
 .shell-nav-link:hover::after,
 .shell-nav-link.is-active::after { transform: translateX(-50%) scale(1); }
 
@@ -255,7 +259,7 @@ section.home-lead {
 .shell-actions .shell-nav-link { padding: 0.55rem 0.7rem; }
 
 /* Selector de idioma: segmento de vidrio */
-.shell-actions > div:last-child {
+.shell-actions > div:last-child:not(.color-sel) {
   border-radius: 999px;
   border-color: var(--glass-edge) !important;
   background: rgb(var(--deep-ch) / 0.35) !important;
@@ -287,7 +291,7 @@ section.home-lead {
   padding: 0 1.25rem;
   overflow: hidden;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid rgb(var(--fg-ch) / 0.13);
   background: rgb(var(--gun-ch) / 0.42);
   color: var(--paper);
   font-size: 10px;
@@ -305,7 +309,7 @@ section.home-lead {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.22) 48%, transparent 66%);
+  background: linear-gradient(110deg, transparent 30%, rgb(var(--fg-ch) / 0.22) 48%, transparent 66%);
   transform: translateX(-120%);
   transition: transform 700ms var(--ease);
   pointer-events: none;
@@ -315,7 +319,7 @@ section.home-lead {
 .premium-button:hover {
   border-color: rgb(var(--red-ch) / 0.7);
   background: rgb(var(--red-ch) / 0.12);
-  color: #fff;
+  color: rgb(var(--fg-ch));
   transform: translateY(-2px);
   box-shadow: var(--glass-hi);
 }
@@ -327,15 +331,15 @@ section.home-lead {
 .premium-button-accent {
   border-color: rgb(var(--red-hi-ch) / 0.55);
   background: linear-gradient(180deg, color-mix(in srgb, var(--red) 88%, white), var(--red) 55%, color-mix(in srgb, var(--red) 82%, black));
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 14px 34px -14px rgb(var(--red-ch) / 0.75);
+  color: var(--on-accent);
+  box-shadow: inset 0 1px 0 rgb(var(--fg-ch) / 0.3), 0 14px 34px -14px rgb(var(--red-ch) / 0.75);
 }
 
 .vx-btn--red:hover,
 .premium-button-accent:hover {
   border-color: rgb(var(--red-hi-ch) / 0.8);
   background: linear-gradient(180deg, color-mix(in srgb, var(--red) 80%, white), var(--red) 55%, color-mix(in srgb, var(--red) 88%, black));
-  color: #fff;
+  color: var(--on-accent);
 }
 
 /* ───────────────────────── HERO ───────────────────────── */
@@ -568,7 +572,7 @@ html.glass-type .vx-name-line {
   transition: color 250ms;
 }
 
-.vx-scroll:hover { color: #fff; }
+.vx-scroll:hover { color: rgb(var(--fg-ch)); }
 
 .vx-scroll-line {
   display: block;
@@ -821,7 +825,7 @@ html.glass-type .vx-name-line {
   display: block;
   overflow: hidden;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   background: var(--g-950);
   box-shadow: 0 50px 110px -45px rgba(0, 0, 0, 0.9);
   transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
@@ -914,7 +918,7 @@ html.glass-type .vx-name-line {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+  background: repeating-linear-gradient(to bottom, rgb(var(--fg-ch) / 0.025) 0 1px, transparent 1px 3px);
   mix-blend-mode: overlay;
 }
 
@@ -977,7 +981,7 @@ html.glass-type .vx-name-line {
   font-size: clamp(2rem, 4.4vw, 4.2rem);
   line-height: 0.86;
   text-transform: uppercase;
-  color: #fff;
+  color: rgb(var(--fg-ch));
 }
 
 .reel-progress {
@@ -1019,7 +1023,7 @@ html.glass-type .vx-name-line {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgb(var(--fg-ch) / 0.16);
   background: rgb(var(--bg-ch) / 0.5);
   color: var(--paper);
   font-size: 11px;
@@ -1054,13 +1058,13 @@ html.glass-type .vx-name-line {
   transition: background 300ms var(--ease), border-color 300ms var(--ease), color 300ms;
 }
 
-.reel-item:hover { background: rgba(255, 255, 255, 0.035); color: #fff; }
+.reel-item:hover { background: rgb(var(--fg-ch) / 0.035); color: rgb(var(--fg-ch)); }
 
 .reel-item.is-active {
   border-color: var(--glass-edge);
   background: var(--glass-fill);
   box-shadow: var(--glass-hi);
-  color: #fff;
+  color: rgb(var(--fg-ch));
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
@@ -1190,7 +1194,7 @@ html.glass-type .vx-name-line {
   inset: 0;
   overflow: hidden;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgb(var(--fg-ch) / 0.14);
   background: var(--g-800);
   box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.85);
   transform: rotate(calc((var(--c) - 1) * 7deg)) translate(calc((var(--c) - 1) * 16px), calc(var(--c) * -6px));
@@ -1365,9 +1369,9 @@ html.glass-type .vx-name-line {
   aspect-ratio: 9 / 19.3;
   padding: 7px;
   border-radius: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0.07));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 50px 90px -40px rgba(0, 0, 0, 0.95);
+  border: 1px solid rgb(var(--fg-ch) / 0.14);
+  background: linear-gradient(150deg, rgb(var(--fg-ch) / 0.16), rgb(var(--fg-ch) / 0.03) 42%, rgb(var(--fg-ch) / 0.07));
+  box-shadow: inset 0 1px 0 rgb(var(--fg-ch) / 0.28), 0 50px 90px -40px rgba(0, 0, 0, 0.95);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   transform:
@@ -1384,7 +1388,7 @@ html.glass-type .vx-name-line {
 .rl-button:focus-visible .rl-phone {
   --lean: 0deg;
   transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)) translateY(-10px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 60px 100px -40px rgba(0, 0, 0, 0.95), 0 0 70px -18px rgb(var(--red-ch) / 0.55);
+  box-shadow: inset 0 1px 0 rgb(var(--fg-ch) / 0.3), 0 60px 100px -40px rgba(0, 0, 0, 0.95), 0 0 70px -18px rgb(var(--red-ch) / 0.55);
 }
 
 .rl-screen {
@@ -1406,7 +1410,7 @@ html.glass-type .vx-name-line {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 46%);
+  background: linear-gradient(125deg, rgb(var(--fg-ch) / 0.16) 0%, rgb(var(--fg-ch) / 0.02) 30%, transparent 46%);
 }
 
 .rl-scan { display: none; }
@@ -1421,7 +1425,7 @@ html.glass-type .vx-name-line {
   font-size: 8px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #fff;
+  color: rgb(var(--fg-ch));
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
   pointer-events: none;
 }
@@ -1440,9 +1444,9 @@ html.glass-type .vx-name-line {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgb(var(--fg-ch) / 0.3);
   background: rgb(var(--bg-ch) / 0.45);
-  color: #fff;
+  color: rgb(var(--fg-ch));
   font-size: 13px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -1541,7 +1545,7 @@ html.glass-type .vx-name-line {
   aspect-ratio: 16 / 10.5;
   overflow: hidden;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   background: var(--g-800);
   box-shadow: 0 50px 100px -45px rgba(0, 0, 0, 0.95);
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
@@ -1568,7 +1572,7 @@ html.glass-type .vx-name-line {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 60%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--fg-ch) / 0.16), rgb(var(--fg-ch) / 0) 60%);
   opacity: 0;
   transition: opacity 400ms;
   mix-blend-mode: soft-light;
@@ -1618,7 +1622,7 @@ html.glass-type .vx-name-line {
 
 .cc-link:hover .cc-body { transform: translateY(-6px); }
 
-.cc-title { font-size: clamp(1.9rem, 3vw, 2.8rem); line-height: 0.9; text-transform: uppercase; color: #fff; }
+.cc-title { font-size: clamp(1.9rem, 3vw, 2.8rem); line-height: 0.9; text-transform: uppercase; color: rgb(var(--fg-ch)); }
 .cc-summary { font-size: 0.88rem; line-height: 1.65; color: var(--dim); }
 
 .cc-foot {
@@ -1688,7 +1692,7 @@ html.glass-type .vx-name-line {
   border-color: var(--glass-edge) !important;
 }
 
-.info-contact-link:hover .info-contact-icon { background: var(--red); border-color: var(--red) !important; color: #fff; }
+.info-contact-link:hover .info-contact-icon { background: var(--red); border-color: var(--red) !important; color: var(--on-accent); }
 
 .info-contact-value { font-size: clamp(1.4rem, 2.6vw, 2.3rem); color: var(--paper); }
 
@@ -1798,7 +1802,7 @@ html.glass-type .vx-name-line {
   color: var(--paper);
 }
 
-.cat-back:hover { border-color: var(--red); color: #fff; }
+.cat-back:hover { border-color: var(--red); color: rgb(var(--fg-ch)); }
 
 /* En un caso el encabezado es una columna: la vuelta va en el flujo, arriba
    del kicker (absoluta, como en la categoría, se montaba sobre «Caso 01 / 05») */
@@ -1882,7 +1886,7 @@ html.glass-type .vx-name-line {
   display: block;
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgb(var(--fg-ch) / 0.08);
   background: var(--g-800);
   box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9);
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
@@ -1950,7 +1954,7 @@ html.glass-type .vx-name-line {
 }
 
 .work-tile-title,
-.loop-tile-title { font-size: clamp(1.15rem, 1.6vw, 1.45rem); line-height: 0.96; text-transform: uppercase; color: #fff; }
+.loop-tile-title { font-size: clamp(1.15rem, 1.6vw, 1.45rem); line-height: 0.96; text-transform: uppercase; color: rgb(var(--fg-ch)); }
 .work-tile-type { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red-hi); }
 .work-tile-desc,
 .loop-tile-desc { font-size: 0.8rem; line-height: 1.55; color: var(--dim); }
@@ -2028,9 +2032,9 @@ html.glass-type .vx-name-line {
 
 .modal-cinematic {
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(var(--fg-ch) / 0.1);
   background: rgb(var(--bg-ch) / 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 60px 140px -50px rgba(0, 0, 0, 0.95);
+  box-shadow: inset 0 1px 0 rgb(var(--fg-ch) / 0.1), 0 60px 140px -50px rgba(0, 0, 0, 0.95);
 }
 
 .modal-cinematic::before { display: none; }
@@ -2040,19 +2044,19 @@ html.glass-type .vx-name-line {
   background: rgb(var(--deep-ch) / 0.35);
 }
 
-.modal-title { color: #fff; }
+.modal-title { color: rgb(var(--fg-ch)); }
 
 .modal-corner { display: none; }
 
 .modal-ctrl {
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgb(var(--fg-ch) / 0.16);
   background: rgb(var(--bg-ch) / 0.5);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 
-.modal-ctrl:hover { border-color: var(--red); background: rgb(var(--red-ch) / 0.2); color: #fff; }
+.modal-ctrl:hover { border-color: var(--red); background: rgb(var(--red-ch) / 0.2); color: rgb(var(--fg-ch)); }
 
 .modal-pieces { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 
@@ -2207,7 +2211,7 @@ html.glass-type .vx-name-line {
   padding: 0.3rem 0.6rem;
   border-radius: 999px;
   background: var(--red);
-  color: #fff;
+  color: rgb(var(--fg-ch));
   font-size: 8px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -2233,7 +2237,7 @@ html.glass-type .vx-name-line {
   background: rgb(var(--bg-ch) / 0.86);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   backdrop-filter: blur(16px) saturate(1.2);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgb(var(--fg-ch) / 0.05);
   transform-origin: top;
   animation: paneSweep 760ms var(--ease-io) both;
   animation-delay: calc(var(--i) * 26ms);
@@ -2459,7 +2463,7 @@ html.glass-type .vx-name-line {
   overflow: clip;
   isolation: isolate;
   border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgb(var(--fg-ch) / 0.09);
   background: var(--g-800);
   box-shadow: 0 50px 90px -46px rgba(0, 0, 0, 0.95);
   transition: box-shadow 500ms;
@@ -2781,9 +2785,9 @@ html.glass-type .vx-name-line {
   /* Casi opaca: sin desenfoque, los titulares que pasan por debajo se leían
      a través de la nav */
   .shell-bar,
-  .shell-bar--home { background: rgba(24, 26, 31, 0.96); }
+  .shell-bar--home { background: rgb(var(--bg-ch) / 0.96); }
   .vx-btn:not(.vx-btn--red),
-  .premium-button:not(.premium-button-accent) { background: rgba(37, 40, 46, 0.86); }
+  .premium-button:not(.premium-button-accent) { background: rgb(var(--glass-ch) / 0.86); }
   .vx-chip,
   .vx-status { background: rgb(var(--g820-ch) / 0.86); }
   .reel-btn,

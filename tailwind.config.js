@@ -8,15 +8,18 @@ export default {
         // surfaceDeep para paneles de modal
         // «Vidrio ahumado» (2026-11): el fondo deja de ser negro puro y pasa a
         // grafito; gunmetal para superficies y humo para texto secundario.
+        // El «blanco» de las clases (text-white/50…) es el primer plano: en
+        // las paletas claras pasa a ser tinta
+        white: "rgb(var(--fg-ch) / <alpha-value>)",
         ink: "rgb(var(--bg-ch) / <alpha-value>)",
         graphite: "rgb(var(--bg-ch) / <alpha-value>)",
         gunmetal: "rgb(var(--gun-ch) / <alpha-value>)",
         smoke: "rgb(var(--smoke-ch) / <alpha-value>)",
-        surface: "#0A0A0A",
-        surfaceDeep: "#080808",
+        surface: "rgb(var(--deep-ch) / <alpha-value>)",
+        surfaceDeep: "rgb(var(--deep-ch) / <alpha-value>)",
         // Texto: paper para titulares/principal, dim para secundario
         paper: "rgb(var(--paper-ch) / <alpha-value>)",
-        dim: "#C8C8C8",
+        dim: "var(--dim)",
         raveRed: "rgb(var(--red-deep-ch) / <alpha-value>)",
         raveRedHover: "rgb(var(--red2-ch) / <alpha-value>)",
         // Variante luminosa para texto chico sobre fondo oscuro (WCAG AA)

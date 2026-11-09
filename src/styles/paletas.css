@@ -1,105 +1,197 @@
-/* Paletas alternativas, para probar (2026-11-08, a pedido: «exploremos otras
-   paletas»). Solo cambian los canales de vidrio.css; el lienzo WebGL los lee
-   y se actualiza solo. Se activan con `?paleta=<id>` (queda en la sesión) y
-   ahí aparece el selector de PaletaPrueba.jsx; `?paleta=off` lo apaga. Sin
-   parámetro, el sitio es el de siempre (grafito y rojo). */
+/* Paletas del sitio (2026-11-08, a pedido: «paletas recomendadas, un tono
+   hueso, monocromático, diferentes estilos»; después Enzo elige las mejores).
+   Cada una cambia solo canales: --bg-ch (fondo), --deep-ch, --glass-ch,
+   --gun-ch, --smoke-ch, --paper-ch (texto), --fg-ch (el «blanco»), --red-ch
+   (acento) y su variante para texto chico --red-hi-ch; --on-accent es el
+   texto sobre el acento. Las claras llevan --claro: 1 (el lienzo mezcla en
+   vez de sumar). La lista y los nombres, en src/paletas.js. Por defecto,
+   grafito y rojo (vidrio.css). */
 
-/* Brasa: negro cálido, papel crema y naranja de fuego */
+/* ── Oscuras con acento ── */
+
 html[data-paleta="brasa"] {
-  --deep-ch: 16 13 11;
-  --bg-ch: 24 20 17;
-  --g820-ch: 32 27 23;
-  --glass-ch: 37 31 27;
-  --gun-ch: 46 39 34;
-  --smoke-ch: 140 131 121;
-  --paper-ch: 237 230 219;
-  --red-ch: 255 92 31;
-  --red-hi-ch: 255 138 92;
-  --red-deep-ch: 150 40 0;
-  --red2-ch: 196 64 12;
-  --g-850: #201b17;
-  --g-700: #3a322c;
-  --smoke-2: #b0a69a;
-  --dim: #d4ccc1;
+  --deep-ch: 16 13 11; --bg-ch: 24 20 17; --g820-ch: 32 27 23; --glass-ch: 37 31 27; --gun-ch: 46 39 34;
+  --smoke-ch: 140 131 121; --paper-ch: 237 230 219;
+  --red-ch: 255 92 31; --red-hi-ch: 255 138 92; --red-deep-ch: 150 40 0; --red2-ch: 196 64 12;
+  --g-850: #201b17; --g-700: #3a322c; --smoke-2: #b0a69a; --dim: #d4ccc1;
 }
 
-/* Cobalto: tinta azul noche, papel frío y azul eléctrico */
 html[data-paleta="cobalto"] {
-  --deep-ch: 11 13 18;
-  --bg-ch: 17 20 27;
-  --g820-ch: 24 28 37;
-  --glass-ch: 29 33 43;
-  --gun-ch: 38 43 55;
-  --smoke-ch: 127 134 152;
-  --paper-ch: 228 231 238;
-  --red-ch: 61 99 255;
-  --red-hi-ch: 124 151 255;
-  --red-deep-ch: 22 40 140;
-  --red2-ch: 40 66 200;
-  --g-850: #161a23;
-  --g-700: #303648;
-  --smoke-2: #a3a9b8;
-  --dim: #c7cbd5;
+  --deep-ch: 11 13 18; --bg-ch: 17 20 27; --g820-ch: 24 28 37; --glass-ch: 29 33 43; --gun-ch: 38 43 55;
+  --smoke-ch: 127 134 152; --paper-ch: 228 231 238;
+  --red-ch: 61 99 255; --red-hi-ch: 124 151 255; --red-deep-ch: 22 40 140; --red2-ch: 40 66 200;
+  --g-850: #161a23; --g-700: #303648; --smoke-2: #a3a9b8; --dim: #c7cbd5;
 }
 
-/* Ultravioleta: berenjena casi negra, papel lavanda y violeta */
 html[data-paleta="ultravioleta"] {
-  --deep-ch: 15 13 19;
-  --bg-ch: 21 18 26;
-  --g820-ch: 29 25 36;
-  --glass-ch: 34 30 42;
-  --gun-ch: 44 39 54;
-  --smoke-ch: 138 131 150;
-  --paper-ch: 236 232 240;
-  --red-ch: 139 92 255;
-  --red-hi-ch: 179 155 255;
-  --red-deep-ch: 70 30 150;
-  --red2-ch: 104 56 210;
-  --g-850: #1b1722;
-  --g-700: #362f42;
-  --smoke-2: #aea6bb;
-  --dim: #d2ccda;
+  --deep-ch: 15 13 19; --bg-ch: 21 18 26; --g820-ch: 29 25 36; --glass-ch: 34 30 42; --gun-ch: 44 39 54;
+  --smoke-ch: 138 131 150; --paper-ch: 236 232 240;
+  --red-ch: 139 92 255; --red-hi-ch: 179 155 255; --red-deep-ch: 70 30 150; --red2-ch: 104 56 210;
+  --g-850: #1b1722; --g-700: #362f42; --smoke-2: #aea6bb; --dim: #d2ccda;
 }
 
-/* Hueso: el mismo grafito, con el acento en blanco hueso (sin color) */
+/* Ácido: tinta verdosa y verde lima; el texto sobre el acento va oscuro */
+html[data-paleta="acido"] {
+  --deep-ch: 12 14 12; --bg-ch: 18 20 18; --g820-ch: 25 28 25; --glass-ch: 30 33 30; --gun-ch: 40 44 40;
+  --smoke-ch: 128 135 125; --paper-ch: 231 234 226;
+  --red-ch: 200 242 60; --red-hi-ch: 214 250 120; --red-deep-ch: 70 100 10; --red2-ch: 140 180 30;
+  --on-accent: #101210;
+  --g-850: #1a1d1a; --g-700: #333833; --smoke-2: #a7ada3; --dim: #ccd1c7;
+}
+
+/* ── Monocromas ── */
+
+/* Hueso: el grafito de siempre con el acento en blanco hueso */
 html[data-paleta="hueso"] {
-  --red-ch: 214 208 196;
-  --red-hi-ch: 236 232 224;
-  --red-deep-ch: 92 90 86;
-  --red2-ch: 150 146 138;
+  --red-ch: 214 208 196; --red-hi-ch: 236 232 224; --red-deep-ch: 92 90 86; --red2-ch: 150 146 138;
+  --on-accent: #17191d;
 }
-html[data-paleta="hueso"] :is(.vx-btn--red, .bg-kexxy, .bg-raveRed) { color: #17191d; }
 
-/* El selector de prueba */
-.paleta-prueba {
-  position: fixed;
-  left: 50%;
-  bottom: max(0.8rem, env(safe-area-inset-bottom));
-  z-index: 9000;
-  translate: -50% 0;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  max-width: calc(100vw - 1.2rem);
-  padding: 0.35rem;
-  overflow-x: auto;
-  border: 1px solid rgb(var(--paper-ch) / 0.14);
-  border-radius: 999px;
-  background: rgb(var(--deep-ch) / 0.92);
-  box-shadow: 0 14px 40px -12px rgb(0 0 0 / 0.8);
-  scrollbar-width: none;
+/* Tinta: blanco y negro, sin tinte */
+html[data-paleta="tinta"] {
+  --deep-ch: 9 9 9; --bg-ch: 17 17 17; --g820-ch: 24 24 24; --glass-ch: 29 29 29; --gun-ch: 40 40 40;
+  --smoke-ch: 130 130 130; --paper-ch: 236 236 236;
+  --red-ch: 245 245 245; --red-hi-ch: 255 255 255; --red-deep-ch: 70 70 70; --red2-ch: 120 120 120;
+  --on-accent: #111;
+  --g-850: #181818; --g-700: #333; --smoke-2: #a8a8a8; --dim: #cfcfcf;
 }
-.paleta-prueba button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex: none;
-  padding: 0.45rem 0.7rem;
-  border-radius: 999px;
-  font-size: 10px;
+
+/* Acero: grises fríos y un azul gris apagado */
+html[data-paleta="acero"] {
+  --deep-ch: 12 14 17; --bg-ch: 19 22 26; --g820-ch: 26 30 35; --glass-ch: 31 35 41; --gun-ch: 42 47 54;
+  --smoke-ch: 128 136 146; --paper-ch: 226 230 234;
+  --red-ch: 159 179 200; --red-hi-ch: 186 203 220; --red-deep-ch: 60 76 94; --red2-ch: 100 120 142;
+  --on-accent: #0f1215;
+  --g-850: #1b1f24; --g-700: #343a42; --smoke-2: #a6aeb8; --dim: #c9cfd6;
+}
+
+/* ── Claras ── */
+
+/* Papel: fondo hueso, tinta grafito y el rojo de siempre */
+html[data-paleta="papel"] {
+  --claro: 1;
+  --deep-ch: 222 216 204; --bg-ch: 233 228 218; --g820-ch: 226 220 209; --glass-ch: 241 237 229; --gun-ch: 214 208 196;
+  --smoke-ch: 108 104 97; --paper-ch: 23 25 29; --fg-ch: 23 25 29; --glass-hi-ch: 255 255 255;
+  --red-ch: 214 30 48; --red-hi-ch: 186 18 36; --red-deep-ch: 150 20 30; --red2-ch: 180 25 40;
+  --on-accent: #fff;
+  --g-850: #e2ddd2; --g-700: #cfc8bb; --smoke-2: #6a665f; --dim: #3a3c40;
+}
+
+/* Papel y tinta: fondo hueso, todo en tinta, sin color */
+html[data-paleta="papel-tinta"] {
+  --claro: 1;
+  --deep-ch: 222 216 204; --bg-ch: 233 228 218; --g820-ch: 226 220 209; --glass-ch: 241 237 229; --gun-ch: 214 208 196;
+  --smoke-ch: 108 104 97; --paper-ch: 23 25 29; --fg-ch: 23 25 29; --glass-hi-ch: 255 255 255;
+  --red-ch: 23 25 29; --red-hi-ch: 23 25 29; --red-deep-ch: 80 80 80; --red2-ch: 60 60 60;
+  --on-accent: #e9e4da;
+  --g-850: #e2ddd2; --g-700: #cfc8bb; --smoke-2: #6a665f; --dim: #3a3c40;
+}
+
+/* Hormigón: gris claro y azul cobalto */
+html[data-paleta="hormigon"] {
+  --claro: 1;
+  --deep-ch: 204 205 202; --bg-ch: 217 218 214; --g820-ch: 210 211 207; --glass-ch: 228 229 226; --gun-ch: 196 197 193;
+  --smoke-ch: 96 98 100; --paper-ch: 20 22 26; --fg-ch: 20 22 26; --glass-hi-ch: 255 255 255;
+  --red-ch: 40 70 230; --red-hi-ch: 30 56 200; --red-deep-ch: 20 40 140; --red2-ch: 32 60 190;
+  --on-accent: #fff;
+  --g-850: #d0d1cd; --g-700: #b9bab6; --smoke-2: #5c5e61; --dim: #33363b;
+}
+
+/* Selector de color de la barra (ColorSelector.jsx) */
+.color-sel { position: relative; display: inline-flex; }
+.color-sel-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-edge);
+  background: rgb(var(--deep-ch) / 0.35);
+  transition: border-color 300ms var(--ease), transform 300ms var(--ease);
+}
+.color-sel-btn:hover,
+.color-sel.is-open .color-sel-btn { border-color: rgb(var(--paper-ch) / 0.35); }
+.color-sel-btn:active { transform: scale(0.94); }
+.color-sel-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgb(var(--paper-ch) / 0.06), 0 0 14px -2px rgb(var(--red-ch) / 0.9);
+}
+.color-sel-pop {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 0;
+  z-index: 60;
+  width: max-content;
+  max-width: min(calc(100vw - 1.5rem), 27rem);
+  padding: 0.8rem 0.8rem 0.7rem;
+  border: 1px solid var(--glass-edge);
+  border-radius: 18px;
+  background: rgb(var(--deep-ch) / 0.94);
+  box-shadow: var(--glass-hi), var(--glass-shadow);
+  animation: colorPop 320ms var(--ease) both;
+}
+.color-sel-pop[hidden] { display: none; }
+@keyframes colorPop { from { opacity: 0; transform: translateY(-6px) scale(0.98); } }
+.color-sel-titulo {
+  display: block;
+  margin: 0 0 0.6rem 0.2rem;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--paper-ch) / 0.55);
+}
+.color-sel-grupo + .color-sel-grupo { margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px solid var(--glass-edge); }
+.color-sel-subtitulo {
+  display: block;
+  margin: 0 0 0.25rem 0.3rem;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--paper-ch) / 0.42);
+}
+.color-sel-fila { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+.color-sel-op {
+  width: 4.7rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.4rem 0.4rem;
+  border-radius: 12px;
+  transition: background 250ms var(--ease);
+}
+.color-sel-op:hover { background: rgb(var(--paper-ch) / 0.06); }
+.color-sel-muestra {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, var(--m) 0 50%, var(--f) 50% 100%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+}
+.color-sel-op[aria-checked="true"] .color-sel-muestra { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2), 0 0 0 2px var(--g-950), 0 0 0 3.5px var(--m); }
+.color-sel-nombre {
+  max-width: 100%;
+  font-size: 9px;
+  line-height: 1.25;
+  text-align: center;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--paper-ch) / 0.7);
+  color: rgb(var(--paper-ch) / 0.6);
 }
-.paleta-prueba button[aria-pressed="true"] { background: rgb(var(--paper-ch) / 0.12); color: rgb(var(--paper-ch)); }
-.paleta-prueba i { width: 10px; height: 10px; border-radius: 50%; }
+.color-sel-op[aria-checked="true"] .color-sel-nombre { color: rgb(var(--paper-ch)); }
+
+/* El cambio de paleta: un fundido corto de toda la página */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 450ms; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+
+@media (max-width: 767px) {
+  .color-sel-btn { width: 30px; height: 30px; }
+  /* La barra es la referencia (es fija y ocupa casi todo el ancho): la
+     paleta va centrada debajo de ella y no se sale de la pantalla */
+  .color-sel { position: static; }
+  .color-sel-pop { left: 50%; right: auto; translate: -50% 0; top: calc(100% + 0.5rem); }
+  .color-sel-op { width: 4.3rem; padding-inline: 0.2rem; }
+  .color-sel-muestra { width: 30px; height: 30px; }
+}

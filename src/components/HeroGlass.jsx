@@ -159,6 +159,7 @@ uniform vec3 uBase;
 uniform vec3 uDeep;
 uniform vec3 uGlowCol;
 uniform vec3 uSmokeCol;
+uniform float uClaro;
 varying vec2 vUv;
 ${SRGB}
 float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
@@ -171,10 +172,14 @@ void main(){
   // Luz roja cálida donde está la pieza y humo frío abajo a la izquierda
   vec2 g = uGlow; g.x *= uAspect;
   float red = exp(-pow(length(p - g) * 1.55, 2.0));
-  col += uGlowCol * red * uGlowK;
+  // En una paleta clara (fondo hueso) las luces y los caracteres no se
+  // suman: se mezclan, como tinta sobre papel
+  if (uClaro > 0.5) col = mix(col, uGlowCol, red * uGlowK * 0.55);
+  else col += uGlowCol * red * uGlowK;
   vec2 sm = vec2(0.08 * uAspect, 0.06);
   float smoke = exp(-pow(length(p - sm) * 1.25, 2.0));
-  col += uSmokeCol * smoke * 0.10;
+  if (uClaro > 0.5) col = mix(col, uSmokeCol, smoke * 0.10);
+  else col += uSmokeCol * smoke * 0.10;
   // Contraluz chico detrás del vidrio (solo en el hero)
   float core = exp(-pow(length(p - g) / max(uCoreR, 0.001), 2.0));
   col += uCoreCol * core * uCore;
@@ -197,8 +202,12 @@ void main(){
   float gx = (gi + clamp(inCell.x, 0.03, 0.97)) / uGlyphs;
   float glyph = texture2D(tGlyphs, vec2(gx, clamp(inCell.y, 0.02, 0.98))).r;
   vec3 tint = mix(uInkCol, uAccent, smoothstep(0.80, 0.99, shaped));
-  col += toSRGB(texture2D(tScene, vUv).rgb) * uKeep * ink;
-  col += tint * glyph * (0.40 + shaped * 1.05) * ink;
+  if (uClaro > 0.5) {
+    col = mix(col, tint, clamp(glyph * (0.40 + shaped * 1.05) * ink * 0.8, 0.0, 1.0));
+  } else {
+    col += toSRGB(texture2D(tScene, vUv).rgb) * uKeep * ink;
+    col += tint * glyph * (0.40 + shaped * 1.05) * ink;
+  }
 
   // La retícula de 12 columnas de la atmósfera del CSS
   float gx2 = (vUv.x - uGrid.x) / max(uGrid.y, 0.0001) * 12.0;
@@ -559,6 +568,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       uDeep: { value: new THREE.Vector3() },
       uGlowCol: { value: new THREE.Vector3() },
       uSmokeCol: { value: new THREE.Vector3() },
+      uClaro: { value: 0 },
     };
     // La paleta: se lee al montar y cada vez que cambia `data-paleta`
     const aplicarPaleta = () => {
@@ -569,6 +579,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       // Como el `new THREE.Color("#…")` de antes: del sRGB al espacio de trabajo
       bgUniforms.uInkCol.value.setRGB(...canal("--paper-ch", [0.91, 0.894, 0.863]), THREE.SRGBColorSpace);
       bgUniforms.uAccent.value.setRGB(...canal("--red-hi-ch", [1, 0.23, 0.23]), THREE.SRGBColorSpace);
+      bgUniforms.uClaro.value = getComputedStyle(document.documentElement).getPropertyValue("--claro").trim() === "1" ? 1 : 0;
     };
     aplicarPaleta();
     const bg = new THREE.Mesh(

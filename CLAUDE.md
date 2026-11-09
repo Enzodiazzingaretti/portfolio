@@ -132,17 +132,24 @@ se desliza de costado (`scroll-snap`, la pieza al 82 % y las verticales al
 64 %, así asoma la siguiente), sin el número gigante de la sala. Es solo CSS,
 al final de `vidrio.css`. 3D y la galería de los casos siguen en columna.
 
-**Paletas (2026-11-08, para explorar).** Todos los colores salen de canales
-en `:root` de `vidrio.css` (`--bg-ch`, `--deep-ch`, `--glass-ch`,
-`--gun-ch`, `--smoke-ch`, `--paper-ch`, `--red-ch`, `--red-hi-ch`,
-`--red-deep-ch`, `--red2-ch`, `--g820-ch`, en «R G B»), y se usan como
-`rgb(var(--red-ch) / 0.4)`; el Tailwind también (`ink`, `paper`, `raveRed`,
-`kexxy`…). El lienzo lee los mismos canales (`canal()` en `HeroGlass.jsx`) y
-se rehace si cambia `data-paleta` en `<html>`. Un color nuevo va por canal,
-no en hex ni rgba fijo. Las alternativas viven en `src/styles/paletas.css`
-(Brasa, Cobalto, Ultravioleta, Hueso) y se prueban en el sitio real con
-`?paleta=<id>`: queda en la sesión y aparece un selector abajo
-(`PaletaPrueba.jsx`); `?paleta=off` lo apaga. Sin parámetro, grafito y rojo.
+**Paletas y selector de color (2026-11-08, a pedido).** Todos los colores
+salen de canales «R G B» en `:root` de `vidrio.css` y se usan como
+`rgb(var(--red-ch) / 0.4)`: `--bg-ch` (fondo), `--deep-ch`, `--g820-ch`,
+`--glass-ch`, `--gun-ch`, `--smoke-ch`, `--paper-ch` (texto), `--fg-ch` (el
+«blanco» de bordes, brillos y `text-white/xx`: tinta en las claras),
+`--red-ch` (acento) con `--red-hi-ch` (texto chico), `--red-deep-ch`,
+`--red2-ch`; `--on-accent` es el texto sobre el acento. El Tailwind también
+(`white`, `ink`, `paper`, `raveRed`, `kexxy`, `surface`…). **Un color nuevo va
+por canal, nunca en hex ni rgba fijo**, o rompe las paletas claras. El lienzo
+lee los canales (`canal()` en `HeroGlass.jsx`), rehace reflejos y nombre si
+cambia `data-paleta`, y con `--claro: 1` mezcla en vez de sumar (tinta sobre
+papel). Las paletas viven en `src/styles/paletas.css` y la lista en
+`src/paletas.js`: oscuras (Grafito, Brasa, Cobalto, Ultravioleta, Ácido),
+monocromas (Hueso, Tinta, Acero) y claras (Papel, Papel y tinta, Hormigón).
+El visitante elige en el selector de la barra (`ColorSelector.jsx`, al lado
+del idioma); queda en `localStorage` y un link con `?paleta=<id>` la fija. El
+cambio va con un fundido (View Transitions). Por defecto, Grafito. Enzo va a
+quedarse con las mejores: sacar una es borrar su bloque y su línea.
 
 **Videos en alta (2026-11-07, a pedido: «se ve en muy mala calidad el reel»).**
 Los videos de `public/` son livianos (360–720 px, poca tasa): el reel del home era
