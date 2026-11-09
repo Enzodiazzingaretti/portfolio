@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { caseHref } from "../cases/covers";
 import MediaAsset from "./MediaAsset";
 import { isVideoAsset } from "../utils/helpers";
+import { colorDeObra } from "../colorDeObra";
 
 /**
  * El modal tiene dos layouts muy distintos y antes los renderizaba a los dos,
@@ -33,6 +34,19 @@ function useEsDesktop() {
  * @param {Function} props.onClose - Callback al cerrar el modal
  * @param {Object} [props.labels] - Labels traducidos para el UI
  */
+// Fondo ambiente: la pieza misma, desenfocada y enorme detrás del visor,
+// para que cada obra tiña la sala con su color. De un video se usa su
+// poster (solo existe para los loops de /images/loops/).
+function fondoDe(item, currentSlide) {
+  if (!item) return null;
+  const candidatos = [currentSlide, item.thumbnail, item.previewImage].filter(Boolean);
+  for (const src of candidatos) {
+    if (!isVideoAsset(src)) return src.replace(/\.(png|jpe?g)$/i, ".webp");
+    if (/\/images\/loops\//i.test(src)) return src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg");
+  }
+  return null;
+}
+
 export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   const esDesktop = useEsDesktop();
   const [infoOpen, setInfoOpen] = useState(false);
@@ -105,6 +119,34 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   const item = viewer?.items?.[viewer?.index];
   const total = item?.slides?.length ?? 0;
   const currentSlide = total > 0 ? item.slides[viewer.slideIndex] : null;
+
+  // El color de la obra ilumina el visor: pasa a ser su acento (el punto,
+  // los bordes, los controles). Una obra casi gris deja el del sitio.
+  const ambiente = fondoDe(item, currentSlide);
+  const [luz, setLuz] = useState(null);
+  useEffect(() => {
+    let vivo = true;
+    colorDeObra(ambiente).then((c) => {
+      if (vivo) setLuz(c);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, [ambiente]);
+  const tono = (rgb, k) => rgb.map((x) => Math.round(x * k)).join(" ");
+  const estiloLuz = luz
+    ? {
+        "--red-ch": luz.acento.join(" "),
+        "--red-hi-ch": luz.claro.join(" "),
+        "--red-deep-ch": tono(luz.acento, 0.62),
+        "--red2-ch": tono(luz.acento, 0.8),
+        // Los derivados se calculan en :root: hay que redefinirlos acá
+        "--red": `rgb(${luz.acento.join(" ")})`,
+        "--red-hi": `rgb(${luz.claro.join(" ")})`,
+        "--red-deep": `rgb(${tono(luz.acento, 0.62)})`,
+        "--accent": `rgb(${luz.acento.join(" ")})`,
+      }
+    : undefined;
 
   const navigate = useCallback((direction) => {
     setViewer((current) => {
@@ -296,18 +338,6 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
   const piezas = viewer.items.length;
   const numPieza = `${String(viewer.index + 1).padStart(2, "0")} / ${String(piezas).padStart(2, "0")}`;
 
-  // Fondo ambiente: la pieza misma, desenfocada y enorme detrás del visor,
-  // para que cada obra tiña la sala con su color. De un video se usa su
-  // poster (solo existe para los loops de /images/loops/).
-  const ambiente = (() => {
-    const candidatos = [currentSlide, item.thumbnail, item.previewImage].filter(Boolean);
-    for (const src of candidatos) {
-      if (!isVideoAsset(src)) return src.replace(/\.(png|jpe?g)$/i, ".webp");
-      if (/\/images\/loops\//i.test(src)) return src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg");
-    }
-    return null;
-  })();
-
   const navPiezas = piezas > 1 ? (
     <div className="modal-pieces">
       <button type="button" className="modal-piece-btn font-mono" onClick={() => goPiece(-1)}>
@@ -341,6 +371,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
       // ya está en overflow: hidden, así que la página no se mueve).
       data-lenis-prevent
       className="modal-scrim fixed inset-0 z-[120] outline-none"
+      style={estiloLuz}
       onClick={onClose}
     >
       {ambiente ? (
@@ -359,7 +390,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
         onTouchEnd={handleTouchEnd}
       >
         {/* Media — fills everything */}
-        <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden">
+        <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden" data-obra-visor>
           {mediaCore}
 
           {/* Top chrome */}
@@ -494,7 +525,7 @@ export default function DetailModal({ viewer, setViewer, onClose, labels }) {
           onTouchEnd={handleTouchEnd}
         >
           {/* Media */}
-          <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden">
+          <div className="modal-media relative flex flex-1 items-center justify-center overflow-hidden" data-obra-visor>
             {mediaCore}
             <span className="modal-corner modal-corner--tl" aria-hidden="true" />
             <span className="modal-corner modal-corner--tr" aria-hidden="true" />

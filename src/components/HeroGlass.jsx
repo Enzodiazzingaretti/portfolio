@@ -309,17 +309,91 @@ function crearAmbiente(renderer, size) {
   return target;
 }
 
+// Las formas del vidrio, en el orden del shader (forma() en ORB_VERT)
+const FORMAS = ["orbe", "ola", "ondas", "cubo", "estrella", "espiral"];
+const CAMBIO_FORMA = 20; // segundos con cada forma
+const TRANSFORMACION = 2.6; // segundos que tarda en pasar a la siguiente
+
+/** Una forma al azar, distinta de `actual` */
+function otraForma(actual) {
+  const resto = FORMAS.map((_, i) => i).filter((i) => i !== actual);
+  return resto[Math.floor(Math.random() * resto.length)];
+}
+
+/** La de esta visita: al azar y distinta de la de la visita anterior */
+function elegirForma() {
+  // `?forma=ola` muestra una forma en particular (para enseñarla o revisarla)
+  const pedida = FORMAS.indexOf(new URLSearchParams(window.location.search).get("forma") ?? "");
+  if (pedida >= 0) return pedida;
+  let anterior = -1;
+  try {
+    anterior = Number(localStorage.getItem("forma-vidrio") ?? -1);
+  } catch {
+    /* sin localStorage */
+  }
+  const id = otraForma(anterior);
+  try {
+    localStorage.setItem("forma-vidrio", String(id));
+  } catch {
+    /* sin localStorage */
+  }
+  return id;
+}
+
 /** La escultura: deformación en el vértice, refracción y reflejo en el fragmento. */
 const ORB_VERT = /* glsl */ `
 uniform float uTime; uniform float uAmp; uniform float uFreq; uniform float uFine;
+uniform float uDesde; uniform float uHacia; uniform float uMezcla;
 varying vec3 vPosW; varying vec3 vNormalW; varying vec4 vClip;
 ${NOISE}
+// Las formas (2026-11-08, a pedido: «olas, ondas, cosas diferentes»): cada
+// una lleva cada punto de la esfera a otro lugar, así una se transforma en
+// la siguiente sin cortes. 0 orbe, 1 ola, 2 ondas, 3 cubo blando, 4 estrella,
+// 5 espiral. El orden y los nombres, en FORMAS (JS).
+vec3 forma(float id, vec3 p, float t){
+  vec3 u = normalize(p);
+  if (id < 0.5) return p;
+  if (id < 1.5) {
+    // Ola: una lente achatada que recorren dos trenes de olas
+    vec3 q = vec3(u.x * 1.2, u.y * 0.4, u.z * 1.2);
+    q.y += sin(u.x * 3.6 + t * 0.9) * 0.17 + cos(u.z * 3.1 - t * 0.7) * 0.12;
+    return q;
+  }
+  if (id < 2.5) {
+    // Ondas: anillos que viajan de un polo al otro
+    float a = acos(clamp(u.y, -1.0, 1.0));
+    return u * (1.0 + 0.1 * sin(a * 9.0 - t * 1.6));
+  }
+  if (id < 3.5) {
+    // Cubo blando: caras casi planas y cantos redondeados
+    vec3 a = abs(u);
+    float k = pow(pow(a.x, 5.0) + pow(a.y, 5.0) + pow(a.z, 5.0), 0.2);
+    return u / max(k, 0.001) * 0.84;
+  }
+  if (id < 4.5) {
+    // Estrella: cinco puntas redondeadas de frente a la cámara, que giran
+    float fa = atan(u.y, u.x);
+    float fr = sqrt(max(1.0 - u.z * u.z, 0.0));
+    float r = 1.0 + 0.34 * sin(5.0 * fa + t * 0.4) * fr;
+    return vec3(u.x * r, u.y * r, u.z * 0.62);
+  }
+  float th = atan(u.z, u.x);
+  float rr = sqrt(max(1.0 - u.y * u.y, 0.0));
+  // Espiral: una columna de tres lóbulos retorcida
+  float lobulo = 1.0 + 0.3 * cos(3.0 * (th + u.y * 2.4 + t * 0.3));
+  return vec3(cos(th) * rr * lobulo * 0.72, u.y * 1.32, sin(th) * rr * lobulo * 0.72);
+}
 vec3 deformar(vec3 p){
   float t = uTime;
+  float m = smoothstep(0.0, 1.0, uMezcla);
+  vec3 base = mix(forma(uDesde, p, t), forma(uHacia, p, t), m);
+  // El orbe respira con ruido; las otras formas, mucho menos, si no pierden
+  // el dibujo
+  float rugoso = mix(uDesde < 0.5 ? 1.0 : 0.3, uHacia < 0.5 ? 1.0 : 0.3, m);
   float n = snoise(p * uFreq + vec3(t * 0.16, t * 0.11, -t * 0.09));
   float n2 = snoise(p * uFreq * 2.3 + vec3(-t * 0.21, t * 0.17, t * 0.13)) * uFine;
   float twist = sin(p.y * 2.2 + t * 0.6) * 0.18;
-  return p + normalize(p) * (n + n2 + twist) * uAmp;
+  return base + normalize(base) * (n + n2 + twist) * uAmp * rugoso;
 }
 void main(){
   vec3 nrm0 = normalize(normal);
@@ -624,6 +698,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     // ── La escultura de vidrio
     let envTarget = crearAmbiente(renderer, compact ? 128 : 256);
     const geo = new THREE.IcosahedronGeometry(1, liviano ? 30 : 72);
+    const forma0 = elegirForma();
     const glassUniforms = {
       uTime: { value: 0 },
       uAmp: { value: 0.0 },
@@ -636,6 +711,9 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       uCenter: { value: new THREE.Vector2(0.5, 0.5) },
       uRadius: { value: new THREE.Vector2(0.2, 0.3) },
       uMag: { value: 0.22 },
+      uDesde: { value: forma0 },
+      uHacia: { value: forma0 },
+      uMezcla: { value: 1 },
     };
     const mat = new THREE.ShaderMaterial({ uniforms: glassUniforms, vertexShader: ORB_VERT, fragmentShader: ORB_FRAG });
     const orb = new THREE.Mesh(geo, mat);
@@ -644,6 +722,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     // Estado de animación
     const anim = {
       porSoftware,
+      forma: { desdeCambio: 0 },
       w: 1,
       h: 1,
       halfH: 1,
@@ -906,6 +985,18 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
         glassUniforms.uCenter.value.set(ndc.x * 0.5 + 0.5, ndc.y * 0.5 + 0.5);
         glassUniforms.uRadius.value.set(s / (2 * anim.halfW), s / (2 * anim.halfH));
         glassUniforms.uTime.value = anim.t;
+        // Cada CAMBIO_FORMA segundos el vidrio se transforma en otra forma
+        if (!quieto) {
+          const f = anim.forma;
+          if (glassUniforms.uMezcla.value < 1) {
+            glassUniforms.uMezcla.value = Math.min(1, glassUniforms.uMezcla.value + dt / TRANSFORMACION);
+          } else if ((f.desdeCambio += dt) > CAMBIO_FORMA) {
+            f.desdeCambio = 0;
+            glassUniforms.uDesde.value = glassUniforms.uHacia.value;
+            glassUniforms.uHacia.value = otraForma(glassUniforms.uHacia.value);
+            glassUniforms.uMezcla.value = 0;
+          }
+        }
         glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035) * (quieto ? 0.8 : 1);
       }
 

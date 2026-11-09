@@ -5,6 +5,7 @@ import { CASE_ASSETS, CASE_BODIES, CASE_UI } from "../cases";
 import { getCategory, piezasDelCaso } from "../categories";
 import Sala from "../components/Sala";
 import DetailModal from "../components/DetailModal";
+import { abrirObra, cerrarObra } from "../transicionObra";
 
 /**
  * Caso de estudio: /<categoría>/<slug> (los sitios, en /tech).
@@ -278,7 +279,7 @@ export default function CasePage() {
             <Sala
               items={piezas}
               labels={{ cursor: content.ui.ink?.cursor?.view, audio: content.ui.showcase?.audio }}
-              onOpen={(index) => setViewer({ items: piezas, index, slideIndex: 0, sectionLabel: teaser.title })}
+              onOpen={(index) => abrirObra(() => setViewer({ items: piezas, index, slideIndex: 0, sectionLabel: teaser.title, inicio: index }))}
             />
           </section>
         ) : null}
@@ -301,7 +302,7 @@ export default function CasePage() {
       <DetailModal
         viewer={viewer}
         setViewer={setViewer}
-        onClose={() => setViewer(null)}
+        onClose={() => cerrarObra(() => setViewer(null), viewer?.index === viewer?.inicio)}
         labels={{ ...content.ui.modal, ...content.ui.ink?.modal }}
       />
     </article>

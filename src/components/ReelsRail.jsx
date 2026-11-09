@@ -21,7 +21,7 @@ export function ReelCard({ item, index, onOpen, labels, numerado = false }) {
       ) : null}
       <button type="button" className="rl-button" onClick={onOpen} data-cursor={labels?.open} data-tilt="1.4">
         <span className="rl-phone">
-          <span className="rl-screen">
+          <span className="rl-screen" data-obra>
             <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
           </span>
           <span className="rl-hud rl-hud--top font-mono" aria-hidden="true">

@@ -8,6 +8,7 @@ import Sala from "../components/Sala";
 import Scramble from "../fx/Scramble";
 import { useInView } from "../fx/useInView";
 import NotFound from "./NotFound";
+import { abrirObra, cerrarObra } from "../transicionObra";
 
 const LabGrid = lazy(() => import("../components/LabGrid"));
 
@@ -154,7 +155,7 @@ export default function CategoryPage() {
   const ink = content.ui.ink;
   // sectionLabel alimenta el rotulo del modal, al lado del punto rojo. Sin el
   // el punto quedaba solo, sin texto.
-  const open = (items, index, sectionLabel) => setViewer({ items, index, slideIndex: 0, sectionLabel });
+  const open = (items, index, sectionLabel) => abrirObra(() => setViewer({ items, index, slideIndex: 0, sectionLabel, inicio: index }));
 
   return (
     <div className={`cat-page cat-page--${category.slug}`}>
@@ -224,7 +225,7 @@ export default function CategoryPage() {
         </Link>
       </nav>
 
-      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => setViewer(null)} labels={{ ...content.ui.modal, ...ink.modal }} />
+      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => cerrarObra(() => setViewer(null), viewer?.index === viewer?.inicio)} labels={{ ...content.ui.modal, ...ink.modal }} />
     </div>
   );
 }

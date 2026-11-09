@@ -10,6 +10,7 @@ import DetailModal from "../components/DetailModal";
 import { SectionHead } from "../fx/Hud";
 import { useFitLines } from "../fx/useFitLines";
 import { buildShowcase } from "../showcasePicks";
+import { abrirObra, cerrarObra } from "../transicionObra";
 
 /** Dos renglones: todo menos la última palabra arriba, la última abajo. */
 function partirNombre(title) {
@@ -158,7 +159,7 @@ export default function Home() {
           <ReelsRail
             items={reels.items}
             labels={ink.reels}
-            onOpen={(index) => setViewer({ items: reels.items, index, slideIndex: 0, sectionLabel: reels.title })}
+            onOpen={(index) => abrirObra(() => setViewer({ items: reels.items, index, slideIndex: 0, sectionLabel: reels.title, inicio: index }))}
           />
         </section>
       ) : null}
@@ -180,7 +181,7 @@ export default function Home() {
         <ContactContent contact={contact} labels={ui.contactLabels} variant="page" />
       </section>
 
-      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => setViewer(null)} labels={ui.modal} />
+      <DetailModal viewer={viewer} setViewer={setViewer} onClose={() => cerrarObra(() => setViewer(null), viewer?.index === viewer?.inicio)} labels={ui.modal} />
     </div>
   );
 }

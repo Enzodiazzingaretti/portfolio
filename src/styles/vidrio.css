@@ -2876,3 +2876,16 @@ html.sin-gpu *::after {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
+
+/* La pieza que crece hasta el visor (transicionObra.js) */
+::view-transition-group(obra) {
+  animation-duration: 560ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 200;
+}
+::view-transition-old(obra),
+::view-transition-new(obra) {
+  height: 100%;
+  object-fit: cover;
+  overflow: clip;
+}

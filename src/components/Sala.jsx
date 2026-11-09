@@ -55,7 +55,7 @@ function Pieza({ item, index, lugar, formato, loop, labels, onOpen }) {
         {pad(index + 1)}
       </span>
       <Boton item={item} onOpen={onOpen} labels={labels}>
-        <span className="sala-cuadro" style={{ aspectRatio: formato.replace("/", " / ") }}>
+        <span className="sala-cuadro" data-obra style={{ aspectRatio: formato.replace("/", " / ") }}>
           <span className="sala-marco visor">
             <span className="sala-deriva">
               <span className="sala-zoom">
