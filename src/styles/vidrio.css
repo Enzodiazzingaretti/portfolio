@@ -2877,18 +2877,32 @@ html.sin-gpu *::after {
   backdrop-filter: none !important;
 }
 
-/* La pieza que crece hasta el visor (transicionObra.js) */
+/* La pieza que crece hasta el visor (transicionObra.js). Una sola imagen
+   que viaja: el resto de la página se funde por debajo, más rápido. */
 ::view-transition-group(obra) {
-  animation-duration: 560ms;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-duration: 640ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 200;
 }
+/* La tarjeta (recortada a su formato) y la obra entera del visor se cruzan
+   en los primeros 220 ms; el resto del viaje es una sola imagen. Cruzarlas
+   durante todo el viaje dejaba dos versiones superpuestas a mitad de camino. */
 ::view-transition-old(obra),
 ::view-transition-new(obra) {
   height: 100%;
   object-fit: cover;
   overflow: clip;
+  animation-duration: 220ms;
+  animation-timing-function: ease-out;
 }
+html.vt-obra::view-transition-old(root),
+html.vt-obra::view-transition-new(root) { animation-duration: 380ms; }
+
+/* Durante el viaje, el panel del visor no tiene entrada propia (si no, la
+   obra daba un salto al final) y las tarjetas no se inclinan */
+html.vt-obra .modal-scrim,
+html.vt-obra .modal-cinematic { animation: none !important; }
+html.vt-obra [data-tilt] { transform: none !important; }
 
 /* El tempo (pulso.js): los puntos que laten a 124 BPM. --pulso va de 1 (el
    golpe) a 0; lo escribe un rAF solo en estos nodos. */
