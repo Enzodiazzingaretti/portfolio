@@ -145,11 +145,70 @@ lee los canales (`canal()` en `HeroGlass.jsx`), rehace reflejos y nombre si
 cambia `data-paleta`, y con `--claro: 1` mezcla en vez de sumar (tinta sobre
 papel). Las paletas viven en `src/styles/paletas.css` y la lista en
 `src/paletas.js`: oscuras (Grafito, Brasa, Cobalto, Ultravioleta, Ácido),
-monocromas (Hueso, Tinta, Acero) y claras (Papel, Papel y tinta, Hormigón).
+monocromas (Hueso, Tinta, Acero, Tinta y papel) y claras (Papel, Papel y
+tinta, Hormigón). Al lado, el interruptor de sonido (`SonidoToggle`).
 El visitante elige en el selector de la barra (`ColorSelector.jsx`, al lado
 del idioma); queda en `localStorage` y un link con `?paleta=<id>` la fija. El
 cambio va con un fundido (View Transitions). Por defecto, Grafito. Enzo va a
 quedarse con las mejores: sacar una es borrar su bloque y su línea.
+
+**Páginas pregeneradas e idioma por URL (2026-11-08).** `npm run build` hace
+tres cosas: `vite build`, `vite build --ssr src/entry-prerender.jsx` y
+`node scripts/prerender.mjs`, que renderiza con React (los componentes
+reales, con `prerenderToNodeStream`) cada ruta en es/en/pt y escribe
+`dist/<ruta>/index.html`, `dist/en/…`, `dist/pt/…`, con título, descripción,
+canonical, `hreflang` y `og:` propios, y el `sitemap.xml` (ya no está en
+`public/`). `vercel.json` fija ese `buildCommand`. Las rutas que no se
+pregeneran (admin, 404) caen en `dist/app.html`, vacía (el rewrite apunta
+ahí, no a `index.html`, que ahora es el home pregenerado). El español va sin
+prefijo y el inglés y el portugués en `/en` y `/pt` (`src/idiomaRuta.js`): el
+prefijo es el `basename` del router, así los links lo conservan, y cambiar de
+idioma en una URL con prefijo lleva a la misma página en el otro. Sin prefijo,
+el idioma sigue saliendo de lo guardado o del navegador; los buscadores ven
+el español. Si el idioma del visitante no es el de la página pregenerada, un
+script de `index.html` la oculta hasta que React la dibuja (`pre-oculto`). React
+reemplaza la página pregenerada con `createRoot` (no `hydrateRoot`: la
+primera pasada del cliente depende de la pantalla y del idioma); en ese
+primer montaje las entradas animadas saltan a su final (`html.pre-montado`,
+que el Shell saca al navegar). Las rutas comparten `src/AppRutas.jsx`. Un
+componente que se renderiza en el build no puede tocar `window` ni `document`
+fuera de efectos (o con guarda). **Sin preloader** desde el 2026-11-08: el
+componente quedó en `components/Preloader.jsx`.
+
+**Sin placa de video (`html.sin-gpu`, `src/sinGpu.js`).** Si el navegador
+dibuja por software (SwiftShader, llvmpipe: notebooks con la GPU bloqueada y
+las máquinas de Lighthouse/PageSpeed), el lienzo WebGL no se monta (queda la
+atmósfera CSS y el nombre del DOM), los videos quedan en póster, las
+animaciones se resuelven a su final y no hay desenfoques ni Lenis. El lienzo,
+además, se monta recién cuando la página cargó y está libre
+(`HeroBackdrop`), y los pósters de video se piden a 800 px de la pantalla
+(`MediaAsset`). Lighthouse el 2026-11-08: accesibilidad, buenas prácticas y
+SEO 100; rendimiento de 33 a ~66 en celular y de 54 a ~97 en compu. Lo que
+falta en celular es el render de React con la CPU ralentizada (~1 s de
+bloqueo): montar diferido lo que está debajo del primer pantallazo.
+
+**Firma del sitio (2026-11-08, a pedido: «un lujo visual con mi personalidad»):**
+- **Formas del vidrio** (`FORMAS` en `HeroGlass.jsx`, `forma()` en
+  `ORB_VERT`): orbe, ola, ondas, cubo blando, estrella y espiral. Cada una
+  mueve los puntos de la misma esfera, así una se transforma en la siguiente
+  (2,6 s). Una al azar por visita, distinta de la anterior (`localStorage`
+  `forma-vidrio`), y cada 20 s otra. `?forma=<nombre>` muestra una.
+- **La pieza crece hasta el visor** (`src/transicionObra.js`, View
+  Transitions): `[data-obra]` en la tarjeta y `[data-obra-visor]` en el visor
+  comparten el nombre solo durante el cambio; al cerrar vuelve a su lugar si
+  el visor sigue en la misma pieza.
+- **El visor toma el color de la obra** (`src/colorDeObra.js`): el tono
+  dominante pasa a ser el acento del visor (canales y derivados, porque
+  `--red` se calcula en `:root`). Una obra casi gris deja el del sitio.
+- **Tempo: 124 BPM** (`src/pulso.js`): un reloj para la escultura (respira en
+  cada golpe) y los puntos con `data-pulso` (marca, selector de color,
+  «Disponible»). Quieto con movimiento reducido o sin GPU.
+- **Sonido** (`src/sonido.js`, `SonidoToggle`): apagado por defecto; roce,
+  abrir, cerrar y acorde de color, sintetizados con WebAudio en La menor.
+- **La tira del índice se desliza** (`useTiraDeslizable` en
+  `CategoryIndex.jsx`): en táctil es un scroll nativo que avanza solo
+  (33 px/s) mientras la fila está en foco, se frena al tocarla y retoma a los
+  2,5 s; tres tandas iguales y salto de una tanda al salirse de la del medio.
 
 **Videos en alta (2026-11-07, a pedido: «se ve en muy mala calidad el reel»).**
 Los videos de `public/` son livianos (360–720 px, poca tasa): el reel del home era
@@ -205,9 +264,8 @@ cambiar una línea se edita el PDF y, aparte, el .docx.
 herramientas) vive solo en el bundle: `content.json` no lo define y el merge
 profundo lo conserva también en español.
 
-**Carga (2026-09-28).** El preloader sale una vez por sesión y nunca en un
-link directo a una categoría (`sessionStorage`, flag `kexxy-preloaded`).
-three.js se monta recién la primera vez que se pisa el home. Las miniaturas de
+**Carga (2026-09-28; el preloader se sacó el 2026-11-08).**
+three.js se monta recién cuando la página cargó (ver «Sin placa de video»). Las miniaturas de
 avance del índice se montan al primer hover. El hero se pausa al salir de la
 pantalla (por scroll, no por IntersectionObserver: el lienzo es `fixed`) y va a
 60 fps en desktop. Las imágenes de obra tienen como máximo 1600 px de lado, el
@@ -239,7 +297,7 @@ teaser en `cases` (tres idiomas), cuerpo en los tres archivos, assets,
 `caseSlug` en el proyecto o las piezas (bundle y `content.json`), la
 categoría en `CASE_COVERS`, capturas en `public/images/casos/<slug>/` (máx.
 1600 px; un caso puede usar las imágenes que ya tienen sus piezas) y la URL en
-`sitemap.xml`.
+`sitemap.xml` (se genera solo en el build).
 
 **Casos:** `sonar-produce` (desde el 2026-11-05, primero de la lista; solo con
 lo registrado en las descripciones de las piezas y en el manual de marca),
@@ -409,8 +467,9 @@ ahora apunta a rutas. Las claves de los arrays de obra (`blenderWorks`,
 `labPieces`) **no cambiaron**, así que el panel de admin sigue funcionando
 igual. Traducciones completas en es / en / pt.
 
-**`vercel.json`** reescribe todo a `index.html` menos `api/`, `images/`,
-`assets/`, `content.json` y favicon. Sin eso las rutas dan 404 en recarga.
+**`vercel.json`** reescribe a `app.html` todo lo que no es un archivo
+(las páginas pregeneradas sí lo son) menos `api/`, `images/`, `assets/`,
+`content.json` y favicon. Sin eso las rutas no pregeneradas dan 404.
 
 ---
 
@@ -864,10 +923,9 @@ social salía recortada): se generó `og-card.jpg` con el tamaño real. Se agreg
 `onload`). Y las URLs inexistentes muestran un 404 real con `noindex` en vez de redirigir
 al home con 200.
 
-> [!note] Lo que sigue pendiente de SEO
-> Es una SPA sin prerender: el crawler ve el `#root` vacío y ningún título de obra se
-> indexa. Los tres idiomas comparten URL, así que EN y PT no existen para Google.
-> Arreglarlo de verdad pide prerender o SSG.
+> [!note] Resuelto el 2026-11-08
+> Cada página llega pregenerada en tres idiomas, con URLs propias y `hreflang`
+> (ver «Páginas pregeneradas e idioma por URL»).
 
 **El modal abría en un frame negro.** El video no arrancaba: sin metadata mide 0×0 y el
 `IntersectionObserver` con `threshold: 0.25` lo daba por fuera de vista. En el modal ya
