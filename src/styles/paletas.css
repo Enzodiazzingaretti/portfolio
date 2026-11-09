@@ -65,6 +65,16 @@ html[data-paleta="acero"] {
   --g-850: #1b1f24; --g-700: #343a42; --smoke-2: #a6aeb8; --dim: #c9cfd6;
 }
 
+/* Tinta y papel: Papel y tinta invertida (2026-11-08, a pedido). Negro tinta
+   cálido, todo en hueso, sin color */
+html[data-paleta="tinta-papel"] {
+  --deep-ch: 12 12 11; --bg-ch: 19 19 18; --g820-ch: 26 26 24; --glass-ch: 31 31 29; --gun-ch: 42 41 39;
+  --smoke-ch: 140 136 128; --paper-ch: 233 228 218; --fg-ch: 233 228 218;
+  --red-ch: 233 228 218; --red-hi-ch: 233 228 218; --red-deep-ch: 90 87 82; --red2-ch: 150 145 136;
+  --on-accent: #131312;
+  --g-850: #1a1a18; --g-700: #353431; --smoke-2: #aaa59b; --dim: #d3cec4;
+}
+
 /* ── Claras ── */
 
 /* Papel: fondo hueso, tinta grafito y el rojo de siempre */

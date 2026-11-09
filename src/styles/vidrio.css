@@ -1309,15 +1309,29 @@ html.glass-type .vx-name-line {
 .ix--foco .ix-row:not(.is-hovered) .ix-strip-track { animation-play-state: paused; }
 .ix--foco .ix-row.is-hovered .ix-frame-img { --visor-c: var(--red-hi); }
 
+/* Sin hover (táctil) la tira es un scroll nativo que se desliza con el dedo
+   y que CategoryIndex.jsx hace avanzar solo: sin la animación de la pista ni
+   el empuje del scroll, que peleaban con el dedo. */
+.ix--foco .ix-strip-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.ix--foco .ix-strip-scroll::-webkit-scrollbar { display: none; }
+.ix--foco .ix-strip-track { animation: none; transform: none; }
+.ix--foco .ix-frame-img img { -webkit-user-drag: none; user-select: none; }
+
 /* El scroll empuja cada tira para su lado (alternando, igual que la pista). */
 @supports (animation-timeline: view()) {
   @media (hover: none), (max-width: 1023px) {
-    .ix-strip-scroll {
+    .ix:not(.ix--foco) .ix-strip-scroll {
       --dx: 16vw;
       animation: ixDeriva linear both;
       animation-timeline: view();
     }
-    .ix-row:nth-child(even) .ix-strip-scroll { --dx: -16vw; }
+    .ix:not(.ix--foco) .ix-row:nth-child(even) .ix-strip-scroll { --dx: -16vw; }
   }
 }
 
@@ -2846,4 +2860,19 @@ html.glass-type .vx-name-line {
   /* El número gigante en contorno de la sala no tiene lugar en la fila */
   :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala-num, .rl-num) { display: none; }
   :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group .sala-pie { margin-inline: 0; }
+}
+
+/* ───────────────────────── Sin placa de video ───────────────────────── */
+
+/* El navegador dibuja por software (sinGpu.js): todo lo que se anima solo se
+   resuelve a su estado final y no hay desenfoques, que se recalculan en cada
+   cuadro. La página se ve igual, quieta. */
+html.sin-gpu *,
+html.sin-gpu *::before,
+html.sin-gpu *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }

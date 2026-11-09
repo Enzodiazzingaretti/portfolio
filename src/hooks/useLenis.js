@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { sinGpu } from "../sinGpu";
 
 /**
  * Scroll suave global con Lenis.
@@ -12,7 +13,7 @@ export function useLenis(paused = false) {
   const lenisRef = useRef(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || sinGpu()) return undefined;
 
     const lenis = new Lenis({
       duration: 1.05,

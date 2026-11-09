@@ -441,6 +441,22 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       return undefined; // sin WebGL: queda la atmósfera del CSS y el <h1> del DOM
     }
 
+    // Sin placa de video (el navegador dibuja por software: SwiftShader,
+    // llvmpipe…) cada cuadro tarda cientos de ms y traba la página entera:
+    // ahí el fondo queda en un cuadro quieto, como con movimiento reducido.
+    // Les pasa a notebooks con la GPU bloqueada y a las máquinas de
+    // Lighthouse/PageSpeed (2026-11-08: rendimiento 33 en celular por esto).
+    const porSoftware = (() => {
+      try {
+        const gl = renderer.getContext();
+        const ext = gl.getExtension("WEBGL_debug_renderer_info");
+        const nombre = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+        return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(nombre);
+      } catch {
+        return false;
+      }
+    })();
+
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, liviano ? 1.25 : 1.5));
     // Los shaders son propios y ya entregan color sRGB: nada de tone mapping
     // ni conversión de espacio de color de three.
@@ -627,6 +643,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
 
     // Estado de animación
     const anim = {
+      porSoftware,
       w: 1,
       h: 1,
       halfH: 1,
@@ -794,7 +811,8 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
 
     const frame = (now) => {
       anim.raf = requestAnimationFrame(frame);
-      const { home: enHome, revealActive: listo, reduced: quieto } = estado.current;
+      const { home: enHome, revealActive: listo, reduced } = estado.current;
+      const quieto = reduced || anim.porSoftware;
       if (document.hidden) return;
       // Con el visor o un panel abiertos el fondo queda tapado: no se dibuja
       if (anim.dibujado && document.body.style.overflow === "hidden") return;

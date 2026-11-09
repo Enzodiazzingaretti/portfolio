@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import MediaAsset from "./MediaAsset";
 import { useInView } from "../fx/useInView";
 import { isConvertible, isVideoAsset, toWebpSrc } from "../utils/helpers";
 import { formatoPropio } from "../salaPlan";
+import { sinGpu } from "../sinGpu";
 
 function fotograma(src) {
   if (!src) return null;
@@ -63,6 +64,78 @@ function Fotograma({ cuadro, num, montar }) {
  * hover o, donde la tira se ve, cuando la fila está a 700 px de entrar, y
  * quedan montadas.
  */
+// Velocidad de la tira sola, en px por segundo (la misma que tenía la
+// animación CSS en un celular de 390)
+const VELOCIDAD = 33;
+
+/**
+ * Sin hover, la tira es un scroll nativo que se puede deslizar con el dedo
+ * (2026-11-08, a pedido: «al deslizar el dedo no pasa nada»). Mientras la
+ * fila está en foco avanza sola; al tocarla se frena y retoma 2,5 s después
+ * de soltarla. La pista son tres tandas iguales: el scroll vive en la del
+ * medio y, si se va de ella, salta una tanda entera sin que se note.
+ */
+function useTiraDeslizable(scrollRef, activa, corre, sentido) {
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || !activa) return undefined;
+    const tanda = () => el.scrollWidth / 3;
+    let pos = tanda();
+    el.scrollLeft = pos;
+    let tocando = false;
+    let retomar = 0;
+    let raf = 0;
+    let antes = 0;
+
+    const envolver = () => {
+      const t = tanda();
+      if (!t) return;
+      if (el.scrollLeft < t * 0.5) el.scrollLeft += t;
+      else if (el.scrollLeft > t * 1.5) el.scrollLeft -= t;
+      pos = el.scrollLeft;
+    };
+    const paso = (ahora) => {
+      raf = requestAnimationFrame(paso);
+      const dt = antes ? Math.min((ahora - antes) / 1000, 0.05) : 0;
+      antes = ahora;
+      if (tocando || !corre.current) return;
+      pos += sentido * VELOCIDAD * dt;
+      el.scrollLeft = pos;
+      const t = tanda();
+      if (t && (pos < t * 0.5 || pos > t * 1.5)) envolver();
+    };
+    const alTocar = () => {
+      tocando = true;
+      window.clearTimeout(retomar);
+    };
+    const alSoltar = () => {
+      window.clearTimeout(retomar);
+      retomar = window.setTimeout(() => {
+        envolver();
+        tocando = false;
+        antes = 0;
+      }, 2500);
+    };
+    const alScroll = () => {
+      if (tocando) envolver();
+    };
+    const reducido = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || sinGpu();
+    if (!reducido) raf = requestAnimationFrame(paso);
+    el.addEventListener("touchstart", alTocar, { passive: true });
+    el.addEventListener("touchend", alSoltar, { passive: true });
+    el.addEventListener("touchcancel", alSoltar, { passive: true });
+    el.addEventListener("scroll", alScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(retomar);
+      el.removeEventListener("touchstart", alTocar);
+      el.removeEventListener("touchend", alSoltar);
+      el.removeEventListener("touchcancel", alSoltar);
+      el.removeEventListener("scroll", alScroll);
+    };
+  }, [scrollRef, activa, corre, sentido]);
+}
+
 function Row({ category, labels, index, foco }) {
   const [hovered, setHovered] = useState(false);
   const [enFoco, setEnFoco] = useState(false);
@@ -144,6 +217,13 @@ function Row({ category, labels, index, foco }) {
 
   const encendida = hovered || enFoco;
 
+  // La tira deslizable (solo sin hover): corre sola mientras la fila está en
+  // foco y las filas alternan el sentido, como antes
+  const scrollRef = useRef(null);
+  const corre = useRef(false);
+  corre.current = enFoco;
+  useTiraDeslizable(scrollRef, foco && tira.length > 0 && visibles, corre, index % 2 ? -1 : 1);
+
   return (
     <Link
       ref={ref}
@@ -197,7 +277,7 @@ function Row({ category, labels, index, foco }) {
 
       {tira.length ? (
         <span className="ix-strip" aria-hidden="true">
-          <span className="ix-strip-scroll">
+          <span ref={scrollRef} className="ix-strip-scroll">
             <span className="ix-strip-track">
               {pista.map((cuadro, i) => (
                 <Fotograma key={`${cuadro.src}-${i}`} cuadro={cuadro} num={(i % tira.length) + 1} montar={visibles} />

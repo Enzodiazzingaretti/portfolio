@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { sinGpu } from "../sinGpu";
 import { isConvertible, isVideoAsset, toWebpSrc } from "../utils/helpers";
 import { videoHQ } from "../media";
 
@@ -41,6 +42,8 @@ function LazyVideo({ src: liviano, className, controls }) {
 
     // Con reduced motion el poster alcanza: no se descarga el video.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches && poster) return undefined;
+    // Sin placa de video tampoco: cada cuadro de video se pinta por software
+    if (sinGpu()) return undefined;
 
     const observer = new IntersectionObserver(
       ([entry]) => {

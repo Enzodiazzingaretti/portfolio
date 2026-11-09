@@ -11,6 +11,7 @@ import "./index.css";
 import "./styles/vidrio.css";
 import "./styles/paletas.css";
 import { iniciarPaleta } from "./paletas";
+import { sinGpu } from "./sinGpu";
 
 // El admin es otra app: fuera del bundle del portfolio
 const Admin = lazy(() => import("./admin/Admin.jsx"));
@@ -19,6 +20,7 @@ const CasePage = lazy(() => import("./routes/CasePage.jsx"));
 
 // La paleta guardada (o la de un link con ?paleta=) antes del primer render
 iniciarPaleta();
+if (sinGpu()) document.documentElement.classList.add("sin-gpu");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>

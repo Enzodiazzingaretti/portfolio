@@ -11,6 +11,7 @@ export const PALETAS = [
   { id: "hueso", grupo: "monocromas", muestra: "#D6D0C4", fondo: "#17191D" },
   { id: "tinta", grupo: "monocromas", muestra: "#F5F5F5", fondo: "#111111" },
   { id: "acero", grupo: "monocromas", muestra: "#9FB3C8", fondo: "#13161A" },
+  { id: "tinta-papel", grupo: "monocromas", muestra: "#E9E4DA", fondo: "#131312" },
   { id: "papel", grupo: "claras", muestra: "#D61E30", fondo: "#E9E4DA" },
   { id: "papel-tinta", grupo: "claras", muestra: "#17191D", fondo: "#E9E4DA" },
   { id: "hormigon", grupo: "claras", muestra: "#2846E6", fondo: "#D9DAD6" },
