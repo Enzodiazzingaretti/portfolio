@@ -205,8 +205,11 @@ bloqueo): montar diferido lo que está debajo del primer pantallazo.
   celular mostraba el visor, volvía un cuadro a la página y recién ahí
   volaba («un pestañeo raro», 2026-11-09); el fundido entre las dos fotos dura
   220 ms y el vuelo 640 (con el fundido de todo el vuelo se veía doble
-  imagen), y con `html.vt-obra` se apagan la entrada propia del modal y el
-  `data-tilt`, que daban un salto al final. Para filmarlo: Playwright con
+  imagen), la entrada propia del modal (`scrimIn`/`modalIn`) se apaga con
+  `data-sin-entrada`, que queda puesto: con `html.vt-obra` la animación
+  volvía a arrancar desde opacidad 0 al sacar la clase y la página se veía
+  un instante detrás (el «pestañeo» del 2026-11-09). `html.vt-obra` queda
+  solo para apagar el `data-tilt` durante el viaje. Para filmarlo: Playwright con
   `Animation.setPlaybackRate` 0,1 y el chunk de `HeroGlass` retenido
   (`page.route` sin responder): con el lienzo por software las capturas
   salen vacías. Una captura en la fase de foto de la transición sale en
