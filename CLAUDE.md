@@ -196,7 +196,18 @@ bloqueo): montar diferido lo que está debajo del primer pantallazo.
 - **La pieza crece hasta el visor** (`src/transicionObra.js`, View
   Transitions): `[data-obra]` en la tarjeta y `[data-obra-visor]` en el visor
   comparten el nombre solo durante el cambio; al cerrar vuelve a su lugar si
-  el visor sigue en la misma pieza.
+  el visor sigue en la misma pieza. Desde el 2026-11-09 («se ve medio
+  tosca») el nombre va en la `img`/`video` de adentro, no en la caja (la caja
+  traía fondo y borde y cambiaba de proporción en el vuelo); al abrir, la
+  foto nueva espera a que la imagen del visor decodifique (tope 500 ms, si
+  no viajaba hacia un cuadro vacío); el fundido entre las dos fotos dura
+  220 ms y el vuelo 640 (con el fundido de todo el vuelo se veía doble
+  imagen), y con `html.vt-obra` se apagan la entrada propia del modal y el
+  `data-tilt`, que daban un salto al final. Para filmarlo: Playwright con
+  `Animation.setPlaybackRate` 0,1 y el chunk de `HeroGlass` retenido
+  (`page.route` sin responder): con el lienzo por software las capturas
+  salen vacías. Una captura en la fase de foto de la transición sale en
+  blanco y no es lo que se ve: el video (`recordVideo`) lo confirma.
 - **El visor toma el color de la obra** (`src/colorDeObra.js`): el tono
   dominante pasa a ser el acento del visor (canales y derivados, porque
   `--red` se calcula en `:root`). Una obra casi gris deja el del sitio.
