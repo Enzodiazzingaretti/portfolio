@@ -9,8 +9,8 @@ import { sonar } from "./sonido";
  * navegador interpola una sola imagen sin deformarla.
  *
  * Tres detalles que la hacían tosca (2026-11-09, «se ve medio tosca»):
- * - el visor pide otra imagen, más grande: la transición espera a que esté
- *   decodificada (tope de 500 ms), si no la obra crecía hacia un cuadro vacío
+ * - el visor pide otra imagen, más grande: se precarga y decodifica antes de
+ *   empezar (tope de 450 ms), si no la obra crecía hacia un cuadro vacío
  * - el panel del visor tenía su propia entrada (escala y desplazamiento) y
  *   la obra daba un salto al final para acomodarse: durante la transición
  *   se apaga (`html.vt-obra`)
@@ -49,27 +49,6 @@ const puede = () =>
 const medio = (raiz) => raiz?.querySelector?.("img, video") ?? raiz ?? null;
 const visor = () => medio(document.querySelector("[data-obra-visor]"));
 
-/** Espera a que la imagen o el video tengan algo que mostrar, con tope */
-function cargado(el, tope = 500) {
-  return new Promise((listo) => {
-    if (!el) return listo();
-    const corte = window.setTimeout(listo, tope);
-    const ok = () => {
-      window.clearTimeout(corte);
-      listo();
-    };
-    if (el.tagName === "IMG") {
-      if (el.complete && el.naturalWidth) return ok();
-      if (el.decode) el.decode().then(ok, ok);
-      else el.addEventListener("load", ok, { once: true });
-    } else if (el.tagName === "VIDEO") {
-      if (el.readyState >= 2) return ok();
-      el.addEventListener("loadeddata", ok, { once: true });
-    } else ok();
-    return undefined;
-  });
-}
-
 const nombrar = (el, nombre) => {
   if (el) el.style.viewTransitionName = nombre;
 };
@@ -82,7 +61,31 @@ function transicion(actualizar) {
   return vt;
 }
 
-export function abrirObra(cambio) {
+/** La primera imagen que va a mostrar el visor (los videos no se precargan) */
+const primeraImagen = (pieza) => {
+  const src = pieza?.slides?.[0] ?? pieza?.previewImage;
+  return typeof src === "string" && !/\.(mp4|webm|mov)$/i.test(src) ? src : null;
+};
+
+/** Baja y decodifica una imagen fuera del documento, con tope */
+function precargar(src, tope = 450) {
+  if (!src) return Promise.resolve();
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+  return Promise.race([
+    img.decode().catch(() => {}),
+    new Promise((listo) => window.setTimeout(listo, tope)),
+  ]);
+}
+
+/**
+ * `pieza`: la obra que se abre, para tener su imagen lista antes de empezar.
+ * La espera va ANTES de la transición y no adentro: con el cambio asíncrono
+ * (2026-11-09) el celular mostraba el visor, volvía un cuadro a la página y
+ * recién ahí arrancaba el vuelo («un pestañeo raro»).
+ */
+export function abrirObra(cambio, pieza) {
   sonar("abrir");
   const origen = medio(tocada);
   tocada = null;
@@ -90,15 +93,21 @@ export function abrirObra(cambio) {
     cambio();
     return;
   }
-  abierta = origen;
-  nombrar(origen, "obra");
-  transicion(async () => {
-    nombrar(origen, "");
-    flushSync(cambio);
-    const destino = visor();
-    await cargado(destino);
-    nombrar(destino, "obra");
-  }).finished.finally(() => nombrar(visor(), ""));
+  precargar(primeraImagen(pieza)).then(() => {
+    if (!origen.isConnected) {
+      cambio();
+      return;
+    }
+    abierta = origen;
+    nombrar(origen, "obra");
+    transicion(() => {
+      nombrar(origen, "");
+      flushSync(cambio);
+      const destino = visor();
+      if (destino?.tagName === "IMG") destino.decoding = "sync";
+      nombrar(destino, "obra");
+    }).finished.finally(() => nombrar(visor(), ""));
+  });
 }
 
 /** `mismaPieza`: si el visor sigue en la obra que se abrió, vuelve a ella */

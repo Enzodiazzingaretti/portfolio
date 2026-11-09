@@ -159,7 +159,7 @@ export default function Home() {
           <ReelsRail
             items={reels.items}
             labels={ink.reels}
-            onOpen={(index) => abrirObra(() => setViewer({ items: reels.items, index, slideIndex: 0, sectionLabel: reels.title, inicio: index }))}
+            onOpen={(index) => abrirObra(() => setViewer({ items: reels.items, index, slideIndex: 0, sectionLabel: reels.title, inicio: index }), reels.items[index])}
           />
         </section>
       ) : null}

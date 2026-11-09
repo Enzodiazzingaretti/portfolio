@@ -155,7 +155,7 @@ export default function CategoryPage() {
   const ink = content.ui.ink;
   // sectionLabel alimenta el rotulo del modal, al lado del punto rojo. Sin el
   // el punto quedaba solo, sin texto.
-  const open = (items, index, sectionLabel) => abrirObra(() => setViewer({ items, index, slideIndex: 0, sectionLabel, inicio: index }));
+  const open = (items, index, sectionLabel) => abrirObra(() => setViewer({ items, index, slideIndex: 0, sectionLabel, inicio: index }), items[index]);
 
   return (
     <div className={`cat-page cat-page--${category.slug}`}>

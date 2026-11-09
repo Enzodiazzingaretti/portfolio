@@ -279,7 +279,7 @@ export default function CasePage() {
             <Sala
               items={piezas}
               labels={{ cursor: content.ui.ink?.cursor?.view, audio: content.ui.showcase?.audio }}
-              onOpen={(index) => abrirObra(() => setViewer({ items: piezas, index, slideIndex: 0, sectionLabel: teaser.title, inicio: index }))}
+              onOpen={(index) => abrirObra(() => setViewer({ items: piezas, index, slideIndex: 0, sectionLabel: teaser.title, inicio: index }), piezas[index])}
             />
           </section>
         ) : null}
