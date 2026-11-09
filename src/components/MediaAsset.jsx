@@ -20,6 +20,28 @@ function LazyVideo({ src: liviano, className, controls }) {
   // proyecto de medios caído, un archivo que falta—, vuelve a la liviana del
   // repo en vez de dejar el cuadro en negro.
   const [hq, setHq] = useState(() => videoHQ(liviano));
+  // El póster (y cualquier byte del video) se pide recién cuando el video
+  // está a 800 px de la pantalla. Con las páginas pregeneradas los <video>
+  // vienen en el HTML y sus pósters (siete reels, ~860 KB) le robaban red al
+  // primer pintado. En el visor, de una.
+  const [cerca, setCerca] = useState(controls);
+  useEffect(() => {
+    const el = ref.current;
+    if (cerca || !el || typeof IntersectionObserver === "undefined") {
+      if (!cerca) setCerca(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setCerca(true);
+        io.disconnect();
+      },
+      { rootMargin: "800px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [cerca]);
   const src = hq?.src ?? liviano;
   const poster = hq?.poster ?? posterDe(liviano);
   // Con el tamaño real en pantalla se elige el de 720 o el de 1080. Con
@@ -77,7 +99,7 @@ function LazyVideo({ src: liviano, className, controls }) {
     <video
       ref={ref}
       src={src}
-      poster={poster}
+      poster={cerca ? poster : undefined}
       onError={hq ? () => setHq(null) : undefined}
       className={className}
       muted
@@ -87,7 +109,7 @@ function LazyVideo({ src: liviano, className, controls }) {
          tile entra en viewport y el observer llama a play(). Sin poster hace
          falta `metadata`, si no el primer frame no se decodifica y la portada
          queda en negro. */
-      preload={poster ? "none" : "metadata"}
+      preload={cerca && !poster ? "metadata" : "none"}
       autoPlay={controls}
       controls={controls}
     />

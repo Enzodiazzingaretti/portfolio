@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { siteContent } from "../siteContent.i18n.js";
 import { getStoredLanguage, setStoredLanguage } from "../utils/helpers";
+import { contenidoDeInicio, esBuscador, idiomaForzado, prefijoDe, rutaEn } from "../idiomaRuta";
 
 // Merge profundo; los arrays se reemplazan enteros. Superpone el content.json
 // editable (solo español) sobre los defaults embebidos del bundle.
@@ -41,12 +42,18 @@ export function idiomaDelNavegador(locales) {
  */
 export function useSiteContent() {
   const [language, setLanguage] = useState(() => {
+    if (idiomaForzado()) return idiomaForzado();
+    if (typeof window !== "undefined") {
+      const prefijo = prefijoDe(window.location.pathname);
+      if (prefijo) return prefijo;
+      if (esBuscador()) return "es";
+    }
     const saved = getStoredLanguage();
     if (siteContent.locales[saved]) return saved;
     return idiomaDelNavegador(siteContent.locales) ?? siteContent.defaultLanguage;
   });
 
-  const [override, setOverride] = useState(null);
+  const [override, setOverride] = useState(contenidoDeInicio);
   useEffect(() => {
     fetch("/content.json", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
@@ -102,8 +109,14 @@ export function useSiteContent() {
 
   const changeLanguage = (next) => {
     if (!siteContent.locales[next]) return;
-    setLanguage(next);
     setStoredLanguage(next);
+    // En una URL con idioma (/en/…, /pt/…) el idioma es la URL: se va a la
+    // misma página en el otro. Sin prefijo, cambia en el lugar, como siempre.
+    if (prefijoDe(window.location.pathname)) {
+      window.location.assign(rutaEn(next, window.location.pathname) + window.location.search);
+      return;
+    }
+    setLanguage(next);
   };
 
   return { content, language, changeLanguage };

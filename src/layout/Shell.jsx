@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, Suspense, lazy } from "react";
+import { useEffect, useMemo, useState, Suspense, lazy } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { Terminal } from "lucide-react";
@@ -11,12 +11,10 @@ import SonidoToggle from "../components/SonidoToggle";
 import CustomCursor from "../components/CustomCursor";
 import LanguageSelector from "../components/LanguageSelector";
 import InfoPanel from "../components/InfoPanel";
-import Preloader from "../components/Preloader";
 import SignalCut from "../fx/SignalCut";
 import Atmosphere from "../fx/Atmosphere";
 
 const KonsoleEasterEgg = lazy(() => import("../components/KonsoleEasterEgg"));
-const PRELOADER_FLAG = "kexxy-preloaded";
 const SITE_URL = "https://enzo-diaz-zingaretti.vercel.app";
 // three.js fuera del bundle inicial: entra recién cuando el preloader terminó
 const HeroBackdrop = lazy(() => import("../components/HeroBackdrop"));
@@ -31,30 +29,10 @@ export default function Shell() {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  /**
-   * El preloader es la presentación del home: una vez por sesión. Quien entra
-   * directo a una categoría (un link desde LinkedIn o un mail) va al grano, y
-   * quien recarga o vuelve al home no vuelve a esperar la secuencia.
-   */
-  const [preloaded, setPreloaded] = useState(() => {
-    try {
-      if (window.location.pathname !== "/") return true;
-      return window.sessionStorage.getItem(PRELOADER_FLAG) === "1";
-    } catch {
-      return false;
-    }
-  });
-
-  // Estable a propósito: el Preloader la tiene en las dependencias de su
-  // efecto, y una función nueva en cada render reiniciaba la cuenta.
-  const terminarPreloader = useCallback(() => {
-    setPreloaded(true);
-    try {
-      window.sessionStorage.setItem(PRELOADER_FLAG, "1");
-    } catch {
-      /* sin storage: se vuelve a ver en la próxima visita, nada más */
-    }
-  }, []);
+  // Sin preloader desde el 2026-11-08: con las páginas pregeneradas el sitio
+  // se ve al instante, y una pantalla de carga encima (1,2 s como mínimo)
+  // iba contra eso. El componente queda en components/Preloader.jsx.
+  const preloaded = true;
   const [panel, setPanel] = useState(null);
   const [glitching, setGlitching] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -95,20 +73,19 @@ export default function Shell() {
     else setPanel(kind);
   };
 
-  // Precarga solo las portadas del índice: 4 miniaturas, no la obra entera
-  const criticalAssets = useMemo(
-    () =>
-      categories
-        .map((category) => category.groups[0]?.items?.[0]?.thumbnail)
-        .filter(Boolean)
-        .filter((src) => !/\.(mp4|webm|mov)$/i.test(src))
-        .map((src) => src.replace(/\.(png|jpe?g)$/i, ".webp")),
-    [categories],
-  );
-
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  // La página pregenerada ya se reemplazó: se muestra (si estaba oculta por
+  // otro idioma) y, al navegar, las entradas vuelven a animarse
+  const rutaInicial = useMemo(() => location.pathname, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    document.documentElement.classList.remove("pre-oculto");
+  }, []);
+  useEffect(() => {
+    if (location.pathname !== rutaInicial) document.documentElement.classList.remove("pre-montado");
+  }, [location.pathname, rutaInicial]);
 
   useEffect(() => {
     // Las rutas de dos niveles (un caso de /tech) ponen su propio título: este
@@ -126,7 +103,8 @@ export default function Shell() {
    */
   useEffect(() => {
     const link = document.querySelector('link[rel="canonical"]');
-    if (link) link.setAttribute("href", `${SITE_URL}${location.pathname === "/" ? "/" : location.pathname}`);
+    // Con el prefijo de idioma (/en, /pt): el pathname del router no lo trae
+    if (link) link.setAttribute("href", `${SITE_URL}${window.location.pathname}`);
   }, [location.pathname]);
 
   // Cada ruta arranca arriba; sin esto se hereda el scroll de la anterior
@@ -146,9 +124,6 @@ export default function Shell() {
       </a>
       <Analytics />
 
-      {!preloaded && (
-        <Preloader onDone={terminarPreloader} criticalAssets={criticalAssets} lines={content.ui.boot} />
-      )}
 
       <Atmosphere />
       {!sinFondo ? (

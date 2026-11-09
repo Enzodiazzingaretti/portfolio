@@ -38,6 +38,32 @@
     <meta name="twitter:title" content="Enzo Diaz Zingaretti — Motion &amp; 3D Designer" />
     <meta name="twitter:description" content="3D, motion and real-time visuals, taken to the web with React and Three.js." />
 
+    <!-- Página pregenerada (data-pre, scripts/prerender.mjs): si la URL no
+         fija el idioma y el visitante usa otro, se oculta hasta que React la
+         dibuje en el suyo, así no parpadea en el idioma equivocado. Misma
+         regla que src/idiomaRuta.js. -->
+    <script>
+      (function () {
+        try {
+          var d = document.documentElement, pre = d.getAttribute("data-pre");
+          if (!pre || /^\/(en|pt)(\/|$)/.test(location.pathname)) return;
+          if (/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent || "")) return;
+          var l = null;
+          try { l = localStorage.getItem("kexxy-language"); } catch (e) {}
+          if (!/^(es|en|pt)$/.test(l || "")) {
+            var ps = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+            l = "en";
+            for (var i = 0; i < ps.length; i++) {
+              var b = String(ps[i] || "").slice(0, 2).toLowerCase();
+              if (b === "es" || b === "en" || b === "pt") { l = b; break; }
+            }
+          }
+          if (l !== pre) d.classList.add("pre-oculto");
+        } catch (e) {}
+      })();
+    </script>
+    <style>html.pre-oculto #root { visibility: hidden; }</style>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- La hoja de Google Fonts bloqueaba el render. Se carga como `print` y
@@ -53,8 +79,8 @@
       <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
     </noscript>
 
-    <!-- El sitio es una SPA: el crawler ve el #root vacio. Esto es lo unico
-         que puede leer sin ejecutar JS. -->
+    <!-- Desde el 2026-11-08 cada página llega pregenerada (en tres idiomas):
+         esto es además la ficha de la persona para los buscadores. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

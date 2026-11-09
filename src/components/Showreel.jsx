@@ -44,7 +44,7 @@ function StageMedia({ item, reduced }) {
     <>
       {fondo ? (
         <span className="reel-fondo" aria-hidden="true">
-          <img src={fondo} alt="" decoding="async" />
+          <img src={fondo} alt="" loading="lazy" decoding="async" />
         </span>
       ) : null}
       <span className="reel-obra">
