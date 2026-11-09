@@ -103,6 +103,12 @@ export function abrirObra(cambio, pieza) {
     transicion(() => {
       nombrar(origen, "");
       flushSync(cambio);
+      // El panel ya entró con la transición: su animación propia queda
+      // apagada para siempre (no solo mientras dura), si no arrancaba de
+      // cero al terminar y la página se veía un instante detrás.
+      document
+        .querySelectorAll(".modal-scrim, .modal-cinematic")
+        .forEach((el) => el.setAttribute("data-sin-entrada", ""));
       const destino = visor();
       if (destino?.tagName === "IMG") destino.decoding = "sync";
       nombrar(destino, "obra");

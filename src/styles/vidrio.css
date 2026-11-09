@@ -2898,10 +2898,13 @@ html.sin-gpu *::after {
 html.vt-obra::view-transition-old(root),
 html.vt-obra::view-transition-new(root) { animation-duration: 380ms; }
 
-/* Durante el viaje, el panel del visor no tiene entrada propia (si no, la
-   obra daba un salto al final) y las tarjetas no se inclinan */
-html.vt-obra .modal-scrim,
-html.vt-obra .modal-cinematic { animation: none !important; }
+/* Abierto con el viaje, el panel del visor no tiene entrada propia (si no,
+   la obra daba un salto al final). Va por atributo y no por html.vt-obra:
+   al sacar la clase la animación volvía a arrancar desde opacidad 0 y se
+   veía la página un instante («pestañea», 2026-11-09). Durante el viaje
+   las tarjetas no se inclinan. */
+.modal-scrim[data-sin-entrada],
+.modal-cinematic[data-sin-entrada] { animation: none !important; }
 html.vt-obra [data-tilt] { transform: none !important; }
 
 /* El tempo (pulso.js): los puntos que laten a 124 BPM. --pulso va de 1 (el
