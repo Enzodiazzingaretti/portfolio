@@ -8,21 +8,23 @@ export default {
         // surfaceDeep para paneles de modal
         // «Vidrio ahumado» (2026-11): el fondo deja de ser negro puro y pasa a
         // grafito; gunmetal para superficies y humo para texto secundario.
-        ink: "#17191D",
-        graphite: "#17191D",
-        gunmetal: "#292C32",
-        smoke: "#85858C",
+        ink: "rgb(var(--bg-ch) / <alpha-value>)",
+        graphite: "rgb(var(--bg-ch) / <alpha-value>)",
+        gunmetal: "rgb(var(--gun-ch) / <alpha-value>)",
+        smoke: "rgb(var(--smoke-ch) / <alpha-value>)",
         surface: "#0A0A0A",
         surfaceDeep: "#080808",
         // Texto: paper para titulares/principal, dim para secundario
-        paper: "#E5E3E0",
+        paper: "rgb(var(--paper-ch) / <alpha-value>)",
         dim: "#C8C8C8",
-        raveRed: "#8B0000",
-        raveRedHover: "#B11212",
+        raveRed: "rgb(var(--red-deep-ch) / <alpha-value>)",
+        raveRedHover: "rgb(var(--red2-ch) / <alpha-value>)",
         // Variante luminosa para texto chico sobre fondo oscuro (WCAG AA)
-        raveRedBright: "#FF5A66",
+        raveRedBright: "rgb(var(--red-hi-ch) / <alpha-value>)",
         // Rojo Kexxy: acento de la identidad (relleno y tipo grande)
-        kexxy: "#E52436",
+        kexxy: "rgb(var(--red-ch) / <alpha-value>)",
+        // Desde el 2026-11-08 los colores salen de los canales de vidrio.css
+        // (--bg-ch, --red-ch…): así una paleta alternativa cambia todo.
       },
       // Escala micro para labels tipo HUD; un solo lugar para ajustarla
       fontSize: {

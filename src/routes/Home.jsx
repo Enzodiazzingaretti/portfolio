@@ -7,7 +7,7 @@ import AboutContent from "../components/AboutContent";
 import ContactContent from "../components/ContactContent";
 import CasePosters from "../components/CasePosters";
 import DetailModal from "../components/DetailModal";
-import { Crosshair, HudClock, SectionHead, Sparkle } from "../fx/Hud";
+import { SectionHead } from "../fx/Hud";
 import { useFitLines } from "../fx/useFitLines";
 import { buildShowcase } from "../showcasePicks";
 
@@ -83,18 +83,15 @@ export default function Home() {
             <span className="vx-orb" data-glass-anchor aria-hidden="true" />
           </h1>
 
-          {/* Fila editorial entre los dos renglones: dónde, coordenadas y año. */}
+          {/* Fila editorial: dónde y año (sin coordenadas ni adornos de HUD
+              desde el 2026-11-08, a pedido). */}
           <div className="vx-rule-row font-mono" aria-hidden="true">
             <span>{hero.location}</span>
-            <span className="vx-rule-row-mid">{ink.coords}</span>
             <span>©{year}</span>
           </div>
 
           <div className="vx-band">
             <div className="vx-band-left">
-              <span className="vx-chip font-mono" aria-hidden="true">
-                <span className="vx-live-dot" /> SIG.01 · {ink.live}
-              </span>
               {/* El puesto, en grande (la última palabra en rojo), y debajo las
                   disciplinas: lo primero que tiene que leer quien contrata. */}
               <p className="vx-roles font-poster">
@@ -136,18 +133,8 @@ export default function Home() {
             <span className="vx-scroll-line" aria-hidden="true" />
             {hero.scrollLabel}
           </a>
-          <p className="vx-foot-right" aria-hidden="true">
-            <HudClock />
-            <span className="vx-count">№ {String(total).padStart(3, "0")}</span>
-          </p>
         </div>
 
-        <span className="vx-deco" aria-hidden="true">
-          <Crosshair className="vx-cross vx-cross--a" />
-          <Crosshair className="vx-cross vx-cross--b" />
-          <Sparkle className="vx-spark vx-spark--a" />
-          <Sparkle className="vx-spark vx-spark--b" />
-        </span>
       </section>
 
       {hayDestacados ? (

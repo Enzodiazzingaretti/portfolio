@@ -23,11 +23,8 @@ export function ReelCard({ item, index, onOpen, labels, numerado = false }) {
         <span className="rl-phone">
           <span className="rl-screen">
             <MediaAsset src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" />
-            <span className="rl-scan" aria-hidden="true" />
           </span>
           <span className="rl-hud rl-hud--top font-mono" aria-hidden="true">
-            <span className="rl-rec" />
-            REEL {pad(index + 1)}
             {item.duration ? <span className="rl-dur">{item.duration}</span> : null}
           </span>
           <span className="rl-hud rl-hud--bottom font-mono" aria-hidden="true">

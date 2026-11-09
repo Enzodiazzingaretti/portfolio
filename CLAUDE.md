@@ -118,6 +118,32 @@ regla: **la obra nunca va debajo de vidrio esmerilado**, el vidrio la enmarca.
   que fija tiempo, puntero y escena ASCII (`sculpture`, `particles` u
   `organic`) cuadro por cuadro. El render por software da ~1 fps.
 
+**Sin adornos genéricos (2026-11-08, a pedido: «sacar las coordenadas y
+elementos genéricos»).** Fuera las coordenadas del hero, el chip «SIG.01 · En
+vivo», el reloj UTC−3 y el «№ 0xx», las miras y destellos (`Crosshair`,
+`Sparkle`, `HudClock` ya no existen en `Hud.jsx`), el «SIG 01/03» y el
+timecode del showreel, el «ON AIR» y el «REEL 01» con su punto de grabación
+y la línea de escaneo de los reels. Quedan las marcas de visor de la obra (la
+regla del marco) y la retícula del fondo. No volver a sumar HUD decorativo.
+
+**Celular: carrusel lateral (2026-11-08, a pedido).** En Motion, Tech y
+Gráfica (`cat-page--<slug>`), por debajo de 768 px cada grupo es una fila que
+se desliza de costado (`scroll-snap`, la pieza al 82 % y las verticales al
+64 %, así asoma la siguiente), sin el número gigante de la sala. Es solo CSS,
+al final de `vidrio.css`. 3D y la galería de los casos siguen en columna.
+
+**Paletas (2026-11-08, para explorar).** Todos los colores salen de canales
+en `:root` de `vidrio.css` (`--bg-ch`, `--deep-ch`, `--glass-ch`,
+`--gun-ch`, `--smoke-ch`, `--paper-ch`, `--red-ch`, `--red-hi-ch`,
+`--red-deep-ch`, `--red2-ch`, `--g820-ch`, en «R G B»), y se usan como
+`rgb(var(--red-ch) / 0.4)`; el Tailwind también (`ink`, `paper`, `raveRed`,
+`kexxy`…). El lienzo lee los mismos canales (`canal()` en `HeroGlass.jsx`) y
+se rehace si cambia `data-paleta` en `<html>`. Un color nuevo va por canal,
+no en hex ni rgba fijo. Las alternativas viven en `src/styles/paletas.css`
+(Brasa, Cobalto, Ultravioleta, Hueso) y se prueban en el sitio real con
+`?paleta=<id>`: queda en la sesión y aparece un selector abajo
+(`PaletaPrueba.jsx`); `?paleta=off` lo apaga. Sin parámetro, grafito y rojo.
+
 **Videos en alta (2026-11-07, a pedido: «se ve en muy mala calidad el reel»).**
 Los videos de `public/` son livianos (360–720 px, poca tasa): el reel del home era
 un loop de 360 px estirado a ~1200 y recortado de vertical a horizontal. Ahora cada

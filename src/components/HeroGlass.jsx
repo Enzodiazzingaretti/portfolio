@@ -155,22 +155,26 @@ uniform float uBar;
 uniform sampler2D uType;
 uniform float uTypeOn;
 uniform float uScroll;
+uniform vec3 uBase;
+uniform vec3 uDeep;
+uniform vec3 uGlowCol;
+uniform vec3 uSmokeCol;
 varying vec2 vUv;
 ${SRGB}
 float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
 void main(){
   vec2 p = vUv; p.x *= uAspect;
-  vec3 base = vec3(0.090, 0.098, 0.114);             // grafito #17191D
-  vec3 deep = vec3(0.055, 0.059, 0.071);             // #0E0F12 en los bordes
+  vec3 base = uBase;                                 // --bg-ch (grafito)
+  vec3 deep = uDeep;                                 // --deep-ch, en los bordes
   float vig = smoothstep(0.25, 1.15, length((vUv - 0.5) * vec2(1.15, 1.0)));
   vec3 col = mix(base, deep, vig);
   // Luz roja cálida donde está la pieza y humo frío abajo a la izquierda
   vec2 g = uGlow; g.x *= uAspect;
   float red = exp(-pow(length(p - g) * 1.55, 2.0));
-  col += vec3(0.898, 0.141, 0.212) * red * uGlowK;
+  col += uGlowCol * red * uGlowK;
   vec2 sm = vec2(0.08 * uAspect, 0.06);
   float smoke = exp(-pow(length(p - sm) * 1.25, 2.0));
-  col += vec3(0.52, 0.53, 0.57) * smoke * 0.10;
+  col += uSmokeCol * smoke * 0.10;
   // Contraluz chico detrás del vidrio (solo en el hero)
   float core = exp(-pow(length(p - g) / max(uCoreR, 0.001), 2.0));
   col += uCoreCol * core * uCore;
@@ -201,7 +205,7 @@ void main(){
   if (gx2 > -0.02 && gx2 < 11.98) {
     float dpx = abs(fract(gx2 + 0.5) - 0.5) * uGrid.y / 12.0 * uGrid.z;
     float fade = smoothstep(0.0, 0.14, vUv.y) * smoothstep(0.0, 0.14, 1.0 - vUv.y);
-    col = mix(col, vec3(0.898, 0.890, 0.878), (1.0 - smoothstep(0.5, 1.5, dpx)) * fade * uGrid.w);
+    col = mix(col, uInkCol, (1.0 - smoothstep(0.5, 1.5, dpx)) * fade * uGrid.w);
   }
 
   // El nombre (solo en el home), en coordenadas de página: sube con el scroll
@@ -225,8 +229,20 @@ varying vec2 vUv;
 void main(){ gl_FragColor = texture2D(uBg, vUv); }
 `;
 
-const RED = "#E52436";
-const PAPER = "#E5E3E0";
+/**
+ * Los colores salen de los canales de vidrio.css (`--red-ch`, `--paper-ch`…),
+ * así el lienzo sigue a la paleta activa (paletas.css). Devuelve [r, g, b] en
+ * 0–1, o el respaldo si la variable no está.
+ */
+function canal(nombre, respaldo) {
+  if (typeof document === "undefined") return respaldo;
+  const v = getComputedStyle(document.documentElement).getPropertyValue(nombre).trim();
+  const n = v.split(/[\s,]+/).map(Number).filter((x) => !Number.isNaN(x));
+  return n.length === 3 ? n.map((x) => x / 255) : respaldo;
+}
+const css = (rgb) => `rgb(${rgb.map((x) => Math.round(x * 255)).join(",")})`;
+const RED = () => css(canal("--red-ch", [0.898, 0.141, 0.212]));
+const PAPER = () => css(canal("--paper-ch", [0.898, 0.89, 0.878]));
 
 // Celdas de caracteres en px CSS: más grandes en celular, menos pero legibles
 const CELDA = { desktop: 11, compact: 9 };
@@ -270,8 +286,8 @@ function crearAmbiente(renderer, size) {
     scene.add(m);
   };
   panel(5, 2.4, 0xffffff, 6, [-3.4, 4.2, 2.6]); // softbox arriba a la izquierda
-  panel(1.1, 7, RED, 6, [5.2, 0.2, -0.8]); // franja roja a la derecha
-  panel(0.6, 4, RED, 3, [-5.4, -1.2, -2.2]); // eco rojo atrás
+  panel(1.1, 7, RED(), 6, [5.2, 0.2, -0.8]); // franja del acento a la derecha
+  panel(0.6, 4, RED(), 3, [-5.4, -1.2, -2.2]); // eco del acento atrás
   panel(7, 1, 0x8a8b92, 1.4, [0, -5.2, 1.6]); // humo abajo
   panel(2.2, 2.2, 0xffffff, 2.4, [2.8, 2.4, 5]); // rebote frontal
   const target = new THREE.WebGLCubeRenderTarget(size, { type: THREE.HalfFloatType });
@@ -378,7 +394,7 @@ function dibujarNombre(ctx, w, h, dpr) {
     if ("letterSpacing" in ctx) ctx.letterSpacing = cs.letterSpacing === "normal" ? "0px" : cs.letterSpacing;
     ctx.textBaseline = "alphabetic";
     // Tinta plana, como el <h1> del DOM: sin el brillo metálico (2026-11-05)
-    ctx.fillStyle = el.dataset.glassType === "red" ? RED : PAPER;
+    ctx.fillStyle = el.dataset.glassType === "red" ? RED() : PAPER();
     ctx.fillText(text, rect.left, base);
     ctx.restore();
   });
@@ -539,7 +555,22 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       uType: { value: typeTex },
       uTypeOn: { value: 0 },
       uScroll: { value: 0 },
+      uBase: { value: new THREE.Vector3() },
+      uDeep: { value: new THREE.Vector3() },
+      uGlowCol: { value: new THREE.Vector3() },
+      uSmokeCol: { value: new THREE.Vector3() },
     };
+    // La paleta: se lee al montar y cada vez que cambia `data-paleta`
+    const aplicarPaleta = () => {
+      bgUniforms.uBase.value.fromArray(canal("--bg-ch", [0.09, 0.098, 0.114]));
+      bgUniforms.uDeep.value.fromArray(canal("--deep-ch", [0.055, 0.059, 0.071]));
+      bgUniforms.uGlowCol.value.fromArray(canal("--red-ch", [0.898, 0.141, 0.212]));
+      bgUniforms.uSmokeCol.value.fromArray(canal("--smoke-ch", [0.52, 0.52, 0.55]).map((x) => x * 0.98));
+      // Como el `new THREE.Color("#…")` de antes: del sRGB al espacio de trabajo
+      bgUniforms.uInkCol.value.setRGB(...canal("--paper-ch", [0.91, 0.894, 0.863]), THREE.SRGBColorSpace);
+      bgUniforms.uAccent.value.setRGB(...canal("--red-hi-ch", [1, 0.23, 0.23]), THREE.SRGBColorSpace);
+    };
+    aplicarPaleta();
     const bg = new THREE.Mesh(
       quad,
       new THREE.ShaderMaterial({ uniforms: bgUniforms, vertexShader: QUAD_VERT, fragmentShader: BG_FRAG, depthWrite: false }),
@@ -564,7 +595,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     scene.add(copia);
 
     // ── La escultura de vidrio
-    const envTarget = crearAmbiente(renderer, compact ? 128 : 256);
+    let envTarget = crearAmbiente(renderer, compact ? 128 : 256);
     const geo = new THREE.IcosahedronGeometry(1, liviano ? 30 : 72);
     const glassUniforms = {
       uTime: { value: 0 },
@@ -925,6 +956,21 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
     resize();
     onScroll();
     mascara.update();
+
+    // Cambio de paleta (paletas.css, `data-paleta` en <html>): colores del
+    // fondo, reflejos del vidrio y el nombre, sin rehacer la escena.
+    const alCambiarPaleta = () => {
+      aplicarPaleta();
+      const viejo = envTarget;
+      envTarget = crearAmbiente(renderer, compact ? 128 : 256);
+      glassUniforms.uEnv.value = envTarget.texture;
+      viejo.dispose();
+      redibujarNombre();
+      despertar();
+    };
+    const vigiaPaleta = new MutationObserver(alCambiarPaleta);
+    vigiaPaleta.observe(document.documentElement, { attributes: true, attributeFilter: ["data-paleta"] });
+
     window.addEventListener("resize", alRedimensionar);
     window.addEventListener("hero-layout", alMedir);
     window.addEventListener("pointermove", onPointer, { passive: true });
@@ -983,6 +1029,7 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
       bg.material.dispose();
       copia.material.dispose();
       quad.dispose();
+      vigiaPaleta.disconnect();
       envTarget.dispose();
       bgTarget.dispose();
       sceneTarget.dispose();

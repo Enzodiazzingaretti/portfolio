@@ -7,7 +7,6 @@ import createEnjambre from "../lab/pieces/enjambre";
 import { loopAudio } from "../audio/loopAudio";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { isVideoAsset } from "../utils/helpers";
-import { Crosshair } from "../fx/Hud";
 import { useInView } from "../fx/useInView";
 import { imagenFija } from "../media";
 
@@ -25,24 +24,6 @@ function pad(n) {
 }
 
 /** Contador de tiempo de la pieza en pantalla, como el de un monitor. */
-function Timecode({ running, resetKey }) {
-  const [ms, setMs] = useState(0);
-  useEffect(() => {
-    setMs(0);
-    if (!running) return undefined;
-    const t0 = performance.now();
-    const id = window.setInterval(() => setMs(performance.now() - t0), 1000 / 25);
-    return () => window.clearInterval(id);
-  }, [running, resetKey]);
-  const s = Math.floor(ms / 1000);
-  const f = Math.floor((ms % 1000) / 40);
-  return (
-    <span className="reel-tc font-mono" aria-hidden="true">
-      00:{pad(Math.floor(s / 60))}:{pad(s % 60)}:{pad(f)}
-    </span>
-  );
-}
-
 function StageMedia({ item, reduced }) {
   if (item.generative) {
     return (
@@ -185,15 +166,6 @@ export default function Showreel({ items, labels }) {
         <span className="reel-corner reel-corner--tr" aria-hidden="true" />
         <span className="reel-corner reel-corner--bl" aria-hidden="true" />
         <span className="reel-corner reel-corner--br" aria-hidden="true" />
-        <Crosshair className="reel-cross" />
-
-        <div className="reel-hud reel-hud--top font-mono" aria-hidden="true">
-          <span className="reel-rec">
-            <span className={`reel-rec-dot${corriendo ? " is-on" : ""}`} />
-            SIG {pad(active + 1)}/{pad(total)}
-          </span>
-          <Timecode running={corriendo} resetKey={cut} />
-        </div>
 
         <div className="reel-hud reel-hud--bottom">
           <p className="reel-tag font-mono">{item.tag}</p>
@@ -238,7 +210,7 @@ export default function Showreel({ items, labels }) {
                 <span className="reel-item-tag font-mono">{it.tag}</span>
               </span>
               <span className="reel-item-state font-mono" aria-hidden="true">
-                {i === active ? "● ON AIR" : "→"}
+                {i === active ? "●" : "→"}
               </span>
             </button>
           </li>

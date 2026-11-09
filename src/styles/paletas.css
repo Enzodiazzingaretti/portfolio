@@ -1,0 +1,105 @@
+/* Paletas alternativas, para probar (2026-11-08, a pedido: «exploremos otras
+   paletas»). Solo cambian los canales de vidrio.css; el lienzo WebGL los lee
+   y se actualiza solo. Se activan con `?paleta=<id>` (queda en la sesión) y
+   ahí aparece el selector de PaletaPrueba.jsx; `?paleta=off` lo apaga. Sin
+   parámetro, el sitio es el de siempre (grafito y rojo). */
+
+/* Brasa: negro cálido, papel crema y naranja de fuego */
+html[data-paleta="brasa"] {
+  --deep-ch: 16 13 11;
+  --bg-ch: 24 20 17;
+  --g820-ch: 32 27 23;
+  --glass-ch: 37 31 27;
+  --gun-ch: 46 39 34;
+  --smoke-ch: 140 131 121;
+  --paper-ch: 237 230 219;
+  --red-ch: 255 92 31;
+  --red-hi-ch: 255 138 92;
+  --red-deep-ch: 150 40 0;
+  --red2-ch: 196 64 12;
+  --g-850: #201b17;
+  --g-700: #3a322c;
+  --smoke-2: #b0a69a;
+  --dim: #d4ccc1;
+}
+
+/* Cobalto: tinta azul noche, papel frío y azul eléctrico */
+html[data-paleta="cobalto"] {
+  --deep-ch: 11 13 18;
+  --bg-ch: 17 20 27;
+  --g820-ch: 24 28 37;
+  --glass-ch: 29 33 43;
+  --gun-ch: 38 43 55;
+  --smoke-ch: 127 134 152;
+  --paper-ch: 228 231 238;
+  --red-ch: 61 99 255;
+  --red-hi-ch: 124 151 255;
+  --red-deep-ch: 22 40 140;
+  --red2-ch: 40 66 200;
+  --g-850: #161a23;
+  --g-700: #303648;
+  --smoke-2: #a3a9b8;
+  --dim: #c7cbd5;
+}
+
+/* Ultravioleta: berenjena casi negra, papel lavanda y violeta */
+html[data-paleta="ultravioleta"] {
+  --deep-ch: 15 13 19;
+  --bg-ch: 21 18 26;
+  --g820-ch: 29 25 36;
+  --glass-ch: 34 30 42;
+  --gun-ch: 44 39 54;
+  --smoke-ch: 138 131 150;
+  --paper-ch: 236 232 240;
+  --red-ch: 139 92 255;
+  --red-hi-ch: 179 155 255;
+  --red-deep-ch: 70 30 150;
+  --red2-ch: 104 56 210;
+  --g-850: #1b1722;
+  --g-700: #362f42;
+  --smoke-2: #aea6bb;
+  --dim: #d2ccda;
+}
+
+/* Hueso: el mismo grafito, con el acento en blanco hueso (sin color) */
+html[data-paleta="hueso"] {
+  --red-ch: 214 208 196;
+  --red-hi-ch: 236 232 224;
+  --red-deep-ch: 92 90 86;
+  --red2-ch: 150 146 138;
+}
+html[data-paleta="hueso"] :is(.vx-btn--red, .bg-kexxy, .bg-raveRed) { color: #17191d; }
+
+/* El selector de prueba */
+.paleta-prueba {
+  position: fixed;
+  left: 50%;
+  bottom: max(0.8rem, env(safe-area-inset-bottom));
+  z-index: 9000;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: calc(100vw - 1.2rem);
+  padding: 0.35rem;
+  overflow-x: auto;
+  border: 1px solid rgb(var(--paper-ch) / 0.14);
+  border-radius: 999px;
+  background: rgb(var(--deep-ch) / 0.92);
+  box-shadow: 0 14px 40px -12px rgb(0 0 0 / 0.8);
+  scrollbar-width: none;
+}
+.paleta-prueba button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--paper-ch) / 0.7);
+}
+.paleta-prueba button[aria-pressed="true"] { background: rgb(var(--paper-ch) / 0.12); color: rgb(var(--paper-ch)); }
+.paleta-prueba i { width: 10px; height: 10px; border-radius: 50%; }

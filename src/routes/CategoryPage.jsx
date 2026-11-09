@@ -6,7 +6,6 @@ import DetailModal from "../components/DetailModal";
 import { ReelCard } from "../components/ReelsRail";
 import Sala from "../components/Sala";
 import Scramble from "../fx/Scramble";
-import { Crosshair, Sparkle } from "../fx/Hud";
 import { useInView } from "../fx/useInView";
 import NotFound from "./NotFound";
 
@@ -36,8 +35,6 @@ function TitleCard({ category, content }) {
         </span>
       ) : null}
       <span className="tc-shade" aria-hidden="true" />
-      <Crosshair className="tc-cross" />
-      <Sparkle className="tc-sparkle" />
 
       <Link to="/" className="cat-back font-mono">
         <span aria-hidden="true">←</span> {navLabels.back}
@@ -160,7 +157,7 @@ export default function CategoryPage() {
   const open = (items, index, sectionLabel) => setViewer({ items, index, slideIndex: 0, sectionLabel });
 
   return (
-    <div className="cat-page">
+    <div className={`cat-page cat-page--${category.slug}`}>
       <TitleCard category={category} content={content} />
 
       {category.groups.map((group, gi) => (

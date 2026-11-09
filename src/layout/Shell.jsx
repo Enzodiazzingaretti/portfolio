@@ -6,6 +6,7 @@ import { useSiteContent } from "../hooks/useSiteContent";
 import { useLenis } from "../hooks/useLenis";
 import { buildCategories } from "../categories";
 import GrainOverlay from "../components/GrainOverlay";
+import PaletaPrueba from "../components/PaletaPrueba";
 import CustomCursor from "../components/CustomCursor";
 import LanguageSelector from "../components/LanguageSelector";
 import InfoPanel from "../components/InfoPanel";
@@ -143,6 +144,7 @@ export default function Shell() {
         {content.ui.skipToContent ?? "Saltar al contenido"}
       </a>
       <Analytics />
+      <PaletaPrueba />
 
       {!preloaded && (
         <Preloader onDone={terminarPreloader} criticalAssets={criticalAssets} lines={content.ui.boot} />

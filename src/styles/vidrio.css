@@ -20,28 +20,43 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
-  --g-950: #0e0f12;
-  --g-900: #17191d;
+  /* La paleta vive en canales (R G B) para poder usarla con alfa:
+     rgb(var(--red-ch) / 0.4). Una paleta alternativa (paletas.css) solo
+     cambia estos canales y los tonos intermedios. */
+  --deep-ch: 14 15 18;
+  --bg-ch: 23 25 29;
+  --g820-ch: 31 34 39;
+  --glass-ch: 34 37 42;
+  --gun-ch: 41 44 50;
+  --smoke-ch: 133 133 140;
+  --paper-ch: 229 227 224;
+  --red-ch: 229 36 54;
+  --red-hi-ch: 255 90 102;
+  --red-deep-ch: 139 0 0;
+  --red2-ch: 177 18 18;
+
+  --g-950: rgb(var(--deep-ch));
+  --g-900: rgb(var(--bg-ch));
   --g-850: #1c1e23;
-  --g-800: #22252a;
-  --gunmetal: #292c32;
+  --g-800: rgb(var(--glass-ch));
+  --gunmetal: rgb(var(--gun-ch));
   --g-700: #33373e;
-  --smoke: #85858c;
+  --smoke: rgb(var(--smoke-ch));
   --smoke-2: #a6a6ad;
-  --paper: #e5e3e0;
+  --paper: rgb(var(--paper-ch));
   --dim: #c9c7c4;
-  --red: #e52436;
-  --red-hi: #ff5a66;
-  --red-deep: #8b0000;
+  --red: rgb(var(--red-ch));
+  --red-hi: rgb(var(--red-hi-ch));
+  --red-deep: rgb(var(--red-deep-ch));
 
   --accent: var(--red);
-  --accent-hover: #ff3b4e;
+  --accent-hover: color-mix(in srgb, var(--red) 82%, white);
   --text: var(--paper);
   --bg: var(--g-900);
-  --line: rgba(229, 227, 224, 0.08);
+  --line: rgb(var(--paper-ch) / 0.08);
 
-  --glass-fill: rgba(34, 37, 42, 0.46);
-  --glass-fill-2: rgba(23, 25, 29, 0.62);
+  --glass-fill: rgb(var(--glass-ch) / 0.46);
+  --glass-fill-2: rgb(var(--bg-ch) / 0.62);
   --glass-edge: rgba(255, 255, 255, 0.09);
   --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.11);
   --glass-shadow: 0 30px 70px -32px rgba(0, 0, 0, 0.75);
@@ -90,7 +105,7 @@ body {
   height: 68vmax;
   right: -22vmax;
   top: -30vmax;
-  background: radial-gradient(circle, rgba(229, 36, 54, 0.2) 0%, rgba(229, 36, 54, 0.06) 38%, rgba(229, 36, 54, 0) 66%);
+  background: radial-gradient(circle, rgb(var(--red-ch) / 0.2) 0%, rgb(var(--red-ch) / 0.06) 38%, rgb(var(--red-ch) / 0) 66%);
   transform: translate3d(0, calc(var(--scroll-k, 0) * -24vh), 0);
 }
 
@@ -108,7 +123,7 @@ body {
   height: 42vmax;
   left: 34vw;
   top: 48vh;
-  background: radial-gradient(circle, rgba(139, 0, 0, 0.17), transparent 68%);
+  background: radial-gradient(circle, rgb(var(--red-deep-ch) / 0.17), transparent 68%);
   animation: emberDrift 22s ease-in-out infinite alternate;
 }
 
@@ -121,7 +136,7 @@ body {
 .atmo-grid {
   position: absolute;
   inset: 0 var(--page-px);
-  background-image: linear-gradient(to right, rgba(229, 227, 224, 0.035) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgb(var(--paper-ch) / 0.035) 1px, transparent 1px);
   background-size: calc(100% / 12) 100%;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
@@ -208,7 +223,7 @@ section.home-lead {
   height: 8px;
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 0 3px rgba(229, 36, 54, 0.18), 0 0 14px rgba(229, 36, 54, 0.8);
+  box-shadow: 0 0 0 3px rgb(var(--red-ch) / 0.18), 0 0 14px rgb(var(--red-ch) / 0.8);
 }
 
 .shell-nav { gap: 0.25rem; }
@@ -216,7 +231,7 @@ section.home-lead {
 .shell-nav-link {
   padding: 0.55rem 0.85rem;
   border-radius: 999px;
-  color: rgba(229, 227, 224, 0.66);
+  color: rgb(var(--paper-ch) / 0.66);
   transition: color 250ms var(--ease), background 250ms var(--ease);
 }
 
@@ -232,7 +247,7 @@ section.home-lead {
 }
 
 .shell-nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-.shell-nav-link.is-active { color: #fff; background: rgba(229, 36, 54, 0.14); }
+.shell-nav-link.is-active { color: #fff; background: rgb(var(--red-ch) / 0.14); }
 .shell-nav-link:hover::after,
 .shell-nav-link.is-active::after { transform: translateX(-50%) scale(1); }
 
@@ -243,7 +258,7 @@ section.home-lead {
 .shell-actions > div:last-child {
   border-radius: 999px;
   border-color: var(--glass-edge) !important;
-  background: rgba(14, 15, 18, 0.35) !important;
+  background: rgb(var(--deep-ch) / 0.35) !important;
 }
 
 .shell-actions > div:last-child button { border-radius: 999px; }
@@ -273,7 +288,7 @@ section.home-lead {
   overflow: hidden;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.13);
-  background: rgba(41, 44, 50, 0.42);
+  background: rgb(var(--gun-ch) / 0.42);
   color: var(--paper);
   font-size: 10px;
   letter-spacing: 0.22em;
@@ -298,8 +313,8 @@ section.home-lead {
 
 .vx-btn:hover,
 .premium-button:hover {
-  border-color: rgba(229, 36, 54, 0.7);
-  background: rgba(229, 36, 54, 0.12);
+  border-color: rgb(var(--red-ch) / 0.7);
+  background: rgb(var(--red-ch) / 0.12);
   color: #fff;
   transform: translateY(-2px);
   box-shadow: var(--glass-hi);
@@ -310,16 +325,16 @@ section.home-lead {
 
 .vx-btn--red,
 .premium-button-accent {
-  border-color: rgba(255, 90, 102, 0.55);
-  background: linear-gradient(180deg, #f03445, var(--red) 55%, #c4192a);
+  border-color: rgb(var(--red-hi-ch) / 0.55);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--red) 88%, white), var(--red) 55%, color-mix(in srgb, var(--red) 82%, black));
   color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 14px 34px -14px rgba(229, 36, 54, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 14px 34px -14px rgb(var(--red-ch) / 0.75);
 }
 
 .vx-btn--red:hover,
 .premium-button-accent:hover {
-  border-color: rgba(255, 140, 150, 0.8);
-  background: linear-gradient(180deg, #ff4152, #ea2537 55%, #cf1b2c);
+  border-color: rgb(var(--red-hi-ch) / 0.8);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--red) 80%, white), var(--red) 55%, color-mix(in srgb, var(--red) 88%, black));
   color: #fff;
 }
 
@@ -391,7 +406,7 @@ html.glass-type .vx-name-line {
   gap: 1rem;
   margin-top: 0.9rem;
   padding: 0.55rem 0 0;
-  border-top: 1px solid rgba(229, 227, 224, 0.12);
+  border-top: 1px solid rgb(var(--paper-ch) / 0.12);
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -452,7 +467,7 @@ html.glass-type .vx-name-line {
   padding: 0.5rem 0.85rem 0.5rem 0.7rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(34, 37, 42, 0.5);
+  background: rgb(var(--glass-ch) / 0.5);
   box-shadow: var(--glass-hi);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
@@ -468,7 +483,7 @@ html.glass-type .vx-name-line {
   height: 7px;
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 10px rgba(229, 36, 54, 0.9);
+  box-shadow: 0 0 10px rgb(var(--red-ch) / 0.9);
   animation: livePulse 1.6s ease-in-out infinite;
 }
 
@@ -485,7 +500,7 @@ html.glass-type .vx-name-line {
   line-height: 0.92;
   text-transform: uppercase;
   color: var(--paper);
-  text-shadow: 0 2px 24px rgba(14, 15, 18, 0.65);
+  text-shadow: 0 2px 24px rgb(var(--deep-ch) / 0.65);
 }
 
 .vx-roles span { display: block; }
@@ -499,7 +514,7 @@ html.glass-type .vx-name-line {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--dim);
-  text-shadow: 0 1px 14px rgba(14, 15, 18, 0.9);
+  text-shadow: 0 1px 14px rgb(var(--deep-ch) / 0.9);
 }
 
 .vx-disciplines-sep { color: var(--red-hi); }
@@ -510,7 +525,7 @@ html.glass-type .vx-name-line {
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--dim);
-  text-shadow: 0 1px 18px rgba(14, 15, 18, 0.8);
+  text-shadow: 0 1px 18px rgb(var(--deep-ch) / 0.8);
 }
 
 .vx-ctas { display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -538,7 +553,7 @@ html.glass-type .vx-name-line {
   padding: 0.5rem 0.9rem 0.5rem 0.75rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(34, 37, 42, 0.5);
+  background: rgb(var(--glass-ch) / 0.5);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   color: var(--paper);
@@ -559,7 +574,7 @@ html.glass-type .vx-name-line {
   display: block;
   width: 1px;
   height: 2.2rem;
-  background: linear-gradient(to bottom, rgba(229, 227, 224, 0), var(--paper));
+  background: linear-gradient(to bottom, rgb(var(--paper-ch) / 0), var(--paper));
   transform-origin: top;
   animation: scrollLine 2.2s var(--ease-io) infinite;
 }
@@ -582,7 +597,7 @@ html.glass-type .vx-name-line {
 
 .vx-deco { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 
-.crosshair { fill: none; stroke: rgba(229, 227, 224, 0.4); stroke-width: 1; }
+.crosshair { fill: none; stroke: rgb(var(--paper-ch) / 0.4); stroke-width: 1; }
 .sparkle { fill: var(--paper); }
 
 .vx-cross { position: absolute; width: 22px; height: 22px; }
@@ -691,7 +706,7 @@ html.glass-type .vx-name-line {
   text-transform: uppercase;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.075);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.075);
   pointer-events: none;
   opacity: 0;
   transition: opacity 1.4s var(--ease) 200ms;
@@ -741,7 +756,7 @@ html.glass-type .vx-name-line {
   align-self: center;
   height: 1px;
   margin-bottom: 0.95rem;
-  background: linear-gradient(to right, rgba(229, 227, 224, 0.26), rgba(229, 227, 224, 0));
+  background: linear-gradient(to right, rgb(var(--paper-ch) / 0.26), rgb(var(--paper-ch) / 0));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 1300ms var(--ease) 200ms;
@@ -795,7 +810,7 @@ html.glass-type .vx-name-line {
   inset: 8% 6% -10%;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(229, 36, 54, 0.38), rgba(229, 36, 54, 0) 100%);
+  background: radial-gradient(closest-side, rgb(var(--red-ch) / 0.38), rgb(var(--red-ch) / 0) 100%);
   filter: blur(30px);
   opacity: 0.8;
 }
@@ -870,8 +885,8 @@ html.glass-type .vx-name-line {
   .reel-fondo { display: none; }
   .reel-vignette {
     background:
-      linear-gradient(to top, rgba(14, 15, 18, 0.62) 0%, rgba(14, 15, 18, 0.12) 30%, transparent 45%),
-      linear-gradient(to bottom, rgba(14, 15, 18, 0.5), transparent 16%);
+      linear-gradient(to top, rgb(var(--deep-ch) / 0.62) 0%, rgb(var(--deep-ch) / 0.12) 30%, transparent 45%),
+      linear-gradient(to bottom, rgb(var(--deep-ch) / 0.5), transparent 16%);
   }
   .reel-velo {
     display: block;
@@ -879,7 +894,7 @@ html.glass-type .vx-name-line {
     inset: auto 0 0 0;
     height: 34%;
     pointer-events: none;
-    background: rgba(14, 15, 18, 0.18);
+    background: rgb(var(--deep-ch) / 0.18);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     -webkit-mask-image: linear-gradient(to top, #000 55%, transparent);
@@ -908,8 +923,8 @@ html.glass-type .vx-name-line {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(to top, rgba(14, 15, 18, 0.88) 0%, rgba(14, 15, 18, 0.2) 38%, transparent 60%),
-    linear-gradient(to bottom, rgba(14, 15, 18, 0.55), transparent 22%);
+    linear-gradient(to top, rgb(var(--deep-ch) / 0.88) 0%, rgb(var(--deep-ch) / 0.2) 38%, transparent 60%),
+    linear-gradient(to bottom, rgb(var(--deep-ch) / 0.55), transparent 22%);
 }
 
 .reel-stage-link:hover .reel-media > * { transform: scale(1.025); transition: transform 1.4s var(--ease); }
@@ -943,7 +958,7 @@ html.glass-type .vx-name-line {
   background: var(--smoke);
 }
 
-.reel-rec-dot.is-on { background: var(--red); box-shadow: 0 0 10px rgba(229, 36, 54, 0.9); animation: livePulse 1.2s ease-in-out infinite; }
+.reel-rec-dot.is-on { background: var(--red); box-shadow: 0 0 10px rgb(var(--red-ch) / 0.9); animation: livePulse 1.2s ease-in-out infinite; }
 
 .reel-tc { color: var(--paper); }
 
@@ -969,7 +984,7 @@ html.glass-type .vx-name-line {
   height: 2px;
   margin-top: 1rem;
   border-radius: 2px;
-  background: rgba(229, 227, 224, 0.18);
+  background: rgb(var(--paper-ch) / 0.18);
   overflow: hidden;
 }
 
@@ -1005,7 +1020,7 @@ html.glass-type .vx-name-line {
   height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(23, 25, 29, 0.5);
+  background: rgb(var(--bg-ch) / 0.5);
   color: var(--paper);
   font-size: 11px;
   -webkit-backdrop-filter: blur(12px);
@@ -1013,7 +1028,7 @@ html.glass-type .vx-name-line {
   transition: border-color 250ms, background 250ms;
 }
 
-.reel-btn:hover { border-color: var(--red); background: rgba(229, 36, 54, 0.18); }
+.reel-btn:hover { border-color: var(--red); background: rgb(var(--red-ch) / 0.18); }
 
 .reel-list {
   display: flex;
@@ -1091,7 +1106,7 @@ html.glass-type .vx-name-line {
   inset: 0;
   z-index: -1;
   border-radius: 14px;
-  background: linear-gradient(90deg, rgba(229, 36, 54, 0.1), rgba(41, 44, 50, 0.35) 40%, rgba(41, 44, 50, 0));
+  background: linear-gradient(90deg, rgb(var(--red-ch) / 0.1), rgb(var(--gun-ch) / 0.35) 40%, rgb(var(--gun-ch) / 0));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 700ms var(--ease);
@@ -1119,7 +1134,7 @@ html.glass-type .vx-name-line {
   line-height: 0.84;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1.2px rgba(229, 227, 224, 0.55);
+  -webkit-text-stroke: 1.2px rgb(var(--paper-ch) / 0.55);
   background: linear-gradient(90deg, var(--paper) 0 50%, transparent 50% 100%);
   background-size: 200% 100%;
   background-position: 100% 0;
@@ -1130,7 +1145,7 @@ html.glass-type .vx-name-line {
 
 .ix-row.is-hovered .ix-title-text {
   background-position: 0 0;
-  -webkit-text-stroke-color: rgba(229, 227, 224, 0);
+  -webkit-text-stroke-color: rgb(var(--paper-ch) / 0);
 }
 
 .ix-kicker { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--smoke-2); }
@@ -1214,7 +1229,7 @@ html.glass-type .vx-name-line {
   .ix-meta { display: contents; }
   .ix-count { grid-area: count; justify-self: end; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke-2); }
   .ix-arrow { grid-area: arrow; width: 40px; height: 40px; }
-  .ix-title-text { -webkit-text-stroke-color: rgba(229, 227, 224, 0.75); }
+  .ix-title-text { -webkit-text-stroke-color: rgb(var(--paper-ch) / 0.75); }
   /* La banda va de borde a borde, como la tira */
   .ix-row::before { left: calc(-1 * var(--page-px)); right: calc(-1 * var(--page-px)); border-radius: 0; }
 
@@ -1239,7 +1254,7 @@ html.glass-type .vx-name-line {
     position: absolute;
     inset: 0;
     z-index: 4;
-    background: rgba(23, 25, 29, 0.6);
+    background: rgb(var(--bg-ch) / 0.6);
     opacity: 0;
     pointer-events: none;
     transition: opacity 700ms var(--ease);
@@ -1369,7 +1384,7 @@ html.glass-type .vx-name-line {
 .rl-button:focus-visible .rl-phone {
   --lean: 0deg;
   transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)) translateY(-10px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 60px 100px -40px rgba(0, 0, 0, 0.95), 0 0 70px -18px rgba(229, 36, 54, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 60px 100px -40px rgba(0, 0, 0, 0.95), 0 0 70px -18px rgb(var(--red-ch) / 0.55);
 }
 
 .rl-screen {
@@ -1413,7 +1428,7 @@ html.glass-type .vx-name-line {
 
 .rl-hud--top { top: 18px; }
 .rl-hud--bottom { bottom: 18px; color: var(--dim); }
-.rl-rec { width: 6px; height: 6px; border-radius: 50%; background: var(--red); box-shadow: 0 0 8px rgba(229, 36, 54, 0.9); }
+.rl-rec { width: 6px; height: 6px; border-radius: 50%; background: var(--red); box-shadow: 0 0 8px rgb(var(--red-ch) / 0.9); }
 .rl-dur { margin-left: auto; color: var(--dim); }
 
 .rl-play {
@@ -1426,7 +1441,7 @@ html.glass-type .vx-name-line {
   height: 54px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(23, 25, 29, 0.45);
+  background: rgb(var(--bg-ch) / 0.45);
   color: #fff;
   font-size: 13px;
   -webkit-backdrop-filter: blur(10px);
@@ -1462,7 +1477,7 @@ html.glass-type .vx-name-line {
 }
 
 .rl-arrow:hover,
-.showcase-arrow:hover:not(:disabled) { border-color: var(--red); background: rgba(229, 36, 54, 0.16); }
+.showcase-arrow:hover:not(:disabled) { border-color: var(--red); background: rgb(var(--red-ch) / 0.16); }
 
 /* Grilla de reels en /motion */
 .reel-grid {
@@ -1514,11 +1529,11 @@ html.glass-type .vx-name-line {
   font-size: clamp(7rem, 15vw, 13rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.13);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.13);
   transition: -webkit-text-stroke-color 500ms, transform 900ms var(--ease);
 }
 
-.cc-link:hover .cc-num { -webkit-text-stroke-color: rgba(229, 36, 54, 0.55); transform: translateY(-10px); }
+.cc-link:hover .cc-num { -webkit-text-stroke-color: rgb(var(--red-ch) / 0.55); transform: translateY(-10px); }
 
 .cc-frame {
   position: relative;
@@ -1572,7 +1587,7 @@ html.glass-type .vx-name-line {
   padding: 0.45rem 0.75rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(23, 25, 29, 0.55);
+  background: rgb(var(--bg-ch) / 0.55);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   font-size: 9px;
@@ -1647,7 +1662,7 @@ html.glass-type .vx-name-line {
   padding: 0.55rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(34, 37, 42, 0.4);
+  background: rgb(var(--glass-ch) / 0.4);
 }
 
 .info-spec-dot { background: var(--red); }
@@ -1666,7 +1681,7 @@ html.glass-type .vx-name-line {
   transition: background 400ms var(--ease), padding 400ms var(--ease);
 }
 
-.info-contact-link:hover { background: rgba(41, 44, 50, 0.38); padding-left: 1rem; }
+.info-contact-link:hover { background: rgb(var(--gun-ch) / 0.38); padding-left: 1rem; }
 
 .info-contact-icon {
   border-radius: 50%;
@@ -1680,7 +1695,7 @@ html.glass-type .vx-name-line {
 .info-tag {
   border-radius: 999px;
   border-color: var(--glass-edge);
-  background: rgba(34, 37, 42, 0.4);
+  background: rgb(var(--glass-ch) / 0.4);
 }
 
 /* ───────────────────────── Pie y firma ───────────────────────── */
@@ -1700,8 +1715,8 @@ html.glass-type .vx-name-line {
   white-space: nowrap;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.12);
-  background: linear-gradient(180deg, rgba(229, 36, 54, 0.2), rgba(229, 36, 54, 0) 70%);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.12);
+  background: linear-gradient(180deg, rgb(var(--red-ch) / 0.2), rgb(var(--red-ch) / 0) 70%);
   -webkit-background-clip: text;
   background-clip: text;
   transform: translateY(18%);
@@ -1711,7 +1726,7 @@ html.glass-type .vx-name-line {
   position: relative;
   z-index: 10;
   border-top: 1px solid var(--line);
-  background: rgba(14, 15, 18, 0.55);
+  background: rgb(var(--deep-ch) / 0.55);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
 }
@@ -1757,8 +1772,8 @@ html.glass-type .vx-name-line {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(to bottom, rgba(23, 25, 29, 0.35), rgba(23, 25, 29, 0.12) 45%, rgba(23, 25, 29, 0) 100%),
-    radial-gradient(80% 60% at 80% 20%, rgba(229, 36, 54, 0.16), transparent 70%);
+    linear-gradient(to bottom, rgb(var(--bg-ch) / 0.35), rgb(var(--bg-ch) / 0.12) 45%, rgb(var(--bg-ch) / 0) 100%),
+    radial-gradient(80% 60% at 80% 20%, rgb(var(--red-ch) / 0.16), transparent 70%);
 }
 
 .tc-cross { position: absolute; right: 22%; top: 30%; width: 26px; height: 26px; }
@@ -1842,7 +1857,7 @@ html.glass-type .vx-name-line {
 /* Puede cortar en dos renglones: «Campañas y dirección de arte» no entraba
    en el celular y quedaba cortado contra el borde */
 .cat-group-title { margin: 0; font-size: clamp(2.2rem, 4.6vw, 4.2rem); line-height: 0.88; text-transform: uppercase; color: var(--paper); white-space: normal; text-wrap: balance; }
-.cat-group-rule { align-self: center; height: 1px; margin-bottom: 0.7rem; background: linear-gradient(to right, rgba(229, 227, 224, 0.24), transparent); }
+.cat-group-rule { align-self: center; height: 1px; margin-bottom: 0.7rem; background: linear-gradient(to right, rgb(var(--paper-ch) / 0.24), transparent); }
 .cat-group-note { margin: 0 0 0.6rem; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--smoke-2); }
 .cat-group-count { color: var(--red-hi); }
 
@@ -1884,10 +1899,10 @@ html.glass-type .vx-name-line {
 .loop-tile-button:hover .loop-tile-media video { transform: scale(1.05); }
 
 .work-tile-button:hover .work-tile-media,
-.loop-tile-button:hover .loop-tile-media { box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(229, 36, 54, 0.35); }
+.loop-tile-button:hover .loop-tile-media { box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.95), 0 0 0 1px rgb(var(--red-ch) / 0.35); }
 
 .work-tile-veil,
-.loop-tile-veil { background: linear-gradient(to top, rgba(14, 15, 18, 0.55), transparent 45%); }
+.loop-tile-veil { background: linear-gradient(to top, rgb(var(--deep-ch) / 0.55), transparent 45%); }
 
 .work-tile-corner { display: none; }
 
@@ -1898,7 +1913,7 @@ html.glass-type .vx-name-line {
   padding: 0.35rem 0.6rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(23, 25, 29, 0.55);
+  background: rgb(var(--bg-ch) / 0.55);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   font-size: 9px;
@@ -1943,7 +1958,7 @@ html.glass-type .vx-name-line {
 .loop-tile-badge {
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(23, 25, 29, 0.55);
+  background: rgb(var(--bg-ch) / 0.55);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
@@ -1969,7 +1984,7 @@ html.glass-type .vx-name-line {
   line-height: 0.86;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1.2px rgba(229, 227, 224, 0.6);
+  -webkit-text-stroke: 1.2px rgb(var(--paper-ch) / 0.6);
   transition: color 500ms var(--ease), -webkit-text-stroke-color 500ms;
 }
 
@@ -1986,7 +2001,7 @@ html.glass-type .vx-name-line {
 /* ───────────────────────── Visor de obra ───────────────────────── */
 
 .modal-scrim {
-  background: rgba(14, 15, 18, 0.72);
+  background: rgb(var(--deep-ch) / 0.72);
   -webkit-backdrop-filter: blur(26px) saturate(1.2);
   backdrop-filter: blur(26px) saturate(1.2);
 }
@@ -2008,13 +2023,13 @@ html.glass-type .vx-name-line {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(90% 80% at 50% 45%, rgba(23, 25, 29, 0.25), rgba(14, 15, 18, 0.85));
+  background: radial-gradient(90% 80% at 50% 45%, rgb(var(--bg-ch) / 0.25), rgb(var(--deep-ch) / 0.85));
 }
 
 .modal-cinematic {
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(23, 25, 29, 0.55);
+  background: rgb(var(--bg-ch) / 0.55);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 60px 140px -50px rgba(0, 0, 0, 0.95);
 }
 
@@ -2022,7 +2037,7 @@ html.glass-type .vx-name-line {
 
 .modal-aside {
   border-left: 1px solid var(--glass-edge);
-  background: rgba(14, 15, 18, 0.35);
+  background: rgb(var(--deep-ch) / 0.35);
 }
 
 .modal-title { color: #fff; }
@@ -2032,12 +2047,12 @@ html.glass-type .vx-name-line {
 .modal-ctrl {
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(23, 25, 29, 0.5);
+  background: rgb(var(--bg-ch) / 0.5);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 
-.modal-ctrl:hover { border-color: var(--red); background: rgba(229, 36, 54, 0.2); color: #fff; }
+.modal-ctrl:hover { border-color: var(--red); background: rgb(var(--red-ch) / 0.2); color: #fff; }
 
 .modal-pieces { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 
@@ -2049,7 +2064,7 @@ html.glass-type .vx-name-line {
   padding: 0 0.95rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(41, 44, 50, 0.45);
+  background: rgb(var(--gun-ch) / 0.45);
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -2057,33 +2072,33 @@ html.glass-type .vx-name-line {
   transition: border-color 250ms, background 250ms;
 }
 
-.modal-piece-btn:hover { border-color: var(--red); background: rgba(229, 36, 54, 0.16); }
-.modal-piece-btn--next { border-color: rgba(255, 90, 102, 0.5); background: rgba(229, 36, 54, 0.22); }
+.modal-piece-btn:hover { border-color: var(--red); background: rgb(var(--red-ch) / 0.16); }
+.modal-piece-btn--next { border-color: rgb(var(--red-hi-ch) / 0.5); background: rgb(var(--red-ch) / 0.22); }
 .modal-piece-count { font-size: 10px; letter-spacing: 0.18em; color: var(--smoke-2); }
 
 /* Ficha de la pieza: cliente, año, duración, rol y herramientas, en filas
    de dato como una hoja técnica. Solo aparecen las que la pieza tiene. */
-.modal-spec { margin: 0; border-top: 1px solid rgba(229, 227, 224, 0.09); }
+.modal-spec { margin: 0; border-top: 1px solid rgb(var(--paper-ch) / 0.09); }
 .modal-spec-row {
   display: grid;
   grid-template-columns: 7rem minmax(0, 1fr);
   gap: 0.8rem;
   padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(229, 227, 224, 0.06);
+  border-bottom: 1px solid rgb(var(--paper-ch) / 0.06);
 }
 .modal-spec dt {
   padding-top: 0.22em;
   font-size: 9px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(229, 227, 224, 0.52);
+  color: rgb(var(--paper-ch) / 0.52);
 }
 .modal-spec dd {
   margin: 0;
   font-size: 11px;
   line-height: 1.5;
   letter-spacing: 0.04em;
-  color: rgba(229, 227, 224, 0.84);
+  color: rgb(var(--paper-ch) / 0.84);
 }
 .modal-spec dd.is-accent { color: var(--red-hi); }
 .modal-sheet .modal-spec { margin-bottom: 1.4rem; }
@@ -2118,7 +2133,7 @@ html.glass-type .vx-name-line {
 
 .case-pager-title {
   color: transparent;
-  -webkit-text-stroke: 1.2px rgba(229, 227, 224, 0.6);
+  -webkit-text-stroke: 1.2px rgb(var(--paper-ch) / 0.6);
   transition: color 500ms, -webkit-text-stroke-color 500ms;
 }
 
@@ -2127,13 +2142,13 @@ html.glass-type .vx-name-line {
 /* ───────────────────────── Panel lateral (sobre mí / contacto) ───────────────────────── */
 
 .info-panel {
-  background: rgba(23, 25, 29, 0.78);
+  background: rgb(var(--bg-ch) / 0.78);
   border-left: 1px solid var(--glass-edge);
   -webkit-backdrop-filter: blur(28px) saturate(1.3);
   backdrop-filter: blur(28px) saturate(1.3);
 }
 
-.info-panel-scrim { background: rgba(14, 15, 18, 0.55); }
+.info-panel-scrim { background: rgb(var(--deep-ch) / 0.55); }
 
 /* ───────────────────────── Cursor ───────────────────────── */
 
@@ -2146,7 +2161,7 @@ html.glass-type .vx-name-line {
   height: 7px;
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 12px rgba(229, 36, 54, 0.9);
+  box-shadow: 0 0 12px rgb(var(--red-ch) / 0.9);
   pointer-events: none;
   opacity: 0;
   transition: opacity 200ms, width 250ms var(--ease), height 250ms var(--ease);
@@ -2169,13 +2184,13 @@ html.glass-type .vx-name-line {
 }
 
 .cursor-box.is-visible { opacity: 1; }
-.cursor-box.is-locked { background: rgba(229, 36, 54, 0.04); }
+.cursor-box.is-locked { background: rgb(var(--red-ch) / 0.04); }
 
 .cursor-corner {
   position: absolute;
   width: 9px;
   height: 9px;
-  border: 0 solid rgba(229, 227, 224, 0.75);
+  border: 0 solid rgb(var(--paper-ch) / 0.75);
   transition: border-color 250ms;
 }
 
@@ -2215,7 +2230,7 @@ html.glass-type .vx-name-line {
   bottom: 0;
   left: calc(var(--i) * 100% / var(--n));
   width: calc(100% / var(--n) + 1px);
-  background: rgba(23, 25, 29, 0.86);
+  background: rgb(var(--bg-ch) / 0.86);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   backdrop-filter: blur(16px) saturate(1.2);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
@@ -2238,7 +2253,7 @@ html.glass-type .vx-name-line {
   top: 0;
   height: 2px;
   background: var(--red);
-  box-shadow: 0 0 18px rgba(229, 36, 54, 0.9);
+  box-shadow: 0 0 18px rgb(var(--red-ch) / 0.9);
   animation: redLine 760ms var(--ease-io) both;
 }
 
@@ -2258,7 +2273,7 @@ html.glass-type .vx-name-line {
   padding: 0.6rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(34, 37, 42, 0.6);
+  background: rgb(var(--glass-ch) / 0.6);
   font-size: 10px;
   letter-spacing: 0.24em;
   color: var(--paper);
@@ -2323,7 +2338,7 @@ html.glass-type .vx-name-line {
 @property --visor-c {
   syntax: "<color>";
   inherits: true;
-  initial-value: rgba(229, 227, 224, 0.72);
+  initial-value: rgb(var(--paper-ch) / 0.72);
 }
 
 @property --visor-in {
@@ -2403,7 +2418,7 @@ html.glass-type .vx-name-line {
   font-size: clamp(4.6rem, 24vw, 6.5rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.2);
   pointer-events: none;
   transition: transform 900ms var(--ease), -webkit-text-stroke-color 500ms;
 }
@@ -2478,7 +2493,7 @@ html.glass-type .vx-name-line {
   padding: 0.35rem 0.6rem;
   border-radius: 999px;
   border: 1px solid var(--glass-edge);
-  background: rgba(23, 25, 29, 0.66);
+  background: rgb(var(--bg-ch) / 0.66);
   font-size: 9px;
   letter-spacing: 0.14em;
   color: var(--paper);
@@ -2541,8 +2556,8 @@ html.glass-type .vx-name-line {
 
 @media (hover: hover) and (pointer: fine) {
   .sala-boton:hover .sala-zoom { transform: scale(1.05); }
-  .sala-boton:hover .sala-marco { box-shadow: 0 60px 110px -46px rgba(0, 0, 0, 0.95), 0 0 70px -24px rgba(229, 36, 54, 0.45); }
-  .sala-pieza:hover .sala-num { transform: translateY(-8px); -webkit-text-stroke-color: rgba(229, 36, 54, 0.6); }
+  .sala-boton:hover .sala-marco { box-shadow: 0 60px 110px -46px rgba(0, 0, 0, 0.95), 0 0 70px -24px rgb(var(--red-ch) / 0.45); }
+  .sala-pieza:hover .sala-num { transform: translateY(-8px); -webkit-text-stroke-color: rgb(var(--red-ch) / 0.6); }
 }
 
 /* Desktop: grilla de 12 columnas; dónde cuelga cada pieza lo decide Sala.jsx */
@@ -2617,7 +2632,7 @@ html.glass-type .vx-name-line {
   font-size: clamp(4.6rem, 24vw, 8.5rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.2);
   pointer-events: none;
   transition: transform 900ms var(--ease), -webkit-text-stroke-color 500ms;
 }
@@ -2625,7 +2640,7 @@ html.glass-type .vx-name-line {
 .reel-grid .rl-button { position: relative; z-index: 1; }
 
 @media (hover: hover) and (pointer: fine) {
-  .reel-grid .rl-card:hover .rl-num { transform: translateY(-8px); -webkit-text-stroke-color: rgba(229, 36, 54, 0.6); }
+  .reel-grid .rl-card:hover .rl-num { transform: translateY(-8px); -webkit-text-stroke-color: rgb(var(--red-ch) / 0.6); }
 }
 
 @media (min-width: 900px) {
@@ -2680,7 +2695,7 @@ html.glass-type .vx-name-line {
   font-size: clamp(4.6rem, 22vw, 8.5rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(229, 227, 224, 0.2);
+  -webkit-text-stroke: 1px rgb(var(--paper-ch) / 0.2);
   pointer-events: none;
 }
 
@@ -2759,8 +2774,8 @@ html.glass-type .vx-name-line {
   }
 
   :root {
-    --glass-fill: rgba(31, 34, 39, 0.84);
-    --glass-fill-2: rgba(22, 24, 28, 0.88);
+    --glass-fill: rgb(var(--g820-ch) / 0.84);
+    --glass-fill-2: rgb(var(--bg-ch) / 0.88);
   }
 
   /* Casi opaca: sin desenfoque, los titulares que pasan por debajo se leían
@@ -2770,18 +2785,61 @@ html.glass-type .vx-name-line {
   .vx-btn:not(.vx-btn--red),
   .premium-button:not(.premium-button-accent) { background: rgba(37, 40, 46, 0.86); }
   .vx-chip,
-  .vx-status { background: rgba(31, 34, 39, 0.86); }
+  .vx-status { background: rgb(var(--g820-ch) / 0.86); }
   .reel-btn,
   .reel-controls .loop-audio-btn,
   .rl-play,
   .cc-label,
   .work-tile-hud,
   .loop-tile-badge,
-  .modal-ctrl { background: rgba(23, 25, 29, 0.84); }
-  .shell-footer { background: rgba(14, 15, 18, 0.9); }
+  .modal-ctrl { background: rgb(var(--bg-ch) / 0.84); }
+  .shell-footer { background: rgb(var(--deep-ch) / 0.9); }
 }
 
 /* La galería del caso: todas las piezas, a todo el ancho y con el título
    arriba (con la columna lateral de las otras secciones la obra quedaba chica) */
 .case-section--piezas { grid-template-columns: 1fr; }
 .case-section--piezas .case-section-head { position: static; flex-direction: row; align-items: baseline; gap: 1rem; }
+
+/* ───────────────────────── Celular: carrusel lateral ───────────────────────── */
+
+/* En Motion, Tech y Gráfica (2026-11-08, a pedido: «un sencillo scroll
+   lateral para mostrar los trabajos más rápido») cada grupo es una fila que
+   se desliza de costado, con imán por pieza y la siguiente asomando a la
+   derecha, en vez de una columna larga. 3D y los casos siguen en columna. */
+@media (max-width: 767px) {
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala, .reel-grid, .wide-grid, .lab-grid) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-inline: calc(-1 * var(--page-px));
+    padding: 0.5rem var(--page-px) 1.2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--page-px);
+    scrollbar-width: none;
+    perspective: none;
+  }
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala, .reel-grid, .wide-grid, .lab-grid)::-webkit-scrollbar { display: none; }
+
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala, .reel-grid, .wide-grid, .lab-grid) > * {
+    flex: 0 0 82%;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    align-self: flex-start;
+    scroll-snap-align: start;
+    rotate: none;
+  }
+  /* Las verticales, más angostas: así entran enteras en la pantalla */
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala-pieza--P, .rl-card) { flex-basis: 64%; }
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group .reel-grid .rl-card { transform: none; }
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group .reel-grid .rl-phone { rotate: none; }
+
+  /* El número gigante en contorno de la sala no tiene lugar en la fila */
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group :is(.sala-num, .rl-num) { display: none; }
+  :is(.cat-page--motion, .cat-page--tech, .cat-page--grafica) .cat-group .sala-pie { margin-inline: 0; }
+}

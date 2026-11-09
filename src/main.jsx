@@ -9,11 +9,30 @@ import CasoEnTech from "./routes/CasoEnTech.jsx";
 import "./index.css";
 // La capa «vidrio ahumado» va después: pisa lo que haga falta de index.css.
 import "./styles/vidrio.css";
+import "./styles/paletas.css";
 
 // El admin es otra app: fuera del bundle del portfolio
 const Admin = lazy(() => import("./admin/Admin.jsx"));
 // Los casos de estudio traen sus textos en tres idiomas: entran con su página
 const CasePage = lazy(() => import("./routes/CasePage.jsx"));
+
+// Paleta de prueba (paletas.css): `?paleta=<id>` la activa para la sesión y
+// muestra el selector; `?paleta=off` vuelve a la de siempre.
+try {
+  const pedida = new URLSearchParams(window.location.search).get("paleta");
+  if (pedida === "off") {
+    sessionStorage.removeItem("paleta");
+    sessionStorage.removeItem("paleta-prueba");
+  } else if (pedida) {
+    sessionStorage.setItem("paleta-prueba", "1");
+    if (pedida === "grafito") sessionStorage.removeItem("paleta");
+    else sessionStorage.setItem("paleta", pedida);
+  }
+  const paleta = sessionStorage.getItem("paleta");
+  if (paleta) document.documentElement.dataset.paleta = paleta;
+} catch {
+  /* sin sessionStorage: la paleta de siempre */
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>

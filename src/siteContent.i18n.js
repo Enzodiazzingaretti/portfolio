@@ -770,8 +770,6 @@ export const siteContent = {
         // Capa «tinta y señal»: rótulos del HUD, la nota a mano del hero y las
         // cintas. Van en `ui` y no en content.json: son interfaz, no obra.
         ink: {
-          live: "En vivo",
-          coords: "32°53′S 68°50′O",
           showreel: { title: "Trabajo seleccionado", open: "Ver la pieza", list: "Piezas seleccionadas", play: "Reproducir el showreel", pause: "Pausar el showreel" },
           reels: { open: "Ver reel", hint: "Deslizá →", previous: "Anteriores", next: "Siguientes" },
           cases: { label: "Caso", plural: "casos" },
@@ -1025,8 +1023,6 @@ export const siteContent = {
           },
         },
         ink: {
-          live: "Live",
-          coords: "32°53′S 68°50′W",
           showreel: { title: "Selected work", open: "View the piece", list: "Selected pieces", play: "Play the showreel", pause: "Pause the showreel" },
           reels: { open: "Watch reel", hint: "Swipe →", previous: "Previous", next: "Next" },
           cases: { label: "Case", plural: "cases" },
@@ -1280,8 +1276,6 @@ export const siteContent = {
           },
         },
         ink: {
-          live: "Ao vivo",
-          coords: "32°53′S 68°50′O",
           showreel: { title: "Trabalhos selecionados", open: "Ver a peça", list: "Peças selecionadas", play: "Reproduzir o showreel", pause: "Pausar o showreel" },
           reels: { open: "Ver reel", hint: "Deslize →", previous: "Anteriores", next: "Próximos" },
           cases: { label: "Caso", plural: "casos" },
