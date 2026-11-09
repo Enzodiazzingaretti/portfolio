@@ -199,8 +199,11 @@ bloqueo): montar diferido lo que está debajo del primer pantallazo.
   el visor sigue en la misma pieza. Desde el 2026-11-09 («se ve medio
   tosca») el nombre va en la `img`/`video` de adentro, no en la caja (la caja
   traía fondo y borde y cambiaba de proporción en el vuelo); al abrir, la
-  foto nueva espera a que la imagen del visor decodifique (tope 500 ms, si
-  no viajaba hacia un cuadro vacío); el fundido entre las dos fotos dura
+  imagen del visor se baja y decodifica **antes** de empezar (`precargar`,
+  tope 450 ms; si no viajaba hacia un cuadro vacío) y el cambio adentro de la
+  transición es sincrónico: esperarla adentro (callback asíncrono) en el
+  celular mostraba el visor, volvía un cuadro a la página y recién ahí
+  volaba («un pestañeo raro», 2026-11-09); el fundido entre las dos fotos dura
   220 ms y el vuelo 640 (con el fundido de todo el vuelo se veía doble
   imagen), y con `html.vt-obra` se apagan la entrada propia del modal y el
   `data-tilt`, que daban un salto al final. Para filmarlo: Playwright con
