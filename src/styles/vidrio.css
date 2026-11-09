@@ -2889,3 +2889,11 @@ html.sin-gpu *::after {
   object-fit: cover;
   overflow: clip;
 }
+
+/* El tempo (pulso.js): los puntos que laten a 124 BPM. --pulso va de 1 (el
+   golpe) a 0; lo escribe un rAF solo en estos nodos. */
+[data-pulso] {
+  scale: calc(1 + var(--pulso, 0) * 0.32);
+  box-shadow: 0 0 calc(4px + var(--pulso, 0) * 14px) calc(var(--pulso, 0) * 2px) rgb(var(--red-ch) / calc(0.25 + var(--pulso, 0) * 0.55));
+}
+.vx-live-dot[data-pulso] { animation: none; }

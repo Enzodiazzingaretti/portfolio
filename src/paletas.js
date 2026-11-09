@@ -1,3 +1,5 @@
+import { sonar } from "./sonido";
+
 // Las paletas del sitio (los canales viven en src/styles/paletas.css). La
 // elegida se guarda en localStorage; `?paleta=<id>` la fija desde un link.
 export const GRUPOS = ["oscuras", "monocromas", "claras"];
@@ -44,6 +46,7 @@ function fijar(id) {
 
 export function aplicarPaleta(id, { guardar: persistir = false, fundido = false } = {}) {
   if (!valida(id)) return;
+  if (persistir) sonar("color");
   if (persistir) guardar(id);
   const reducido = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   if (fundido && !reducido && document.startViewTransition) {

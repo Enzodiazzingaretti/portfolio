@@ -127,7 +127,7 @@ export default function Home() {
 
         <div className="vx-foot font-mono">
           <p className="vx-status">
-            <span className="vx-live-dot" aria-hidden="true" />
+            <span className="vx-live-dot" data-pulso aria-hidden="true" />
             {hero.availability}
           </p>
           <a href={`#${primera.id}`} className="vx-scroll" aria-label={primera.label}>

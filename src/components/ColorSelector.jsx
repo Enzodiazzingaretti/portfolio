@@ -45,7 +45,7 @@ export default function ColorSelector({ labels }) {
         aria-expanded={abierto}
         onClick={() => setAbierto((a) => !a)}
       >
-        <span className="color-sel-dot" style={{ background: actual.muestra }} aria-hidden="true" />
+        <span className="color-sel-dot" data-pulso style={{ background: actual.muestra }} aria-hidden="true" />
       </button>
       <div className="color-sel-pop" role="radiogroup" aria-label={labels?.label ?? "Color"} hidden={!abierto}>
         <span className="color-sel-titulo font-mono" aria-hidden="true">

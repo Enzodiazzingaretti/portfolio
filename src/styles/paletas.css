@@ -205,3 +205,43 @@ html[data-paleta="hormigon"] {
   .color-sel-op { width: 4.3rem; padding-inline: 0.2rem; }
   .color-sel-muestra { width: 30px; height: 30px; }
 }
+
+/* Interruptor de sonido de la barra (SonidoToggle.jsx) */
+.sonido-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-edge);
+  background: rgb(var(--deep-ch) / 0.35);
+  color: rgb(var(--paper-ch) / 0.55);
+  transition: border-color 300ms var(--ease), color 300ms var(--ease);
+}
+.sonido-btn:hover { border-color: rgb(var(--paper-ch) / 0.35); color: rgb(var(--paper-ch)); }
+.sonido-btn.is-on { color: var(--red-hi); }
+.sonido-barras { display: flex; align-items: center; gap: 2px; height: 12px; }
+.sonido-barras i {
+  display: block;
+  width: 2px;
+  height: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: height 300ms var(--ease);
+}
+.sonido-btn.is-on .sonido-barras i { animation: eq 0.97s ease-in-out infinite; }
+.sonido-btn.is-on .sonido-barras i:nth-child(2) { animation-delay: -0.24s; }
+.sonido-btn.is-on .sonido-barras i:nth-child(3) { animation-delay: -0.6s; }
+.sonido-btn.is-on .sonido-barras i:nth-child(4) { animation-delay: -0.36s; }
+@keyframes eq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
+@media (max-width: 767px) { .sonido-btn { width: 30px; height: 30px; } }
+
+/* Con sonido y color en la barra, en los celulares angostos todo se aprieta un
+   poco para que entre en una fila (360 px: el selector de idioma se cortaba) */
+@media (max-width: 430px) {
+  .shell-actions { gap: 0.2rem; }
+  .shell-actions .shell-nav-link { padding: 0.5rem 0.35rem; letter-spacing: 0.14em; }
+  .sonido-btn,
+  .color-sel-btn { width: 28px; height: 28px; }
+  .shell-actions > div:last-child:not(.color-sel) button { min-width: 26px; padding-inline: 0.3rem; letter-spacing: 0.12em; }
+}

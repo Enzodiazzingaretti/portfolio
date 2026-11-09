@@ -7,6 +7,7 @@ import { useLenis } from "../hooks/useLenis";
 import { buildCategories } from "../categories";
 import GrainOverlay from "../components/GrainOverlay";
 import ColorSelector from "../components/ColorSelector";
+import SonidoToggle from "../components/SonidoToggle";
 import CustomCursor from "../components/CustomCursor";
 import LanguageSelector from "../components/LanguageSelector";
 import InfoPanel from "../components/InfoPanel";
@@ -164,7 +165,7 @@ export default function Shell() {
 
       <header className={`shell-bar${isHome && !scrolled ? " shell-bar--home" : ""}`}>
         <Link to="/" className="shell-brand font-mono" aria-label={navLabels.home}>
-          <span className="shell-brand-mark" aria-hidden="true" />
+          <span className="shell-brand-mark" data-pulso aria-hidden="true" />
           <span className="shell-brand-text">{content.brand}</span>
         </Link>
 
@@ -187,6 +188,7 @@ export default function Shell() {
           <button type="button" onClick={() => irASeccion("contact")} className="shell-nav-link font-mono">
             {navLabels.contact}
           </button>
+          <SonidoToggle labels={content.ui.sonido} />
           <ColorSelector labels={content.ui.paleta} />
           <LanguageSelector
             languages={content.languages}

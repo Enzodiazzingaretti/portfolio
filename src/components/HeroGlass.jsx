@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { pulso } from "../pulso";
 import { RAMP, createGlyphAtlas } from "./AsciiPass";
 import { ASCII_FLOOR, ASCII_GAIN, ASCII_LEVELS_COMPACT, createSceneObject, disposeObject } from "../fx/asciiScenes";
 import { createLegibilityMask } from "../fx/legibilidad";
@@ -997,7 +998,9 @@ export default function HeroGlass({ home = true, revealActive = true, reduced = 
             glassUniforms.uMezcla.value = 0;
           }
         }
-        glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035) * (quieto ? 0.8 : 1);
+        // Respira al tempo del sitio (pulso.js, 124 BPM): apenas, en cada golpe
+        const golpe = quieto ? 0 : pulso();
+        glassUniforms.uAmp.value = (0.12 + 0.1 * (1 - ease) + anim.speed * 0.035 + golpe * 0.035) * (quieto ? 0.8 : 1);
       }
 
       // La escena ASCII ocupa todo el fondo, al tamaño del hero de 2026-08

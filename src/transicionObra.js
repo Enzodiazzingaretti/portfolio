@@ -1,4 +1,5 @@
 import { flushSync } from "react-dom";
+import { sonar } from "./sonido";
 
 /**
  * La pieza crece hasta el visor y vuelve a su lugar al cerrarlo (View
@@ -36,6 +37,7 @@ const puede = () =>
 const visor = () => document.querySelector("[data-obra-visor]");
 
 export function abrirObra(cambio) {
+  sonar("abrir");
   const origen = tocada;
   tocada = null;
   if (!puede() || !origen?.isConnected) {
@@ -57,6 +59,7 @@ export function abrirObra(cambio) {
 
 /** `mismaPieza`: si el visor sigue en la obra que se abrió, vuelve a ella */
 export function cerrarObra(cambio, mismaPieza = true) {
+  sonar("cerrar");
   const destino = abierta;
   abierta = null;
   const v = visor();
